@@ -197,6 +197,8 @@
 #define AFX_IDC_PICTURE                 1202
 #define AFX_IDC_BROWSE                  1203
 #define AFX_IDC_CLEAR                   1204
+#define IDC_REWIND_FRAMES_SLIDER        1205
+#define IDC_REWIND_FRAMES_LABEL         1206
 #define AFX_IDC_TAB_CONTROL             0x3020
 #define ID_APPLY_NOW                    0x3021
 #define ID_WIZBACK                      0x3023
@@ -784,7 +786,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        156
 #define _APS_NEXT_COMMAND_VALUE         40242
-#define _APS_NEXT_CONTROL_VALUE         1571
+#define _APS_NEXT_CONTROL_VALUE         1207
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
