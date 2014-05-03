@@ -21,3 +21,12 @@
 /RAGens/win32/RA_Integration.dll
 /RAGens/win32/RA_Integration_d.dll
 /RAGens/win32/RA_Keys.dll
+/RA_Integration/RA_Integration.dll
+/RA_Integration/RA_Integration.exp
+/RA_Integration/RA_Integration.ilk
+/RA_Integration/RA_Integration.lib
+/RA_Integration/RA_Integration.pdb
+/RA_Integration/RA_Integration_MD.vcproj.MEGABEAST.Scott.user
+/RA_Integration/RA_Shared.aps
+/RA_Integration/Release
+/RAGens/win32/src/*.aps
