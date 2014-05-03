@@ -1,0 +1,818 @@
+This file contains documentation specific to the win32 version of Gens.
+-----------------------------------------------------------------------
+
+          MMMMMMM
+       MMMM2;,:S8MM    
+    MMM7          iM MM2;2MM  WMMMMM0W ,MM@aX.0
+   MM               M       MM        MM      M
+  MM      MMMM :@MMB   ;    M    M    M    @BM
+ MM     :MMMMMMMMW;@  MMMMWMW   MM   MMMMZ   iM
+MM      Ma         ,M     MM    M    M      ZM
+M2     .MM S       MBM;MM2WBMMMWMaMMMMMMXZMM
+MX      SMM0      B
+MM                M Sega 16bits Emulator © 1999-2002 Stéphane Dallongeville.
+ MMX             M
+  MMMMMMMM;      M 
+         W      @            Homepage: http://gens.consolemul.com
+         MMMMMMMM
+                             Email: mysticales@yahoo.com (Tech. Support)
+                                    Use the forum to contact directly the
+                                    author of Gens.
+
+
+NOTE: This text file is only intended to be a basic guide for using Gens,
+      for a more detailed explanation of its operation you should visit the
+      Genesis Project (http://www.genesisproject.co.uk) and download the
+      Official Gens Manual. Context Sensitive help is also available once
+      you have downloaded the manual, but you will need to set its location
+      through the Directories and Path Configuration in the options Menu
+      before this is activated.
+
+
+    _________________ 
+   /################/
+  /# INTRODUCTION #/
+ /################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+Gens is a Win9x based emulator for the SEGA Genesis/Mega-Drive/Sega-CD/
+Mega-CD/32X systems, it allows you to play games developed for these classic
+SEGA 16bit game consoles on your x86 compatible PC.
+
+Gens is developed by Stéphane Dallongeville and has been coded 35% in C/C++
+and 65% in Assembler. It runs under Windows 95/98/ME/2000/XP and requires
+DirectX 7.0 or above to be installed on your system.
+
+The genesis compatibility of Gens is very high :
+
+    * about 93% of games work perfectly or with no noticeable problems.
+    * a further 5~6% of games are playable with minor problems.
+    * 1~2% of games are unplayable.
+
+(figures quoted are for Genesis/Mega-Drive only from tests conducted by the
+ Genesis Project and are approximate.)
+
+The compatibility for Sega-CD/Mega-CD emulation has been estimated as being
+about 90% or higher and the 32X system compatibility turn around 75%.
+
+
+    _______________ 
+   /##############/
+  /# DISCLAIMER #/
+ /##############/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+GENS © 1999/2000/2001/2002 Stéphane Dallongeville.
+SEGA/Genesis/MegaDrive/SEGA-CD/Mega-CD/32X are trademarks of
+Sega Enterprises Ltd.
+
+Gens is free for your own personal use and can be distributed freely as long
+as it is not modified. This text file must be included in any distribution
+and you must not include any game roms. The author is not responsible for any
+loss or damage resulting from the use, or misuse of Gens, you use it at your
+own risk. If you do not agree with these terms you should delete Gens now.
+
+Gens is cardware, if you like it you can send a post card to its author at:
+
+Snail mail:  Stéphane DALLONGEVILLE
+              7 Rue Danton
+               80090 AMIENS (FRANCE)
+
+I'd really appreciate it, thanks :) ~ Stéphane.
+
+    ________________________
+   /#######################/
+  /# SYSTEM REQUIREMENTS #/
+ /#######################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+All the system requirements below assume you are using the Normal (320x240)
+video mode.
+
+For Genesis/Mega-Drive emulation you will need:
+
+   Minimum System:                         Recommended System:
+
+   * Pentium 200Mhz+                       * Pentium II 300 Mhz or above
+   * 32Mb of Ram                           * 32Mb of Ram or more
+   * 2Mb Video Card with DirectDraw        * A good video card like a TNT
+     Support in 15/16bpp mode              * Win9X/2000/ME/XP
+   * Win9X/2000/ME/XP                      * DirectX 7.0 or above
+   * DirectX 7.0 or above
+
+[+ Gens will run on a Pentium 133 or above, but a Pentium 200Mhz is needed
+   to achieve a reasonable frame rate!]
+
+If you want to use the Sega-CD/Mega-CD emulation you will also need:
+
+   Minimum System:                         Recommended System:
+
+   * PII-233Mhz or K6-300Mhz               * PII-333Mhz or K6-2-450Mhz
+   * CDROM drive (Single Speed)            * CDROM drive (Quad Speed)
+   * The latest ASPI drivers               * The latest ASPI drivers
+   * Sega-CD/Mega-CD bios files            * Sega-CD/Mega-CD bios files
+
+For 32X emulation you will also need:
+
+   Minimum System:                         Recommended System:
+
+   * 800 Mhz CPU                            * 1 Ghz CPU
+   * 32X bios files                         * 32X bios files
+
+On my machine (Duron at 1Ghz) all 32X games runs at 60/50 FPs in fullscreen
+320x240 and sound set to 44100 Hz.
+I guess you can play some 32X games on slower CPU (550-700 Mhz) but you will
+need to downclock manually the SH2 CPU clock (see section 32X).
+
+
+    ______________________________
+   /#############################/
+  /# DEFAULT KEYBOARD SETTINGS #/
+ /#############################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+The default keyboard layout for players 1 and 2 are shown below, you can of
+course change these to whatever keys you wish or map them onto a Windows
+compatible Joystick/Joypad. (via the Joypad utility in the Options Menu)
+
+                Player1    Player2 
+       UP         Up          Y 
+      Down       Down         H 
+      Left       Left         G 
+      Right      Right        J
+        A          A          K
+        B          S          L
+        C          D          ?/
+        X          Z          I
+        Y          X          O
+        Z          C          P
+      Start     Return        U
+      Mode      R-Shift       T
+
+
+    ______________________________
+   /#############################/
+  /# USEFUL KEYBOARD SHORTCUTS #/
+ /#############################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+Open Rom                           Ctrl + O
+Boot CD                            Ctrl + B
+Close Rom                          Ctrl + C
+Open/Close Tray                    Ctrl + V
+Game Genie                         Ctrl + G
+Netplay                            Ctrl + N
+Rom 1 to 9 (history)               Ctrl + 1 to Ctrl + 9
+Save Slot 0 to 9                   Shift + 0 to Shift +9
+Save State                         F5
+Save State as                      Shift + F5
+Previous state                     F6
+Next State                         F7
+Load State                         F8
+Load State as                      Shift + F8
+GCOffline (Optional)               F1
+Auto FrameSkip                     F2
+FrameSkip - 1                      F3
+FrameSkip + 1                      F4
+Fast Blur                          F9
+Show FPS                           F10
+Previous Render Mode               F11
+Next Render Mode                   F12
+Full-Screen / Window Mode          Alt + Return
+Stretch image                      Shift + F2
+VSync                              Shift + F3
+Force software blit                Shift + F9
+Perfect Synchro/Normal mode        Ctrl + P
+DAC sound (speech) improvement     Shift + F10
+PSG sound improvement              Shift + F11
+YM2612 high quality emulation      Shift + F12
+Screen shot                        Shift + Backspace
+Hard Reset                         TAB
+Pause                              ESC
+
+
+    ____________________
+   /###################/
+  /# DISPLAY OPTIONS #/
+ /###################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+Gens features Windowed (Default) and Fullscreen graphics modes, you can swap
+between the two by clicking on the Windowed/Fullscreen option in the
+Graphics menu or by pressing Alt + Enter on your keyboard. In Fullscreen
+mode the menus are replaced by a floating menu which can be accessed by
+clicking your right mouse button, all the options in the floating menu are
+exactly the same as the Windowed version.
+
+Gens also supports several different Render modes, you may not be able to
+use all of them depending on your graphics card and the speed of your
+computer, MMX is also required for some modes. You can change the Render
+mode by clicking on an option in the Graphics menu or by pressing F11 and
+F12 on your keyboard to cycle through the different modes in the following
+order. 
+
+     F12                                                   . 
+      |   Normal                    (320x240)             /|\
+      |   Double (default)          (640x480)              |
+      |   Interpolated              (640x480)              |
+      |   Scanline                  (640x480)              |
+      |   50% Scanline              (640x480) (MMX Only)   |
+      |   25% Scanline              (640x480) (MMX Only)   |
+      |   Interpolated Scanline     (640x480)              |
+      |   Interpolated Scanline 50% (640x480) (MMX Only)   |
+      |   Interpolated Scanline 25% (640x480) (MMX Only)   |
+     \|/  2xSaI [Kreed]             (640x480) (MMX Only)   |
+      '                                                   F11                    
+
+Windowed and Fullscreen modes use different graphics engines and you will
+not always be in the same Render Mode when changing between the two, Gens
+will use the last render mode that you used in the current screen mode. For
+example if you were using the 2xSai mode in windowed mode and swapped to
+fullscreen you would now be in Double mode (or whichever render mode you
+last used in fullscreen).
+
+Certain games run with a black bar down either side of the screen which
+some people find annoying. You can remove these bars by enabling Stretch
+from the graphics menu (or pressing Shift + F2). Please note that the
+Stretch option is not available in all Render Modes.
+
+One additional "mode" is only available through a keyboard shortcut,
+pressing Shift + F9 whilst in Fullscreen "Normal" and "Double" render modes
+will activate "Force software blit". This isn't necessary for most computers
+but you can try it if you are experiencing low frame rates in Fullscreen
+modes on slower computers.
+
+
+    __________________
+   /#################/
+  /# SOUND OPTIONS #/
+ /#################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+The default sound setting is 22050Hz, you may want to increase this to
+44100Hz especially for Sega-CD/Mega-CD emulation. Alternatively if you have
+a slower computer you may want to try reducing the sound Rate to 11025Hz.
+
+There are several other sound options available for "improved" sound output:
+
+Gens now features a custom YM2612 (main sound chip) sound core which
+features a "High Quality" mode. HQ mode can be enabled from the sound menu
+or by pressing Shift + F12, also to get the best results from HQ mode you
+should change the sound rate to 44100Hz. The sound output is more accurate
+in HQ mode, it can be a good deal slower on some systems however so you may
+want to leave it turned off.
+
+Gens also features an "improved" DAC (part of the YM2612) sound mode, this
+can be enabled by pressing Shift + F10. This makes the sound in a few games,
+Street Fighter 2 for example, much better than it would be on real hardware,
+however it also causes bugs in other games so you should leave it turned off
+most of the time.
+
+Finally there is optional PSG sound "improvement" which is available by
+pressing Shift + F11. This changes the PSG sound output from Square waves to
+Sine waves which is technically incorrect but can make some games sound
+better. Again you should leave this turned off unless you really hate the
+normal PSG sound.
+
+
+    ________
+   /#######/
+  /# 32X #/
+ /#######/
+ ¯¯¯¯¯¯¯¯
+
+Before you can begin playing 32X games you must configure the 32X bios files:
+
+1. Download the 32X bios files which are available from Eidolons Inn
+   (http://www.eidolons-inn.de).
+2. Set the location of your bios files through the 'Misc/Bios Files'
+   configuration in the 'options' menu.
+
+Your files should have the following size :
+M68000 BIOS (32X_G_BIOS.BIN)     = 256 bytes
+Master SH2 BIOS (32X_M_BIOS.BIN) = 2048 bytes
+Slave SH2 BIOS (32X_S_BIOS.BIN)  = 1024 bytes
+
+You will now be able to play 32X games just as genesis games.
+When a game isn't recognized as a 32X, force the file type field to 32X.
+
+Keep in mind that 32X emulation needs a very powerful machine , here's a
+description of "what's emulated" when 32X runs :
+- 2 SH2 RISC CPU running at 23 Mhz
+- 32X VDP
+- 32X PWM sound chip
+- 32X stuffs as FIFO/DMA ...
+- 1 M68000 running at 7.67 Mhz
+- 1 Z80 running at 3.58 Mhz
+- Genesis VDP
+- YM2612 sound chip
+- PSG sound chip
+- ...
+
+The 2 SH2 can take up to 75% of the emulation time !
+To gain some FPS on slower machine, Gens offers the possibilities to change
+SH2 CPU clock, you need to modify the following lines in the gens.cfg file :
+Main SH2 Speed=100
+Slave SH2 Speed=100
+
+Replace 100 by a lower value to speed up the 32X emulation.
+100 means SH2 runs at 23 Mhz and 0 means 0 Mhz... easy :)
+Gens doesn't emulate some wait states presents in the real 32X hardware so
+you can decrease the master CPU to 60 for almost game without affecting the
+in-game speed.
+Slave CPU is mainly used for sound emulation (except for some games with
+many 3D calculations as Virtua Racing), so you can decrease it if you think
+PWN sound isn't important.
+
+
+    ______________________
+   /#####################/
+  /# SEGA-CD / MEGA-CD #/
+ /#####################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+Before you can begin playing Sega-CD/Mega-CD games you must configure Gens
+ready for CD emulation:
+
+1. Download the Sega-CD/Mega-CD bios files which are available from
+   Eidolons Inn (http://www.eidolons-inn.de).
+2. Set the location of your bios files through the Directories and Path
+   Configuration in the options Menu.
+3. Whilst the Directories and path configuration window is still open you
+   also need to set the default BRam directory for Sega-CD/Mega-CD save
+   games. Click on OK to save your settings.
+4. Open the Option menu and click on the Current CD Drive option, this will
+   bring up a list of available CD and DVD drives, select one of the drives
+   from the list. If no drives are shown then you do not have the ASPI layer
+   installed. You will need to download and install the latest ASPI drivers
+   before you can play any Sega-CD/Mega-CD games.
+
+Gens is now ready for Sega-CD/Mega-CD emulation.
+
+
+* Running a Sega-CD/Mega-CD Game from a CD:
+-------------------------------------------
+
+Place your Sega-CD/Mega-CD game in the CD drive you selected above and click
+on Boot CD in the File menu, or press Ctrl + B. Gens will now initialize
+Sega-CD/Mega-CD emulation and begin reading the CD, after a few seconds the
+Sega-CD/Mega-CD bios screen should appear. If the bios screen fails to
+appear read the FAQ section for more help.
+Note that it's normal your CD tray is locked right after you clicked on
+Boot CD, this is to permit the CD swap stuff (read the Multi CD game for more
+infos) to work correctly.
+
+
+* Running a Sega-CD/Mega-CD Game from a CD image/Mp3 file:
+----------------------------------------------------------
+
+Gens also supports CD images (backups) in .iso/.bin/.raw format with .mp3
+audio. It is recommended that when using CD images that you have both the CD
+image and the correct .mp3 files available as many games will not run if the
+audio tracks aren't present.
+
+For Gens to correctly identify any .mp3 audio tracks for your CD images they
+have to be placed in the same directory as the CD image file with the same
+file name as the CD image followed by a track number. For example if you are
+using a CD image called Blaster.iso with three .mp3 files you would need to
+put all the files in the same directory and rename them like this:
+  
+     Blaster.iso
+     Blaster 02.mp3
+     Blaster 03.mp3
+     Blaster 04.mp3
+
+There are a couple of important points to remember when setting up your CD
+images & .mp3 files for use with Gens:
+
+     * The CD Image should NOT be numbered, it won't work if you have
+       "Blaster 01.iso" instead of "Blaster.iso"!
+     * The CD image acts as track one so the first audio track will always
+       be track two+.
+     * The track numbers must also be a TWO DIGIT number: 02, 03, ..10 etc,
+       NOT 2, 3,...10.
+     * The space between the file name and the track number is optional.
+
+[+ Gens actually calculates the track order by looking at the numbers at the
+   end of the .mp3 files. You can use any numbers you want, for example 10,
+   27, 32... however it's easier to rename them in the way shown above.]
+
+Once you've set up your CD image and .mp3 files as shown you're ready to
+begin.
+
+Instead of clicking on Boot CD in the File menu click on Open Rom as if you
+were going to load a normal Genesis/Mega-Drive game. The Open file window
+will appear as usual, click on the arrow on the "Files of type" box and
+select "Sega CD isos files (*.iso,*.bin,*.raw)" from the drop down list. Now
+locate your CD image file and click on the Open button to begin loading the
+game. Gens will now initialize Sega-CD/Mega-CD emulation and begin reading
+the CD image/.mp3 files. Please note it can take a while before the Sega-CD
+/Mega-CD bios screen appears as Gens needs to calculate the length of all
+the files before it can begin.
+
+
+* Multi CD game:
+----------------
+
+Some Sega-CD/Mega-CD games has severals CD so you'll need to change the CD
+at some moment to continu your game.
+
+- If you're playing from a real CD, normally gens will lock your CD tray
+right after you clicked on Boot CD, i *need* to do that because there is no
+way to detect if the tray is open or not with win32 API (nor ASPI) !
+Well so when you need to change the CD, press Ctrl+V combinaison a first
+time to eject the CD (tray open), then place the new CD and press Ctrl+V a
+second time to close the tray.
+For slot-in CDROM drive, press Ctrl+V after you inserted the new CD.
+
+- If you are playing from an iso image, you have to process in the same
+way : when you want to change CD press Ctrl+V to fake the open tray, press
+it again to fake close tray and normally a dialog box will appear to choose
+the new iso file.
+
+Important : Sometime the CD swap processing doesn't work well du to some
+            misemulation problem, just retry until it works correctly.
+
+
+Save states aren't supported yet for Sega CD.
+
+
+    ______________________
+   /#####################/
+  /# VIRTUAL RAM CARTS #/
+ /#####################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+The Sega-CD/Mega-CD came with 8kb of internal BRam for save games, this only
+allowed fairly basic save game features and is often a problem on real
+hardware as games begin to argue over the limited space. External SRam carts
+were also available, ranging from 8kb to 64kb in size. The small amount of
+internal BRam is less of a problem on Gens because it creates a new virtual
+machine, and separate internal BRam file, for each game. However to offer
+greater flexibility, and more save slots for each game, Gens also supports
+"virtual ram carts". Each BRam file created by Gens stores both the internal
+BRam and external SRam data in the same file.
+
+You can set the size of the virtual ram cart to None, 8kb, 16kb, 32kb or
+64kb through the options menu. It is recommended that you always set this to
+64kb however because if you later wish to increase the size of the virtual
+ram cart you will need to reformat it and any existing save data will be
+lost.
+
+To setup the virtual ram cart for your Sega-CD/Mega-CD game boot the CD or
+load your CD image as normal. When the Sega-CD/Mega-CD logo screen appears
+press the A, B or C button to access the advanced menu and then select the
+memory management features by moving the pointer to "option" or "memory",
+depending on the bios version being used. Follow the on screen instructions
+to format your virtual ram cart then start your game as normal.
+
+Don't forget that you will need to set up the virtual ram cart function
+separately for each Sega-CD/Mega-CD game that you wish to use it with.
+
+
+    ____________
+   /###########/
+  /# NETPLAY #/
+ /###########/
+ ¯¯¯¯¯¯¯¯¯¯¯¯
+
+Gens also has the ability to play games over the Internet (.net) or a Local
+Area Network (LAN) using the Kaillera network client. Please note that
+although the kailleraclient.dll file is not needed to run Gens that you will
+only be able to play Netplay games if it is present in your Gens directory.
+
+If you want to play over the .net you must be connected to your Internet
+Service Provider (ISP). If you want to play over a LAN, you must be
+running the Kaillera Server software which you can download from
+http://www.kaillera.com. Also if you use a firewall you need to give Gens
+access to the Internet/LAN. 
+
+When you are playing games over the .net or on a LAN all players MUST be
+using the same filename for the game being played. For example if one player
+is using a rom called "Columns (REV 01) () [!].smd" and the other is using
+"Columns.smd" it WILL NOT work, even if the roms are otherwise identical!
+It is recommend that you use Cowerings GoodGen to rename your roms ready
+for internet use.
+
+To start a NetPlay session select the Netplay option from the File menu, or
+press Ctrl + N on your keyboard. The Kaillera Client window will now open
+and a list of active game servers will be loaded. The servers are listed by
+Ping rate, the lower the Ping the better your online experience will be. 
+
+Don't forget to specify a user name in the box at the bottom-left of the
+Client window, this is the name that other people on the Kaillera server
+will see when you are online.
+
+Next choose the server where you want to play, Kaillera will attempt to
+connect and if it's successful a window will open showing the other players
+connected and their status (eg, playing ...)
+
+Along the bottom of the server window you will see a list of games currently
+running, if you wish to play one of these (and the status is waiting) just
+click on 'join' the game.
+
+You can create your own game room by clicking on the 'Create new game'
+button, a list of games in your current directory will be displayed, select
+the game you wish to play from the list and click on it to create a new game
+session. Now you can wait for others players to join you or start playing
+the game alone.
+
+To close the Netplay session first close any games you have running by
+clicking on Close rom in the File menu, then close both the Kaillera windows.
+You are now in offline mode again and can continue using Gens as you
+normally would or Quit back to windows. You must close the Netplay session
+and the Kaillera windows before Quitting Gens otherwise it may crash! (This
+is a Kaillera bug... sorry)
+
+If you want more information about how use Kaillera, check the homepage at
+http://www.kaillera.com
+
+For others emulator authors who want to create a Gens compatible NETPLAY
+/Kaillera function here's the format of the data sent by the
+kailleraModifyPlayValues function for one player (2 bytes long):
+
+         F E D C B A 9 8 7 6 5 4 3 2 1 0
+
+         1 1 1 1 M X Y Z S A B C U D L R
+                 o       t       p o e i
+                 d       a         w f g
+                 e       r         n t h
+                         t             t
+
+Value : 0 if the button is pressed, and 1 if inactive.
+
+
+    ______________________
+   /#####################/
+  /# GCOFFLINE SUPPORT #/
+ /#####################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+There is optional GCOffline support (Genesis Collective Database or GCO)
+built into Gens, press F1 whilst any game is running and the GCO should open
+on the correct page.
+
+To enable this you will first need to download the GCOffline files from the
+Genesis Collective (http://www.genesiscollective.com). You only need the
+GCOffline.chm and Genesis.chm files for GCO support to work, all the other
+files are optional. You should place all the GCO files into a single
+directory, further instructions for setting up the GCO are available at the
+Genesis Collective site and in the GCO itself.
+
+Once you have downloaded the files you need to set their location through the
+Directories and Path Configuration in the options Menu before GCO support
+becomes available.
+
+
+    _________________________________________
+   /########################################/
+  /# FREQUENTLY ASKED QUESTIONS (General) #/
+ /########################################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+Q : When I try to run Gens I get the following message :
+                            "Error with Query Interface". How do I fix it?
+A : You have to reinstall directX 7.0 (or above).
+
+
+Q : I can't set my joypad because keys are automatically pressed (quickly),
+    what's the problem?
+A : Some people have experienced problems getting Gens to use their Joypad
+    because when they press a button Gens reads multiple inputs and sets all
+    the controls to one button!
+    To fix this you should reinstall your Joypad drivers and then reinstall
+    DirectX 7.0, don't forget to recalibrate your Joypad before running Gens.
+    If this doesn't fix the problem it is probably your Joypad drivers that
+    are at fault, check for newer versions. Unfortunately if this doesn't
+    fix the problem you'll have to use the Keyboard.
+
+
+Q : I can't get diagonals using my joypad, or diagonals have stopped working
+    how do I fix it?
+A : Several people have reported this problem and it seems to be a Gens.cfg
+    problem. Quit Gens, find and delete your Gens.cfg file. Now restart Gens
+    and set your joypads up again, hopefully you should now be able to get
+    diagonals.
+
+
+Q : Why are all the colors are wrong!
+A : Graphics cards use several types of internal 16bit rendering modes,
+    some use 555 mode (eg ATi Rage Pro) whilst others use 565 mode (eg NVidea
+    TNT2). Gens automatically tries to detect which graphics standard your
+    video card uses, unfortunately it doesn't always get it right. If the
+    palette is all wrong on your system you can force Gens to use the correct
+    video mode by editing the Gens.cfg file. Open the file with Notepad and
+    under the [graphics] section add one of the following commands until the
+    problem is corrected:
+                              Force 555=1
+                                  or
+                              Force 565=1
+
+
+Q : Game Genie doesn't work!!!
+A : Game Genie often seems to cause no end of problems for people, for more
+    information about using Game Genie codes it is recommended that you
+    download the Official Gens Manual and/or the Big Book of Game Genie
+    Codes from the Genesis Project. (http://www.genesisproject.co.uk)
+
+
+Q : Where can I find roms?
+A : It's easy to find roms with a search engine, don't forget that it's
+    illegal to have roms unless you have the original game. We can't be held
+    responsible for your actions.
+
+
+Q : Why does Netplay sometimes crash?
+A : The Kaillera library has some bugs, Gens has others so unfortunately
+    Netplay can sometimes be a little unstable.
+
+
+    _________________________________________
+   /########################################/
+  /# FREQUENTLY ASKED QUESTIONS (Mega-CD) #/
+ /########################################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+Q : Gens returns to the blank/intro screen after I used Boot CD (or loaded
+    an ISO image), why?
+A : Your sega CD bios files aren't correctly configured, read the the
+    Sega-CD/Mega-CD section for more information.
+    Another reason for this happening when using an ISO image can be that you
+    have a corrupted ISO file, Gens can't recognize it as an Sega-CD/Mega-CD
+    file so it canceled the loading process.
+
+
+Q : I always get the BIOS CD player interface with the "NO DISC" message
+    when trying to run a Sega-CD/Mega-CD game, what's the problem?
+A : If you have several CD/DVD drives in your system have you put your
+    Sega-CD/Mega-CD in the correct drive!
+    The CD-Drive support in Gens may not work with all drives, if you have
+    more than one CD or DVD drive installed in your system try using the
+    other one to see if that fixes the problem.
+    If you only have one drive, or none of your drives are working, try
+    updating to the latest ASPI drivers.
+
+
+Q : The bios keeps saying "CHECKING DISC"!
+A : This means that the CD isn't being recognized as a Sega-CD/Mega-CD.
+    Check to make sure you have placed your Sega-CD/Mega-CD in the correct
+    CD-Drive and that the disc itself isn't damaged. Again using a different
+    CD/DVD drive or updating to the latest ASPI drivers may also solve the
+    problem.
+
+
+Q : I don't hear any music in my Sega-CD/Mega-CD game when using an ISO with
+    MP3 files. How do I fix it?
+A : Make sure that your ISO and MP3 files are correctly named and numbered,
+    read the Sega-CD/Mega-CD section for more information.
+
+
+Q : I don't hear any music in my sega CD/Mega-CD game but i'm it playing
+    from a CD, why?
+A : There are several possible reasons why this sometimes occurs:
+        1) With Gens 1.40 or above this normally doesn't occur, or it's an
+           emulation related problem!
+        2) If you have more than one CD or DVD drive in your system is the
+           drive which you are using for Sega-CD/Mega-CD emulation connected
+           to the sound card!?
+        3) Have you disabled CDDA playback in the sound options?
+
+
+Q : There is a problem with CD Audio playback which happens about every
+    minute, why?
+A : This is a known bug, it occurs when the sound rate is set to 11Khz or
+    22Khz, simply set the sound rate to 44Khz (CD quality) to prevent this
+    from happening.
+
+
+Q : I get an SRam error message when I try to play some Sega-CD/Mega-CD
+    games and I can't continue the game.  How do I fix it? 
+A : You need to format the optional virtual ram cart for this game to run.
+    Read the section about virtual ram carts to find out how to do this. 
+
+ 
+Q : Save state doesn't work !
+A : This is normal, save state aren't yet supported with Sega-CD/Mega-CD.
+    You can use the normal internal game save (Backup RAM) instead.
+
+
+    _____________________________________
+   /####################################/
+  /# FREQUENTLY ASKED QUESTIONS (32X) #/
+ /####################################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+Q : 32X doesn't work !
+A : Be sure you correctly configured the 32X bios files
+    (read the 32X section).
+
+Q : Why is it so slowwwwwwwww ?
+A : Because 32X hardware is complex and use 2 fast RISC CPU, read the 32X
+    section for more infos and how speed up emulation.
+
+
+Q : Why XYZ game doesn't work ?
+A : 32X emulation is still in development, some games aren't yet supported.
+
+
+    ___________________
+   /##################/
+  /# TECHNICAL INFO #/
+ /##################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+The following features are present in Gens:
+-------------------------------------------
+
+* Main & Sub 68000 CPU :
+        - Starscream 680x0 emulation library
+          by Neill Corlett (corlett@elwha.nrrc.ncsu.edu)
+          modified for Gens
+* Master & slave SH2 CPU :
+        - Custom ASM core
+* VDP 32X :
+        - Direct color mode with priorities
+        - Packed pixel color mode with priorities
+        - Run lenght mode
+        - Fill function
+* VDP Genesis :
+        - DMA transfers (all modes and timing respected)
+        - Scroll A and B planes with vertical scrolling (overall, 2 cells)
+          and horizontal scrolling (overall, cell, dot)
+        - Window plane
+        - Sprite plane
+        - Vertical and Horizontal Interrupts
+        - All raster effects
+        - Highlight/Shadow effects
+        - Interlaced mode
+        - Sprite collision & sprite overflow flags
+* GFX coprocessor :
+        - Rotation/enlargement supported in all modes
+        - Font color/data conversion
+        - GFX dots/cells conversion supported in all modes
+* IO ports supported (controller 1 and controller 2) with Partial Multi-Tap
+  (4 Player) joystick adapter support
+* CD interface :
+        - CDD and CDC emulation
+        - ASPI used for low-level CD access
+        - ISO/MP3, BIN, RAW file support
+* Z80 CPU emulation :
+        - Custom ASM core
+* Custom YM2612 chip emulation :
+        - Special mode channel 3 supported
+        - AMS & FMS LFO supported
+        - High Quality emulation mode (sound calculation at the correct rate)
+* PCM chip emulation
+* PWM chip emulation
+* PSG 76489 emulation
+* SRAM fully supported (no custom Sram support yet)
+* BRAM and virtual ram carts supported.
+* Frame Skip (Auto, 0, 1, 2, 3, 4)
+* Save/Load State. (Genecyst save state format)
+* Window/Fullscreen Render modes
+* Game Genie Support
+* Netplay (Kaillera) support
+
+The following features are missing from Gens:
+---------------------------------------------
+
+* SVP chip support. (Virtua Racing)
+* Complete Multi-Tap support
+* Menacer Light Gun support
+* Mouse support
+* Custom SRAM chip support
+* Full Sega-CD/Mega-CD Support (Subcode stuff).
+* Full 32X support (PWM DMA, packed 32X VDP mode mixed with genesis VDP...).
+
+
+    _______________________________________
+   /######################################/
+  /# GREETINGS (in no particular order) #/
+ /######################################/
+ ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+* Neill Corlett for his very fast 68000 Starscream emulator.
+* Michel Gerrie, Steve Snake, Jagboy, Trzy, Atani, Quinneston, Charles Mac
+  Donald, Christian Chriller.. for SEGA system information and general help.
+* Red5 from The Genesis Project for testing Gens and writing the official
+  Gens Manual.
+* Mysticales for all the help she gives me.
+* Christophe Thibault for making Kaillera.
+* Kreed (Derek Liauw Kie Fa) for his excellent 2xSaI engine.
+* David González Flores for help with SEGA CD stuff.
+* Nicolas BRAY, NiNjA LEMoN, Arzeno Fabrice, DaGee, Thierry Caland,
+  Mickagame, Nik 166, Belgarion, Darkfalz, Herakles, Biohazard ... (I'm
+  surely going to forget someone, sorry) for being Gens beta testers.
+* Thierry Caland for making the Gens beta testers site.
+* Combacker for designing the Official Gens Site.
+* Durrenberger David - dines (http://www.koubis.com) for the Gens logo/icon.
+* Consolemul staff (and specially Sir Jaguar) for hosting it.
+* Emuforce staff (and specially D[J]) & Emusphere staff for report bugs,
+  feedback and for hosting the site in past.
+* UPX by Markus Oberhumer & Laszlo Molnar (http://upx.tsx.org).
+* All people who sent me translations packs (Wisesage for korean, Markus for
+  Finnish, Suay for German, NIX for Italiano, Klaas-Wim van Diermen for
+  Dutch, Biohazard for Russian, U4 TONE for Japanese ... ).
+* Everyone which report bugs, which give support for Gens by replying
+  questions on the forum... 
+* Anyone else I forgot !

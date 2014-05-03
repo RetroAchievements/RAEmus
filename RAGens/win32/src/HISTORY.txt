@@ -1,0 +1,1082 @@
+This is the history of changes for the win32-specific version of Gens.
+
+January 30, 2005, version 2.12b
+-------------------------------
+
+* Fixed a display corruption/flickering bug with DirectX that
+  would often occur when switching between windowed and full-screen.
+
+* Fixed a bug in regards to restoring windowed state 
+  (minimized/maximized/etc) when switching between windowed and 
+  full-screen; sometimes Gens would not switch out of full-screen
+  properly.
+
+* New build process for win32 version, using MS VS.NET (VC70) with
+  performance optimizations.  Resulting binary is larger, but 
+  runtime performance appears better.  Probably runs more smoothly
+  on slower machines.
+
+
+(09/10/2002) Changes Gens 2.11 <- Gens 2.10 :
+---------------------------------------------
+
+[Sega CD]
+
+* Fixed a CDD bug added in Gens 2.10
+
+[General]
+
+* Fixed the command line loading
+
+
+(08/10/2002) Changes Gens 2.10 <- Gens 2.00 :
+---------------------------------------------
+
+[32X]
+
+* Save state support added (still buggy).
+* SH-2 signed division overflow fixed.
+* SH-2 core tweaked up a bit.
+* Netplay is now working with 32X games.
+* Some other minors fix.
+
+[Sega CD]
+
+* CD swap is now supported.
+ (read the "Multi CD game" section for more infos).
+
+[Genesis]
+
+* New Z80 core written from scratch (faster than old core).
+* Synchronisation between 68000 and Z80 is now almost perfect
+  (it wasn't possible with the old Z80 core).
+* YM2612 timers fixed, i finally found the correct way :)
+* Fixed a minor bug in the VDP render engine (added in Gens 2.00)
+* Fixed a minor bug in the PSG (added in Gens 2.00)
+
+[General]
+
+* Fixed the weird "restart Gens after 32X bios configuration" bug.
+* Complete debugger available, can be usefull for developers.
+* ...
+
+
+(11/07/2002) Changes Gens 2.00 <- Gens 1.91 :
+---------------------------------------------
+
+Major change : 32X emulation added.
+
+[32X]
+
+* SH2 CPU emulation (custom ASM core) :
+  - 100% instruction set implemented.
+  - Full support of DMAC/DREQ.
+  - Full support of external division unit.
+  - Full support of watchdog timer.
+* Full support of FIFO registers and DMA.
+* 32X VDP emulation :
+  - Support of fill function.
+  - Full support of direct color mode.
+  - Full support of packed pixel mode.
+  - Support of run lenght mode without Genesis VDP and priority stuff.
+* PWM sound emulation (DREQ1 DMA not yet supported).
+
+[Sega CD]
+
+* Minors bugs fixed.
+
+[Genesis]
+
+* IPS patch support added.
+* Save state compatibility (Kega, Genecyst ...) improved.
+* Fixed a minor bug with Z80.
+* YM2612 :
+  - Fixed a bug with frequency modulation LFO.
+  - Fixed independent slot frequency calculation in special mode (channel 3).
+* PSG :
+  - Noise channel fixed.
+* VDP rendering engine improved :
+  - Better colors rendering.
+  - Faster.
+* Fixed a minor bug in country detection code.
+
+[General]
+
+* Added some color adjustments feature :
+  - Brightness adjustement.
+  - Contrast adjustement.
+  - Greyscale mode.
+  - Invert mode.
+  Note that contrast and brightness are not calculated correctly yet.
+* Rewritten Gens.txt by Red5 of the Genesis Project. This is
+  intended to be an updated/improved version of the old Gens.txt, it is not
+  a "Gens Manual Lite" however and you will still need to download that for
+  instructions on some of the more advanced features like Game Genie support.
+* Debug removed.
+* Screens saver is disable when Gens is running.
+* Modified the tiny application icon, the guy which sent me it will probably 
+  recognize it ;)
+
+
+(23/04/2002) Changes Gens 1.91 <- Gens 1.90 :
+---------------------------------------------
+
+Changes concern only the sound emulation :
+
+* YM2612 :
+  - Fixed a stupid bug with decay rate calculation.
+  - Fixed the enveloppe recalculation.
+  - Fixed the LFO in High Quality mode.
+  - Improved the interpolation calculation in HQ mode (slower). 
+  - Fixed a bug in the reset processus.
+* PSG :
+  - Fixed a bug with very high frequencies.
+  - Fixed a bug in the reset processus.
+  - Volume ajusted.
+
+
+(05/04/2002) Changes Gens 1.90 <- Gens 1.80 :
+---------------------------------------------
+
+[Sega CD]
+
+* GFX conversion fixed (all conversions possibilities are emulated now).
+* Severals bugs added in Gens 1.80 have been fixed.
+
+[Genesis]
+
+* New YM2612 core :
+  - More accurate.
+  - We can activate a "High Quality" emulation mode.
+  - A bit faster.
+* New PSG core :
+  - We can activate "PSG improvement" mode (see the shortcut section).
+  - Faster.
+* Save state support fixed a bit (some stuff were broken in Gens 1.80)
+* Minors others changes or bugfixs...
+
+[General]
+
+* Removed the 8 bits sound option (useless).
+* Fixed the infamous "closing during initialisation" bug.
+* Fixed a minor bug with the software x2 blit MMX.
+
+
+(22/02/2002) Changes Gens 1.80 <- Gens 1.70 :
+---------------------------------------------
+
+[Sega CD]
+
+* CDD and CDC emulation improved.
+* Fixed the bug with mono MP3 (broken accidently in Gens 1.70)
+* Perfect Synchro fixed (can't break a game which work in normal mode).
+* PCM timing fixed.
+* Minor bugs fixed.
+
+[Genesis]
+
+* Sprite limit fixed (thanks Steve Snake).
+* VDP rendering engine tweaked a bit.
+* Save state modified :
+  - Better compatibility with Genecyst.
+  - Old saves states (with Gens version < 0.76) are probably not correctly supported anymore.
+
+[General]
+
+* News render modes : 50% and 25% scanline interpolated.
+* Game Genie feature easier to use.
+* More complete language support added.
+* Kaillera client updated to version 0.9
+* Some shortcuts added or modified.
+* Minor other changes.
+
+
+(01/02/2002) Changes Gens 1.70 <- Gens 1.60b :
+----------------------------------------------
+
+[Sega CD]
+
+* Bug with memory fixed.
+* PCM sound fixed (but still a bit buggy sometimes).
+* SCSI CD/DVD ROM drives are now correctly supported.
+* Memory mode register fixed.
+
+[Genesis]
+
+* Bug in 2 Cells V-Scroll fixed.
+* Bug with dword 68000 predec EA mode fixed.
+* DBtr instruction fixed in Starscream 68000 core.
+* Minor fix in V counter (added in Gens 1.56)
+* Z80 initial state fixed.
+* Hilight / Shadow effect fixed.
+
+[General]
+
+* Gens manual support added :
+  You can now have a context help, you need to download the Gens
+  manual (made by Red5) then configure the path in the Gens options.
+
+
+(20/01/2002) Changes Gens 1.60b <- Gens 1.60 :
+----------------------------------------------
+
+Fast update to fix the CDC DMA to Word RAM (accidently broken in Gens 1.60).
+
+
+(19/01/2002) Changes Gens 1.60 <- Gens 1.56 :
+---------------------------------------------
+
+[Sega CD]
+
+* Vector GFX engine fixed.
+* CELL conversion fixed.
+* Minor fix in CDD emulation.
+* BRAM emulation fixed.
+* Some minors fix.
+
+[Genesis]
+
+* Minor fix in Z80 timing.
+
+[General]
+
+* Game genie codes list no more sorted.
+* Added an option to remove SCD LED.
+
+
+(15/01/2002) Changes Gens 1.56 <- Gens 1.52 :
+---------------------------------------------
+
+[Sega CD]
+
+* CDD timing emulation fixed.
+* CD read improved (better CDDA playback from real CD).
+* Perfect Synchro optimised.
+
+[Genesis]
+
+* Fixed VDP write.
+* Fixed the infamous TAS bug.
+
+[General]
+
+* Minor bug with auto detection fixed.
+
+
+Game fixed :
+
+[SEGA CD]
+
+All Wolfteam games (ISO support).
+
+[Genesis]
+
+- Gargoyles
+- X Pert
+- Cliffhanger
+
+
+(11/01/2002) Changes Gens 1.52 <- Gens 1.50 :
+---------------------------------------------
+
+[Sega CD]
+
+* PCM sound fixed (Popful Mail voices).
+* Fixed the memory management bug added in Gens 1.50
+
+[Genesis]
+
+* Minor change in Z80 reset stuff.
+
+[General]
+
+* Bug with Vsync really fixed this time (i hope).
+
+
+(09/01/2002) Changes Gens 1.50 <- Gens 1.42b :
+----------------------------------------------
+
+[Sega CD]
+
+* Fixed a bug in CDD (bug was added in Gens 1.40)
+* Hard reset improved.
+* SRAM Cartridge support added.
+* Communication register fixed (thanks Steve Snake).
+* Minor fix in memory management.
+
+[Genesis]
+
+* Minor change in Z80 timing.
+* Fixed the CHK instruction in 68000 Starscream core.
+
+[General]
+
+* Bug with Vsync in Fullscreen with NVidia video card fixed.
+* The refresh rate problem with Win XP and Win 2000 is fixed.
+* Others minors changes.
+
+
+(04/01/2002) Changes Gens 1.42b <- Gens 1.42 :
+----------------------------------------------
+
+* Z80 reset fixed (fix sound bug added in Gens 1.42).
+
+
+(04/01/2002) Changes Gens 1.42 <- Gens 1.40b :
+----------------------------------------------
+
+[Sega CD]
+
+* Bug with win 2000/ win XP fixed.
+* Cell GFX conversion fixed.
+
+[Genesis]
+
+* Z80 BUS flag really fixed this time :
+  All genesis games broken accidently in Gens 1.40 are (normally) fixed.
+* YM2612 modified a bit.
+
+[General]
+
+* You can now force the 555 or 565 video mode (see the FAQ section).
+* Minors changes.
+
+
+(22/12/2001) Changes Gens 1.40b <- Gens 1.40 :
+----------------------------------------------
+
+* Bug in render mode menu access fixed.
+
+That's all, but have to be fixed.
+
+
+(21/12/2001) Changes Gens 1.40 <- Gens 1.30b :
+----------------------------------------------
+
+[Sega CD]
+
+* CDD/CDC emulation improved (thanks Steve Snake for the fast foward/reverse command).
+* Direct CD read for play audio track, for the moment the synchro isn't yet
+  perfect and we can heard noises sometimes.
+* CDC DMA fixed.
+* It's possible now to disable/enable CDDA playback.
+* Minor change in the memory mode register emulation.
+
+[Genesis]
+
+* YM2612 emulation improved :
+  - Enveloppe phase fixed (right after a "key on" occurs).
+  - Timers fixed.
+  - Updated more often (slower but more accurate).
+* Z80 BUS flag fixed.
+* Z80 interrupt timing back to normal.
+
+[General]
+
+* Added the "interpolated" render mode.
+* Some littles optimisations with "not MMX" renders modes.
+* Bugs with relative path fixed.
+* FAQ section updated, don't forget to check it before you send any e-mail !
+* Minors changes...
+  
+
+(12/11/2001) Changes Gens 1.30b <- Gens 1.30 :
+----------------------------------------------
+
+* Fixed the "Save State as ..." and "Load State..." menu functions.
+  (they were only working with shortcuts).
+* Fixed the bug with "Quick Save" feature.
+
+
+(09/11/2001) Changes Gens 1.30 <- Gens 1.20 :
+---------------------------------------------
+
+[Sega CD]
+
+* Added the possibility to choose a perfect synchronisation emulation mode.
+  This means that main CPU and sub CPU execute instruction by instruction then
+  emulation is more accurate but a lot slower.
+  This option is desactivated by default, you can enable it when you're playing
+  Sega CD games but it's highly recommend to use it only if the game doesn't work
+  in normal emulation mode and if your CPU is fast (>= 500 Mhz).
+* Fixed a (stupid) bug in the GFX rotation/scaling engine.
+* Fixed Word RAM decoded format (dot GFX conversion).
+* Added cell GFX conversion.
+* CDC -> PCM RAM DMA fixed.
+* CDD and CDC emulation improved.
+* Fixed the memory control register (not yet perfect).
+* Fixed a bug in the "Font Data" calculation.
+* Fixed a bug with PCM sound.
+* Fixed severals bugs in the MP3 decoder and streaming code.
+* Some others minors bugs fixed...
+
+[Genesis]
+
+* YM2612 emulator upgraded to the last version, FM sound is a bit better.
+* CGOffline support added.
+
+[General]
+
+* All specials renders modes (Scanlines, 2xSAI ...) are now as fast in windowed
+  mode than in fullscreen mode.
+* Better sound volume adjustement between all differents sound chips.
+* VSync added for windows modes.
+* Can save or load custom named states.
+* States are marked EMPTY or OCCUPIED.
+* Others minors changes...
+
+
+(19/10/2001) Changes Gens 1.20 <- Gens 1.10 :
+---------------------------------------------
+
+[Sega CD]
+
+* ISO support added.
+  - ISO, BIN, RAW format supported.
+  - MP3 playing supported (decoder is a bit buggy)
+* CD drives detection fixed.
+* 32x32 dots stamp support added in rotation/enlargement engine.
+* Graphics dots conversion added.
+* CDC/CDD emulation improved.
+* Some bugs in PCM sound has been fixed (not yet perfect).
+* CDC -> Prg RAM DMA fixed.
+* CDC -> Word RAM DMA fixed.
+* Word RAM (1 MB) -> VDP DMA fixed.
+* Fixed a bug in the memory control register (emulation still not perfect though).
+* Fixed the BRAM erased bug (occured after a reset of the SUB 68000 CPU).
+* Country autodetection added.
+* Lot of others bugs fixed...
+
+[Genesis]
+
+* SRAM support modified, so roms with bad headers can work correcly.
+* Rom memory access tweaked, little speed improvements.
+
+[General]
+
+* Sound volume increased, now all sound chip uses 32 bits buffer for a better final 16 bits mixing.
+* Shortkeys modified.
+
+
+Game fixed :
+- Some games which had SRAM problems :
+  - Might & Magic 2
+  - Might & Magic 3 (SRAM)
+  - Tonki
+  - NHL 98
+  - ...
+
+
+(21/09/2001) Changes Gens 1.10 <- Gens 1.00 :
+---------------------------------------------
+
+* Prelemenary SEGA CD emulation added :
+  - Sub 68000 (100%)
+  - Prg Ram and Word Ram implemented (95%)
+  - PCM chip (100% but stil buggy)
+  - GFX rotation and enlargement (60%)
+  - Font color/data (100%)
+  - CDD (70%)
+  - CDC (60%)
+  - BRAM saves supported.
+  - No graphics conversion, no ISO support, no save state support yet.
+* Added an option to improve the DAC sound (voices) or not.
+  This option can be enabled/disabled only by key-shorcut (see in the shorcuts section)
+  because i don't recommend you to always use it since this can cause sound bugs with some games.
+* Added the possibility to force software blit for Fullscreen "Normal" and "Double" render mode.
+  This option can be enabled/disabled only by key-shorcut (see in the shorcuts section) because almost
+  people don't need to use it, try it only for speed issue.
+* We can now choose the order of country detection.
+* Undocumented scroll mode implemented.
+* Undocumented plan size mode implemented.
+* Rewrite the VDP IO control part, little speed increase.
+* Fixed VDP sprite table register (bug added in Gens 1.00)
+* Fixed a bug in VDP control decoding (Gens v0.8 was right about it).
+* Fast-blur fixed for no MMX processor.
+* A minor bug in DAC recovering sound has been fixed.
+
+
+Game Fixed:
+- All games broken in Gens 1.00 (missing sprites)
+- European Club Soccer (pause screen)
+- Populous / unofficial release (EA logo intro)
+
+
+(10/08/2001) Changes Gens 1.00 <- Gens 0.99a :
+----------------------------------------------
+
+* Stretch option added (not available with all rendering mode).
+* PAT files automatically saved.
+* Kaillera client version updated to 0.84a
+* 16/15 bits mode now auto-detected (no more choice in menu).
+* 25% scanline render has been modified (equal to a 75% scanline in the old way).
+* Sprite masking fixed (thanks Charles Mc Donald).
+* Sprite table update fixed (thanks Charles Mc Donald).
+* Sprite limit fixed.
+* Fixed a bug in the 68000 Starscream core (bit-shift instructions).
+* 68000 interruption processing enterely rewritten.
+* H counter calculation modified.
+* V counter fixed.
+* VDP status flag fixed.
+* Z80 interrupt timing modified (fix some sound problem).
+* Window bug added in Gens 0.99 fixed.
+* Screen shot respect the game resolution (no more unecessary blank line).
+* Triple buffer option in "graphic" menu removed (VSync always uses triple buffering).
+* A minor bug in DAC sound fixed.
+* A minor bug in country detection fixed.
+* Others minors bugs fixed.
+
+Game Fixed:
+- All games accidently broken in Gens v0.99a
+- NCAA College Football
+- XPert
+- Ferrari Grand Prix Challenge
+- Dashin' Desperadoes
+- Columns (score correctly displayed)
+- Street Racer (intro graphics bugs fixed)
+- Castlevania Bloodlines (level 2 reflection and last level)
+- Galaxi Force (level selection screen)
+- Pirate Gold (problem with sprite sometimes)
+- Micro machine 2 (game mode selection screen)
+- Warlock (status top bar displaying)    
+- Another World (intro bug in PAL version)
+- Barkley Shut Up and Jam 2 (graphic bug during game added in gens v0.99)
+- Rings of Power (minor intro bug added in gens v0.99)
+- J League Pro Striker 2 (minor graphic bug during pause).
+- Sonic Spinball (sound during sega logo).
+- Puyo Puyo 2 (music)
+- ...
+
+
+(13/06/2001) Changes Gens 0.99a <- Gens 0.99 :
+----------------------------------------------
+
+* Fixed a stupid bug (i've desactived some lines of my code for testing... i've forgot to reactive them later)
+  with Netplay, it's ok now.
+
+
+(01/06/2001) Changes Gens 0.99 <- Gens 0.98 :
+---------------------------------------------
+
+* Kaillera client version updated to 0.83
+* Kaillera implementation is different, Gens can now start even if the kailleraclient DLL
+  is not present.
+* Window split fixed.
+* Z80 cycles timing modified.
+* Load/save state improved.
+* Vietnamese menu translation added.
+* minors bugs fixed.
+
+Game Fixed:
+- Dragon Ball Z (window split)
+- Tecmo Cup Football (team name displaying)
+- Olympic Gold Barcelona 92 (broken in gens v0.95)
+
+
+(11/04/2001) Changes Gens 0.98 <- Gens 0.95a :
+----------------------------------------------
+
+* Netplay support (Kaillera).
+  The games aren't synchronised on DirectSound buffer during Netplay 
+  (du to some low frame rate problems) so the sound have some bad noises :(
+  Note that Netplay is surely a bit buggy, sorry for it...
+* GYM loggin added.
+* VDP debug informations added.
+* VDP RAM write fixed (broken in Gens 0.8).
+* Bug with hilight/shadow effect over sprite fixed (broken in Gens 0.8).
+* Because of some incompatibilities with Visual C++ 5.0 and Kaillera, Gens is now compiled with Visual C++ 6.0
+* Polish, Catalan and Hungarian menu translation added.
+  German, Dutch, Greek and some others updated.
+* Add a FAQ section to the gens.txt file.
+* A special italian version of Gens.txt in this release but not updated for Gens v0.98.
+
+
+Game Fixed:
+- Street Racer (hilight effect during intro, broken in v0.8)
+- Dino dini's soccer (graphics bugs in font fixed)
+- Some games broken in Gens v0.95
+
+Game Broken:
+I don't find anyone...
+
+
+(04/03/2001) Changes Gens 0.95a <- Gens 0.95 :
+----------------------------------------------
+
+* The infamous VDP control decoding bug is really fixed this time, so Fido Dido is ok.
+
+
+(02/03/2001) Changes Gens 0.95 <- Gens 0.92b :
+----------------------------------------------
+
+* Partial 4 player support (only Yuyu Hakusho Battle and Street Racer are currently supported)
+* You now have a choice of 3 or 6 Button Genesis pad emulation.
+* Rom format (SMD/BIN) detection modified.
+* Fixed the (accidently) broken PAL bit in VDP status flag.
+* SPACE is now accepted as a Code/Comment seperator in .PAT files (stupid bug, sorry).
+* Z80 V-INT timing modified.
+* V-Counter modified.
+* PSG sound fixed in some games like After Burner 2 (thanks Dave ;)
+* DMA timings modified again.
+* 68000 cycles timing modified (68000 is now overclocked of 1,3 Khz instead of underclocked
+  of 14,3 Khz in NTSC mode).
+* Once again, i've modified Z80 cycles timing, now voices are like the original genesis (crappy)
+  but sound in some game are fixed (voices in Zombies).
+* Fixed a bug in VDP control decoding (added accidently in version 0.8).
+* Country detection fixed for (F) region (these games are NTSC and not PAL).
+* Added a sub-menu for rom history.
+
+Game Fixed:
+- All roms which the PAL error message (broken accidentatly in Gens v0.88)
+- Puggsy (intro bugs, broken in Gens v0.92b)
+- Donald Duck in Maui Mallard (graphics bugs at top of screen)
+- Fido Dido (black color, broken in Gens 0.8)
+- Eliminate Down (randomize lock fixed)
+- Double Dragon 2 (lock fixed).
+- Sound of Kid Cameleon, Chaos Engine ...
+- DAC sound (voices, sfx) in Zombie.
+
+Game Broken:
+- Sound of Puyo Puyo 2 is now crappy :(
+- Pause screen is glitched in European Soccer.
+
+
+(21/12/2000) Changes Gens 0.92 <- Gens 0.92b :
+----------------------------------------------
+
+* I've added a stupid bug in DMA with Gens v0.92, it's now fixed.
+* DMA timing modified a bit...
+* Korean language added in LANGUAGE.DAT
+* That's all ...
+
+Game Fixed:
+Game that was broken in Gens v0.92
+
+Game Broken:
+Nope
+
+
+(20/12/2000) Changes Gens 0.92 <- Gens 0.88 :
+---------------------------------------------
+
+* new rendering mode : 25% scanlines
+* Scanlines, 25% scanlines, 50% scanlines, Interpolated scanlines and fast-blur has been
+  rewritten for MMX CPU.
+  - 25% scanlines and 50% scanlines are availables only for MMX CPU.
+* Z80 timing modified once again... voices are better (same as gens 0.78b) and compatiblity
+  is ok.
+* Game genie improved and .PAT files supported.
+* DMA timing are now emulated.
+* Roms history (9 last roms). 
+* New options for message displaying, FPS and others...
+* Some languages added or fixed in language.dat
+* Minors bugs fixed.
+* Can choose triple buffer separatly of V-Sync (not really usefull).
+* New icon ;)
+* others minors things.
+
+Game Fixed:
+- Dragon Slayer (graphics fixed)
+- Dragon Slayer 2 (graphics fixed)
+- Joe & Mac (sound)
+- Super skidmark (intro fixed)
+- Barkley Shut Up and Jam (graphics fixed)
+- Barkley Shut Up and Jam 2 (graphics fixed)
+- Legend of Galahad (bottom screen fixed)
+- Kawasaki Superbike Challenge (bottom screen fixed)
+- European Club soccer (scrolling fixed)
+- ....
+
+
+Game Broken:
+After some testing, a couple of games was broken accidently:
+- Mortal Kombat
+- Combat Cars
+- ....
+
+
+(23/10/2000) Changes Gens 0.88 <- Gens 0.8 :
+--------------------------------------------
+
+* Country select feature added.
+* Menu language support improved :
+  Menu is dynamically rebuild from language.dat file so it's very easy to add or change
+  a menu language.
+* English, French, Spanish, Portuguese, German and Hebrew menu language are actually supported.
+* Screen-Shot feature added.
+* Direct Draw code modified :
+  - 'Normal' and 'Double' render mode uses hardware blit in Fullscreen.
+  - Screen Size x1, x2 removed in windowed mode because not usefull.
+  - Screen refresh improved when emulation is paused.
+* My 68000 core and MZ80 core are removed because RAZE and custom Starscream are accurate.
+* Debugger rewritten for Starscream.
+* Message drawing code rewritten.
+* GENS becomes cardware.
+* I figured that Gens played Genesis voices (especially in SSFII) better than the
+  real genesis, the bug is now fixed so voices are now more crap with almost game :(
+* others fix or improvements ...
+
+Known game broken :
+Double Dragon 2 (this game is very sensitive to CPU timing :( )
+
+Known game fixed :
+Frogger.
+
+
+(04/09/2000) Changes Gens 0.81 <- Gens 0.8 :
+--------------------------------------------
+
+Very few changes :
+
+* KNUX support is fixed.
+  - KNUX is a window based application which allow you to change
+    many parameters of almost all Sonic Games.
+  - For more informations about KNUX, you can contact the author at
+    danil@ort.spb.ru
+* Spanish menu added.
+* Window position is saved when you quit gens.
+
+(02/09/2000) Changes Gens 0.8 <- Gens 0.78b :
+---------------------------------------------
+
+* New VDP-Render engine :
+  - BG Hilight/Shadow effects fixed.
+  - Complexes sprite priorities fixed.
+  - faster with 80% of games.
+* New Direct Draw code :
+  - Triple buffering added.
+  - You can now use all render type (2xSAI ...) in windowed mode.
+* Auto fix checksum option added.
+* Game Genie support :
+  - both game genie code or patch code are supported.
+  - you can add or remove code.
+  (don't forget to 'apply' the changes)
+* KNUX supported.
+* Auto Switch to 16 BPP when Gens starting
+  (settings are recovered when Gens exiting)
+* Possibility to change menu language (only french & english actually)
+* 68000 Vertical Interrupt changed a bit.<br>
+* Some shortkeys modified (see them in 'How to play' section).
+* Others little fix or add ...
+
+Game Fixed:
+SeaQuest DSV (only [f][x] version)
+Fatal Rewind
+
+(27/07/2000) Changes Gens 0.78b <- Gens 0.76 :
+----------------------------------------------
+
+* Rom banking support added.
+  Super Street Fighter 2 works !
+* YM2612 (FM) emulation improved:
+  - LFO support.
+  - Better sound (depending of the game).
+  - A little bug fixed (looping sound).
+  - DAC stereo sound (you can't enable DAC without enable YM2612 anymore).
+* Some PSG bugs fixed.
+* You can now disable/enable stereo sound and choose the sound quality (8/16 bits).
+* Sound dump (WAV format) feature added.
+* Some tweaks in RAZE Z80 core.
+* Some changes in Controller/IO code.
+* Collision flag fixed again.
+* Sprite limit is now perfectly respected.
+
+Games fixed :
+Super Street Fighter 2
+Pirate Gold
+Sonic Compilation
+Action 52 in 1
+Barbie Super Model
+Megagames
+Flink (little glitches in world map screen when sprite limit is activated are fixed)
+Sonic 1,2,3 (PSG sounds bugs fixed)
+Talspin (FM sound bug fixed)
+Marsupilami (FM sounds bug fixed)
+Bio Hazard (Keys are fixed)
+
+(27/06/2000) Changes Gens 0.76 <- Gens 0.73 :
+---------------------------------------------
+
+* DMA FILL finally correct (i hope).
+* Little bug in windows/scrollA interaction fixed.
+* STOP instruction fixed for "mine" 68000 engine.
+  Thunder Force IV and Todd's aventure fixed with "mine" core.
+* 68000 interrupts fixed once again :)
+* Load / Save State improved :
+  - File is smaller
+  - Sound is correctly recovered
+  - better stability
+* RAZE interrupt fixed, RAZE is now the default Z80 engine.
+* Z80 Memory write/read fixed again.
+* Z80 Interrupt timing modified.
+* MMX detection rewritten again (please, let's me know if Cyrix CPU still crashing).
+* You don't need anymore to reload a rom after changing the sample rate.
+* others little fix.
+
+Games broken :
+Fatal Rewind
+
+Game fixed :
+Panorama cotton
+Burning Force
+American Gladiators
+Barkley Shut Up & Jam (1 & 2 are now playables but some graphics glitches still exist)
+Out Runners (Graphics glitches fixed)
+Street Racer (Graphics glitches fixed)
+Thunder Force IV (Intro graphics glitches fixed)
+Bram Stocker's Dracula
+Road Rash 2 & 3 (2 players splited mode fixed)
+Beavis & Butthead (Sound)
+Sonic 2 (Sound)
+Puyo Puyo 2 (Sound)
+some others i think ....
+
+(15/06/2000) Changes Gens 0.73 <- Gens 0.72 :
+---------------------------------------------
+
+* Menu selection fixed (2xSAI & Scanline)
+* Write/Read Z80 Ram fixed. (Grand Slam music is ok) 
+* You can now pause emulation with ESC key.
+  (automatically paused when the Gens window is desactivated)
+* High-resolution fullscreen finally complety fixed for all videos cards.
+* MMX detection code rewritten (no crashes anymore)
+
+(13/06/2000) Changes Gens 0.72 <- Gens 0.7 :
+--------------------------------------------
+
+* High-resolution fullscreen fixed for voodoo3 & savage4.
+* Repaint fixed for tnt2 in windowed mode.
+* 50% scanline added.
+* Interpolated scanline added.
+
+(09/06/2000) Changes Gens 0.7 <- Gens 0.6 :
+-------------------------------------------
+
+Good new features :
+
+* 640x480 Full Screen resolution added.
+* 2xSAI Kreed's engine added (the same as zsnes or snes9x) !
+* Scanline added.
+* AutoFrame-Skip synchronised on DirectSound (when available).
+  Sound is better.
+* Correct screen ratio in windowed mode.
+* Little change in H-Blank flag.
+* Interrupts fixed for both 68k core (Starscream and mine)
+* Correct 'reset' instruction.
+* Z80 BUS request fixed.
+* Vertical-Counter fixed.
+* Shortcuts changed. (see the 'How to play' section)
+* Save and sram files name of zipped roms are now correct.
+* "Free-Rom" mode changed.
+  If you can't see it, you aren't in 15/16 BPP mode (Gens needs 15/16 BPP). 
+* "Top Most" window when exiting the fullscreen mode is fixed.
+* Bad config files in "\windows" directory fixed.
+* Minors tweaks in blits routines.
+* Minors bugs fixed.
+
+
+List of new games that work properly:
+Double Dragon 1, Double Dragon 2, Fatal Rewind, Super OffRoad, Tecmo NBA, Lemmings 2,
+Combat Cars (2 players split is ok), Todd adventures ... and surely others.
+
+(26/05/2000) Changes Gens 0.6 <- Gens 0.54 :
+--------------------------------------------
+
+* ZIP support added !
+* We can define the directories for saves files.
+* Full-Screen is fixed for both voodoo3 and savage4 videos cards.
+* FM timers fixed (voices are now played at good pitch for comix zone, aladdin, cool spot ...)
+* H-Int finally fixed : Top Gear 2 and Lotus 2 looks good !
+* Z80 interrupt fixed (bubsy works and censor smiley demo has music)
+* Controllers code fixed again (American gladiators and Forgotten worlds are playable)
+* I've removed the hack for double dragon, super off road ... because it causes problems with
+  a few rom (like road rash 3) then they doesn't work any more :(
+* Some others little changes ...
+
+(18/05/2000) Changes Gens 0.54 <- Gens 0.5 :
+--------------------------------------------
+
+Just a great compatibility increased :
+
+* PAL roms are now works at good speed (50 FPS) !
+  (Tintin, Spirou ... doesn't lock with country message any more)
+* Another bug in Starscream 68000 core fixed:
+  Sonic2, terminator 2 (judment day), lemmings, royal blood ... works perfectly with Starscream.
+* Little bug in collision flag fixed (interaction with ennemies in strider2).
+  (Thanks to Bart Trzynadlowski from Genital)
+* I've fixed some things in vertical and horizontal interrupts & flags, more games works :
+  Super skidmarks, megalomania, gauntlet 4 ...
+* Some bugs fixed in window plan and VDP reg write.
+  Tale spin, rolling thunder 2 (not sure for this rom), Abrams Battle tank, Rings of power ... are ok.
+* Read/Write to CRAM, VSRAM fixed (taiwan tycoon V-Scroll, xennon 2 are ok)
+* Z80 BUS request fixed (double dragon, fatal rewind and super offroad works)
+* little fix in DMA copy (taiga drama taiheiki looks good, european club soccer looks better ...)
+* Very little bug in sram fixed (tonki comes back working)
+
+(26/04/2000) Changes Gens 0.5 <- Gens 0.4 :
+-------------------------------------------
+
+* I've enterely rewrite the VDP IO code:
+  - DMA transferts appears near perfect and a lot of games works now correctly !
+    (Warsong, Batman and Robin, Contra4, Shinig force 2 ...)
+  - Improvement of Control Decoding.
+    (Electronic Arts Intro finally fixed !)
+  - Reads and Writes more accurate ...
+  - Save state files (.gs*) has changed du to new VDP code and could have
+    problems to load old save files.
+* I've fixed a bug in Starscream 68000 core :
+  - Greendog, Samurais Shodow, Eternals Champions ... works correctly with Starscream.
+  - little speed improvement.
+* SRAM finally fixed (file saved when change rom).
+* I've enterely rewrite controllers code (fix some mistakes).
+* Stupid bug in window plan fixed (miss a pixel on the right).
+* Little change in timing :
+  Landstaker blank line fixed, Outrun back working with my 68000 core, ...
+* Messages infos added.
+* Show FPS added.
+* I've finally add an icon for Gens (Thanks to all people that send me an icon :)
+* Shortcuts has changed (readme.txt).
+* Some others things added or fixed .....
+
+I think the compatibily rate's above 85% !
+
+(06/04/2000) Changes Gens 0.4 <- Gens 0.39 :
+--------------------------------------------
+A lot of changes for this new release :
+
+- Gens configuration saved in file ! (finally)
+  (You can specify your own file name for special configuration)
+- SRAM fixed and entirely implemented (saved in file).
+- Mouse cursor now hidden in Full-Screen then you must use
+  the right mouse button to access at popup menu  !
+- Perfect recovering of sound after 'load state' (only with MZ80 core).
+  Saves files are now bigger, but there are compatible with old format.
+- DAC (few) noises fixed.
+- Some little bugs with VDP DMA fixed.
+- Others bugs fixed .....
+
+About 80% (little more) of roms work correctly !
+No error messages anymore (like "Starscream core error ...").
+If an error occurs, emulation attempt to continue even if can crash.
+
+(01/04/2000) Changes Gens 0.39 <- Gens 0.36 :
+---------------------------------------------
+
+- Joystick support added ! (directx 5.0 needed)
+- Interlaced VDP mode added ! (can play at sonic in split mode but only with my 68000 core)
+- Fixed (again) auto-detection for some others country ...
+- Fixed H-Blank status in VDP
+- Some others few bugs fixed (Alt-Tab key, ...)
+
+SRAM not yet saved in file
+Config not yet saved in file
+
+(27/03/2000) Changes Gens 0.36 <- Gens 0.34 :
+---------------------------------------------
+
+- Gens now uses the new MZ80 core of Neil Bradley (v3.4)
+  and it corrects some sound bugs !
+- Fixed special version auto-detection (Toy Story ...)
+- SRAM implemented (Landstaker, Light Crusader ... now work correctly !)
+  but not yet saved in a file.
+- Choice of the game speed added : NTSC (60 FPS) or PAL (50 FPS).
+  If a game runs too fast, just switch to PAL version.
+- Sound timing for some games (vector man ...) fixed.
+- Fixed switch state shortcut.
+- Fixed the stupid bug which exits after setting keys !
+- Fixed load state crashes with starscream.
+- ...
+
+Joystick support not yet available :(
+
+(21/03/2000) Changes Gens 0.34 <- Gens 0.3 :
+--------------------------------------------
+
+- Starscream 68000 is available, changes :
+  - More roms work fine (about 75% :)
+  - Faster than mine !
+  - Debugger doesn't work with Starscream !
+- RAZE Z80 core added, but there are some problems with certain roms aladdin, sonic ...)
+  but it works better than MZ80 in other cases (animaniacs, contra4 ...).
+- Shortcuts added (Save / Load state, frame skip ... see below)
+- Sound is now stopped when clicking on menu or resizing the window ...
+- Current directory stored (but not yet in a file, just when you keep gens running)
+- Some optimizations -> some more FPS :)
+- Bug fixes (DirectSound init, key settings ...)
+- Others I can't remember ....
+
+(14/03/2000) Changes Gens 0.3 <- Gens 0.24 :
+--------------------------------------------
+
+- Starscream 68000 core (faster and more accurate than mine) is now
+  implemented but deactivated, it'll be active in the next version !
+- DAC works now perfectly (can hear 'SEGA' chord in sonic games :)
+- Many many fixes in sound and CPU timings:
+  - All chips (68000, Z80, YM2612, PSG ...) are synchronized depending on the
+    game type (PAL 50Hz / SECAM 60Hz) and PAL games work at 50 FPS in
+    auto-frameskip mode.
+  - Fix YM2612 timers.
+  - Fix PSG rate.
+- Can choose sound sample rate (you must reload the rom for that to take effect !)
+- Some little others...
+
+There are some glitches with the DAC speed with some games (just hear the voices in
+aladdin, cool-spot, lemmings ...)
+
+(08/03/2000) Changes Gens 0.24 <- Gens 0.2 :
+--------------------------------------------
+
+- I returned to MZ80 (Neil Bradley neil@synthcom.com) z80 emulator, it now works correctly !
+- Preliminary sound emulation :
+  - YM2612 works correctly :)
+  - PSG works strangely :o
+  - DAC doesn't work and only does some noises :(
+  - Sound sync is not yet perfect !
+  - Sound is played slowly with certain roms
+- Fixed a bug in the window plane (Zombie doesn't crash any more ...)
+- Others ...
+
+(24/02/2000) Changes Gens 0.2 <- Gens 0.141 :
+---------------------------------------------
+
+- I've entirely rewritten the VDP rendering :
+  - More optimized and so faster ;)
+  - Fixed Scroll A / Window conflict.
+  - Added masks sprite features.
+  - Added sprite limit feature (can see it on sonic 1 main screen)
+    You can enable or disable it by 'Sprite Over' option in the 'graphics' menu.
+  - Added 15 bits mode.
+    No more bad colors on some video cards :)
+- Fixed the VSRam read and write (vertical scrollings are now okay)
+- I'm using RAZE (Richard Mitton richard.mitton@bigfoot.com) z80 emulator instead of MZ80
+ (Neil Bradley neil@synthcom.com) due to unworking games with MZ80 (I may not use it correctly).
+- Some changes in DMA transfers. (sprites of mario (no commercial) rom are okay).
+- Full-Screen now works correctly.
+  Full-Screen is faster than Windowed mode, just use it !
+- Some others ...
+
+Sorry, once again, the sound is not implemented, may be in the next release !
+
+(08/02/2000) Changes Gens 0.141 <- Gens 0.12 Beta :
+----------------------------------------------------------------
+
+- Auto-FrameSkip added !
+- Corrected some bugs on DMA (demo roms like super mario don't crash any more ... )
+- Key settings for Player 1 & Player 2 added !
+- I have changed DirectDraw method to get faster transparencies effects.
+- HalfBlur effect added for smooth graphics !
+
+(03/02/2000) Changes Gens 0.12 Beta (Win9X) <- Gens 0.15b (DOS):
+----------------------------------------------------------------
+
+First important change: Gens works now under win9X and using DirectX !
+Then some bugs appeared and some roms that worked on Gens 0.15b don't work anymore :(
+
+- Screen size * 1; * 2; * 3; * 4.
+- No V-Sync possibility for now.
+- Debugger is missing because a lot of work is needed to make it work !
+- Save/Load state added !
+  I'm using Genecyst format, there are some bugs due to lack of info.
+- The transparencies effects due to palette changes during H-Blanking work !
+
+No sound yet !
