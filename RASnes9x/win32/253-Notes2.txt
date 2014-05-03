@@ -1,0 +1,37 @@
+Brian:0x00000f:Stage End or ability to move Status - Animations?
+4=OnFlag, Can't Move, 5=AfterFlag,ENDS-STAGE
+8=Normal, B=Dead, 7=StageLoad, 6=GameOver#Brian:0x000010:In Stage Status?
+1=True
+Changing to 0 at the end of a stage will stop it from ending#Brian:0x000012:On-Screen Enemies Status
+Many of these#Brian:0x000014:On-Screen Enemies Status
+Many of these#Brian:0x000016:On-Screen Enemies Status
+Many of these#Brian:0x000018:On-Screen Enemies Status
+Many of these#Brian:0x00001c:On-Screen Enemies Status
+Many of these#Brian:0x00005c:Air Bubbles above Mario status 1of2
+1=False, 0=True#Brian:0x000068:Air Bubbles above Mario status 2of2
+1=True, 0=False#Brian:0x000237:Mario's Height on the map
+b0=Normal#Brian:0x00071a:Mario Location on Screen or Map#Brian:0x00071b:Mario Location on Screen or Map#Brian:0x00071c:Mario Location on Screen or Map#Brian:0x00071d:Mario Location on Screen or Map#Brian:0x00073f:Map X Offset#Brian:0x000740:Map Y Offset#Brian:0x000743:Stage Background Color (Behind Tile Sets)
+00=Black#Brian:0x000744:Stage Background Color (Behind Tile Sets)
+00=Black
+Everything else = Blue#Brian:0x000746:End Stage Status (Pretty Much)
+Changing to 2 will drain time and add to points
+0=Normal#Brian:0x000753:Mario Luigi Status
+0=Mario
+1=Luigi#Brian:0x000754:Mario Size
+0=Big, 1=Small#Brian:0x000756:Health or ability to take a hit
+1=BigMario (2 hits left)
+0=SmallMario (1 hit kills you)#Brian:0x00075a:Lives#Brian:0x00075c:Stage ID - Real?#Brian:0x00075d:?
+1=Stage1, 2=Stage1Bonus#Scott:0x00075e:Num Coins#Brian:0x000760:Real Stage ID - Changes which stage is loaded
+ignores the displayed stage at the top of the screen
+4=Castle1, 8=Castle2#Brian:0x000770:End-Stage Status - 0=Demo
+1=Normal
+2=StageEnd,ThankYouText#Brian:0x000772:Stage Load Status or in-stage status
+3=In-Stage
+0=LoadingScreen#Brian:0x000776:Pause Status
+1=Paused#Brian:0x00077a:In-Game Start Menu
+0=1PlayerGame
+1=2PlayerGame#Brian:0x0007ae:Flashing Invisible Timer#Brian:0x0007af:Invincibility Timer#Brian:0x0007ce:Score - Millions#Brian:0x0007cf:Score - 100,000s#Scott:0x0007d0:8-bit, Score: 10000s#Scott:0x0007d1:8-bit, Score: 1000s#Scott:0x0007d2:8-bit, Score: 100s#Scott:0x0007d3:8-bit, Score: 10s#Scott:0x0007e9:8-bit: Time, 100s secs remaining#Scott:0x0007ea:8-bit: Time, 10s secs remaining#Scott:0x0007eb:8-bit: Time, units secs remaining#Scott:0x000e21:8-bit Level ID#Brian:0x001606:Player Status? 80=LoadingScreen, 2=Normal
+9=Dying, D=Invincible#Brian:0x01ff00:Game ID - 0=Menus, 2=SMB1, 4=LostLevels
+6=SMB2, 8=SMB3#Brian:0x01ff02:In-Game Status
+FF=In-Game (for all 4 games)
+00=Menu-GameSelect#Brian:0x02000f:Game ID?#
