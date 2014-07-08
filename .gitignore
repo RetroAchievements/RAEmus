@@ -30,3 +30,10 @@
 /RA_Integration/RA_Shared.aps
 /RA_Integration/Release
 /RAGens/win32/src/*.aps
+/RA_Integration/Debug
+/RA_Integration/RA_Integration_d.dll
+/RA_Integration/RA_Integration_d.exp
+/RA_Integration/RA_Integration_d.ilk
+/RA_Integration/RA_Integration_d.lib
+/RA_Integration/RA_Integration_d.pdb
+/RA_Integration/ReleaseWithDebug
