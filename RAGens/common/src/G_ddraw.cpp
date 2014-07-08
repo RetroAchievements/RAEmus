@@ -986,7 +986,7 @@ int Update_Emulation(HWND hWnd)
 						Update_Frame();
 						Flip(hWnd);
 					}
-					RewindTimer = MemstateFrameSkip;
+					RewindTimer = MemstateFrameSkip > 50 ? 50 : MemstateFrameSkip;
 				}
 				else
 				{
@@ -1037,7 +1037,7 @@ int Update_Emulation(HWND hWnd)
 							{
 								Update_Frame();
 							}
-							RewindTimer = MemstateFrameSkip;
+							RewindTimer = MemstateFrameSkip > 50 ? 50 : MemstateFrameSkip;
 						}
 						else
 						{

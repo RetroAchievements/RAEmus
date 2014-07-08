@@ -352,7 +352,7 @@ int Get_Rom(HWND hWnd)
 	ofn.lpstrFile = Name;
 	ofn.nMaxFile = 1023;
 
-	ofn.lpstrFilter = "Sega CD / 32X / Genesis files\0*.bin;*.smd;*.gen;*.32x;*.iso;*.raw;*.zip;*.zsg\0Genesis roms (*.smd *.md *.bin *.gen *.zip *.zsg)\0*.smd;*.md;*.bin;*.gen;*.zip;*.zsg\00032X roms (*.32x *.zip)\0*.32x;*.zip\0Sega CD images (*.iso *.bin *.raw)\0*.iso;*.bin;*.raw\0All Files\0*.*\0\0";
+	ofn.lpstrFilter = "Sega CD / 32X / Genesis files\0*.smd;*.md;*.bin;*.gen;*.zip;*.zsg;*.32x;*.iso;*.raw;*.zip;*.zsg\0Genesis roms (*.smd *.md *.bin *.gen *.zip *.zsg)\0*.smd;*.md;*.bin;*.gen;*.zip;*.zsg\00032X roms (*.32x *.zip)\0*.32x;*.zip\0Sega CD images (*.iso *.bin *.raw)\0*.iso;*.bin;*.raw\0All Files\0*.*\0\0";	//##RW001 added *.md to the "Sega CD / 32X / Genesis files" filter
 
 	ofn.nFilterIndex = File_Type_Index;
 	ofn.lpstrInitialDir = Rom_Dir;

@@ -45,7 +45,7 @@ unsigned char State_Buffer[MAX_STATE_FILE_LENGHT];
 int numMemstates = 0;
 int memstateSize = 0;
 int memstateAllocated = 0;
-int maxMemTakenByMemstates = 64 * 1024 * 1024; // 64MB Memory taken by Memstates
+int maxMemTakenByMemstates = 128 * 1024 * 1024; //##RW001 128MB Memory taken by Memstates (doubled the buffer size)
 
 struct Memstate *ptr_Memstates, *prev_Memstate, *next_Memstate; 
 
@@ -123,6 +123,11 @@ void free_Memstates()
 
 void save_Memstate()
 {
+	// ##RW001
+	if( RA_HardcoreModeIsActive() )
+	{
+		return;
+	}
 	if(memstateAllocated == 0)
 		return;
 	// hier ptr_Memstates->buf saven!
@@ -1221,6 +1226,10 @@ int Save_Config(char *File_Name)
 	wsprintf(Str_Tmp, "%d", Effect_Color);
 	WritePrivateProfileString("General", "Free Mode Color", Str_Tmp, Conf_File);
 
+	//##RW001
+	wsprintf(Str_Tmp, "%d", MemstateFrameSkip);
+	WritePrivateProfileString("REWiND", "REWiND Frameskip", Str_Tmp, Conf_File);
+
 	wsprintf(Str_Tmp, "%d", Full_Screen & 1);
 	WritePrivateProfileString("Graphics", "Full Screen", Str_Tmp, Conf_File);
 	wsprintf(Str_Tmp, "%d", FS_VSync & 1);
@@ -1670,6 +1679,8 @@ int Load_Config(char *File_Name, void *Game_Active)
 	Effect_Color = GetPrivateProfileInt("General", "Free Mode Color", 7, Conf_File);
 	Sleep_Time = GetPrivateProfileInt("General", "Allow Idle", 0, Conf_File) & 1;
 	Gens_Priority = GetPrivateProfileInt("General", "Priority", 1, Conf_File);
+
+	MemstateFrameSkip = GetPrivateProfileInt("REWiND", "REWiND Frameskip", 0, Conf_File);	//##RW001
 
 	if (GetPrivateProfileInt("Graphics", "Force 555", 0, Conf_File)) Mode_555 = 3;
 	else if (GetPrivateProfileInt("Graphics", "Force 565", 0, Conf_File)) Mode_555 = 2;

@@ -23,6 +23,11 @@ extern int FPS_Style;
 extern int Message_Style;
 extern int Kaillera_Error;
 
+// ##RW001
+extern int MemstateFrameSkip;
+extern int MemstateFrame;
+extern int RewindTimer;
+
 extern void (*Blit_FS)(unsigned char *Dest, int pitch, int x, int y, int offset);
 extern void (*Blit_W)(unsigned char *Dest, int pitch, int x, int y, int offset);
 extern int (*Update_Frame)();

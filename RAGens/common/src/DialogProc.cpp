@@ -719,6 +719,11 @@ INT_PTR CALLBACK OptionProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	RECT r2;
 	int dx1, dy1, dx2, dy2;
 
+	//##RW001
+	HWND txt;		
+	LONG sliderpos;
+	CHAR sliderpos_value[50];
+
 	switch(uMsg)
 	{
 		case WM_INITDIALOG:
@@ -764,6 +769,11 @@ INT_PTR CALLBACK OptionProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendDlgItemMessage(hDlg, IDC_COLOR_EFFECT, TBM_SETRANGE, (WPARAM) (BOOL) TRUE, (LPARAM) MAKELONG(0, 7));
 			SendDlgItemMessage(hDlg, IDC_COLOR_EFFECT, TBM_SETPOS, (WPARAM) (BOOL) TRUE, (LPARAM) (LONG) Effect_Color);
 
+			// ##RW001
+			SendDlgItemMessage(hDlg, IDC_REWIND_FRAMES_SLIDER, TBM_SETRANGE, (WPARAM) (BOOL) TRUE, (LPARAM) MAKELONG(0, 9999));
+			SendDlgItemMessage(hDlg, IDC_REWIND_FRAMES_SLIDER, TBM_SETPOS, (WPARAM) (BOOL) TRUE, (LPARAM) (LONG) MemstateFrameSkip);
+
+
 			SendDlgItemMessage(hDlg, IDC_AUTOFIXCHECKSUM, BM_SETCHECK, (WPARAM) (Auto_Fix_CS)?BST_CHECKED:BST_UNCHECKED, 0);
 			SendDlgItemMessage(hDlg, IDC_AUTOPAUSE, BM_SETCHECK, (WPARAM) (Auto_Pause)?BST_CHECKED:BST_UNCHECKED, 0);
 			SendDlgItemMessage(hDlg, IDC_FASTBLUR, BM_SETCHECK, (WPARAM) (Fast_Blur)?BST_CHECKED:BST_UNCHECKED, 0);
@@ -775,8 +785,25 @@ INT_PTR CALLBACK OptionProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendDlgItemMessage(hDlg, IDC_X2_MESSAGE, BM_SETCHECK, (WPARAM) (Message_Style & 0x10)?BST_CHECKED:BST_UNCHECKED, 0);
 			SendDlgItemMessage(hDlg, IDC_TRANS_MESSAGE, BM_SETCHECK, (WPARAM) (Message_Style & 0x8)?BST_CHECKED:BST_UNCHECKED, 0);
 
+			//##RW001
+			txt = GetDlgItem(hDlg, IDC_REWIND_FRAMES_LABEL);
+			if (txt != NULL)
+			{
+				sprintf(sliderpos_value, "%lu", MemstateFrameSkip);
+				SetWindowText(txt, sliderpos_value);
+			}
+
 			return true;
 			break;
+
+		//##RW001
+		case WM_HSCROLL:
+			//MessageBox(hDlg, "scroll!", "scroll!", MB_OK );
+			txt = GetDlgItem(hDlg, IDC_REWIND_FRAMES_LABEL);
+			if (txt == NULL) return false;
+			sliderpos = SendDlgItemMessage(hDlg, IDC_REWIND_FRAMES_SLIDER, TBM_GETPOS, 0, 0);
+			sprintf(sliderpos_value, "%lu", sliderpos);
+			SetWindowText(txt, sliderpos_value);
 
 		case WM_COMMAND:
 			switch(wParam)
@@ -795,6 +822,8 @@ INT_PTR CALLBACK OptionProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					res = SendDlgItemMessage(hDlg, IDC_COLOR_MESSAGE, TBM_GETPOS, 0, 0);
 					Message_Style = (Message_Style & 0xF9) | ((res << 1) & 0x6);
 					Effect_Color = SendDlgItemMessage(hDlg, IDC_COLOR_EFFECT, TBM_GETPOS, 0, 0);
+					MemstateFrameSkip = SendDlgItemMessage(hDlg, IDC_REWIND_FRAMES_SLIDER, TBM_GETPOS, 0, 0);
+
 
 					Auto_Fix_CS = (SendDlgItemMessage(hDlg, IDC_AUTOFIXCHECKSUM, BM_GETCHECK, 0, 0) == BST_CHECKED)?1:0;
 					Auto_Pause = (SendDlgItemMessage(hDlg, IDC_AUTOPAUSE, BM_GETCHECK, 0, 0) == BST_CHECKED)?1:0;
