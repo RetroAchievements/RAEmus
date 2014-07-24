@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="IG">
+      <UniqueIdentifier>{b39fd315-d104-4050-baf4-93b7b1f5c50a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{a27fee6e-5921-4fda-8ad1-1465bd766e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CD">
+      <UniqueIdentifier>{eb0d562d-1564-4f72-9d5d-3401eaa4b3cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{622acb5f-78f1-4939-95c2-bc472c0c8939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{ec64ad47-5e4f-42d0-a5eb-c669a80442ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{54b05027-f585-4426-86bb-7b5d3d1a6110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{d8407e19-ec53-45e7-9193-4f87f7c18d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input\Main">
+      <UniqueIdentifier>{7864d235-2cee-40c6-9186-9f5ae78ab4ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{faa7aacd-d825-4910-9a37-41c365eae8cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{c91ce17e-3283-4909-b14e-f710a19b1f51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RA_Implementation">
+      <UniqueIdentifier>{7a981cbf-3db3-453e-ad14-0ce1e04523c4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\src\DialogProc.cpp">
+      <Filter>IG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\cd_aspi.cpp">
+      <Filter>CD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\cd_file.c">
+      <Filter>CD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\cd_sys.c">
+      <Filter>CD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\LC89510.c">
+      <Filter>CD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\CCnet.c">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\Debug.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\ggenie.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\md5.c">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\save.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\scrshot.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\unzip.c">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\Cpu_68k.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\Cpu_SH2.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\Cpu_Z80.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\dct64_i386.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\decode_i386.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\M68KD.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\main68kgen.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\SH2.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\SH2D.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\sub68kgen.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\tabinit.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\z80dis.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\cdda_mp3.c">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\layer3.c">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\pcm.c">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\psg.c">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\wave.c">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\ym2612.c">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\common.c">
+      <Filter>Input\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\G_dinput.cpp">
+      <Filter>Input\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\G_dsound.cpp">
+      <Filter>Input\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\G_main.cpp">
+      <Filter>Input\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\Gens.cpp">
+      <Filter>Input\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\interface.c">
+      <Filter>Input\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\Rom.cpp">
+      <Filter>Input\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\G_ddraw.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\net.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\src\RA_Implementation.cpp">
+      <Filter>RA_Implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\RA_Integration\RA_Interface.cpp">
+      <Filter>RA_Implementation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\src\DialogProc.h">
+      <Filter>IG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\afxres.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\cd_aspi.h">
+      <Filter>CD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\cd_file.h">
+      <Filter>CD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Cd_sys.h">
+      <Filter>CD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\LC89510.h">
+      <Filter>CD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\CCnet.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Debug.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\ggenie.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\htmlhelp.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\huffman.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\md5.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Misc.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\save.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\scrshot.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\unzip.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\zconf.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\zlib.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Cpu_68k.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Cpu_SH2.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Cpu_Z80.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\gfx_cd.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\M68KD.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\main68k.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Mem_M68k.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Mem_S68k.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Mem_SH2.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Mem_Z80.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\mpg123.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\mpglib.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\pwm.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\SH2.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\SH2D.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Star_68k.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\sub68k.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\vdp_32X.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\vdp_io.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\vdp_rend.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\z80.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\z80dis.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\cdda_mp3.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\pcm.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\psg.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\wave.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\ym2612.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\io.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\keycode.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\G_dsound.h">
+      <Filter>Input\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\G_Input.h">
+      <Filter>Input\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\G_main.h">
+      <Filter>Input\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\gens.h">
+      <Filter>Input\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\Rom.h">
+      <Filter>Input\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\blit.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\G_ddraw.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\kailleraclient.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\net.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\src\RA_Implementation.h">
+      <Filter>RA_Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\RA_Integration\RA_Interface.h">
+      <Filter>RA_Implementation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\bitmap1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00000.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00001.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00002.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00003.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00004.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00005.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00006.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\bmp00007.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\Gens2.ico">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\gens_big.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\gens_small.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="src\sonic.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\gens.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\common\src\Misc.asm">
+      <Filter>Misc</Filter>
+    </None>
+    <None Include="..\common\src\nasmhead.inc">
+      <Filter>Misc</Filter>
+    </None>
+    <None Include="..\common\src\gfx_cd.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\Mem_M68k.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\Mem_M68K_32X.inc">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\Mem_M68K_CD.inc">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\Mem_S68k.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\Mem_SH2.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\Mem_Z80.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\pwm.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\SH2_IO.inc">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\SH2a.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\vdp_32X.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\vdp_io.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\vdp_rend.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\z80.asm">
+      <Filter>System</Filter>
+    </None>
+    <None Include="..\common\src\io.asm">
+      <Filter>Input</Filter>
+    </None>
+    <None Include="..\common\src\blit.asm">
+      <Filter>Graphics</Filter>
+    </None>
+    <None Include="Makefile.inc" />
+    <None Include="Makefile.targ.inc" />
+  </ItemGroup>
+</Project>
