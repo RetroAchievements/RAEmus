@@ -41,3 +41,7 @@
 /RAGens/win32/Backup
 /RAGens/win32/*.sdf
 /RAGens/win32/*.suo
+/RA_Integration/RA_Integration_MD.vcxproj.user
+/RA_Integration/RA_Integration_MD_d.idb
+/RA_Integration/ra_integration_md.pdb
+/RA_Integration/ra_integration_md_d.pdb

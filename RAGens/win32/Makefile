@@ -18,9 +18,9 @@ DX_SDK="C:\SDK\DX90CSDK\Include"
 
 
 !IF "$(RELEASE)"=="1"
-POSTBUILD=copy $(SRC_RA)\RA_Integration.dll . && copy $(SRC_RA)\RA_Integration.pdb .
+POSTBUILD=copy $(SRC_RA)\RA_Integration.dll . && copy $(SRC_RA)\*.pdb .
 !ELSE
-POSTBUILD=copy $(SRC_RA)\RA_Integration_d.dll . && copy $(SRC_RA)\RA_Integration_d.pdb .
+POSTBUILD=copy $(SRC_RA)\RA_Integration_d.dll . && copy $(SRC_RA)\*.pdb .
 !ENDIF
 
 !IF [if not exist $(GENSPATH) mkdir $(GENSPATH)]
