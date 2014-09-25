@@ -13,8 +13,8 @@ TOOLSPATH=tools
 SRCPATH=src
 SRCCOMMONPATH=..\common\src
 SRC_RA=..\..\RA_Integration
-DX_LIBS="$(DXSDK_DIR)\Lib\x86"
-DX_SDK="$(DXSDK_DIR)\Include"
+DX_LIBS="C:\SDK\DX90CSDK\Lib\x86"
+DX_SDK="C:\SDK\DX90CSDK\Include"
 
 
 !IF "$(RELEASE)"=="1"

@@ -37,3 +37,7 @@
 /RA_Integration/RA_Integration_d.lib
 /RA_Integration/RA_Integration_d.pdb
 /RA_Integration/ReleaseWithDebug
+/RAGens/win32/*.opensdf
+/RAGens/win32/Backup
+/RAGens/win32/*.sdf
+/RAGens/win32/*.suo
