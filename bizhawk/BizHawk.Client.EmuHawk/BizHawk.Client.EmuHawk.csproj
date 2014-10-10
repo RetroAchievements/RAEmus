@@ -1401,6 +1401,10 @@
       <Project>{9F84A0B2-861E-4EF4-B89B-5E2A3F38A465}</Project>
       <Name>BizHawk.Bizware.BizwareGL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RAInterface\RAInterface.csproj">
+      <Project>{f2b1a7e9-ff37-4b90-af87-34f7b6b181ad}</Project>
+      <Name>RAInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">
