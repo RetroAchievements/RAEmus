@@ -1,4 +1,0 @@
-shaders = 1
-
-shader0 = BizScanlines.glsl
-scale0 = 2

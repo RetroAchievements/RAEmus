@@ -78,6 +78,9 @@ namespace BizHawk.Client.Common
 		// This relies on a client specific implementation!
 		public static SimpleController ControllerInputCoalescer;
 
+        //  ##RA
+        public static RetroAchievementsInterface RAInterface;
+
 		public static SystemInfo SystemInfo
 		{
 			get

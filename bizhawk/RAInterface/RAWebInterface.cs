@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Runtime.Serialization.Json;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace RAInterface
 {
@@ -12,6 +15,8 @@ namespace RAInterface
         public static string User { get; private set; }
         public static string UserToken { get; private set; }
         public static bool LoggedIn { get; private set; }
+        public static long UserScore { get; private set; }
+        public static long UserMessages { get; private set; }
 
         private static HttpClient client = new HttpClient();
 
@@ -57,9 +62,15 @@ namespace RAInterface
             values.Add(new KeyValuePair<string, string>("p", pass));
 
             HttpRequests.Enqueue(new RAHttpRequest(WebRequestType.Login, values));
+        }
+
+        public static void GetFriendList()
+        {
+            var values = new List<KeyValuePair<string, string>>();
 
             values.Clear();
-            values.Add(new KeyValuePair<string, string>("u", user));
+            values.Add(new KeyValuePair<string, string>("u", User));
+            values.Add(new KeyValuePair<string, string>("t", UserToken));
 
             HttpRequests.Enqueue(new RAHttpRequest(WebRequestType.GetFriendList, values));
         }
@@ -69,55 +80,51 @@ namespace RAInterface
 
         }
 
-        public static void OnHttpResponse(Task<HttpResponseMessage> resp, RAHttpRequest req)
+        public async static void OnHttpResponse(Task<HttpResponseMessage> resp, RAHttpRequest req)
         {
-           //  = ( Task < HttpResponseMessage >)(obj);
-            MessageBox.Show("test", resp.ToString());
+            //string s = await resp.Result.Content.ReadAsStringAsync();
+            byte[] b = await resp.Result.Content.ReadAsByteArrayAsync();
+            XmlDictionaryReader r = JsonReaderWriterFactory.CreateJsonReader(b, new XmlDictionaryReaderQuotas());
+            XElement root = XElement.Load(r);
+
+            switch (req.RequestType)
+            {
+                case WebRequestType.Login:
+                    User = root.Element("User").Value;
+                    UserToken = root.Element("Token").Value;
+                    UserScore = Convert.ToInt64( root.Element("Score").Value );
+                    UserMessages = Convert.ToInt64( root.Element("Messages").Value );
+                    break;
+                case WebRequestType.GetFriendList:
+                    //  GetFriendList 
+                    XElement friendList = root.Element("Friends");
+                    foreach (var friend in friendList.Elements())
+                    {
+                        string Friend = friend.Element("Friend").Value;
+                        int FriendScore = Convert.ToInt32(friend.Element("RAPoints").Value);
+                        string FriendActivity = friend.Element("LastSeen").Value;
+                        //friend;
+                        Console.WriteLine("{0} ({1}): {2}", Friend, FriendScore, FriendActivity);
+                    }
+                    break;
+                case WebRequestType.PostActivity:
+                    //  FAF
+                    break;
+            }
         }
 
         public static void DoRequest(RAHttpRequest req)
         {
             //  ##RA test code:
+            Task<HttpResponseMessage> PostMsg = client.PostAsync(req.TargetURL, req.Args);
+            PostMsg.ContinueWith(_ => OnHttpResponse(_, req));
+        }
+
+        public static bool RequestsExist
+        {
+            get
             {
-                Task<HttpResponseMessage> PostMsg = client.PostAsync(req.TargetURL, req.Args);
-                PostMsg.ContinueWith(_ => OnHttpResponse(_, req));
-                //PostMsg.ContinueWith(_ => OnHttpResponse(_));
-                //PostMsg.ContinueWith( requestTask => 
-                //{
-                //    var response = requestTask.Result;
-                //});
-
-                //Task < HttpResponseMessage > msg = client.PostAsync(req.TargetURL, req.Args);//.ContinueWith( t => OnHttpResponse( t ) )
-                //await OnHttpResponse( msg );
-
-                //Task<HttpResponseMessage> msg = client.PostAsync(req.TargetURL, req.Args);//.ContinueWith(OnHttpResponse);
-                ////msg.GetAwaiter().OnCompleted();
-                //msg.ContinueWith(OnHttpResponse);
-                //msg.Start();
-                //client.PostAsync(req.TargetURL, req.Args).ContinueWith(OnHttpResponse);
-
-                //response.Wait();
-
-                //var responseString = response.Result.Content.ReadAsStringAsync();
-                //MessageBox.Show("Login result: " + responseString.Result);
-                //if (responseString.Result.Substring(0, 3) == OKReply)
-                //{
-                //    UserToken = responseString.Result.Substring(OKReply.Length, TokenLength);
-                //    LoggedIn = true;
-
-                //    var values = new List<KeyValuePair<string, string>>();
-
-                //    values.Clear();
-                //    values.Add(new KeyValuePair<string, string>("u", User));
-                //    values.Add(new KeyValuePair<string, string>("t", UserToken));
-                //    values.Add(new KeyValuePair<string, string>("a", Convert.ToString((int)ActivityType.StartedPlaying)));
-                //    values.Add(new KeyValuePair<string, string>("m", "30"));           //  game ID ( 1 = Sonic (Mega Drive), 30 = Jet Force Gemini (N64) )
-
-                //    response = client.PostAsync(BaseURL + ActivityPage, new FormUrlEncodedContent(values));
-                //    response.Wait();
-                //    responseString = response.Result.Content.ReadAsStringAsync();
-                //    MessageBox.Show("Post Activity result: " + responseString.Result);
-                //}
+                return (HttpRequests.Count > 0);
             }
         }
 
@@ -127,6 +134,14 @@ namespace RAInterface
             {
                 RAHttpRequest req = HttpRequests.Dequeue();
                 DoRequest(req);
+            }
+        }
+
+        public static bool IsLoggedIn
+        {
+            get
+            {
+                return (UserToken != null);
             }
         }
     }

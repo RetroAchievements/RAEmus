@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BizHawk.Client.Common</RootNamespace>
     <AssemblyName>BizHawk.Client.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -177,6 +180,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\svnrev.cs" />
     <Compile Include="RecentFiles.cs" />
+    <Compile Include="RetroAchievementsInterface.cs" />
     <Compile Include="rewind\Rewinder.cs" />
     <Compile Include="rewind\RewindThreader.cs" />
     <Compile Include="rewind\StreamBlobDatabase.cs" />
@@ -217,6 +221,10 @@
     <ProjectReference Include="..\Bizware\BizHawk.Bizware.BizwareGL\BizHawk.Bizware.BizwareGL.csproj">
       <Project>{9F84A0B2-861E-4EF4-B89B-5E2A3F38A465}</Project>
       <Name>BizHawk.Bizware.BizwareGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RAInterface\RAInterface.csproj">
+      <Project>{f2b1a7e9-ff37-4b90-af87-34f7b6b181ad}</Project>
+      <Name>RAInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

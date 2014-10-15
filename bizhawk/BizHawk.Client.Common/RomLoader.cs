@@ -335,6 +335,8 @@ namespace BizHawk.Client.Common
 									nextEmulator = snes;
 								}
 
+                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.SNES, rom);
+
 								break;
 							case "SMS":
 							case "SG":
@@ -356,6 +358,7 @@ namespace BizHawk.Client.Common
 								break;
 							case "GEN":
 								nextEmulator = new GPGX(nextComm, rom.RomData, null, "GEN", GetCoreSettings<GPGX>(), GetCoreSyncSettings<GPGX>());
+                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.MegaDrive, rom);
 								break;
 							case "TI83":
 								nextEmulator = new TI83(nextComm, game, rom.RomData, GetCoreSettings<TI83>());
@@ -375,6 +378,7 @@ namespace BizHawk.Client.Common
 									nextEmulator = new QuickNES(nextComm, rom.FileData, GetCoreSettings<QuickNES>());
 								}
 
+                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.NES, rom);
 								break;
 							case "GB":
 							case "GBC":
@@ -406,6 +410,11 @@ namespace BizHawk.Client.Common
 									}
 								}
 
+                                if (game.System == "GB")
+                                    Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.Gameboy, rom);
+                                else if (game.System == "GBC")
+                                    Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.GameboyColor, rom);
+
 								break;
 							case "Coleco":
 								nextEmulator = new ColecoVision(nextComm, game, rom.RomData, GetCoreSyncSettings<ColecoVision>());
@@ -432,11 +441,13 @@ namespace BizHawk.Client.Common
 								{
 									var gba = new VBANext(rom.RomData, nextComm);
 									nextEmulator = gba;
+
+                                    Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.GameboyAdvance, rom);
 								}
 								break;
 							case "N64":
-								nextEmulator = new N64(nextComm, game, rom.RomData,
-									GetCoreSettings<N64>(), GetCoreSyncSettings<N64>());
+								nextEmulator = new N64(nextComm, game, rom.RomData, GetCoreSettings<N64>(), GetCoreSyncSettings<N64>());
+                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.Nintendo64, rom);
 								break;
 							case "WSWAN":
 								nextEmulator = new WonderSwan(nextComm, rom.RomData, Deterministic,

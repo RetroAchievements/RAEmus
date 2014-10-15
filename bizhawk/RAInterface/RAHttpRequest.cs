@@ -17,7 +17,7 @@ namespace RAInterface
 
     public class RAHttpRequest
     {
-        private string[] RequestArg =
+        private static string[] RequestArg =
         {
             "login",            //  TBD
             "postactivity",     //  TBD
@@ -96,13 +96,15 @@ namespace RAInterface
         };
 
 
-        const string BaseURL = "http://retroachievements.org/request.php";
+        const string BaseURL = "http://retroachievements.org/dorequest.php";
         public string TargetURL { get; private set; }
         public FormUrlEncodedContent Args { get; private set; }
+        public WebRequestType RequestType { get; private set; }
 
         public RAHttpRequest(WebRequestType type, List<KeyValuePair<string, string>> postArgs)
         {
             TargetURL = BaseURL;
+            RequestType = type;
             postArgs.Add(new KeyValuePair<string,string>( "r", RequestArg[(int)type] ));
             Args = new FormUrlEncodedContent(postArgs);
         }

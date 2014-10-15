@@ -86,7 +86,8 @@ namespace BizHawk.Client.EmuHawk
 				MessageCallback = GlobalWin.OSD.AddMessage
 			};
 
-			Global.ControllerInputCoalescer = new ControllerInputCoalescer();
+            Global.ControllerInputCoalescer = new ControllerInputCoalescer();
+			Global.RAInterface = new RetroAchievementsInterface();
 			Global.FirmwareManager = new FirmwareManager();
 			Global.MovieSession = new MovieSession
 			{
