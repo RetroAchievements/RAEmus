@@ -67,12 +67,7 @@ namespace BizHawk.Client.EmuHawk
 			}
 
             //  Test:
-            RAWebInterface.PerformBackgroundLogin("Scott", "74");
-            while (!RAWebInterface.IsLoggedIn)
-                RAWebInterface.Update();
-
-            RAWebInterface.GetFriendList();
-            RAWebInterface.Update();
+            RAWebInterface.PerformBackgroundLogin("qwe", "qwe");
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

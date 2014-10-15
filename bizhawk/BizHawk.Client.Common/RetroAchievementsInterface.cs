@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Security.Cryptography;
 using RAInterface;
+using System.Windows.Forms;
 
 namespace BizHawk.Client.Common
 {
@@ -27,9 +29,16 @@ namespace BizHawk.Client.Common
 
         public void OnLoad(ConsoleID id, RomGame rom)
         {
-            //rom.
+            //MD5 hasher = System.Security.Cryptography.MD5.Create();
+            //byte[] hash = hasher.ComputeHash(rom.RomData);
+            
+            //StringBuilder sb = new StringBuilder();
+            //for (int i = 0; i < hash.Length; i++)
+            //    sb.Append(hash[i].ToString("X2"));
 
-            //Global.CheatList.Add(
+            MessageBox.Show(rom.GameInfo.Name + " -> " + rom.GameInfo.Hash);
+
+
         }
     }
 }

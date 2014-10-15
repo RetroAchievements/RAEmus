@@ -94,6 +94,11 @@ namespace RAInterface
                     UserToken = root.Element("Token").Value;
                     UserScore = Convert.ToInt64( root.Element("Score").Value );
                     UserMessages = Convert.ToInt64( root.Element("Messages").Value );
+
+                    Console.WriteLine("{0} is logged in, {1} points, {2} messages", User, UserScore, UserMessages);
+
+                    RAWebInterface.GetFriendList();
+
                     break;
                 case WebRequestType.GetFriendList:
                     //  GetFriendList 

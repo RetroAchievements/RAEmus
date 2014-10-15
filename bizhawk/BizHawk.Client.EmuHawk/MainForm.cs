@@ -34,6 +34,9 @@ using BizHawk.Client.EmuHawk.WinFormExtensions;
 using BizHawk.Client.EmuHawk.ToolExtensions;
 using BizHawk.Client.EmuHawk.CoreExtensions;
 
+//  ##RA
+using RAInterface;
+
 namespace BizHawk.Client.EmuHawk
 {
 	public partial class MainForm : Form
@@ -516,6 +519,8 @@ namespace BizHawk.Client.EmuHawk
 				{
 					break;
 				}
+
+                RAWebInterface.Update();
 
 				Thread.Sleep(0);
 			}

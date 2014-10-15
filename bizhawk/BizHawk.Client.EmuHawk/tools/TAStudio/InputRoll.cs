@@ -98,14 +98,14 @@ namespace BizHawk.Client.EmuHawk
 		/// <summary>
 		/// Fire the QueryItemBkColor event which requests the background color for the passed Listview cell
 		/// </summary>
-		[Category("Virtual")] // TODO: can I make these up?
-		public event QueryItemBkColorHandler QueryItemBkColor;
+		//[Category("Virtual")] // TODO: can I make these up?
+		//public event QueryItemBkColorHandler QueryItemBkColor;
 
 		/// <summary>
 		/// Fire the QueryItemText event which requests the text for the passed Listview cell.
 		/// </summary>
-		[Category("Virtual")]
-		public event QueryItemTextHandler QueryItemText;
+		//[Category("Virtual")]
+		//public event QueryItemTextHandler QueryItemText;
 
 		#endregion
 
