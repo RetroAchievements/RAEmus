@@ -49,7 +49,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>11.0.61030.0</_ProjectFileVersion>
+    <_ProjectFileVersion>11.0.60610.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>Debug\</OutDir>
@@ -59,7 +59,7 @@
     <NMakeCleanCommandLine>nmake clean</NMakeCleanCommandLine>
     <NMakeOutput>debug\gens\ragens.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RA_GENS;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration;C:/SDK/DX90CSDK/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Release\</OutDir>
@@ -227,6 +227,12 @@
     <None Include="..\common\src\blit.asm" />
     <None Include="Makefile.inc" />
     <None Include="Makefile.targ.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RA_Integration\RA_Integration_MD.vcxproj">
+      <Project>{2c1b0023-8ef1-4c4b-99f3-e86bff8b7300}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

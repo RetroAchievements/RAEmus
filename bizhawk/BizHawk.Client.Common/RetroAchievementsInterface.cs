@@ -38,7 +38,17 @@ namespace BizHawk.Client.Common
 
             MessageBox.Show(rom.GameInfo.Name + " -> " + rom.GameInfo.Hash);
 
+        }
 
+        public void Update()
+        {
+            RAWebInterface.Update();
+
+            if (Global.Emulator.MemoryDomains.Count() > 0)
+            {
+                byte nTest = Global.Emulator.MemoryDomains.ElementAt(0).PeekByte(0x0010);
+                Console.WriteLine(nTest);
+            }
         }
     }
 }

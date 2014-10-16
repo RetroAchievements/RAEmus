@@ -2,37 +2,37 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="IG">
-      <UniqueIdentifier>{b39fd315-d104-4050-baf4-93b7b1f5c50a}</UniqueIdentifier>
+      <UniqueIdentifier>{c5f3843d-29e4-4b85-8abb-6bcb074d2f5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources">
-      <UniqueIdentifier>{a27fee6e-5921-4fda-8ad1-1465bd766e79}</UniqueIdentifier>
+      <UniqueIdentifier>{9d2782d0-2799-4326-8dea-0be414370240}</UniqueIdentifier>
     </Filter>
     <Filter Include="CD">
-      <UniqueIdentifier>{eb0d562d-1564-4f72-9d5d-3401eaa4b3cd}</UniqueIdentifier>
+      <UniqueIdentifier>{2a07bbf5-b4a4-4d72-badb-692cdc00c217}</UniqueIdentifier>
     </Filter>
     <Filter Include="Misc">
-      <UniqueIdentifier>{622acb5f-78f1-4939-95c2-bc472c0c8939}</UniqueIdentifier>
+      <UniqueIdentifier>{1453224e-d7f8-4fb3-b612-5d4419b4281a}</UniqueIdentifier>
     </Filter>
     <Filter Include="System">
-      <UniqueIdentifier>{ec64ad47-5e4f-42d0-a5eb-c669a80442ca}</UniqueIdentifier>
+      <UniqueIdentifier>{e89cf74a-cac3-412e-a25b-9c106e7e9f5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Audio">
-      <UniqueIdentifier>{54b05027-f585-4426-86bb-7b5d3d1a6110}</UniqueIdentifier>
+      <UniqueIdentifier>{0e9229e4-f174-42cb-8f38-d4ffac715142}</UniqueIdentifier>
     </Filter>
     <Filter Include="Input">
-      <UniqueIdentifier>{d8407e19-ec53-45e7-9193-4f87f7c18d8b}</UniqueIdentifier>
+      <UniqueIdentifier>{5919e8bc-0aba-4ea8-912e-75293c3abe48}</UniqueIdentifier>
     </Filter>
     <Filter Include="Input\Main">
-      <UniqueIdentifier>{7864d235-2cee-40c6-9186-9f5ae78ab4ba}</UniqueIdentifier>
+      <UniqueIdentifier>{b4e9dddb-aee6-49df-b89f-79ead6d5e562}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics">
-      <UniqueIdentifier>{faa7aacd-d825-4910-9a37-41c365eae8cf}</UniqueIdentifier>
+      <UniqueIdentifier>{b9802831-83b2-468c-a0fe-ac36007b1071}</UniqueIdentifier>
     </Filter>
     <Filter Include="Net">
-      <UniqueIdentifier>{c91ce17e-3283-4909-b14e-f710a19b1f51}</UniqueIdentifier>
+      <UniqueIdentifier>{3812e357-8a88-4927-af00-9f6d8561f652}</UniqueIdentifier>
     </Filter>
     <Filter Include="RA_Implementation">
-      <UniqueIdentifier>{7a981cbf-3db3-453e-ad14-0ce1e04523c4}</UniqueIdentifier>
+      <UniqueIdentifier>{2d7492c0-2f5f-4519-a5a0-14950df33198}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

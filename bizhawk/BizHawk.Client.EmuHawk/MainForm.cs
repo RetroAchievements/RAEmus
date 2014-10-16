@@ -520,7 +520,7 @@ namespace BizHawk.Client.EmuHawk
 					break;
 				}
 
-                RAWebInterface.Update();
+                Global.RAInterface.Update();
 
 				Thread.Sleep(0);
 			}
