@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RAGens", "RAGens.vcproj", "{9FFB7437-AB3B-4B33-9647-2B60D1E93411}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RAGens", "RAGens_VS08.vcproj", "{9FFB7437-AB3B-4B33-9647-2B60D1E93411}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300} = {2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}
 	EndProjectSection

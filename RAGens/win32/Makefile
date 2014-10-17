@@ -36,7 +36,7 @@ POSTBUILD=copy $(SRC_RA)\RA_Integration_d.dll . && copy $(SRC_RA)\*.pdb .
 !ENDIF
 
 !IF "$(RELEASE)"=="1" && "$(RELEASEDEBUG)"!="1"
-LINK_FLAGS=/RELEASE /OPT:REF /OPT:ICF 
+LINK_FLAGS=/DEBUG
 !ELSE
 LINK_FLAGS=/DEBUG
 !ENDIF
@@ -52,9 +52,9 @@ RC_FLAGS=
 RC=rc.exe /l 0x40c $(RC_FLAGS)
 
 !IF "$(RELEASE)"=="1"
-CC_FLAGS=/Ox /Zi /D "NDEBUG" /MD
+CC_FLAGS=/Ox /Zi /D "NDEBUG" /MT
 !ELSE
-CC_FLAGS=/Od /Z7 /D "_DEBUG" /MDd
+CC_FLAGS=/Od /Z7 /D "_DEBUG" /MTd
 !ENDIF
 CC=cl.exe /c /nologo /EHsc /W3 /D "WIN32" /D "_MBCS" /D "RA_GENS" /D "_CRT_SECURE_NO_WARNINGS" /wd4101 /wd4244 /wd4018 /wd4305 /I$(SRCCOMMONPATH) /I$(SRC_RA) /I$(SRCPATH) /I$(DX_SDK) $(CC_FLAGS)
 

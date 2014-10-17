@@ -443,7 +443,9 @@
     <None Include="..\common\src\blit.asm">
       <Filter>Graphics</Filter>
     </None>
-    <None Include="Makefile.inc" />
     <None Include="Makefile.targ.inc" />
+    <None Include="Makefile.inc">
+      <Filter>System</Filter>
+    </None>
   </ItemGroup>
 </Project>

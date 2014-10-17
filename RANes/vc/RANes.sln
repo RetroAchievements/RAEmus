@@ -1,12 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RANes", "RANes.vcproj", "{6893EF44-FEA3-46DF-B236-C4C200F54294}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RANes", "RANes.vcxproj", "{6893EF44-FEA3-46DF-B236-C4C200F54294}"
 	ProjectSection(ProjectDependencies) = postProject
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300} = {2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}
+		{825CB292-F069-4B27-82CF-3417746ACDF3} = {825CB292-F069-4B27-82CF-3417746ACDF3}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RA_Integration_MD", "..\..\RA_Integration\RA_Integration_MD.vcproj", "{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RA_Integration", "..\..\RA_Integration\RA_Integration.vcxproj", "{825CB292-F069-4B27-82CF-3417746ACDF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,15 +27,15 @@ Global
 		{6893EF44-FEA3-46DF-B236-C4C200F54294}.ReleaseWithDebug|Win32.ActiveCfg = Release|Win32
 		{6893EF44-FEA3-46DF-B236-C4C200F54294}.ReleaseWithDebug|Win32.Build.0 = Release|Win32
 		{6893EF44-FEA3-46DF-B236-C4C200F54294}.ReleaseWithDebug|x64.ActiveCfg = Release|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.Debug|Win32.Build.0 = Debug|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.Debug|x64.ActiveCfg = Debug|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.Release|Win32.ActiveCfg = Release|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.Release|Win32.Build.0 = Release|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.Release|x64.ActiveCfg = Release|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.ReleaseWithDebug|Win32.ActiveCfg = ReleaseWithDebug|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.ReleaseWithDebug|Win32.Build.0 = ReleaseWithDebug|Win32
-		{2C1B0023-8EF1-4C4B-99F3-E86BFF8B7300}.ReleaseWithDebug|x64.ActiveCfg = ReleaseWithDebug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.Build.0 = Debug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|x64.ActiveCfg = Debug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.ActiveCfg = Release|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.Build.0 = Release|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|x64.ActiveCfg = Release|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.ActiveCfg = ReleaseWithDebug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.Build.0 = ReleaseWithDebug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|x64.ActiveCfg = ReleaseWithDebug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

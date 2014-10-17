@@ -2,7 +2,7 @@
 
 #pragma comment( lib, "d3d9" )
 #pragma comment( lib, "d3dx9" )
-#pragma comment( lib, "DxErr" )
+//#pragma comment( lib, "DxErr" )
 
 #include "stdafx.h"
 
@@ -27,7 +27,10 @@
 #define DIRECT3D_VERSION 0x0900
 #include <d3d9.h>      // main include file
 #include <D3dx9core.h> // required for font rendering
-#include <Dxerr.h>     // contains debug functions
+//#include <Dxerr.h>     // contains debug functions
+#define DXTRACE_ERR_MSGBOX(x, h) {}
+#define DXTRACE_ERR(str,hr) {}
+#define DXTRACE_MSG(x) {}
 
 //	##RA
 #include "RA_Interface.h"

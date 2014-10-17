@@ -229,9 +229,8 @@
     <None Include="Makefile.targ.inc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RA_Integration\RA_Integration_MD.vcxproj">
-      <Project>{2c1b0023-8ef1-4c4b-99f3-e86bff8b7300}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    <ProjectReference Include="..\..\RA_Integration\RA_Integration.vcxproj">
+      <Project>{825cb292-f069-4b27-82cf-3417746acdf3}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
