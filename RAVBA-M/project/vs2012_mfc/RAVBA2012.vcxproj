@@ -131,10 +131,10 @@
     </ClCompile>
     <ResourceCompile />
     <Link>
-      <AdditionalDependencies>nafxcw.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Winhttp.lib;nafxcw.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Version>
       </Version>
-      <IgnoreSpecificDefaultLibraries>nafxcw.lib;libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>Winhttp.lib;nafxcw.lib;libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -150,9 +150,13 @@
     <BuildLog>
       <Path>$(IntDir)$(ProjectName)_BuildLog.htm</Path>
     </BuildLog>
+    <PostBuildEvent>
+      <Command>copy ..\..\..\RA_Integration\RA_Integration.dll . &amp;&amp; copy ..\..\..\RA_Integration\*.pdb .</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\RA_Integration\RA_Implementation\RA_Implementation.h" />
+    <ClInclude Include="..\..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\..\src\win32\RA_Implementation.h" />
     <ClInclude Include="..\..\src\win32\resource.h" />
     <ClInclude Include="..\..\src\gb\gb.h" />
     <ClInclude Include="..\..\src\gb\gbCheats.h" />
@@ -282,7 +286,7 @@
     <ResourceCompile Include="..\..\src\win32\VBA.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\RA_Integration\RA_Implementation\RA_Implementation.cpp" />
+    <ClCompile Include="..\..\..\RA_Integration\RA_Interface.cpp" />
     <ClCompile Include="..\..\src\gb\gb.cpp" />
     <ClCompile Include="..\..\src\gb\gbCheats.cpp" />
     <ClCompile Include="..\..\src\gb\gbDis.cpp" />
@@ -326,6 +330,7 @@
     <ClCompile Include="..\..\src\filters\bilinear.cpp" />
     <ClCompile Include="..\..\src\filters\interframe.cpp" />
     <ClCompile Include="..\..\src\filters\pixel.cpp" />
+    <ClCompile Include="..\..\src\win32\RA_Implementation.cpp" />
     <ClCompile Include="..\..\src\win32\rpi.cpp" />
     <ClCompile Include="..\..\src\filters\scanline.cpp" />
     <ClCompile Include="..\..\src\filters\simpleFilter.cpp" />

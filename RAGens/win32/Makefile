@@ -36,7 +36,7 @@ POSTBUILD=copy $(SRC_RA)\RA_Integration_d.dll . && copy $(SRC_RA)\*.pdb .
 !ENDIF
 
 !IF "$(RELEASE)"=="1" && "$(RELEASEDEBUG)"!="1"
-LINK_FLAGS=/DEBUG
+LINK_FLAGS=/RELEASE
 !ELSE
 LINK_FLAGS=/DEBUG
 !ENDIF
