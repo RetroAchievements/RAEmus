@@ -1,5 +1,0 @@
-0.008
-Super Metroid
-345:0xH0009c8=50_0xH00cd65!=0_0xH000a28!=0:Missile Stash:Have a stash of 50 Missiles: : : :Scott:4:1367283164:1374943558:0:0:00557
-1830:0xH000cd0=120_0xH000dc2=120_0xH00cd65!=0_0xO0009a6=1_0xQ0009a7=1_0xH000a28!=0:Major Spazz:Fully charge a Spazer shot: : : :Brian:5:1374416111:1374860946:0:0:02217
-1837:0xH00cd65!=0_0xH000cd0=120_0xH000dc2=120_0xQ0009a7=1_0xM0009a6=1_0xH000a28!=0:Tsunami v1:Fully charge a Wave Beam with Spazer: : : :Brian:5:1374459448:1374948229:0:0:02226

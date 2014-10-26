@@ -413,7 +413,7 @@ void RA_Leaderboard::Test()
 					sValidation,
 					nVal );
 				
-				CreateHTTPRequestThread( "requestsubmitlbentry.php", sPost, HTTPRequest_Post, 0, &RA_LeaderboardManager::s_OnSubmitEntry );
+				CreateHTTPRequestThread( "requestsubmitlbentry.php", sPost, HTTPRequest_Post, 0 );
 			}
 		}
 	}
@@ -575,7 +575,8 @@ void RA_LeaderboardManager::s_OnSubmitEntry( void* pPostData )
 
 void RA_LeaderboardManager::AddLeaderboard( const RA_Leaderboard& lb )
 {
-	m_Leaderboards.push_back( lb );
+	if( g_bLeaderboardsActive )	//	If not, simply ignore them.
+		m_Leaderboards.push_back( lb );
 }
 
 void RA_LeaderboardManager::Test()

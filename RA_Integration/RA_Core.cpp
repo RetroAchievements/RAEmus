@@ -16,6 +16,7 @@
 #include "RA_Achievement.h"
 #include "RA_Leaderboard.h"
 #include "RA_MemManager.h"
+#include "RA_CodeNotes.h"
 
 #include "RA_Dlg_Login.h"
 #include "RA_Dlg_Memory.h"
@@ -50,6 +51,7 @@ const char* g_sClientDownloadURL = NULL;
 const char* g_sClientEXEName = NULL;
 bool g_bRAMTamperedWith = false;
 bool g_hardcoreModeActive = false;
+bool g_bLeaderboardsActive = true;
 unsigned int g_nNumHTTPThreads = 15;
 
 const char* (*g_fnKeysVersion)(void) = NULL;
@@ -184,6 +186,7 @@ API BOOL CCONV _RA_InitI( HWND hMainHWND, /*enum EmulatorID*/int nEmulatorID, co
 		}
 
 	} while( nMBReply == IDYES );
+	
 
 	//	DO NOT CONTINUE if they have opted NOT to get the latest keys!
 	if( !bInstalled )
@@ -230,11 +233,11 @@ API BOOL CCONV _RA_InitI( HWND hMainHWND, /*enum EmulatorID*/int nEmulatorID, co
 	//	Update news:
 	char sPostVars[256];
 	sprintf_s( sPostVars, 256, "n=%d&a=1", AchievementOverlay::m_nMaxNews );
-	CreateHTTPRequestThread( "requestnews.php", sPostVars, HTTPRequest_Post, 0, NULL );
+	CreateHTTPRequestThread( "requestnews.php", sPostVars, HTTPRequest_Post, 0 );
 
 	//////////////////////////////////////////////////////////////////////////
 	//	Attempt to fetch latest client version:
-	CreateHTTPRequestThread( g_sGetLatestClientPage, "", HTTPRequest_Get, 0, NULL );
+	CreateHTTPRequestThread( g_sGetLatestClientPage, "", HTTPRequest_Get, 0 );
 
 	return TRUE;
 }
@@ -280,6 +283,14 @@ API int CCONV _RA_Shutdown()
 		DestroyWindow( g_MemoryDialog.GetHWND() );
 		g_MemoryDialog.InstallHWND( NULL );
 	}
+	
+	if( g_GameLibrary.GetHWND() != NULL )
+	{
+		DestroyWindow( g_GameLibrary.GetHWND() );
+		g_GameLibrary.InstallHWND( NULL );
+	}
+
+	g_GameLibrary.KillThread();
 	
 	return 0;
 }
@@ -521,12 +532,13 @@ API int CCONV _RA_HandleHTTPResults()
 	RequestObject* pObj = LastHttpResults.PopNextItem();
 	while( pObj	!= NULL )
 	{
-		if( pObj->m_pfCallbackOnReceive != NULL )
+		//if( pObj->m_pfCallbackOnReceive != NULL )
 		{
+			//	Banish this shizzle!
 			//	Do a mainthread cb
-			pObj->m_pfCallbackOnReceive( pObj );
+			//pObj->m_pfCallbackOnReceive( pObj );
 		}
-		else
+		//else
 		{
 			switch( pObj->m_nReqType )
 			{
@@ -559,6 +571,12 @@ API int CCONV _RA_HandleHTTPResults()
 
 					g_AchievementEditorDialog.UpdateSelectedBadgeImage();
 				}
+				else if( strncmp( pObj->m_sRequestPageName, "UserPic", 7 ) == 0 )
+				{
+					//	Dodge!
+					extern void OnUserPicDownloaded( void* );
+					OnUserPicDownloaded( pObj );
+				}
 				else if( strcmp( pObj->m_sRequestPageName, g_sGetLatestClientPage ) == 0 )
 				{
 					if( strlen( pObj->m_sResponse ) > 2 && pObj->m_sResponse[0] == '0' && pObj->m_sResponse[1] == '.' )
@@ -580,6 +598,10 @@ API int CCONV _RA_HandleHTTPResults()
 					{
 						//	Ignore: nonsense response from server
 					}
+				}
+				else if( strcmp( pObj->m_sRequestPageName, "requestbadgenames.php" ) == 0 )
+				{
+					g_AchievementEditorDialog.GetBadgeNames().CB_OnNewBadgeNames( pObj );
 				}
 
 
@@ -697,6 +719,22 @@ API int CCONV _RA_HandleHTTPResults()
 						g_RichPresenceInterpretter.ParseRichPresenceFile( sRichPresenceFile );
 					}
 				}
+				else if( strcmp( pObj->m_sRequestPageName, "requestcodenotes.php" ) == 0 )
+				{
+					CodeNotes::s_OnUpdateCB( pObj );
+				}
+				else if( strcmp( pObj->m_sRequestPageName, "requestachievementinfo.php" ) == 0 )
+				{
+					AchievementExamine::CB_OnReceiveData( pObj );
+				}
+				else if( strcmp( pObj->m_sRequestPageName, "requestlbinfo.php" ) == 0 )
+				{
+					LeaderboardExamine::CB_OnReceiveData( pObj );
+				}
+				else if( strcmp( pObj->m_sRequestPageName, "requestsubmitlbentry.php" ) == 0 )
+				{
+					RA_LeaderboardManager::s_OnSubmitEntry( pObj );
+				}
 				break;
 			}
 		}
@@ -735,7 +773,8 @@ API HMENU CCONV _RA_CreatePopupMenu()
 		AppendMenu( hRA, MF_SEPARATOR, NULL, NULL );
 		AppendMenu( hRA, MF_STRING, IDM_RA_REPORTBROKENACHIEVEMENTS, TEXT("&Report Broken Achievements") );
 		AppendMenu( hRA, MF_STRING, IDM_RA_GETROMCHECKSUM, TEXT("Get ROM &Checksum") );
-		AppendMenu( hRA, MF_STRING, IDM_RA_SCANFORGAMES, TEXT("&Scan for games") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_SCANFORGAMES, TEXT("Scan &for games") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_TOGGLELEADERBOARDS, TEXT("Toggle &Leaderboards") );
 	}
 	else
 	{
@@ -839,44 +878,44 @@ API void CCONV _RA_LoadPreferences()
 	//	Test for first-time use:
 	if( pConfigFile == NULL )
 	{
-		RA_LOG( __FUNCTION__ " - no preferences found: showing first-time message!\n" );
-		
-		char sWelcomeMessage[4096];
+		//RA_LOG( __FUNCTION__ " - no preferences found: showing first-time message!\n" );
+		//
+		//char sWelcomeMessage[4096];
 
-		sprintf_s( sWelcomeMessage, 4096, 
-			"Welcome! It looks like this is your first time using RetroAchievements.\n\n"
-			"Quick Start: Press ESCAPE or 'Back' on your Xbox 360 controller to view the achievement overlay.\n\n" );
+		//sprintf_s( sWelcomeMessage, 4096, 
+		//	"Welcome! It looks like this is your first time using RetroAchievements.\n\n"
+		//	"Quick Start: Press ESCAPE or 'Back' on your Xbox 360 controller to view the achievement overlay.\n\n" );
 
-		switch( g_EmulatorID )
-		{
-		case RA_Gens:
-			strcat_s( sWelcomeMessage, 4096,
-				"Default Keyboard Controls: Use cursor keys, A-S-D are A, B, C, and Return for Start.\n\n" );
-			break;
-		case RA_VisualboyAdvance:
-			strcat_s( sWelcomeMessage, 4096,
-				"Default Keyboard Controls: Use cursor keys, Z-X are A and B, A-S are L and R, use Return for Start and Backspace for Select.\n\n" );
-			break;
-		case RA_Snes9x:
-			strcat_s( sWelcomeMessage, 4096,
-				"Default Keyboard Controls: Use cursor keys, D-C-S-X are A, B, X, Y, Z-V are L and R, use Return for Start and Space for Select.\n\n" );
-			break;
-		case RA_FCEUX:
-			strcat_s( sWelcomeMessage, 4096,
-				"Default Keyboard Controls: Use cursor keys, D-F are B and A, use Return for Start and S for Select.\n\n" );
-			break;
-		case RA_PCE:
-			strcat_s( sWelcomeMessage, 4096,
-				"Default Keyboard Controls: Use cursor keys, A-S-D for A, B, C, and Return for Start\n\n" );
-			break;
-		}
+		//switch( g_EmulatorID )
+		//{
+		//case RA_Gens:
+		//	strcat_s( sWelcomeMessage, 4096,
+		//		"Default Keyboard Controls: Use cursor keys, A-S-D are A, B, C, and Return for Start.\n\n" );
+		//	break;
+		//case RA_VisualboyAdvance:
+		//	strcat_s( sWelcomeMessage, 4096,
+		//		"Default Keyboard Controls: Use cursor keys, Z-X are A and B, A-S are L and R, use Return for Start and Backspace for Select.\n\n" );
+		//	break;
+		//case RA_Snes9x:
+		//	strcat_s( sWelcomeMessage, 4096,
+		//		"Default Keyboard Controls: Use cursor keys, D-C-S-X are A, B, X, Y, Z-V are L and R, use Return for Start and Space for Select.\n\n" );
+		//	break;
+		//case RA_FCEUX:
+		//	strcat_s( sWelcomeMessage, 4096,
+		//		"Default Keyboard Controls: Use cursor keys, D-F are B and A, use Return for Start and S for Select.\n\n" );
+		//	break;
+		//case RA_PCE:
+		//	strcat_s( sWelcomeMessage, 4096,
+		//		"Default Keyboard Controls: Use cursor keys, A-S-D for A, B, C, and Return for Start\n\n" );
+		//	break;
+		//}
 
-		strcat_s( sWelcomeMessage, 4096, "These defaults can be changed under [Option]->[Joypads].\n\n"
-			"If you have any questions, comments or feedback, please visit forum.RetroAchievements.org for more information.\n\n" );
+		//strcat_s( sWelcomeMessage, 4096, "These defaults can be changed under [Option]->[Joypads].\n\n"
+		//	"If you have any questions, comments or feedback, please visit forum.RetroAchievements.org for more information.\n\n" );
 
-		MessageBox( g_RAMainWnd, 
-			sWelcomeMessage,
-			"Welcome to RetroAchievements!", MB_OK );
+		//MessageBox( g_RAMainWnd, 
+		//	sWelcomeMessage,
+		//	"Welcome to RetroAchievements!", MB_OK );
 
 		//	TBD: setup some decent default variables:
 		_RA_SavePreferences();
@@ -937,6 +976,8 @@ API void CCONV _RA_LoadPreferences()
 
 		fclose( pConfigFile );
 	}
+
+	//g_GameLibrary.LoadAll();
 }
 
 //	Save preferences to ra_prefs.cfg
@@ -970,13 +1011,9 @@ API void CCONV _RA_SavePreferences()
 
 		fwrite( "\n", sizeof(char), 1, pConfigFile );
 
-
-
 		fwrite( "--HardcoreModeActive:\n", sizeof(char), strlen( "--HardcoreModeActive:\n" ), pConfigFile );
 		fwrite( g_hardcoreModeActive ? "1" : "0", sizeof(char), 1, pConfigFile ); 
 		fwrite( "\n", sizeof(char), 1, pConfigFile ); 
-
-
 
 		fwrite( "--NumberHTTPThreads:\n", sizeof(char), strlen( "--NumberHTTPThreads:\n" ), pConfigFile );
 		char sNumThreads[256];
@@ -988,15 +1025,14 @@ API void CCONV _RA_SavePreferences()
 		fwrite( g_sROMDirLocation, sizeof(char), strlen( g_sROMDirLocation ), pConfigFile ); 
 		fwrite( "\n", sizeof(char), 1, pConfigFile ); 
 
-		
-
-
 		//	Add more parameters here:
 		//fwrite( g_LocalUser.Username(), sizeof(char), strlen( g_LocalUser.Username() ), pConfigFile );
 		//fwrite( "\n", sizeof(char), strlen( "\n" ), pConfigFile );
 
 		fclose( pConfigFile );
 	}
+	
+	//g_GameLibrary.SaveAll();
 }
 
 void _FetchGameHashLibraryFromWeb()
@@ -1220,8 +1256,13 @@ API void CCONV _RA_InvokeDialog( LPARAM nID )
 					_FetchGameHashLibraryFromWeb();
 					_FetchGameTitlesFromWeb();
 					_FetchMyProgressFromWeb();
+							
+					if( g_GameLibrary.GetHWND() == NULL )
+						g_GameLibrary.InstallHWND( CreateDialog( g_hThisDLLInst, MAKEINTRESOURCE(IDD_RA_GAMELIBRARY), g_RAMainWnd, &Dlg_GameLibrary::s_GameLibraryProc ) );
+					if( g_GameLibrary.GetHWND() != NULL )
+						ShowWindow( g_GameLibrary.GetHWND(), SW_SHOW );
 
-					Dlg_GameLibrary::DoModalDialog( g_hThisDLLInst, g_RAMainWnd );
+					//Dlg_GameLibrary::DoModalDialog( g_hThisDLLInst, g_RAMainWnd );
 				}
 
 			}
@@ -1246,6 +1287,19 @@ API void CCONV _RA_InvokeDialog( LPARAM nID )
 				{
 					MessageBox( NULL, "No ROM loaded!", "Error!", MB_ICONWARNING );
 				}
+			}
+			break;
+
+		case IDM_RA_TOGGLELEADERBOARDS:
+			if( g_bLeaderboardsActive )
+			{
+				g_bLeaderboardsActive = false;
+				MessageBox( NULL, "Leaderboards are now disabled", "Warning", MB_OK );
+			}
+			else
+			{
+				g_bLeaderboardsActive = true;
+				MessageBox( NULL, "Leaderboards are now enabled", "Warning", MB_OK );
 			}
 			break;
 
@@ -1368,7 +1422,7 @@ bool _InstallKeys()
 	return nKeysVer >= nMINKEYSVER;
 }
 
-BOOL _ReadTil( char nChar, char buffer[], unsigned int nSize, DWORD* pCharsReadOut, FILE* pFile )
+BOOL _ReadTil( const char nChar, char buffer[], unsigned int nSize, DWORD* pCharsReadOut, FILE* pFile )
 {
 	char pNextChar = '\0';
 	memset( buffer, '\0', nSize );

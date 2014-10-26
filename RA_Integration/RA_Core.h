@@ -110,6 +110,7 @@ extern const char* g_sClientVersion;
 extern const char* g_sClientName;
 extern bool g_bRAMTamperedWith;
 extern bool g_hardcoreModeActive;
+extern bool g_bLeaderboardsActive;
 extern unsigned int g_nNumHTTPThreads;
 
 extern const char* (*g_fnKeysVersion)(void);
@@ -122,7 +123,7 @@ extern bool _RA_InstallKeys();
 extern char* _MallocAndBulkReadFileToBuffer( const char* sFilename, long& nFileSizeOut );
 
 //	Read file until reaching the end of the file, or the specified char.
-extern BOOL _ReadTil( char nChar, char buffer[], unsigned int nSize, DWORD* pCharsRead, FILE* pFile );
+extern BOOL _ReadTil( const char nChar, char buffer[], unsigned int nSize, DWORD* pCharsRead, FILE* pFile );
 
 //	Read a string til the end of the string, or nChar. bTerminate==TRUE replaces that char with \0.
 extern char* _ReadStringTil( char nChar, char*& pOffsetInOut, BOOL bTerminate );

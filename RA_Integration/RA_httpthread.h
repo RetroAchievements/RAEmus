@@ -1,9 +1,10 @@
-#ifndef IGHTTPTHREAD_H
-#define IGHTTPTHREAD_H
+#pragma once
 
+#include "RA_Defs.h"
 #include <deque>
-#include <WTypes.h>
 #include <assert.h>
+
+typedef void* HANDLE;
 
 enum HTTPRequestType
 {
@@ -29,7 +30,7 @@ public:
 	BOOL m_bResponse;
 	int m_nBytesRead;
 	int m_nUserRef;
-	cb_OnReceive m_pfCallbackOnReceive;
+	//cb_OnReceive m_pfCallbackOnReceive;
 };
 
 class HttpResults
@@ -52,16 +53,13 @@ extern HttpResults LastHttpResults;
 
 void RA_InitializeHTTPThreads();
 void RA_KillHTTPThreads();
-BOOL DirectoryExists(LPCTSTR szPath);
+BOOL DirectoryExists( const char* sPath );
 
-BOOL CreateHTTPRequestThread( const char* sRequestedPage, const char* sPostString, enum HTTPRequestType nType, int nUserRef, cb_OnReceive pfOnReceive );
+BOOL CreateHTTPRequestThread( const char* sRequestedPage, const char* sPostString, enum HTTPRequestType nType, int nUserRef /*, cb_OnReceive pfOnReceive*/ );	//	No CB!
 BOOL HTTPRequestExists( const char* sRequestPageName );
 
 BOOL DoBlockingHttpGet( const char* sRequestedPage, char* pBufferOut, const unsigned int nBufferOutSize, unsigned long* rBytesRead );
 BOOL DoBlockingHttpPost( const char* sRequestedPage, const char* sPostString, char* pBufferOut, const unsigned nBufferOutSize, DWORD* rCharsRead );
 BOOL DoBlockingImageUpload( const char* sRequestedPage, const char* sFilename, char* pBufferOut, const unsigned int nBufferOutSize, DWORD* rCharsRead );
 
-
-
-#endif// IGHTTPTHREAD_H
 

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <memory.h>
 #include "GBA.h"
 #include "EEprom.h"

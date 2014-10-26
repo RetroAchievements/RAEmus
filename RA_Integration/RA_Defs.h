@@ -2,17 +2,20 @@
 
 #ifndef RA_EXPORTS
 
-//NB. These must ONLY accessible from the emulator!
-#define RAGENS_VERSION			"0.049"
-#define RASNES9X_VERSION		"0.014"
-#define RAVBA_VERSION			"0.017"
-#define RANES_VERSION			"0.007"
+//NB. These must ONLY be accessible from the emulator!
+#define RAGENS_VERSION			"0.050"
+#define RASNES9X_VERSION		"0.015"
+#define RAVBA_VERSION			"0.018"
+#define RANES_VERSION			"0.008"
 #define RAPCE_VERSION			"0.002"
 
 #else
 
+//	NULL, etc
+#include <stddef.h>
+
 //NB. These must NOT be accessible from the emulator!
-#define RA_INTEGRATION_VERSION	"0.046"
+#define RA_INTEGRATION_VERSION	"0.051"
 
 #endif	//RA_EXPORTS
 

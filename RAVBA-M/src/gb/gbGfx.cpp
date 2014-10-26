@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <memory.h>
 
 #include "../common/Types.h"

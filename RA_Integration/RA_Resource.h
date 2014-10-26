@@ -92,7 +92,8 @@
 #define IDC_RA_ROMDIR                   1593
 #define IDC_RA_GLIB_NAME                1594
 #define IDC_RA_PICKROMDIR               1595
-#define IDC_RA_RESCAN2                  1595
+#define IDC_RA_REFRESH					1596
+#define IDC_RA_SCANNERFOUNDINFO			1597
 #define IDM_RA_MENUSTART                1700
 #define IDM_RA_RETROACHIEVEMENTS        1700
 #define IDM_RA_FILES_TEST1              1701
@@ -111,6 +112,7 @@
 #define IDM_RA_OPENGAMEPAGE             1714
 #define IDM_RA_SCANFORGAMES             1715
 #define IDM_RA_PARSERICHPRESENCE        1716
+#define IDM_RA_TOGGLELEADERBOARDS       1717
 #define IDM_RA_MENUEND                  1739
 
 // Next default values for new objects
