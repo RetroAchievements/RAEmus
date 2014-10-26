@@ -136,3 +136,8 @@
 /RASnes9x/win32/RA_Integration.dll
 /RASnes9x/zlib-1.2.8/contrib/vstudio/vc9/*.user
 /RASnes9x/zlib-1.2.8/contrib/vstudio/vc9/x86/ZlibStatReleaseWithoutAsm
+/RANes/output/RANes.lib
+/RANes/output/RANes.exe
+/RANes/output/RANes.exp
+/RANes/output/fceux.cfg
+/RASnes9x/win32/RASnes9X.exe
