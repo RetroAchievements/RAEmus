@@ -131,3 +131,8 @@
 /RASnes9x/libpng/projects/visualc71/Win32_LIB_Release/*.lib
 /RASnes9x/libpng/projects/visualc71/Win32_LIB_Release/*.pch
 /RASnes9x/zlib-1.2.8/contrib/vstudio/vc9/x86/ZlibStatRelease/*.lib
+/RASnes9x/zlib-1.2.8/contrib/vstudio/vc9/x86/ZlibStatReleaseWithoutAsm/Tmp
+/RASnes9x/win32/*.opensdf
+/RASnes9x/win32/RA_Integration.dll
+/RASnes9x/zlib-1.2.8/contrib/vstudio/vc9/*.user
+/RASnes9x/zlib-1.2.8/contrib/vstudio/vc9/x86/ZlibStatReleaseWithoutAsm
