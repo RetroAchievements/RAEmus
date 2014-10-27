@@ -527,3 +527,18 @@
 
 
 
+/bizhawk/output/dll/BizHawk.Common.dll
+/bizhawk/output/dll/BizHawk.Emulation.Common.dll
+/bizhawk/output/dll/BizHawk.Emulation.Cores.dll
+/bizhawk/output/dll/BizHawk.Emulation.DiscSystem.dll
+/bizhawk/output/dll/BizHawk.Bizware.BizwareGL.OpenTK.pdb
+/bizhawk/output/dll/BizHawk.Bizware.BizwareGL.pdb
+/bizhawk/output/dll/BizHawk.Client.Common.pdb
+/bizhawk/output/dll/BizHawk.Common.pdb
+/bizhawk/output/dll/BizHawk.Emulation.Common.pdb
+/bizhawk/output/dll/BizHawk.Emulation.Cores.pdb
+/bizhawk/output/dll/BizHawk.Emulation.DiscSystem.pdb
+/bizhawk/output/dll/RAInterface.pdb
+/bizhawk/output/dll/BizHawk.Bizware.BizwareGL.dll
+/bizhawk/output/dll/BizHawk.Bizware.BizwareGL.OpenTK.dll
+/bizhawk/output/dll/BizHawk.Client.Common.dll

@@ -55,24 +55,24 @@ namespace RAInterface
         {
             User = user;
 
-            var values = new List<KeyValuePair<string, string>>();
+            var args = new RAHttpRequest.PostArgs();
 
-            values.Clear();
-            values.Add(new KeyValuePair<string, string>("u", user));
-            values.Add(new KeyValuePair<string, string>("p", pass));
+            args.Clear();
+            args.Add(new KeyValuePair<string, string>("u", user));
+            args.Add(new KeyValuePair<string, string>("p", pass));
 
-            HttpRequests.Enqueue(new RAHttpRequest(WebRequestType.Login, values));
+            HttpRequests.Enqueue(new RAHttpRequest(WebRequest.RequestLogin, args));
         }
 
         public static void GetFriendList()
         {
-            var values = new List<KeyValuePair<string, string>>();
+            var args = new RAHttpRequest.PostArgs();
 
-            values.Clear();
-            values.Add(new KeyValuePair<string, string>("u", User));
-            values.Add(new KeyValuePair<string, string>("t", UserToken));
+            args.Clear();
+            args.Add(new KeyValuePair<string, string>("u", User));
+            args.Add(new KeyValuePair<string, string>("t", UserToken));
 
-            HttpRequests.Enqueue(new RAHttpRequest(WebRequestType.GetFriendList, values));
+            HttpRequests.Enqueue(new RAHttpRequest(WebRequest.RequestFriendList, args));
         }
 
         public static void PerformBlockingLogin(string user, string pass)
@@ -89,7 +89,7 @@ namespace RAInterface
 
             switch (req.RequestType)
             {
-                case WebRequestType.Login:
+                case WebRequest.RequestLogin:
                     User = root.Element("User").Value;
                     UserToken = root.Element("Token").Value;
                     UserScore = Convert.ToInt64( root.Element("Score").Value );
@@ -98,9 +98,9 @@ namespace RAInterface
                     Console.WriteLine("{0} is logged in, {1} points, {2} messages", User, UserScore, UserMessages);
 
                     RAWebInterface.GetFriendList();
-
                     break;
-                case WebRequestType.GetFriendList:
+
+                case WebRequest.RequestFriendList:
                     //  GetFriendList 
                     XElement friendList = root.Element("Friends");
                     foreach (var friend in friendList.Elements())
@@ -112,7 +112,12 @@ namespace RAInterface
                         Console.WriteLine("{0} ({1}): {2}", Friend, FriendScore, FriendActivity);
                     }
                     break;
-                case WebRequestType.PostActivity:
+
+                case WebRequest.RequestScore:
+
+                    break;
+
+                case WebRequest.RequestPostActivity:
                     //  FAF
                     break;
             }
