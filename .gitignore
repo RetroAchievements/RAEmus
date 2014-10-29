@@ -542,3 +542,5 @@
 /bizhawk/output/dll/BizHawk.Bizware.BizwareGL.dll
 /bizhawk/output/dll/BizHawk.Bizware.BizwareGL.OpenTK.dll
 /bizhawk/output/dll/BizHawk.Client.Common.dll
+/bizhawk/output/config.ini
+/bizhawk/output/dll/RAInterface.dll

@@ -7,53 +7,20 @@ using System.Collections;
 using System.Runtime.Serialization.Json;
 using System.Xml;
 using System.Xml.Linq;
+using System.ComponentModel;
 
 namespace RAInterface
 {
     public static class RAWebInterface
     {
-        public static string User { get; private set; }
-        public static string UserToken { get; private set; }
-        public static bool LoggedIn { get; private set; }
-        public static long UserScore { get; private set; }
-        public static long UserMessages { get; private set; }
-
         private static HttpClient client = new HttpClient();
 
         private static Queue<RAHttpRequest> HttpRequests = new Queue<RAHttpRequest>();
 
-        const string OKReply = "OK:";
-        const int TokenLength = 16;
-
-        public enum ActivityType
-        {
-            Unknown = 0,
-            EarnedAchivement,
-            Login,
-            StartedPlaying,
-            UploadAchievement,
-            EditAchievement,
-            CompleteGame,
-            NewLeaderboardEntry,
-            ImprovedLeaderboardEntry,
-
-            NumActivityTypes
-        };
-
-        public enum ObjectType
-        {
-            Game,
-            User,
-            Achievement,
-
-            NumObjectTypes
-        };
-
-
         //  Dirty args!
         public static void PerformBackgroundLogin(string user, string pass)
         {
-            User = user;
+            RACore.LocalUser = new RAUser( user );
 
             var args = new RAHttpRequest.PostArgs();
 
@@ -69,8 +36,8 @@ namespace RAInterface
             var args = new RAHttpRequest.PostArgs();
 
             args.Clear();
-            args.Add(new KeyValuePair<string, string>("u", User));
-            args.Add(new KeyValuePair<string, string>("t", UserToken));
+            args.Add(new KeyValuePair<string, string>("u", RACore.LocalUser.User));
+            args.Add(new KeyValuePair<string, string>("t", RACore.LocalUser.Token));
 
             HttpRequests.Enqueue(new RAHttpRequest(WebRequest.RequestFriendList, args));
         }
@@ -90,26 +57,34 @@ namespace RAInterface
             switch (req.RequestType)
             {
                 case WebRequest.RequestLogin:
-                    User = root.Element("User").Value;
-                    UserToken = root.Element("Token").Value;
-                    UserScore = Convert.ToInt64( root.Element("Score").Value );
-                    UserMessages = Convert.ToInt64( root.Element("Messages").Value );
+                    string User = root.Element("User").Value;
+                    string Token = root.Element("Token").Value;
+                    UInt64 UserScore = Convert.ToUInt64(root.Element("Score").Value);
+                    UInt64 UserMessages = Convert.ToUInt64(root.Element("Messages").Value);
 
                     Console.WriteLine("{0} is logged in, {1} points, {2} messages", User, UserScore, UserMessages);
 
+                    RACore.LocalUser.Setup(User, Token, UserScore, UserMessages);
+
                     RAWebInterface.GetFriendList();
+
+                    RACore.CauseEvent(RAEventType.Login);
+
                     break;
 
                 case WebRequest.RequestFriendList:
                     //  GetFriendList 
                     XElement friendList = root.Element("Friends");
-                    foreach (var friend in friendList.Elements())
+                    if (friendList != null)
                     {
-                        string Friend = friend.Element("Friend").Value;
-                        int FriendScore = Convert.ToInt32(friend.Element("RAPoints").Value);
-                        string FriendActivity = friend.Element("LastSeen").Value;
-                        //friend;
-                        Console.WriteLine("{0} ({1}): {2}", Friend, FriendScore, FriendActivity);
+                        foreach (var friend in friendList.Elements())
+                        {
+                            string Friend = friend.Element("Friend").Value;
+                            int FriendScore = Convert.ToInt32(friend.Element("RAPoints").Value);
+                            string FriendActivity = friend.Element("LastSeen").Value;
+                            //friend;
+                            Console.WriteLine("{0} ({1}): {2}", Friend, FriendScore, FriendActivity);
+                        }
                     }
                     break;
 
@@ -147,12 +122,5 @@ namespace RAInterface
             }
         }
 
-        public static bool IsLoggedIn
-        {
-            get
-            {
-                return (UserToken != null);
-            }
-        }
     }
 }

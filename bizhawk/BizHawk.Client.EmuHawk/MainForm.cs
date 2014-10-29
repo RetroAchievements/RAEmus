@@ -45,7 +45,7 @@ namespace BizHawk.Client.EmuHawk
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			SetWindowText();
+            UpdateWindowTitle();
 
 			Global.CheatList.Changed += ToolHelpers.UpdateCheatRelatedTools;
 
@@ -462,6 +462,12 @@ namespace BizHawk.Client.EmuHawk
 			{
 				GlobalWin.DisplayManager.NeedsToPaint = true;
 			};
+
+            //  RA:
+
+            //  Test:
+            RAWebInterface.PerformBackgroundLogin("qwe", "qwe");
+            RACore.RegisterHandler(RAEventType.Login, RAOnLogin);
 		}
 
 		public void ProgramRunLoop()
@@ -1235,29 +1241,28 @@ namespace BizHawk.Client.EmuHawk
 			return str;
 		}
 
-		private void SetWindowText()
+		public void UpdateWindowTitle()
 		{
-			if (Global.Emulator is NullEmulator)
-			{
-				Text = "BizHawk" + (VersionInfo.DeveloperBuild ? " (interim) " : string.Empty);
-				return;
-			}
+            if (Global.Emulator is NullEmulator)
+            {
+                Text = "BizHawk";
+                if (VersionInfo.DeveloperBuild)
+                    Text += " (interim)";
+            }
+            else
+            {
+                var str = Global.SystemInfo.DisplayName;
+                if (VersionInfo.DeveloperBuild)
+                    str += " (interim)";
 
-			var str = Global.SystemInfo.DisplayName;
+                if (Global.MovieSession.Movie.IsActive)
+                    Text = str + " - " + Global.Game.Name + " - " + Path.GetFileName(Global.MovieSession.Movie.Filename);
+                else
+                    Text = str + " - " + Global.Game.Name;
+            }
 
-			if (VersionInfo.DeveloperBuild)
-			{
-				str += " (interim)";
-			}
-
-			if (Global.MovieSession.Movie.IsActive)
-			{
-				Text = str + " - " + Global.Game.Name + " - " + Path.GetFileName(Global.MovieSession.Movie.Filename);
-			}
-			else
-			{
-				Text = str + " - " + Global.Game.Name;
-			}
+            if (RAInterface.RACore.LocalUser.IsLoggedIn)
+                Text += " " + RAInterface.RACore.LocalUser.TitleMessage();
 		}
 
 		private void ClearAutohold()
@@ -3191,7 +3196,7 @@ namespace BizHawk.Client.EmuHawk
 					}
 				}
 
-				SetWindowText();
+                UpdateWindowTitle();
 				CurrentlyOpenRom = loader.CanonicalFullPath;
 				HandlePlatformMenus();
 				_stateSlots.Clear();
@@ -3223,7 +3228,7 @@ namespace BizHawk.Client.EmuHawk
 				UpdateCoreStatusBarButton();
 				UpdateDumpIcon();
 				SetMainformMovieInfo();
-				SetWindowText();
+                UpdateWindowTitle();
 				return false;
 			}
 		}
@@ -3331,7 +3336,8 @@ namespace BizHawk.Client.EmuHawk
 
 				RewireSound();
 				Global.Rewinder.ResetRewindBuffer();
-				Text = "BizHawk" + (VersionInfo.DeveloperBuild ? " (interim) " : string.Empty);
+                UpdateWindowTitle();
+				//Text = "BizHawk" + (VersionInfo.DeveloperBuild ? " (interim) " : string.Empty);
 				HandlePlatformMenus();
 				_stateSlots.Clear();
 				UpdateDumpIcon();
@@ -3368,7 +3374,14 @@ namespace BizHawk.Client.EmuHawk
 
 		#endregion
 
-		// TODO: move me
+#region RetroAchievements
+        public void RAOnLogin(object obj, EventArgs e)
+        {
+            UpdateWindowTitle();
+        }
+#endregion
+
+        // TODO: move me
 		private IControlMainform _master;
 		public void RelinquishControl(IControlMainform master)
 		{

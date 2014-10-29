@@ -43,11 +43,12 @@ namespace BizHawk.Client.Common
         public void Update()
         {
             RAWebInterface.Update();
+            RACore.UpdateEventService();
 
             if (Global.Emulator.MemoryDomains.Count() > 0)
             {
                 byte nTest = Global.Emulator.MemoryDomains.ElementAt(0).PeekByte(0x0010);
-                Console.WriteLine(nTest);
+               // Console.WriteLine(nTest);
             }
         }
     }
