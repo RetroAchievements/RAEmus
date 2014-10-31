@@ -467,7 +467,7 @@ namespace BizHawk.Client.EmuHawk
 
             //  Test:
             RAWebInterface.PerformBackgroundLogin("qwe", "qwe");
-            RACore.RegisterHandler(RAEventType.Login, RAOnLogin);
+            RACore.EventService.RegisterHandler(RAEventType.Login, RAOnLogin);
 		}
 
 		public void ProgramRunLoop()
@@ -526,7 +526,7 @@ namespace BizHawk.Client.EmuHawk
 					break;
 				}
 
-                Global.RAInterface.Update();
+                RACore.Update();
 
 				Thread.Sleep(0);
 			}
@@ -3374,12 +3374,14 @@ namespace BizHawk.Client.EmuHawk
 
 		#endregion
 
-#region RetroAchievements
+        #region RetroAchievements
+
         public void RAOnLogin(object obj, EventArgs e)
         {
             UpdateWindowTitle();
         }
-#endregion
+
+        #endregion
 
         // TODO: move me
 		private IControlMainform _master;

@@ -4,99 +4,96 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace RAInterface
 {
+    //  Console ID ordering should match up to DB
+    public enum RAConsoleID
+    {
+        MegaDrive = 1,
+        Nintendo64,
+        SNES,
+        Gameboy,
+        GameboyAdvance,
+        GameboyColor,
+        NES,
+        PCEngine,
+        MasterSystem,
+    };
+
     public enum RAEventType
     {
         Login,
         NewGameLoaded,
     };
 
+    public enum RAActivityType
+    {
+        Unknown = 0,
+        EarnedAchivement,
+        Login,
+        StartedPlaying,
+        UploadAchievement,
+        EditAchievement,
+        CompleteGame,
+        NewLeaderboardEntry,
+        ImprovedLeaderboardEntry,
+
+        NumActivityTypes
+    };
+
+    public enum RAObjectType
+    {
+        Game,
+        User,
+        Achievement,
+
+        NumObjectTypes
+    };
+
+    public enum RAAchievementSet
+    {
+        Core,
+        Unofficial,
+        Local,
+
+        NumAchievementSets
+    };
+
     public static class RACore
     {
         public const int TokenLength = 16;
         public static RAUser LocalUser = new RAUser("");
+        public static RAEventService EventService = new RAEventService();
 
-        public class RAEventArgs : EventArgs
+        public static AchievementSet CoreAchievements = new AchievementSet();
+        public static AchievementSet UnofficialAchievements = new AchievementSet();
+        public static AchievementSet LocalAchievements = new AchievementSet();
+        public static RAAchievementSet ActiveAchievementSet;
+
+        public static void OnLoad(RAConsoleID consoleID, string gameTitle, string hash)
         {
-            public object Data { get; private set; }
-
-            public RAEventArgs(object data)
-                : base()
-            {
-                Data = data;
-            }
+            MessageBox.Show(gameTitle + " -> " + hash);
         }
 
-        private static EventHandlerList _SubscribedEvents = new EventHandlerList();
-        private static Queue<Tuple<RAEventType, RAEventArgs>> _EventsToTriggerOnMainThread = new Queue<Tuple<RAEventType, RAEventArgs>>();
-
-        public static void RegisterHandler(RAEventType type, EventHandler handler)
+        public static void Update()
         {
-            _SubscribedEvents.AddHandler(type.ToString(), handler);
+            RAWebInterface.Update();
+            EventService.Update();
+
+            if (ActiveAchievementSet == RAAchievementSet.Core)
+                CoreAchievements.Update();
+            else if (ActiveAchievementSet == RAAchievementSet.Unofficial)
+                UnofficialAchievements.Update();
+            else //(ActiveAchievementSet == RAAchievementSet.Local)
+                LocalAchievements.Update();
+
+            //if (Global.Emulator.MemoryDomains.Count() > 0)
+            //{
+            //    byte nTest = Global.Emulator.MemoryDomains.ElementAt(0).PeekByte(0x0010);
+            //    // Console.WriteLine(nTest);
+            //}
         }
-
-        public static void UnregisterHandler(RAEventType type, EventHandler handler)
-        {
-            _SubscribedEvents.RemoveHandler(type.ToString(), handler);
-        }
-
-        public static void CauseEvent(RAEventType type, RAEventArgs e = null)
-        {
-            _EventsToTriggerOnMainThread.Enqueue(new Tuple<RAEventType, RAEventArgs>(type, e));
-            //var handler = _SubscribedEvents[type.ToString()] as EventHandler;
-            //PublishEvent(handler, e);
-        }
-
-        private static void PublishEvent(EventHandler handler, RAEventArgs e)
-        {
-            try
-            {
-                if (handler != null)
-                    handler.Invoke(null, e);
-            }
-            catch (Exception /*ex*/)
-            {
-                //Debug.Fail("Cannot call event: " + ex.ToString());
-            }
-        }
-
-        public static void UpdateEventService()
-        {
-            while (_EventsToTriggerOnMainThread.Count() > 0)
-            {
-                Tuple<RAEventType, RAEventArgs> toTrigger = _EventsToTriggerOnMainThread.Dequeue();
-                var handler = _SubscribedEvents[toTrigger.Item1.ToString()] as EventHandler;
-                PublishEvent(handler, toTrigger.Item2);
-            }
-        }
-
-
-        public enum ActivityType
-        {
-            Unknown = 0,
-            EarnedAchivement,
-            Login,
-            StartedPlaying,
-            UploadAchievement,
-            EditAchievement,
-            CompleteGame,
-            NewLeaderboardEntry,
-            ImprovedLeaderboardEntry,
-
-            NumActivityTypes
-        };
-
-        public enum ObjectType
-        {
-            Game,
-            User,
-            Achievement,
-
-            NumObjectTypes
-        };
-
-
     }
 }

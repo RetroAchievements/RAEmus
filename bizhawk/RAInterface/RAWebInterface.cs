@@ -68,7 +68,7 @@ namespace RAInterface
 
                     RAWebInterface.GetFriendList();
 
-                    RACore.CauseEvent(RAEventType.Login);
+                    RACore.EventService.CauseEvent(RAEventType.Login);
 
                     break;
 

@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RACore.cs" />
+    <Compile Include="RAEventService.cs" />
     <Compile Include="RAHttpRequest.cs" />
     <Compile Include="RAUser.cs" />
     <Compile Include="RAWebInterface.cs" />
