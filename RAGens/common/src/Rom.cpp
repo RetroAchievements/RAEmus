@@ -549,7 +549,7 @@ Rom *Load_Bios(HWND hWnd, char *Name)
 	else
 		return(Game = Load_Rom(hWnd, Name, 0));
 
-	//g_pActiveAchievements->Load( Name, AT_CORE );
+	//g_pActiveAchievements->Load( Name, AchievementSetCore );
 }
 
 
