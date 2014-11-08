@@ -544,3 +544,6 @@
 /bizhawk/output/dll/BizHawk.Client.Common.dll
 /bizhawk/output/config.ini
 /bizhawk/output/dll/RAInterface.dll
+/*.sdf
+/*.suo
+/*.opensdf
