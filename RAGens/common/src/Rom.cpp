@@ -396,7 +396,8 @@ int Get_Rom(HWND hWnd)
 		default:
 		case 1:		// Genesis rom
 			//	BEFORE the ByteSwap in Init_Genesis!
-			RA_OnLoadNewRom( Rom_Data, 6*1024*1024, Ram_68k, 64*1024, NULL, 0 );
+			RA_OnLoadNewRom( Rom_Data, Rom_Size, Ram_68k, 64*1024, NULL, 0 );
+			//RA_OnLoadNewRom( Rom_Data, 6*1024*1024, Ram_68k, 64*1024, NULL, 0 );
 			allocate_Memstates(GENESIS_STATE_FILE_LENGHT); // ##RW
 			if (Game) Genesis_Started = Init_Genesis(Game);
 

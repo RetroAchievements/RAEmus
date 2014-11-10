@@ -547,3 +547,6 @@
 /*.sdf
 /*.suo
 /*.opensdf
+/RANes/vc/vc9_bin_Debug/RANes.exp
+/RANes/vc/vc9_bin_Debug/RANes.lib
+/RANes/vc/vc9_bin_Debug/RANes.pdb
