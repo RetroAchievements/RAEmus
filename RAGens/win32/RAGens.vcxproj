@@ -70,6 +70,9 @@
     <NMakeOutput>release\gens\ragens.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>RA_GENS;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <ExecutablePath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebug|Win32'">
     <OutDir>$(Configuration)\</OutDir>
