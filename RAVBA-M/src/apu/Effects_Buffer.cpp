@@ -58,7 +58,7 @@ Effects_Buffer::~Effects_Buffer()
 
 // avoid using new []
 blargg_err_t Effects_Buffer::new_bufs( int size )
-{
+{ 
 	bufs = (buf_t*) malloc( size * sizeof *bufs );
 	CHECK_ALLOC( bufs );
 	for ( int i = 0; i < size; i++ )

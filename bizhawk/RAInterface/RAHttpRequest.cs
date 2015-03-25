@@ -7,11 +7,34 @@ using System.Threading.Tasks;
 
 namespace RAInterface
 {
-    public enum WebRequestType
+    public enum WebRequest
     {
-        Login,
-        PostActivity,
-        GetFriendList,
+        //	Login
+        RequestLogin,
+
+        //	Fetch
+        RequestScore,
+        RequestNews,
+        RequestPatch,
+        RequestLatestClientPage,
+        RequestRichPresence,
+        RequestAchievementInfo,
+        RequestLeaderboardInfo,
+        RequestCodeNotes,
+        RequestFriendList,
+        RequestUserPic,
+        RequestBadgeIter,
+
+        //	Submit
+        RequestPing,
+        RequestPostActivity,
+        RequestUploadBadgeImage,
+        RequestSubmitAwardAchievement,
+        RequestSubmitCodeNote,
+        RequestSubmitLeaderboardEntry,
+        RequestSubmitAchievementData,
+        RequestSubmitTicket,
+
         //etc
     }
 
@@ -19,9 +42,28 @@ namespace RAInterface
     {
         private static string[] RequestArg =
         {
-            "login",            //  TBD
-            "postactivity",     //  TBD
-            "getfriendlist",    //  TBD
+	        "login",
+
+	        "score",
+	        "news",
+	        "patch",
+	        "",						//	TBD RequestLatestClientPage
+	        "richpresencepatch",
+	        "achievementwondata",
+	        "lbinfo",
+	        "codenotes2",
+	        "getfriendlist",
+	        "",						//	TBD RequestUserPic
+	        "badgeiter",
+
+	        "",						//	TBD RequestPing (ping.php)
+	        "postactivity",
+	        "",						//	TBD RequestBadgeImage
+	        "awardachievement",
+	        "submitcodenote",
+	        "",						//	TBD: Complex!!! See requestsubmitlbentry.php
+	        "uploadachievement",
+            "submitticket",
 
             //"requestlogin.php",
             //"requestpostactivity.php",
@@ -99,14 +141,18 @@ namespace RAInterface
         const string BaseURL = "http://retroachievements.org/dorequest.php";
         public string TargetURL { get; private set; }
         public FormUrlEncodedContent Args { get; private set; }
-        public WebRequestType RequestType { get; private set; }
+        public WebRequest RequestType { get; private set; }
 
-        public RAHttpRequest(WebRequestType type, List<KeyValuePair<string, string>> postArgs)
+        public class PostArgs : List<KeyValuePair<string, string>>
+        {
+        }
+
+        public RAHttpRequest(WebRequest type, PostArgs args)
         {
             TargetURL = BaseURL;
             RequestType = type;
-            postArgs.Add(new KeyValuePair<string,string>( "r", RequestArg[(int)type] ));
-            Args = new FormUrlEncodedContent(postArgs);
+            args.Add(new KeyValuePair<string, string>("r", RequestArg[(int)type]));
+            Args = new FormUrlEncodedContent(args);
         }
     }
 }

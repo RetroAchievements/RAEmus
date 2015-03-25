@@ -1,12 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="ReleaseWithDebug|Win32">
-      <Configuration>ReleaseWithDebug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
@@ -14,228 +10,168 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{9FFB7437-AB3B-4B33-9647-2B60D1E93411}</ProjectGuid>
-    <RootNamespace>Gens</RootNamespace>
-    <Keyword>MakeFileProj</Keyword>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebug|Win32'" Label="Configuration">
-    <ConfigurationType>Makefile</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Makefile</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Makefile</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <_ProjectFileVersion>11.0.60610.1</_ProjectFileVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>Debug\</OutDir>
-    <IntDir>Debug\</IntDir>
-    <NMakeBuildCommandLine>nmake</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>nmake clean &amp; nmake</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>nmake clean</NMakeCleanCommandLine>
-    <NMakeOutput>debug\gens\ragens.exe</NMakeOutput>
-    <NMakePreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RA_GENS;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;C:/SDK/DX90CSDK/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>Release\</OutDir>
-    <IntDir>Release\</IntDir>
-    <NMakeBuildCommandLine>nmake RELEASE=1</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>nmake RELEASE=1 clean &amp; nmake RELEASE=1</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>nmake RELEASE=1 clean</NMakeCleanCommandLine>
-    <NMakeOutput>release\gens\ragens.exe</NMakeOutput>
-    <NMakePreprocessorDefinitions>RA_GENS;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <ExecutablePath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebug|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <NMakeBuildCommandLine>nmake RELEASE=1 RELEASEDEBUG=1</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>nmake RELEASE=1 RELEASEDEBUG=1 clean &amp; nmake RELEASE=1 RELEASEDEBUG=1</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>nmake RELEASE=1 RELEASEDEBUG=1 clean</NMakeCleanCommandLine>
-    <NMakeOutput>release\gens\ragens.exe</NMakeOutput>
-    <NMakePreprocessorDefinitions>RA_GENS;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-  </PropertyGroup>
-  <ItemDefinitionGroup>
-  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\common\src\DialogProc.cpp" />
+    <ClCompile Include="..\common\src\CCnet.c" />
+    <ClCompile Include="..\common\src\cdda_mp3.c" />
     <ClCompile Include="..\common\src\cd_aspi.cpp" />
     <ClCompile Include="..\common\src\cd_file.c" />
     <ClCompile Include="..\common\src\cd_sys.c" />
-    <ClCompile Include="..\common\src\LC89510.c" />
-    <ClCompile Include="..\common\src\CCnet.c" />
-    <ClCompile Include="..\common\src\Debug.cpp" />
-    <ClCompile Include="..\common\src\ggenie.cpp" />
-    <ClCompile Include="..\common\src\md5.c" />
-    <ClCompile Include="..\common\src\save.cpp" />
-    <ClCompile Include="..\common\src\scrshot.cpp" />
-    <ClCompile Include="..\common\src\unzip.c" />
+    <ClCompile Include="..\common\src\common.c" />
     <ClCompile Include="..\common\src\Cpu_68k.c" />
     <ClCompile Include="..\common\src\Cpu_SH2.c" />
     <ClCompile Include="..\common\src\Cpu_Z80.c" />
     <ClCompile Include="..\common\src\dct64_i386.c" />
+    <ClCompile Include="..\common\src\Debug.cpp" />
     <ClCompile Include="..\common\src\decode_i386.c" />
+    <ClCompile Include="..\common\src\DialogProc.cpp" />
+    <ClCompile Include="..\common\src\Gens.cpp" />
+    <ClCompile Include="..\common\src\ggenie.cpp" />
+    <ClCompile Include="..\common\src\G_ddraw.cpp" />
+    <ClCompile Include="..\common\src\G_dinput.cpp" />
+    <ClCompile Include="..\common\src\G_dsound.cpp" />
+    <ClCompile Include="..\common\src\G_main.cpp" />
+    <ClCompile Include="..\common\src\interface.c" />
+    <ClCompile Include="..\common\src\layer3.c" />
+    <ClCompile Include="..\common\src\LC89510.c" />
     <ClCompile Include="..\common\src\M68KD.c" />
     <ClCompile Include="..\common\src\main68kgen.c" />
+    <ClCompile Include="..\common\src\net.cpp" />
+    <ClCompile Include="..\common\src\pcm.c" />
+    <ClCompile Include="..\common\src\psg.c" />
+    <ClCompile Include="..\common\src\RA_Implementation.cpp" />
+    <ClCompile Include="..\common\src\Rom.cpp" />
+    <ClCompile Include="..\common\src\save.cpp" />
+    <ClCompile Include="..\common\src\scrshot.cpp" />
     <ClCompile Include="..\common\src\SH2.c" />
     <ClCompile Include="..\common\src\SH2D.c" />
     <ClCompile Include="..\common\src\sub68kgen.c" />
     <ClCompile Include="..\common\src\tabinit.c" />
-    <ClCompile Include="..\common\src\z80dis.c" />
-    <ClCompile Include="..\common\src\cdda_mp3.c" />
-    <ClCompile Include="..\common\src\layer3.c" />
-    <ClCompile Include="..\common\src\pcm.c" />
-    <ClCompile Include="..\common\src\psg.c" />
+    <ClCompile Include="..\common\src\unzip.c" />
     <ClCompile Include="..\common\src\wave.c" />
     <ClCompile Include="..\common\src\ym2612.c" />
-    <ClCompile Include="..\common\src\common.c" />
-    <ClCompile Include="..\common\src\G_dinput.cpp" />
-    <ClCompile Include="..\common\src\G_dsound.cpp" />
-    <ClCompile Include="..\common\src\G_main.cpp" />
-    <ClCompile Include="..\common\src\Gens.cpp" />
-    <ClCompile Include="..\common\src\interface.c" />
-    <ClCompile Include="..\common\src\Rom.cpp" />
-    <ClCompile Include="..\common\src\G_ddraw.cpp" />
-    <ClCompile Include="..\common\src\net.cpp" />
-    <ClCompile Include="..\common\src\RA_Implementation.cpp" />
-    <ClCompile Include="..\..\RA_Integration\RA_Interface.cpp" />
+    <ClCompile Include="..\common\src\z80dis.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\common\src\DialogProc.h" />
     <ClInclude Include="..\common\src\afxres.h" />
-    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="..\common\src\blit.h" />
+    <ClInclude Include="..\common\src\CCnet.h" />
+    <ClInclude Include="..\common\src\cdda_mp3.h" />
     <ClInclude Include="..\common\src\cd_aspi.h" />
     <ClInclude Include="..\common\src\cd_file.h" />
     <ClInclude Include="..\common\src\Cd_sys.h" />
-    <ClInclude Include="..\common\src\LC89510.h" />
-    <ClInclude Include="..\common\src\CCnet.h" />
-    <ClInclude Include="..\common\src\Debug.h" />
-    <ClInclude Include="..\common\src\ggenie.h" />
-    <ClInclude Include="..\common\src\htmlhelp.h" />
-    <ClInclude Include="..\common\src\huffman.h" />
-    <ClInclude Include="..\common\src\md5.h" />
-    <ClInclude Include="..\common\src\Misc.h" />
-    <ClInclude Include="..\common\src\save.h" />
-    <ClInclude Include="..\common\src\scrshot.h" />
-    <ClInclude Include="..\common\src\unzip.h" />
-    <ClInclude Include="..\common\src\zconf.h" />
-    <ClInclude Include="..\common\src\zlib.h" />
     <ClInclude Include="..\common\src\Cpu_68k.h" />
     <ClInclude Include="..\common\src\Cpu_SH2.h" />
     <ClInclude Include="..\common\src\Cpu_Z80.h" />
+    <ClInclude Include="..\common\src\Debug.h" />
+    <ClInclude Include="..\common\src\DialogProc.h" />
+    <ClInclude Include="..\common\src\gens.h" />
     <ClInclude Include="..\common\src\gfx_cd.h" />
+    <ClInclude Include="..\common\src\ggenie.h" />
+    <ClInclude Include="..\common\src\G_ddraw.h" />
+    <ClInclude Include="..\common\src\G_dsound.h" />
+    <ClInclude Include="..\common\src\G_Input.h" />
+    <ClInclude Include="..\common\src\G_main.h" />
+    <ClInclude Include="..\common\src\htmlhelp.h" />
+    <ClInclude Include="..\common\src\huffman.h" />
+    <ClInclude Include="..\common\src\io.h" />
+    <ClInclude Include="..\common\src\kailleraclient.h" />
+    <ClInclude Include="..\common\src\keycode.h" />
+    <ClInclude Include="..\common\src\LC89510.h" />
     <ClInclude Include="..\common\src\M68KD.h" />
     <ClInclude Include="..\common\src\main68k.h" />
     <ClInclude Include="..\common\src\Mem_M68k.h" />
     <ClInclude Include="..\common\src\Mem_S68k.h" />
     <ClInclude Include="..\common\src\Mem_SH2.h" />
     <ClInclude Include="..\common\src\Mem_Z80.h" />
+    <ClInclude Include="..\common\src\Misc.h" />
     <ClInclude Include="..\common\src\mpg123.h" />
     <ClInclude Include="..\common\src\mpglib.h" />
+    <ClInclude Include="..\common\src\net.h" />
+    <ClInclude Include="..\common\src\pcm.h" />
+    <ClInclude Include="..\common\src\psg.h" />
     <ClInclude Include="..\common\src\pwm.h" />
+    <ClInclude Include="..\common\src\RA_Implementation.h" />
+    <ClInclude Include="..\common\src\Rom.h" />
+    <ClInclude Include="..\common\src\save.h" />
+    <ClInclude Include="..\common\src\scrshot.h" />
     <ClInclude Include="..\common\src\SH2.h" />
     <ClInclude Include="..\common\src\SH2D.h" />
     <ClInclude Include="..\common\src\Star_68k.h" />
     <ClInclude Include="..\common\src\sub68k.h" />
+    <ClInclude Include="..\common\src\unzip.h" />
     <ClInclude Include="..\common\src\vdp_32X.h" />
     <ClInclude Include="..\common\src\vdp_io.h" />
     <ClInclude Include="..\common\src\vdp_rend.h" />
-    <ClInclude Include="..\common\src\z80.h" />
-    <ClInclude Include="..\common\src\z80dis.h" />
-    <ClInclude Include="..\common\src\cdda_mp3.h" />
-    <ClInclude Include="..\common\src\pcm.h" />
-    <ClInclude Include="..\common\src\psg.h" />
     <ClInclude Include="..\common\src\wave.h" />
     <ClInclude Include="..\common\src\ym2612.h" />
-    <ClInclude Include="..\common\src\io.h" />
-    <ClInclude Include="..\common\src\keycode.h" />
-    <ClInclude Include="..\common\src\G_dsound.h" />
-    <ClInclude Include="..\common\src\G_Input.h" />
-    <ClInclude Include="..\common\src\G_main.h" />
-    <ClInclude Include="..\common\src\gens.h" />
-    <ClInclude Include="..\common\src\Rom.h" />
-    <ClInclude Include="..\common\src\blit.h" />
-    <ClInclude Include="..\common\src\G_ddraw.h" />
-    <ClInclude Include="..\common\src\kailleraclient.h" />
-    <ClInclude Include="..\common\src\net.h" />
-    <ClInclude Include="..\common\src\RA_Implementation.h" />
-    <ClInclude Include="..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\common\src\z80.h" />
+    <ClInclude Include="..\common\src\z80dis.h" />
+    <ClInclude Include="..\common\src\zconf.h" />
+    <ClInclude Include="..\common\src\zlib.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\bitmap1.bmp" />
-    <Image Include="src\bmp00000.bmp" />
-    <Image Include="src\bmp00001.bmp" />
-    <Image Include="src\bmp00002.bmp" />
-    <Image Include="src\bmp00003.bmp" />
-    <Image Include="src\bmp00004.bmp" />
-    <Image Include="src\bmp00005.bmp" />
-    <Image Include="src\bmp00006.bmp" />
-    <Image Include="src\bmp00007.bmp" />
-    <Image Include="src\Gens2.ico" />
-    <Image Include="src\gens_big.bmp" />
-    <Image Include="src\gens_small.bmp" />
-    <Image Include="src\sonic.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="src\gens.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Makefile" />
-    <None Include="..\common\src\Misc.asm" />
-    <None Include="..\common\src\nasmhead.inc" />
+    <None Include="..\common\src\blit.asm" />
     <None Include="..\common\src\gfx_cd.asm" />
+    <None Include="..\common\src\io.asm" />
     <None Include="..\common\src\Mem_M68k.asm" />
     <None Include="..\common\src\Mem_M68K_32X.inc" />
     <None Include="..\common\src\Mem_M68K_CD.inc" />
     <None Include="..\common\src\Mem_S68k.asm" />
     <None Include="..\common\src\Mem_SH2.asm" />
     <None Include="..\common\src\Mem_Z80.asm" />
+    <None Include="..\common\src\Misc.asm" />
+    <None Include="..\common\src\nasmhead.inc" />
     <None Include="..\common\src\pwm.asm" />
-    <None Include="..\common\src\SH2_IO.inc" />
     <None Include="..\common\src\SH2a.asm" />
+    <None Include="..\common\src\SH2_IO.inc" />
     <None Include="..\common\src\vdp_32X.asm" />
     <None Include="..\common\src\vdp_io.asm" />
     <None Include="..\common\src\vdp_rend.asm" />
     <None Include="..\common\src\z80.asm" />
-    <None Include="..\common\src\io.asm" />
-    <None Include="..\common\src\blit.asm" />
-    <None Include="Makefile.inc" />
-    <None Include="Makefile.targ.inc" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\RA_Integration\RA_Integration.vcxproj">
-      <Project>{825cb292-f069-4b27-82cf-3417746acdf3}</Project>
-    </ProjectReference>
-  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{61CB5C52-C78B-4EE9-A344-7D641631938F}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeOutput>RAGens.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>RA_GENS;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>nmake DEBUG=1</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>nmake DEBUG=1 clean &amp; nmake DEBUG=1</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>nmake DEBUG=1 clean</NMakeCleanCommandLine>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>nmake RELEASE=1</NMakeBuildCommandLine>
+    <NMakeOutput>RAGens.exe</NMakeOutput>
+    <NMakeCleanCommandLine>nmake RELEASE=1 clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>nmake RELEASE=1 clean &amp; nmake RELEASE=1</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>RA_GENS;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

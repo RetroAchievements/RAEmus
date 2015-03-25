@@ -8,7 +8,6 @@ namespace RAInterface
 {
     public class AchievementSet : ICollection<Achievement>
     {
-
         public void Add(Achievement item)
         {
             throw new NotImplementedException();
@@ -52,6 +51,11 @@ namespace RAInterface
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
+        }
+
+        public void Update()
+        {
+
         }
     }
 }
