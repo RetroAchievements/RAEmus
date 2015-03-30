@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -34,32 +34,32 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithoutAsm|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithoutAsm|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -96,8 +96,8 @@
     <IntDir>x86\ZlibStat$(Configuration)\Tmp\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithoutAsm|Win32'">
-    <OutDir>x86\ZlibStat$(Configuration)\</OutDir>
-    <IntDir>x86\ZlibStat$(Configuration)\Tmp\</IntDir>
+    <OutDir>x86\ZlibStatRelease\</OutDir>
+    <IntDir>x86\ZlibStatRelease\Tmp\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>x64\ZlibStat$(Configuration)\</OutDir>
@@ -161,7 +161,7 @@
     <Lib>
       <AdditionalOptions>/MACHINE:X86 /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)zlibstat.lib</OutputFile>
+      <OutputFile>$(OutDir)zlib.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
@@ -188,7 +188,7 @@
     </ResourceCompile>
     <Lib>
       <AdditionalOptions>/MACHINE:X86 /NODEFAULTLIB %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)zlibstat.lib</OutputFile>
+      <OutputFile>$(OutDir)zlib.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
@@ -305,7 +305,17 @@
     <ClCompile Include="..\..\..\zutil.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\crc32.h" />
+    <ClInclude Include="..\..\..\deflate.h" />
     <ClInclude Include="..\..\..\gzguts.h" />
+    <ClInclude Include="..\..\..\inffast.h" />
+    <ClInclude Include="..\..\..\inffixed.h" />
+    <ClInclude Include="..\..\..\inflate.h" />
+    <ClInclude Include="..\..\..\inftrees.h" />
+    <ClInclude Include="..\..\..\trees.h" />
+    <ClInclude Include="..\..\..\zconf.h" />
+    <ClInclude Include="..\..\..\zlib.h" />
+    <ClInclude Include="..\..\..\zutil.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="zlib.rc" />

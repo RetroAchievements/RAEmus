@@ -396,7 +396,8 @@ int Get_Rom(HWND hWnd)
 		default:
 		case 1:		// Genesis rom
 			//	BEFORE the ByteSwap in Init_Genesis!
-			RA_OnLoadNewRom( Rom_Data, 6*1024*1024, Ram_68k, 64*1024, NULL, 0 );
+			RA_OnLoadNewRom( Rom_Data, Rom_Size, Ram_68k, 64*1024, SRAM, 64 * 1024 );
+			//RA_OnLoadNewRom( Rom_Data, 6*1024*1024, Ram_68k, 64*1024, NULL, 0 );
 			allocate_Memstates(GENESIS_STATE_FILE_LENGHT); // ##RW
 			if (Game) Genesis_Started = Init_Genesis(Game);
 
@@ -415,7 +416,7 @@ int Get_Rom(HWND hWnd)
 			//	BEFORE the ByteSwap in Init_SegaCD!
 			//	Cheat here: instead of md5'ing the whole ROM, we're just md5'ing the
 			//	 CD_Data header. Should be OK
-			RA_OnLoadNewRom( CD_Data, 512, Ram_Prg, 512*1024, NULL, 0 );
+			//RA_OnLoadNewRom( CD_Data, 512, Ram_Prg, 512*1024, NULL, 0 );	//##TBD
 			allocate_Memstates(SEGACD_STATE_FILE_LENGHT); // ##RW
 
 			SegaCD_Started = Init_SegaCD(Name);
@@ -472,7 +473,7 @@ int Pre_Load_Rom(HWND hWnd, char *Name)
 		default:
 		case 1:		// Genesis rom
 			//	BEFORE the ByteSwap in Init_Genesis!
-			RA_OnLoadNewRom( Rom_Data, 6*1024*1024, Ram_68k, 64*1024, NULL, 0 );
+			RA_OnLoadNewRom( Rom_Data, Rom_Size, Ram_68k, 64*1024, SRAM, 64 * 1024 );
 			allocate_Memstates(GENESIS_STATE_FILE_LENGHT); // ##RW
 
 			if (Game) Genesis_Started = Init_Genesis(Game);
@@ -492,7 +493,7 @@ int Pre_Load_Rom(HWND hWnd, char *Name)
 			//	Cheat here: instead of md5'ing the whole ROM, we're just md5'ing the
 			//	 CD_Data header. Should be OK
 			allocate_Memstates(SEGACD_STATE_FILE_LENGHT); // ##RW
-			RA_OnLoadNewRom( CD_Data, 512, Ram_Prg, 512*1024, NULL, 0 );
+			//RA_OnLoadNewRom( CD_Data, 512, Ram_Prg, 512*1024, NULL, 0 );	//##TBD
 			SegaCD_Started = Init_SegaCD(Name);
 
 			Build_Main_Menu();
@@ -549,7 +550,7 @@ Rom *Load_Bios(HWND hWnd, char *Name)
 	else
 		return(Game = Load_Rom(hWnd, Name, 0));
 
-	//g_pActiveAchievements->Load( Name, AT_CORE );
+	//g_pActiveAchievements->Load( Name, AchievementSetCore );
 }
 
 

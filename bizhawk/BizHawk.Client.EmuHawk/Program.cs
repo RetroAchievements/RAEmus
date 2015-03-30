@@ -66,9 +66,6 @@ namespace BizHawk.Client.EmuHawk
 				}
 			}
 
-            //  Test:
-            RAWebInterface.PerformBackgroundLogin("qwe", "qwe");
-
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			string iniPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.ini");

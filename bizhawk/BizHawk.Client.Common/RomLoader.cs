@@ -24,6 +24,7 @@ using BizHawk.Emulation.Cores.Sony.PSP;
 using BizHawk.Emulation.Cores.Sony.PSX;
 using BizHawk.Emulation.DiscSystem;
 using BizHawk.Emulation.Cores.WonderSwan;
+using RAInterface;
 
 namespace BizHawk.Client.Common
 {
@@ -335,13 +336,14 @@ namespace BizHawk.Client.Common
 									nextEmulator = snes;
 								}
 
-                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.SNES, rom);
+                                RACore.OnLoad(RAConsoleID.SNES, rom.GameInfo.Name, rom.GameInfo.Hash);
 
 								break;
 							case "SMS":
 							case "SG":
 							case "GG":
 								nextEmulator = new SMS(nextComm, game, rom.RomData, GetCoreSettings<SMS>(), GetCoreSyncSettings<SMS>());
+                                RACore.OnLoad(RAConsoleID.MasterSystem, rom.GameInfo.Name, rom.GameInfo.Hash);
 								break;
 							case "A26":
 								nextEmulator = new Atari2600(
@@ -355,10 +357,11 @@ namespace BizHawk.Client.Common
 							case "PCECD":
 							case "SGX":
 								nextEmulator = new PCEngine(nextComm, game, rom.RomData, GetCoreSettings<PCEngine>(), GetCoreSyncSettings<PCEngine>());
+                                RACore.OnLoad(RAConsoleID.PCEngine, rom.GameInfo.Name, rom.GameInfo.Hash);
 								break;
 							case "GEN":
 								nextEmulator = new GPGX(nextComm, rom.RomData, null, "GEN", GetCoreSettings<GPGX>(), GetCoreSyncSettings<GPGX>());
-                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.MegaDrive, rom);
+                                RACore.OnLoad(RAConsoleID.MegaDrive, rom.GameInfo.Name, rom.GameInfo.Hash);
 								break;
 							case "TI83":
 								nextEmulator = new TI83(nextComm, game, rom.RomData, GetCoreSettings<TI83>());
@@ -378,7 +381,7 @@ namespace BizHawk.Client.Common
 									nextEmulator = new QuickNES(nextComm, rom.FileData, GetCoreSettings<QuickNES>());
 								}
 
-                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.NES, rom);
+                                RACore.OnLoad(RAConsoleID.NES, rom.GameInfo.Name, rom.GameInfo.Hash);
 								break;
 							case "GB":
 							case "GBC":
@@ -411,9 +414,9 @@ namespace BizHawk.Client.Common
 								}
 
                                 if (game.System == "GB")
-                                    Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.Gameboy, rom);
+                                    RACore.OnLoad(RAConsoleID.Gameboy, rom.GameInfo.Name, rom.GameInfo.Hash);
                                 else if (game.System == "GBC")
-                                    Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.GameboyColor, rom);
+                                    RACore.OnLoad(RAConsoleID.GameboyColor, rom.GameInfo.Name, rom.GameInfo.Hash);
 
 								break;
 							case "Coleco":
@@ -442,12 +445,12 @@ namespace BizHawk.Client.Common
 									var gba = new VBANext(rom.RomData, nextComm);
 									nextEmulator = gba;
 
-                                    Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.GameboyAdvance, rom);
+                                    RACore.OnLoad(RAConsoleID.GameboyAdvance, rom.GameInfo.Name, rom.GameInfo.Hash);
 								}
 								break;
 							case "N64":
 								nextEmulator = new N64(nextComm, game, rom.RomData, GetCoreSettings<N64>(), GetCoreSyncSettings<N64>());
-                                Global.RAInterface.OnLoad(RetroAchievementsInterface.ConsoleID.Nintendo64, rom);
+                                    RACore.OnLoad(RAConsoleID.Nintendo64, rom.GameInfo.Name, rom.GameInfo.Hash);
 								break;
 							case "WSWAN":
 								nextEmulator = new WonderSwan(nextComm, rom.RomData, Deterministic,

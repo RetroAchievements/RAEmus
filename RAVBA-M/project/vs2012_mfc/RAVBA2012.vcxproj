@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,10 +19,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -46,8 +46,8 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%programfiles%\OpenAL 1.1 SDK\libs\Win32;$(DXSDK_DIR)\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%programfiles%\OpenAL 1.1 SDK\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%programfiles%\OpenAL 1.1 SDK\libs\Win32;C:\sdk\DX90CSDK\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%programfiles%\OpenAL 1.1 SDK\include;C:\sdk\DX90CSDK\Include;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%programfiles%\OpenAL 1.1 SDK\include;c:\sdk\DX90CSDK\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%programfiles%\OpenAL 1.1 SDK\libs\Win32;c:\sdk\DX90CSDK\lib\x86;$(LibraryPath)</LibraryPath>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
@@ -58,7 +58,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <BuildLog />
     <PreBuildEvent>
-      <Command>"..\..\..\dependencies\SubWCRev\SubWCRev.bat"</Command>
+      <Command>"..\..\dependencies\SubWCRev\SubWCRev.bat"</Command>
     </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -66,10 +66,10 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\src;..\..\fex;..\..\..\dependencies\libpng;..\..\..\dependencies\msvc;..\..\..\dependencies\SFML\include;..\..\..\dependencies\SubWCRev;..\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEV_VERSION;BKPT_SUPPORT;GBA_LOGGING;MMX;ASM;_CRT_SECURE_NO_WARNINGS;HAS_FILE_EXTRACTOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\src;..\..\fex;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;c:\sdk\DX90CSDK\include;$(ProjectDir)\..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEV_VERSION;BKPT_SUPPORT;GBA_LOGGING;MMX;ASM;_CRT_SECURE_NO_WARNINGS;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -91,15 +91,18 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <MinimumRequiredVersion>5.0</MinimumRequiredVersion>
-      <AdditionalDependencies>nafxcwd.lib;libcmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Winhttp.lib;nafxcwd.lib;libcmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>nafxcwd.lib;libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <BuildLog>
       <Path>$(IntDir)$(ProjectName)_BuildLog.htm</Path>
     </BuildLog>
+    <PostBuildEvent>
+      <Command>copy .\..\..\..\RA_Integration\RA_Integration_d.dll . &amp;&amp; copy .\..\..\..\RA_Integration\*.pdb .</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <BuildLog />
@@ -134,7 +137,7 @@
       <AdditionalDependencies>Winhttp.lib;nafxcw.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Version>
       </Version>
-      <IgnoreSpecificDefaultLibraries>Winhttp.lib;nafxcw.lib;libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>nafxcw.lib;libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -142,6 +145,7 @@
       </AssemblyDebug>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>c:\sdk\DX90CSDK\lib\x86</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <NASM>
       <Optimization>1</Optimization>

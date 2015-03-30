@@ -451,6 +451,7 @@ namespace BizHawk.Emulation.Cores.Sega.Genesis
 			SaveStateBinary(writer);
 			//Console.WriteLine("buf len = {0}", stream.Position);
 			writer.Close();
+            
 			return buf;
 		}
 

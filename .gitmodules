@@ -1,0 +1,3 @@
+[submodule "RA_Integration/rapidjson"]
+	path = RA_Integration/rapidjson
+	url = https://github.com/miloyip/rapidjson
