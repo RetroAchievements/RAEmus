@@ -426,13 +426,13 @@ int Load_Memstate(BYTE *memBuf)
 		{
 			if( SegaCD_Started )
 			{
-				RA_OnLoadNewRom( CD_Data, 512 );
 				RA_InstallMemoryBank( 0, &RAMByteReaderSegaCD, &RAMByteWriterSegaCD, 512 * 1024 );
+				RA_OnLoadNewRom( CD_Data, 512 );
 			}
 			else
 			{
-				RA_OnLoadNewRom( Rom_Data, 6*1024*1024 );
 				RA_InstallMemoryBank( 0, &RAMByteReader, &RAMByteWriter, 64 * 1024 );
+				RA_OnLoadNewRom( Rom_Data, 6*1024*1024 );
 			}
 		}
 

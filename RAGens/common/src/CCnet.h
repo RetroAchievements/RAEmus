@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define CC_SUPPORT
+//#define CC_SUPPORT
 
 typedef struct
 {

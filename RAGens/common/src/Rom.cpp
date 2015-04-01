@@ -427,9 +427,10 @@ int Get_Rom(HWND hWnd)
 		case 1:		// Genesis rom
 			//	BEFORE the ByteSwap in Init_Genesis!
 			RA_SetConsoleID( ConsoleID::MegaDrive );
-			RA_OnLoadNewRom( Rom_Data, Rom_Size );
+			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
 			RA_InstallMemoryBank( 1, RAMByteReaderSRAM, RAMByteWriterSRAM, 64 * 1024 );
+			RA_OnLoadNewRom( Rom_Data, Rom_Size );
 
 			allocate_Memstates(GENESIS_STATE_FILE_LENGHT); // ##RW
 			if (Game) Genesis_Started = Init_Genesis(Game);
@@ -440,9 +441,10 @@ int Get_Rom(HWND hWnd)
 		case 2:		// 32X rom
 			//	BEFORE the ByteSwap in Init_32X!
 			RA_SetConsoleID( ConsoleID::Sega32X );
-			RA_OnLoadNewRom( Rom_Data, Rom_Size );
+			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
 			RA_InstallMemoryBank( 1, RAMByteReaderSRAM, RAMByteWriterSRAM, 64 * 1024 );
+			RA_OnLoadNewRom( Rom_Data, Rom_Size );
 
 			allocate_Memstates(G32X_STATE_FILE_LENGHT); // ##RW
 			if (Game) _32X_Started = Init_32X(Game);
@@ -453,9 +455,10 @@ int Get_Rom(HWND hWnd)
 		case 3:		// Sega CD image
 			//	BEFORE the ByteSwap in Init_SegaCD!
 			RA_SetConsoleID( ConsoleID::SegaCD );
-			RA_OnLoadNewRom( CD_Data, 1024 );
+			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
 			RA_InstallMemoryBank( 1, RAMByteReaderSRAM, RAMByteWriterSRAM, 64 * 1024 );
+			RA_OnLoadNewRom( CD_Data, 1024 );
 
 			//	BEFORE the ByteSwap in Init_SegaCD!
 			allocate_Memstates(SEGACD_STATE_FILE_LENGHT); // ##RW
@@ -513,9 +516,10 @@ int Pre_Load_Rom(HWND hWnd, char *Name)
 		case 1:		// Genesis rom
 			//	BEFORE the ByteSwap in Init_Genesis!
 			RA_SetConsoleID( ConsoleID::MegaDrive );
-			RA_OnLoadNewRom( Rom_Data, Rom_Size );
+			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
 			RA_InstallMemoryBank( 1, RAMByteReaderSRAM, RAMByteWriterSRAM, 64 * 1024 );
+			RA_OnLoadNewRom( Rom_Data, Rom_Size );
 
 			allocate_Memstates(GENESIS_STATE_FILE_LENGHT); // ##RW
 
@@ -527,9 +531,10 @@ int Pre_Load_Rom(HWND hWnd, char *Name)
 		case 2:		// 32X rom
 
 			RA_SetConsoleID( ConsoleID::Sega32X );
-			RA_OnLoadNewRom( Rom_Data, Rom_Size );
+			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
 			RA_InstallMemoryBank( 1, RAMByteReaderSRAM, RAMByteWriterSRAM, 64 * 1024 );
+			RA_OnLoadNewRom( Rom_Data, Rom_Size );
 
 			allocate_Memstates(G32X_STATE_FILE_LENGHT); // ##RW
 			if (Game) _32X_Started = Init_32X(Game);
@@ -539,9 +544,10 @@ int Pre_Load_Rom(HWND hWnd, char *Name)
 		case 3:		// Sega CD image
 			//	BEFORE the ByteSwap in Init_SegaCD!
 			RA_SetConsoleID( ConsoleID::SegaCD );
-			RA_OnLoadNewRom( CD_Data, 1024 );
+			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
 			RA_InstallMemoryBank( 1, RAMByteReaderSRAM, RAMByteWriterSRAM, 64 * 1024 );
+			RA_OnLoadNewRom( CD_Data, 1024 );
 
 			allocate_Memstates(SEGACD_STATE_FILE_LENGHT); // ##RW
 			SegaCD_Started = Init_SegaCD(Name);
@@ -599,7 +605,7 @@ Rom *Load_Bios(HWND hWnd, char *Name)
 	else
 		return(Game = Load_Rom(hWnd, Name, 0));
 
-	//g_pActiveAchievements->Load( Name, AchievementSetCore );
+	//g_pActiveAchievements->Load( Name, Core );
 }
 
 
@@ -938,7 +944,7 @@ void Free_Rom(Rom *Rom_MD)
 
 	RA_UpdateAppTitle( "" );
 
-	RA_OnLoadNewRom( NULL, 0 );
+	RA_OnLoadNewRom( nullptr, 0 );
 
 	// ##RW - free_Memstates
 	free_Memstates();
