@@ -3403,12 +3403,12 @@ int WINAPI WinMain(
 		SetMenu (GUI.hWnd, NULL);
 	}
 
-	RA_Init( GUI.hWnd, RA_Snes9x, CLIENT_VERSION );
+	RA_Init( GUI.hWnd, RA_Snes9x, RASNES9X_VERSION );
 	RA_InitShared();
-
 	RA_RebuildMenu();
 	if( GUI.hMenu )
 	{
+		//?
 		InsertMenu(GUI.hMenu,ID_OPTIONS_SETTINGS,MF_BYCOMMAND | MF_STRING | MF_ENABLED,ID_DEBUG_FRAME_ADVANCE,TEXT("&Debug Frame Advance"));
 		InsertMenu(GUI.hMenu,ID_OPTIONS_SETTINGS,MF_BYCOMMAND | MF_STRING | MF_ENABLED,ID_DEBUG_TRACE,TEXT("&Trace"));
 		InsertMenu(GUI.hMenu,ID_OPTIONS_SETTINGS,MF_BYCOMMAND | MF_STRING | MF_ENABLED,ID_DEBUG_APU_TRACE,TEXT("&APU Trace"));
@@ -3435,7 +3435,7 @@ int WINAPI WinMain(
 	}
 
 	//	Attempt login: show login box or try to log in, AFTER the main window is shown.
-	RA_AttemptLogin();
+	RA_AttemptLogin( true );
 
     TIMECAPS tc;
     if (timeGetDevCaps(&tc, sizeof(TIMECAPS))== TIMERR_NOERROR)
@@ -4075,10 +4075,31 @@ static void ResetFrameTimer ()
     GUI.hFrameTimer = timeSetEvent ((Settings.FrameTime+500)/1000, 0, (LPTIMECALLBACK)FrameTimer, 0, TIME_PERIODIC);
 }
 
+unsigned char ByteReader( size_t nOffs )
+{
+	return Memory.RAM[ nOffs ];
+}
+
+unsigned char ByteReaderSRAM( size_t nOffs )
+{
+	return Memory.SRAM[ nOffs ];
+}
+
+void ByteWriter( size_t nOffs, unsigned int nVal )
+{
+	Memory.RAM[ nOffs ] = nVal;
+}
+
+void ByteWriterSRAM( size_t nOffs, unsigned int nVal )
+{
+	Memory.SRAM[ nOffs ] = nVal;
+}
+
 static bool LoadROMPlain(const TCHAR *filename)
 {
 	if (!filename || !*filename)
 		return (FALSE);
+
 	SetCurrentDirectory(S9xGetDirectoryT(ROM_DIR));
     if (Memory.LoadROM (_tToChar(filename)))
 	{
@@ -4086,7 +4107,10 @@ static bool LoadROMPlain(const TCHAR *filename)
 		if( nSRAMBytes > 0x20000 )
 			nSRAMBytes = 0x20000;
 
-		RA_OnLoadNewRom( Memory.ROM, Memory.MAX_ROM_SIZE, Memory.RAM, 0x20000, Memory.SRAM, nSRAMBytes );
+		RA_ClearMemoryBanks();
+		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x20000 );
+		RA_InstallMemoryBank( 1, ByteReaderSRAM, ByteWriterSRAM, nSRAMBytes );
+		RA_OnLoadNewRom( Memory.ROM, Memory.ROMSize );
 
 		S9xStartCheatSearch (&Cheat);
         ReInitSound();
