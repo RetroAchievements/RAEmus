@@ -1029,6 +1029,20 @@ void CloseGame()
 	}
 }
 
+unsigned char ByteReader( size_t nOffs )
+{
+	//return reinterpret_cast<unsigned char>( (BYTE*)( &ARead[ 0 ] ) );
+	//return static_cast<unsigned char>( ARead[ 0 ]( nOffs ) );
+	return static_cast<unsigned char>( ARead[ nOffs ]( nOffs ) );
+	//extern uint8 GetMem( uint16 A );
+	//return static_cast<unsigned char>( GetMem( static_cast<uint16>( nOffs ) ) );
+}
+
+void ByteWriter( size_t nOffs, unsigned int nVal )
+{
+	BWrite[ nOffs ]( nOffs, static_cast<uint8>( nVal ) );
+}
+
 bool ALoad(const char *nameo, char* innerFilename, bool silent)
 {
 	int oldPaused = EmulationPaused;
@@ -1037,9 +1051,11 @@ bool ALoad(const char *nameo, char* innerFilename, bool silent)
 
 	if (FCEUI_LoadGameVirtual(nameo, 1, silent))
 	{
-		//FCEUI_CheatSearchGet
-		//RA_OnLoadNewRom( ROM, (ROM_size<<14), RAM, 0x800, NULL, 0 );
-		RA_OnLoadNewRom( ROM, (ROM_size<<14), (BYTE*)(&ARead[0]), 0x8000, (BYTE*)(&BWrite[0]), 0x8000 );	//TBD fetch ramsize dynamically!
+//pReader is typedef unsigned char (_RAMByteReadFn)( size_t nOffset );
+//pWriter is typedef void (_RAMByteWriteFn)( unsigned int nOffs, unsigned int nVal );
+		RA_ClearMemoryBanks();
+		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x10000 );
+		RA_OnLoadNewRom( ROM, ( ROM_size << 14 ) );
 
 		pal_emulation = FCEUI_GetCurrentVidSystem(0, 0);
 

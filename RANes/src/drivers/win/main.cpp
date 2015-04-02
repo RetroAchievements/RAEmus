@@ -827,7 +827,7 @@ int main(int argc,char *argv[])
 	RA_InitDirectX();
 	RA_UpdateAppTitle( "" );
 	RebuildMenu();
-	RA_AttemptLogin();
+	RA_AttemptLogin( true );
 	RebuildMenu();
 
 doloopy:

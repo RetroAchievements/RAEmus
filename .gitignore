@@ -226,3 +226,6 @@
 /*.suo
 /*.sdf
 /*.opensdf
+/RANes/vc/*.cfg
+/RANes/vc/RA_Integration_d.dll
+/RANes/vc/RA_Integration_d.pdb
