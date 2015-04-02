@@ -528,10 +528,8 @@ BOOL VBA::InitInstance()
 
 	RA_Init( ( (MainWnd*)m_pMainWnd )->GetSafeHwnd(), RA_VisualboyAdvance, CLIENT_VERSION );
 	RA_InitShared();
-
 	RA_RebuildMenu();
-
-	RA_AttemptLogin();
+	RA_AttemptLogin( true );
 
   return TRUE;
 }
