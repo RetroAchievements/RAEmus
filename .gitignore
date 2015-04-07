@@ -238,3 +238,6 @@
 /bizhawk/RAInterface/Diffs.txt
 /bizhawk/RAInterface/LiveTag.txt
 /BuildVer.cs
+/BuildVer.h
+/RAGens/win32/Diffs.txt
+/RAGens/win32/LiveTag.txt

@@ -23,6 +23,8 @@ POSTBUILD=copy $(SRC_RA)\RA_Integration.dll . && copy $(SRC_RA)\*.pdb .
 POSTBUILD=copy $(SRC_RA)\RA_Integration_d.dll . && copy $(SRC_RA)\*.pdb .
 !ENDIF
 
+PREBUILD=MakeBuildVer.bat
+
 !IF [if not exist $(GENSPATH) mkdir $(GENSPATH)]
 !ERROR Could not create path "$(GENSPATH)".
 !ENDIF
@@ -159,6 +161,9 @@ STARSCREAM_LIBS = \
 	uuid.lib \
 	odbc32.lib \
 	odbccp32.lib
+
+all:
+	$(PREBUILD)
 
 gens: $(GENSPATH)\RAGens.exe
 	copy /Y $(SRCCOMMONPATH)\license.txt $(GENSPATH)\LICENSE.txt
