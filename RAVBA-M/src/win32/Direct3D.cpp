@@ -1,10 +1,10 @@
+#include "stdafx.h"
+
 #ifndef NO_D3D
 
 #pragma comment( lib, "d3d9" )
 #pragma comment( lib, "d3dx9" )
 //#pragma comment( lib, "DxErr" )
-
-#include "stdafx.h"
 
 #include "Display.h"
 
@@ -317,8 +317,8 @@ bool Direct3DDisplay::initialize()
 	// width and height will be set from a prior call to changeRenderSize() before initialize()
 	createTexture( width, height );
 	calculateDestRect();
-	setOption( _T("d3dFilter"), theApp.d3dFilter );
-	setOption( _T("motionBlur"), theApp.d3dMotionBlur );
+	setOption( "d3dFilter", theApp.d3dFilter );
+	setOption( "motionBlur", theApp.d3dMotionBlur );
 
 	// create pfthread_data
 	pfthread_data = (PFTHREAD_DATA*)malloc( sizeof(PFTHREAD_DATA) * nThreads );
@@ -587,7 +587,7 @@ void Direct3DDisplay::render()
 			sprintf( buffer, "%3d%%(%d, %d fps)", systemSpeed, systemFrameSkip, theApp.showRenderedFrames );
 		}
 
-		pFont->DrawText( NULL, buffer, -1, &r, DT_CENTER | DT_TOP, color );
+		pFont->DrawTextA( NULL, buffer, -1, &r, DT_CENTER | DT_TOP, color );
 	}
 
 	if( theApp.screenMessage ) {
@@ -762,7 +762,7 @@ void Direct3DDisplay::createTexture( unsigned int textureWidth, unsigned int tex
 		HRESULT hr = pDevice->CreateTexture(
 			textureSize, textureSize,
 			1, // 1 level, no mipmaps
-			0,
+			D3DUSAGE_DYNAMIC,
 			dpp.BackBufferFormat,
 			D3DPOOL_DEFAULT,
 			&emulatedImage[0],
@@ -921,19 +921,19 @@ void Direct3DDisplay::calculateDestRect()
 
 void Direct3DDisplay::setOption( const char *option, int value )
 {
-	if( !_tcscmp( option, _T("vsync") ) ) {
+	if( !strcmp( option, "vsync" ) ) {
 		// value of theApp.vsync has already been changed by the menu handler
 		// 'value' has the same value as theApp.vsync
 		resetDevice();
 	}
 
-	if( !_tcscmp( option, _T("tripleBuffering") ) ) {
+	if( !strcmp( option, "tripleBuffering" ) ) {
 		// value of theApp.tripleBuffering has already been changed by the menu handler
 		// 'value' has the same value as theApp.tripleBuffering
 		resetDevice();
 	}
 
-	if( !_tcscmp( option, _T("d3dFilter") ) ) {
+	if( !strcmp( option, "d3dFilter" ) ) {
 		switch( value )
 		{
 		case 0: //point
@@ -947,15 +947,15 @@ void Direct3DDisplay::setOption( const char *option, int value )
 		}
 	}
 
-	if( !_tcscmp( option, _T("maxScale") ) ) {
+	if( !strcmp( option, "maxScale" ) ) {
 		calculateDestRect();
 	}
 
-	if( !_tcscmp( option, _T("fullScreenStretch") ) ) {
+	if( !strcmp( option, "fullScreenStretch" ) ) {
 		calculateDestRect();
 	}
 
-	if( !_tcscmp( option, _T("motionBlur") ) ) {
+	if( !strcmp( option, "motionBlur" ) ) {
 		switch( value )
 		{
 		case 0:
@@ -1001,8 +1001,8 @@ bool Direct3DDisplay::resetDevice()
 		pFont->OnResetDevice();
 	}
 	createTexture( 0, 0 );
-	setOption( _T("d3dFilter"), theApp.d3dFilter );
-	setOption( _T("motionBlur"), theApp.d3dMotionBlur );
+	setOption( "d3dFilter", theApp.d3dFilter );
+	setOption( "motionBlur", theApp.d3dMotionBlur );
 	failed = false;
 	return true;
 }

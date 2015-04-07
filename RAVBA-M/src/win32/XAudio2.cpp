@@ -1,7 +1,7 @@
-#ifndef NO_XAUDIO2
-
 // MFC
 #include "stdafx.h"
+
+#ifndef NO_XAUDIO2
 
 // Application
 #include "VBA.h"
@@ -10,7 +10,8 @@
 #include "../common/SoundDriver.h"
 
 // XAudio2
-#include <xaudio2.h>
+//#include <xaudio2.h>
+#include "XAudio2.h"
 
 // MMDevice API
 #include <mmdeviceapi.h>

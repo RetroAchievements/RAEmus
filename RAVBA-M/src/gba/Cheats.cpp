@@ -1452,12 +1452,12 @@ bool cheatsVerifyCheatCode(const char *code, const char *desc)
 {
   size_t len = strlen(code);
   if(len != 11 && len != 13 && len != 17) {
-    systemMessage(MSG_INVALID_CHEAT_CODE, N_("Invalid cheat code '%s': wrong length"), code);
+    systemMessage(MSG_INVALID_CHEAT_CODE, "Invalid cheat code '%s': wrong length", code);
     return false;
   }
 
   if(code[8] != ':') {
-    systemMessage(MSG_INVALID_CHEAT_CODE, N_("Invalid cheat code '%s': no colon"), code);
+    systemMessage(MSG_INVALID_CHEAT_CODE, "Invalid cheat code '%s': no colon", code);
     return false;
   }
 
@@ -1466,7 +1466,7 @@ bool cheatsVerifyCheatCode(const char *code, const char *desc)
     if(!CHEAT_IS_HEX(code[i])) {
       // wrong cheat
       systemMessage(MSG_INVALID_CHEAT_CODE,
-                    N_("Invalid cheat code '%s': first part is not hex"), code);
+                    "Invalid cheat code '%s': first part is not hex", code);
       return false;
     }
   }
@@ -1474,7 +1474,7 @@ bool cheatsVerifyCheatCode(const char *code, const char *desc)
     if(!CHEAT_IS_HEX(code[i])) {
       // wrong cheat
       systemMessage(MSG_INVALID_CHEAT_CODE,
-                    N_("Invalid cheat code '%s' second part is not hex"), code);
+                    "Invalid cheat code '%s' second part is not hex", code);
       return false;
     }
   }
@@ -1503,7 +1503,7 @@ bool cheatsVerifyCheatCode(const char *code, const char *desc)
     break;
   default:
     systemMessage(MSG_INVALID_CHEAT_CODE_ADDRESS,
-                  N_("Invalid cheat code address: %08x"),
+                  "Invalid cheat code address: %08x",
                   address);
     return false;
   }
@@ -1582,7 +1582,7 @@ void cheatsAddGSACode(const char *code, const char *desc, bool v3)
   if(strlen(code) != 16) {
     // wrong cheat
     systemMessage(MSG_INVALID_GSA_CODE,
-                  N_("Invalid GSA code. Format is XXXXXXXXYYYYYYYY"));
+                  "Invalid GSA code. Format is XXXXXXXXYYYYYYYY" );
     return;
   }
 
@@ -1591,7 +1591,7 @@ void cheatsAddGSACode(const char *code, const char *desc, bool v3)
     if(!CHEAT_IS_HEX(code[i])) {
       // wrong cheat
       systemMessage(MSG_INVALID_GSA_CODE,
-                    N_("Invalid GSA code. Format is XXXXXXXXYYYYYYYY"));
+                    "Invalid GSA code. Format is XXXXXXXXYYYYYYYY" );
       return;
     }
   }
@@ -1617,7 +1617,7 @@ void cheatsAddGSACode(const char *code, const char *desc, bool v3)
       char buffer2[5];
       *((u32 *)buffer2) = READ32LE(((u32 *)&rom[0xac]));
       buffer2[4] = 0;
-      systemMessage(MSG_GBA_CODE_WARNING, N_("Warning: cheats are for game %s. Current game is %s.\nCodes may not work correctly."),
+      systemMessage(MSG_GBA_CODE_WARNING, "Warning: cheats are for game %s. Current game is %s.\nCodes may not work correctly.",
                     buffer, buffer2);
     }
     cheatsAdd(code, desc, address, address & 0x0FFFFFFF, value, v3 ? 257 : 256,
@@ -2437,7 +2437,7 @@ void cheatsAddCBACode(const char *code, const char *desc)
   if(strlen(code) != 13) {
     // wrong cheat
     systemMessage(MSG_INVALID_CBA_CODE,
-                  N_("Invalid CBA code. Format is XXXXXXXX YYYY."));
+                  "Invalid CBA code. Format is XXXXXXXX YYYY.");
     return;
   }
 
@@ -2446,14 +2446,14 @@ void cheatsAddCBACode(const char *code, const char *desc)
     if(!CHEAT_IS_HEX(code[i])) {
       // wrong cheat
       systemMessage(MSG_INVALID_CBA_CODE,
-                    N_("Invalid CBA code. Format is XXXXXXXX YYYY."));
+                    "Invalid CBA code. Format is XXXXXXXX YYYY.");
       return;
     }
   }
 
   if(code[8] != ' ') {
     systemMessage(MSG_INVALID_CBA_CODE,
-                  N_("Invalid CBA code. Format is XXXXXXXX YYYY."));
+                  "Invalid CBA code. Format is XXXXXXXX YYYY.");
     return;
   }
 
@@ -2461,7 +2461,7 @@ void cheatsAddCBACode(const char *code, const char *desc)
     if(!CHEAT_IS_HEX(code[i])) {
       // wrong cheat
       systemMessage(MSG_INVALID_CBA_CODE,
-                    N_("Invalid CBA code. Format is XXXXXXXX YYYY."));
+                    "Invalid CBA code. Format is XXXXXXXX YYYY.");
       return;
     }
   }
@@ -2517,7 +2517,7 @@ void cheatsAddCBACode(const char *code, const char *desc)
         u32 crc = cheatsCBACalcCRC(rom, 0x10000);
         if(crc != address) {
           systemMessage(MSG_CBA_CODE_WARNING,
-                        N_("Warning: Codes seem to be for a different game.\nCodes may not work correctly."));
+                        "Warning: Codes seem to be for a different game.\nCodes may not work correctly." );
         }
         cheatsAdd(code, desc, address, address & 0x0FFFFFFF, value, 512,
                   UNKNOWN_CODE);
@@ -2721,7 +2721,7 @@ bool cheatsLoadCheatList(const char *file)
 
   if(version != 1) {
     systemMessage(MSG_UNSUPPORTED_CHEAT_LIST_VERSION,
-                  N_("Unsupported cheat list version %d"), version);
+                  "Unsupported cheat list version %d", version);
     fclose(f);
     return false;
   }
@@ -2735,7 +2735,7 @@ bool cheatsLoadCheatList(const char *file)
 
   if((type != 0) && (type != 1)) {
     systemMessage(MSG_UNSUPPORTED_CHEAT_LIST_TYPE,
-                  N_("Unsupported cheat list type %d"), type);
+                  "Unsupported cheat list type %d", type);
     fclose(f);
     return false;
   }

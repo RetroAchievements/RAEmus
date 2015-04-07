@@ -1,6 +1,8 @@
 #ifndef GB_H
 #define GB_H
 
+#include "common/Types.h"
+
 #define C_FLAG 0x10
 #define H_FLAG 0x20
 #define N_FLAG 0x40

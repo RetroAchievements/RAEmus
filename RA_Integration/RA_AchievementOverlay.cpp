@@ -18,7 +18,7 @@ namespace
 	const float PAGE_TRANSITION_IN = (-0.2f);
 	const float PAGE_TRANSITION_OUT = ( 0.2f);
 	const int NUM_MESSAGES_TO_DRAW = 4;
-	const LPCSTR FONT_TO_USE = TEXT( "Tahoma" );
+	const LPCSTR FONT_TO_USE = _T( "Tahoma" );
 
 	const char* PAGE_TITLES[] = { 
 		" Achievements ", 

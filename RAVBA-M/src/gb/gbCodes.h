@@ -1417,7 +1417,7 @@ case 0x38:
  default:
    if (gbSystemMessage == false)
    {
-     systemMessage(0, N_("Unknown opcode %02x at %04x"),
+     systemMessage(0, "Unknown opcode %02x at %04x",
                    gbReadOpcode(PC.W-1),PC.W-1);
      gbSystemMessage =true;
    }

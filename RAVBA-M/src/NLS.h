@@ -1,5 +1,3 @@
-#define N_(String) (String)
-
 #define MSG_UNSUPPORTED_VBA_SGM             1
 #define MSG_CANNOT_LOAD_SGM                 2
 #define MSG_SAVE_GAME_NOT_USING_BIOS        3

@@ -1,6 +1,6 @@
 #include "RA_Achievement.h"
 
-#include <windows.h>
+//#include <windows.h>
 #include <commctrl.h>
 #include <stdlib.h>
 #include <stdio.h>

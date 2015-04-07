@@ -40,7 +40,7 @@
 // Helper map
 #include <afxtempl.h>  // MFC Templates extension
 #ifndef CMapStringToWord
-typedef CMap< CString, LPCSTR, WORD, WORD& > CMapStringToWord;
+typedef CMap< CString, LPCTSTR, WORD, WORD& > CMapStringToWord;
 #endif
 
 #ifndef CMapWordToCCmdAccelOb

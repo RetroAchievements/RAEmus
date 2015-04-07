@@ -1,11 +1,10 @@
-#include "stdafx.h"
+#include "stdafx.h"	//	First!
 
 #include "RA_Interface.h"
 
 #include "VBA.h"
 #include "../gb/gbGlobals.h"
 #include "../gba/Globals.h"
-
 
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.

@@ -30,5 +30,5 @@ private:
 	CString initialFolderDir;
 
 	CString browseForDir(CString title);
-	bool directoryDoesExist(const char *directory);
+	bool directoryDoesExist(const TCHAR* directory);
 };

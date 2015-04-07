@@ -4,6 +4,8 @@
 #include "Reg.h"
 #include "WinResUtil.h"
 
+#include "RA_Interface.h"
+
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #pragma comment( lib, "dinput8" )
@@ -17,7 +19,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 extern void directXMessage(const char *);
-extern void winlog(const char *msg,...);
+extern void winlog(const char* msg,...);
 
 #define POV_UP    1
 #define POV_DOWN  2
@@ -88,21 +90,20 @@ LONG_PTR defvalues[JOYPADS * KEYS_PER_PAD + MOTION_KEYS] =
 
 void winReadKey(const char *name, KeyList& Keys)
 {
-  CString TxtKeyList = regQueryStringValue(name, "");
+  CString TxtKeyList = StrToWideStr( regQueryStringValue(name, "") ).c_str();
   int curPos= 0;
 
-  CString resToken=TxtKeyList.Tokenize(",",curPos);
+  CString resToken=TxtKeyList.Tokenize(_T(","),curPos);
   while (resToken != "")
   {
-	  Keys.AddTail(atoi(resToken));
-	  resToken= TxtKeyList.Tokenize(",",curPos);
+	  Keys.AddTail( std::atoi( WideStrToStr( std::wstring( resToken.GetString() ) ).c_str() ) );
+	  resToken = TxtKeyList.Tokenize(_T(","),curPos);
   };
 }
 
 void winReadKey(const char *name, int num, KeyList& Keys)
 {
   char buffer[80];
-
   sprintf(buffer, "Joy%d_%s", num, name);
   winReadKey(buffer, Keys);
 }
@@ -140,18 +141,17 @@ void winSaveKey(char *name, KeyList& value)
 	while(p!=NULL)
 	{
 		CString tmp;
-		tmp.Format("%d", value.GetNext(p));
+		tmp.Format( _T( "%d" ), value.GetNext( p ) );
 		txtKeys+=tmp;
 		if (p!=NULL)
 			txtKeys+=",";
 	}
-	regSetStringValue(name, txtKeys);
+	regSetStringValue( name, WideStrToStr( txtKeys.GetString() ).c_str() );
 }
 
 static void winSaveKey(char *name, int num, KeyList& value)
 {
   char buffer[80];
-
   sprintf(buffer, "Joy%d_%s", num, name);
   winSaveKey(buffer, value);
 }
@@ -710,9 +710,9 @@ CString DirectInput::getKeyName(LONG_PTR key)
 				pDevices[d].axis[k>>1].offset,
 				DIPH_BYOFFSET);
 			if (k & 1)
-				winBuffer.Format("Joy %d %s +", d, di.tszName);
+				winBuffer.Format( _T( "Joy %d %s +" ), d, di.tszName);
 			else
-				winBuffer.Format("Joy %d %s -", d, di.tszName);
+				winBuffer.Format( _T( "Joy %d %s -" ), d, di.tszName);
         } else if (k < 48) {
             LONG_PTR hat = (k >> 2) & 3;
             pDevices[d].device->GetObjectInfo(&di,
@@ -726,7 +726,7 @@ CString DirectInput::getKeyName(LONG_PTR key)
                 dir = "right";
             else if (dd == 3)
                 dir = "left";
-            winBuffer.Format("Joy %d %s %s", d, di.tszName, dir);
+            winBuffer.Format( _T( "Joy %d %s %s" ), d, di.tszName, dir);
         } else {
             pDevices[d].device->GetObjectInfo(&di,
                                               (DWORD)DIJOFS_BUTTON(k-128),
@@ -737,7 +737,7 @@ CString DirectInput::getKeyName(LONG_PTR key)
 	else
 	{
 		// Joystick isn't plugged in.  We can't decipher k, so just show its value.
-		winBuffer.Format("Joy %d (%d)", d, k);
+		winBuffer.Format( _T( "Joy %d (%d)" ), d, k);
 	}
 
     return winBuffer;

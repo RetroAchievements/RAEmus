@@ -72,7 +72,7 @@ BOOL AccelEditor::OnInitDialog()
     SetData(sz,
             TRUE,
             HKEY_CURRENT_USER,
-            "Software\\Emulators\\VisualBoyAdvance\\Viewer\\AccelEditor",
+            _T("Software\\Emulators\\VisualBoyAdvance\\Viewer\\AccelEditor"),
             NULL);
 
   InitCommands();
@@ -84,7 +84,7 @@ BOOL AccelEditor::OnInitDialog()
 void AccelEditor::InitCommands()
 {
   m_commands.ResetContent();
-  m_alreadyAffected.SetWindowText("");
+  m_alreadyAffected.SetWindowText( _T("") );
 
   POSITION pos = mgr.m_mapAccelString.GetStartPosition();
 
@@ -254,7 +254,7 @@ void AccelEditor::OnRemove()
           // and update the listboxes/key editor/static text
           m_currents.DeleteString(indexCurrent);
           m_key.ResetKey();
-          m_alreadyAffected.SetWindowText("");
+          m_alreadyAffected.SetWindowText( _T("") );
           return;
         } else {
           systemMessage(0,"Unable to remove this\naccelerator (Locked)");

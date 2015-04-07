@@ -4,7 +4,11 @@
  **	Written: 6/14/00 - JSF
  **/
 
-#include "../System.h"
+//#include "../System.h"
+#include "common/Types.h"
+extern int systemRedShift;
+extern int systemGreenShift;
+extern int systemBlueShift;
 
 #define RGB(r,g,b) ((r)>>3) << systemRedShift |\
   ((g) >> 3) << systemGreenShift |\

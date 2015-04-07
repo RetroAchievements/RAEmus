@@ -27,6 +27,11 @@ extern "C" {
 #include "gba/gbafilter.h"
 #include "gb/gbGlobals.h"
 
+#ifdef WIN32
+//#include <Windows.h>
+#include <WTypes.h>
+#endif
+
 #ifndef _MSC_VER
 #define _stricmp strcasecmp
 #endif // ! _MSC_VER
@@ -52,7 +57,7 @@ bool utilWritePNGFile(const char *fileName, int w, int h, u8 *pix)
   FILE *fp = fopen(fileName,"wb");
 
   if(!fp) {
-    systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), fileName);
+    systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", fileName);
     return false;
   }
 
@@ -197,7 +202,7 @@ bool utilWriteBMPFile(const char *fileName, int w, int h, u8 *pix)
   FILE *fp = fopen(fileName,"wb");
 
   if(!fp) {
-    systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), fileName);
+    systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", fileName);
     return false;
   }
 
@@ -396,7 +401,7 @@ static fex_t* scan_arc(const char *file, bool (*accept)(const char *),
 	fex_err_t err = fex_open( &fe, file );
 	if(!fe)
 	{
-		systemMessage(MSG_CANNOT_OPEN_FILE, N_("Cannot open file %s: %s"), file, err);
+		systemMessage(MSG_CANNOT_OPEN_FILE, "Cannot open file %s: %s", file, err);
 		return NULL;
 	}
 
@@ -415,15 +420,14 @@ static fex_t* scan_arc(const char *file, bool (*accept)(const char *),
 
 		fex_err_t err = fex_next(fe);
 		if(err) {
-			systemMessage(MSG_BAD_ZIP_FILE, N_("Cannot read archive %s: %s"), file, err);
+			systemMessage(MSG_BAD_ZIP_FILE, "Cannot read archive %s: %s", file, err);
 			fex_close(fe);
 			return NULL;
 		}
 	}
 
 	if(!found) {
-		systemMessage(MSG_NO_IMAGE_ON_ZIP,
-									N_("No image found in file %s"), file);
+		systemMessage(MSG_NO_IMAGE_ON_ZIP, "No image found in file %s", file);
 		fex_close(fe);
 		return NULL;
 	}
@@ -434,10 +438,6 @@ static bool utilIsImage(const char *file)
 {
 	return utilIsGBAImage(file) || utilIsGBImage(file);
 }
-
-#ifdef WIN32
-#include <Windows.h>
-#endif
 
 IMAGE_TYPE utilFindType(const char *file)
 {
@@ -528,8 +528,7 @@ u8 *utilLoad(const char *file,
 		image = (u8 *)malloc(utilGetSize(size));
 		if(image == NULL) {
 			fex_close(fe);
-			systemMessage(MSG_OUT_OF_MEMORY, N_("Failed to allocate memory for %s"),
-										"data");
+			systemMessage(MSG_OUT_OF_MEMORY, "Failed to allocate memory for %s", "data");
 			return NULL;
 		}
 		size = fileSize;
@@ -540,8 +539,7 @@ u8 *utilLoad(const char *file,
 	err = fex_read(fe, image, read);
 	fex_close(fe);
 	if(err) {
-		systemMessage(MSG_ERROR_READING_IMAGE,
-									N_("Error reading image from %s: %s"), buffer, err);
+		systemMessage(MSG_ERROR_READING_IMAGE, "Error reading image from %s: %s", buffer, err);
 		if(data == NULL)
 			free(image);
 		return NULL;

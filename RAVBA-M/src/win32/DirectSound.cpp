@@ -108,7 +108,7 @@ bool DirectSound::init(long sampleRate)
 	}
 
 	if( FAILED( hr = pDirectSound->SetCooperativeLevel( theApp.m_pMainWnd->GetSafeHwnd(), DSSCL_EXCLUSIVE ) ) ) {
-		systemMessage( IDS_CANNOT_SETCOOPERATIVELEVEL, _T("Cannot SetCooperativeLevel %08x"), hr );
+		systemMessage( IDS_CANNOT_SETCOOPERATIVELEVEL, "Cannot SetCooperativeLevel %08x", hr );
 		return false;
 	}
 
@@ -122,7 +122,7 @@ bool DirectSound::init(long sampleRate)
 	}
 
 	if( FAILED( hr = pDirectSound->CreateSoundBuffer( &dsbdesc, &dsbPrimary, NULL ) ) ) {
-		systemMessage(IDS_CANNOT_CREATESOUNDBUFFER, _T("Cannot CreateSoundBuffer %08x"), hr);
+		systemMessage(IDS_CANNOT_CREATESOUNDBUFFER, "Cannot CreateSoundBuffer %08x", hr);
 		return false;
 	}
 
@@ -142,7 +142,7 @@ bool DirectSound::init(long sampleRate)
 	wfx.nAvgBytesPerSec = wfx.nSamplesPerSec * wfx.nBlockAlign;
 
 	if( FAILED( hr = dsbPrimary->SetFormat( &wfx ) ) ) {
-		systemMessage( IDS_CANNOT_SETFORMAT_PRIMARY, _T("CreateSoundBuffer(primary) failed %08x"), hr );
+		systemMessage( IDS_CANNOT_SETFORMAT_PRIMARY, "CreateSoundBuffer(primary) failed %08x", hr );
 		return false;
 	}
 
@@ -158,12 +158,12 @@ bool DirectSound::init(long sampleRate)
 	dsbdesc.lpwfxFormat = &wfx;
 
 	if( FAILED( hr = pDirectSound->CreateSoundBuffer( &dsbdesc, &dsbSecondary, NULL ) ) ) {
-		systemMessage( IDS_CANNOT_CREATESOUNDBUFFER, _T("CreateSoundBuffer(secondary) failed %08x"), hr );
+		systemMessage( IDS_CANNOT_CREATESOUNDBUFFER, "CreateSoundBuffer(secondary) failed %08x", hr );
 		return false;
 	}
 
 	if( FAILED( hr = dsbSecondary->SetCurrentPosition( 0 ) ) ) {
-		systemMessage( 0, _T("dsbSecondary->SetCurrentPosition failed %08x"), hr );
+		systemMessage( 0, "dsbSecondary->SetCurrentPosition failed %08x", hr );
 		return false;
 	}
 
@@ -187,7 +187,7 @@ bool DirectSound::init(long sampleRate)
 
 	// Play primary buffer
 	if( FAILED( hr = dsbPrimary->Play( 0, 0, DSBPLAY_LOOPING ) ) ) {
-		systemMessage( IDS_CANNOT_PLAY_PRIMARY, _T("Cannot Play primary %08x"), hr );
+		systemMessage( IDS_CANNOT_PLAY_PRIMARY, "Cannot Play primary %08x", hr );
 		return false;
 	}
 
@@ -305,7 +305,7 @@ void DirectSound::write(u16 * finalWave, int length)
 		// Release the data back to DirectSound.
 		hr = dsbSecondary->Unlock( lpvPtr1, dwBytes1, lpvPtr2, dwBytes2 );
 	} else {
-		systemMessage( 0, _T("dsbSecondary->Lock() failed: %08x"), hr );
+		systemMessage( 0, "dsbSecondary->Lock() failed: %08x", hr );
 		return;
 	}
 }

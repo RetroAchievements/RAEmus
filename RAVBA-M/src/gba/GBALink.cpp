@@ -49,6 +49,7 @@ bool gba_link_enabled = false;
 #endif
 #define N_(x) x
 #if (defined __WIN32__ || defined _WIN32)
+#include <WinSock2.h>
 #include <windows.h>
 #else
 #include <sys/mman.h>
@@ -972,8 +973,8 @@ bool InitLink()
 	linkid = 0;
 
 #if (defined __WIN32__ || defined _WIN32)
-	if((mmf=CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(LINKDATA), LOCAL_LINK_NAME))==NULL){
-		systemMessage(0, N_("Error creating file mapping"));
+	if((mmf=CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(LINKDATA), LOCAL_LINK_NAME))==NULL){
+		systemMessage(0, "Error creating file mapping");
 		return false;
 	}
 
@@ -985,7 +986,7 @@ bool InitLink()
 
 	if((linkmem=(LINKDATA *)MapViewOfFile(mmf, FILE_MAP_WRITE, 0, 0, sizeof(LINKDATA)))==NULL){
 		CloseHandle(mmf);
-		systemMessage(0, N_("Error mapping file"));
+		systemMessage(0, "Error mapping file");
 		return false;
 	}
 #else
@@ -1035,7 +1036,7 @@ bool InitLink()
 				shm_unlink("/" LOCAL_LINK_NAME);
 			close(mmf);
 #endif
-			systemMessage(0, N_("5 or more GBAs not supported."));
+			systemMessage(0, "5 or more GBAs not supported.");
 			return false;
 		}
 		if(vbaid == n)
@@ -1048,15 +1049,15 @@ bool InitLink()
 		linkevent[sizeof(linkevent)-2]=(char)i+'1';
 #if (defined __WIN32__ || defined _WIN32)
 		linksync[i] = firstone ?
-			CreateSemaphore(NULL, 0, 4, linkevent) :
-			OpenSemaphore(SEMAPHORE_ALL_ACCESS, false, linkevent);
+			CreateSemaphoreA(NULL, 0, 4, linkevent) :
+			OpenSemaphoreA(SEMAPHORE_ALL_ACCESS, false, linkevent);
 		if(linksync[i] == NULL) {
 			UnmapViewOfFile(linkmem);
 			CloseHandle(mmf);
 			for(j=0;j<i;j++){
 				CloseHandle(linksync[j]);
 			}
-			systemMessage(0, N_("Error opening event"));
+			systemMessage(0, "Error opening event");
 			return false;
 		}
 #else
@@ -1089,7 +1090,7 @@ static void ReInitLink()
 	int f = linkmem->linkflags;
 	int n = linkmem->numgbas;
 	if(f & (1 << linkid)) {
-		systemMessage(0, N_("Lost link; reinitialize to reconnect"));
+		systemMessage(0, "Lost link; reinitialize to reconnect");
 		return;
 	}
 	linkmem->linkflags |= 1 << linkid;
@@ -1232,7 +1233,7 @@ void LinkServerThread(void *_sid){
 				lanlink.tcpsocket.Accept(ls.tcpsocket[i+1]);
 			if(st == sf::Socket::Error) {
 				for(int j=1;j<i;j++) ls.tcpsocket[j].Close();
-				systemMessage(0, N_("Network error."));
+				systemMessage(0, "Network error.");
 				lanlink.terminate = true;
 			} else {
 				i++;

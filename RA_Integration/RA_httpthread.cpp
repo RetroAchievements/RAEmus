@@ -1,8 +1,8 @@
 #include "RA_httpthread.h"
 
 #include <vector>
-#include <Windows.h>	//	GetFileAttributes
 #include <winhttp.h>
+#include <Windows.h>	//	GetFileAttributes
 #include <fstream>
 #include <sstream>
 #include <time.h>

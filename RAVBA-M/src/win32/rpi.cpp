@@ -24,14 +24,14 @@ bool rpiInit(const char *sPluginName)
 	char sBuffer[256];
 	char *ptr;
 
-	GetModuleFileName(NULL, sBuffer, sizeof(sBuffer));
+	GetModuleFileNameA(NULL, sBuffer, sizeof(sBuffer));
 	ptr = strrchr(sBuffer, '\\');
 	if (ptr)
 		*ptr = '\0';
 	strcat(sBuffer, "\\plugins\\");
 	strcat(sBuffer, sPluginName);
 
-  	rpiDLL = LoadLibrary(sBuffer);
+  	rpiDLL = LoadLibraryA(sBuffer);
   	if (!rpiDLL)
   		return false;
 

@@ -1,10 +1,10 @@
+// MFC
+#include "stdafx.h"
+
 #ifndef NO_OGL
 
 //OpenGL library
 #pragma comment( lib, "OpenGL32" )
-
-// MFC
-#include "stdafx.h"
 
 //GUI
 #include "MainWnd.h"
@@ -83,7 +83,7 @@ public:
 	virtual void render();
 	virtual bool changeRenderSize( int w, int h );
 	virtual void resize( int w, int h );
-	virtual void setOption( const char *, int );
+	virtual void setOption( const TCHAR*, int );
 	virtual bool selectFullScreenMode( VIDEO_MODE &mode );
 };
 
@@ -484,7 +484,9 @@ void OpenGLDisplay::render()
 			float fontscale = (float)theApp.surfaceSizeX / 100.0f;
 			glScalef(fontscale, fontscale, fontscale);
 			glColor4f(1.0f, 0.25f, 0.25f, 1.0f);
-			glFontTextOut((char *)((const char *)theApp.screenMessageBuffer), (theApp.surfaceSizeX-(theApp.screenMessageBuffer.GetLength()*11))/(fontscale*2), (theApp.surfaceSizeY-40)/fontscale, 0);
+			char buffer[ 1024 ];
+			sprintf_s( buffer, 1024, "%s", WideStrToStr( theApp.screenMessageBuffer.GetString() ).c_str() );
+			glFontTextOut( buffer, (theApp.surfaceSizeX-(theApp.screenMessageBuffer.GetLength()*11))/(fontscale*2), (theApp.surfaceSizeY-40)/fontscale, 0);
 			glPopMatrix();
 			glFontEnd();
 			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -668,7 +670,7 @@ void OpenGLDisplay::calculateDestRect( int w, int h )
 }
 
 //config options
-void OpenGLDisplay::setOption( const char *option, int value )
+void OpenGLDisplay::setOption( const TCHAR* option, int value )
 {
 	if( !_tcscmp( option, _T("vsync") ) ) {
 		setVSync( value );

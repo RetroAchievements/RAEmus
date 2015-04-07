@@ -14,22 +14,22 @@ void regInit(const char *path, bool force)
 {
 	if( regEnabled ) {
   DWORD disp = 0;
-  LONG res = RegCreateKeyEx(HKEY_CURRENT_USER,
-                            "Software\\Emulators\\VisualBoyAdvance",
-                            0,
-                            "",
-                            REG_OPTION_NON_VOLATILE,
-                            KEY_ALL_ACCESS,
-                            NULL,
-                            &vbKey,
-                            &disp);
+  LONG res = RegCreateKeyExA(	HKEY_CURRENT_USER,
+								"Software\\Emulators\\VisualBoyAdvance",
+								0,
+								"",
+								REG_OPTION_NON_VOLATILE,
+								KEY_ALL_ACCESS,
+								NULL,
+								&vbKey,
+								&disp);
 	}
   if( regVbaPath != NULL ) {
 	  delete regVbaPath;
 	  regVbaPath = NULL;
   }
   regVbaPath = new CString();
-  regVbaPath->Format("%s\\vbam.ini", path);
+  regVbaPath->Format( _T( "%s\\vbam.ini" ), path );
 }
 
 void regShutdown()
@@ -48,12 +48,12 @@ char *regQueryStringValue(const char * key, char *def)
     DWORD type = 0;
     DWORD size = 2048;
 
-    LONG res = RegQueryValueEx(vbKey,
-                               key,
-                               NULL,
-                               &type,
-                               (UCHAR *)buffer,
-                               &size);
+    LONG res = RegQueryValueExA(vbKey,
+								key,
+								NULL,
+								&type,
+								(UCHAR *)buffer,
+								&size);
 
     if(res == ERROR_SUCCESS && type == REG_SZ)
       return buffer;
@@ -61,12 +61,12 @@ char *regQueryStringValue(const char * key, char *def)
     return def;
   }
 
-  DWORD res = GetPrivateProfileString(VBA_PREF,
-                                      key,
-                                      def,
-                                      (LPTSTR)buffer,
-                                      2048,
-                                      *regVbaPath);
+  DWORD res = GetPrivateProfileStringA(	VBA_PREF,
+										key,
+										def,
+										(LPTSTR)buffer,
+										2048,
+										*regVbaPath);
 
   if(res)
     return buffer;

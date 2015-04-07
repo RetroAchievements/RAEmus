@@ -154,6 +154,3 @@ extern BOOL _FileExists( const std::string& sFileName );
 extern std::string _TimeStampToString( time_t nTime );
 
 extern std::string GetFolderURLFromDialog();
-
-extern std::string WideStrToStr( const std::wstring& wstr );
-extern std::wstring StrToWideStr( const std::string& str );

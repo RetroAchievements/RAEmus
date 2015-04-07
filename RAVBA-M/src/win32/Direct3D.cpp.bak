@@ -2,7 +2,7 @@
 
 #pragma comment( lib, "d3d9" )
 #pragma comment( lib, "d3dx9" )
-#pragma comment( lib, "DxErr" )
+//#pragma comment( lib, "DxErr" )
 
 #include "stdafx.h"
 
@@ -27,7 +27,10 @@
 #define DIRECT3D_VERSION 0x0900
 #include <d3d9.h>      // main include file
 #include <D3dx9core.h> // required for font rendering
-#include <Dxerr.h>     // contains debug functions
+//#include <Dxerr.h>     // contains debug functions
+#define DXTRACE_ERR_MSGBOX(x, h) {}
+#define DXTRACE_ERR(str,hr) {}
+#define DXTRACE_MSG(x) {}
 
 //	##RA
 #include "RA_Interface.h"
@@ -131,7 +134,7 @@ public:
 
 	virtual bool changeRenderSize( int w, int h );
 	virtual void resize( int w, int h );
-	virtual void setOption( const char *option, int value );
+	virtual void setOption( const TCHAR *option, int value );
 	virtual bool selectFullScreenMode( VIDEO_MODE &mode );
 };
 
@@ -527,7 +530,7 @@ void Direct3DDisplay::render()
 
 		//##RA
 		LPDIRECT3DSURFACE9 pTempSurface = NULL;
-		if( SUCCEEDED( tempImage->GetSurfaceLevel( 0, &pTempSurface ) )
+		if( SUCCEEDED( tempImage->GetSurfaceLevel( 0, &pTempSurface ) ) )
 			RenderAchievementOverlays( target, pTempSurface );
 
 		pDevice->UpdateTexture( tempImage, emulatedImage[ mbCurrentTexture ] );
@@ -559,12 +562,13 @@ void Direct3DDisplay::render()
 		mbCurrentTexture ^= 1; // switch current texture
 	}
 
-	//LPDIRECT3DSURFACE9 pSurface = NULL;
-	//if( pDevice->GetBackBuffer( 0, 0, D3DBACKBUFFER_TYPE_MONO, &pSurface ) == D3D_OK )
+	//LPDIRECT3DSURFACE9 pBackBuffer = NULL;
+	//if( SUCCEEDED( pDevice->GetBackBuffer( 0, 0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer ) ) )
 	//{
-	//	RenderAchievementOverlays( target, pSurface );
+	//	RenderAchievementOverlays( target, pBackBuffer );
+	//	pBackBuffer->Release();
+	//	pBackBuffer = NULL;
 	//}
-
 
 	// render speed and status messages
 	D3DCOLOR color;
@@ -583,7 +587,7 @@ void Direct3DDisplay::render()
 			sprintf( buffer, "%3d%%(%d, %d fps)", systemSpeed, systemFrameSkip, theApp.showRenderedFrames );
 		}
 
-		pFont->DrawText( NULL, buffer, -1, &r, DT_CENTER | DT_TOP, color );
+		pFont->DrawTextA( NULL, buffer, -1, &r, DT_CENTER | DT_TOP, color );
 	}
 
 	if( theApp.screenMessage ) {
@@ -758,7 +762,7 @@ void Direct3DDisplay::createTexture( unsigned int textureWidth, unsigned int tex
 		HRESULT hr = pDevice->CreateTexture(
 			textureSize, textureSize,
 			1, // 1 level, no mipmaps
-			D3DUSAGE_DYNAMIC,
+			0,
 			dpp.BackBufferFormat,
 			D3DPOOL_DEFAULT,
 			&emulatedImage[0],
@@ -915,7 +919,7 @@ void Direct3DDisplay::calculateDestRect()
 }
 
 
-void Direct3DDisplay::setOption( const char *option, int value )
+void Direct3DDisplay::setOption( const TCHAR *option, int value )
 {
 	if( !_tcscmp( option, _T("vsync") ) ) {
 		// value of theApp.vsync has already been changed by the menu handler

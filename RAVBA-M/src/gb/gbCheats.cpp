@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <tchar.h>
+#include <WTypes.h>
 
 #include "../System.h"
 #include "../NLS.h"
@@ -140,7 +142,7 @@ bool gbCheatsLoadCheatList(const char *file)
 
   if(version != 1) {
     systemMessage(MSG_UNSUPPORTED_CHEAT_LIST_VERSION,
-                  N_("Unsupported cheat list version %d"), version);
+                  "Unsupported cheat list version %d", version);
     fclose(f);
     return false;
   }
@@ -153,7 +155,7 @@ bool gbCheatsLoadCheatList(const char *file)
 
   if(type != 1) {
     systemMessage(MSG_UNSUPPORTED_CHEAT_LIST_TYPE,
-                  N_("Unsupported cheat list type %d"), type);
+                  "Unsupported cheat list type %d", type);
     fclose(f);
     return false;
   }
@@ -200,13 +202,13 @@ bool gbAddGsCheat(const char *code, const char *desc)
 {
   if(gbCheatNumber > 99) {
     systemMessage(MSG_MAXIMUM_NUMBER_OF_CHEATS,
-                  N_("Maximum number of cheats reached."));
+                  "Maximum number of cheats reached." );
     return false;
   }
 
   if(!gbVerifyGsCode(code)) {
     systemMessage(MSG_INVALID_GAMESHARK_CODE,
-                  N_("Invalid GameShark code: %s"), code);
+                  "Invalid GameShark code: %s", code);
     return false;
   }
 
@@ -235,10 +237,10 @@ bool gbAddGsCheat(const char *code, const char *desc)
   if ((gsCode !=1) && ((gsCode & 0xF0) !=0x80) && ((gsCode & 0xF0) !=0x90) &&
       ((gsCode & 0xF0) !=0xA0) && ((gsCode) !=0xF0) && ((gsCode) !=0xF1))
     systemMessage(MSG_WRONG_GAMESHARK_CODE,
-                  N_("Wrong GameShark code type : %s"), code);
+                  "Wrong GameShark code type : %s", code);
   else if (((gsCode & 0xF0) ==0xA0) || ((gsCode) ==0xF0) || ((gsCode) ==0xF1))
     systemMessage(MSG_UNSUPPORTED_GAMESHARK_CODE,
-                  N_("Unsupported GameShark code type : %s"), code);
+                  "Unsupported GameShark code type : %s", code);
 
   gbCheatNumber++;
 
@@ -320,13 +322,13 @@ bool gbAddGgCheat(const char *code, const char *desc)
 {
   if(gbCheatNumber > 99) {
     systemMessage(MSG_MAXIMUM_NUMBER_OF_CHEATS,
-                  N_("Maximum number of cheats reached."));
+                  "Maximum number of cheats reached.");
     return false;
   }
 
   if(!gbVerifyGgCode(code)) {
     systemMessage(MSG_INVALID_GAMEGENIE_CODE,
-                  N_("Invalid GameGenie code: %s"), code);
+                  "Invalid GameGenie code: %s", code);
     return false;
   }
 
@@ -376,7 +378,7 @@ void gbCheatRemove(int i)
 {
   if(i < 0 || i >= gbCheatNumber) {
     systemMessage(MSG_INVALID_CHEAT_TO_REMOVE,
-                  N_("Invalid cheat to remove %d"), i);
+                  "Invalid cheat to remove %d", i);
     return;
   }
 
@@ -421,7 +423,7 @@ bool gbCheatReadGSCodeFile(const char *fileName)
   FILE *file = fopen(fileName, "rb");
 
   if(!file) {
-    systemMessage(MSG_CANNOT_OPEN_FILE, N_("Cannot open file %s"), fileName);
+    systemMessage(MSG_CANNOT_OPEN_FILE, "Cannot open file %s", fileName);
     return false;
   }
 

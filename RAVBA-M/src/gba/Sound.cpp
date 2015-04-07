@@ -1,16 +1,12 @@
 #include <string.h>
 
 #include "Sound.h"
-
-#include "GBA.h"
 #include "Globals.h"
 #include "../Util.h"
 #include "../common/Port.h"
-
+#include "../common/SoundDriver.h"
 #include "../apu/Gb_Apu.h"
 #include "../apu/Multi_Buffer.h"
-
-#include "../common/SoundDriver.h"
 
 #define NR10 0x60
 #define NR11 0x62

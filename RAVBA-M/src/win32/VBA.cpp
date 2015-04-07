@@ -46,6 +46,7 @@
 //	##RA
 #include "RA_Implementation.h"
 #include "RA_Interface.h"
+#include "../BuildVer.h"
 
 extern void Pixelate(u8*,u32,u8*,u8*,u32,int,int);
 extern void Pixelate32(u8*,u32,u8*,u8*,u32,int,int);
@@ -351,7 +352,7 @@ VBA::~VBA()
 
   char winBuffer[2048];
 
-  GetModuleFileName(NULL, winBuffer, 2048);
+  GetModuleFileNameA(NULL, winBuffer, 2048);
   char *p = strrchr(winBuffer, '\\');
   if(p)
     *p = 0;
@@ -433,25 +434,24 @@ BOOL VBA::InitInstance()
 #endif
 #endif
 
-  SetRegistryKey(_T("VBA"));
+  SetRegistryKey( _T("VBA") );
 
   remoteSetProtocol(0);
 
-  systemVerbose = GetPrivateProfileInt("config",
-                                       "verbose",
-                                       0,
-                                       MakeInstanceFilename("vbam.ini"));
+  systemVerbose = GetPrivateProfileIntA( "config",
+										 "verbose",
+										 0,
+										 MakeInstanceFilename("vbam.ini"));
 
-  systemDebug = GetPrivateProfileInt("config",
-                                     "debug",
-                                     0,
-                                     MakeInstanceFilename("vbam.ini"));
+  systemDebug = GetPrivateProfileIntA(	"config",
+										"debug",
+										0,
+										MakeInstanceFilename("vbam.ini"));
 
   wndClass = AfxRegisterWndClass(0, LoadCursor(IDC_ARROW), (HBRUSH)GetStockObject(BLACK_BRUSH), LoadIcon(IDI_MAINICON));
 
   char winBuffer[2048];
-
-  GetModuleFileName(NULL, winBuffer, 2048);
+  GetModuleFileNameA(NULL, winBuffer, 2048);
   char *p = strrchr(winBuffer, '\\');
   if(p)
     *p = 0;
@@ -502,7 +502,7 @@ BOOL VBA::InitInstance()
 
   winAccelMgr.Connect((MainWnd *)m_pMainWnd);
 
-  winAccelMgr.SetRegKey(HKEY_CURRENT_USER, "Software\\Emulators\\VisualBoyAdvance");
+  winAccelMgr.SetRegKey(HKEY_CURRENT_USER, _T( "Software\\Emulators\\VisualBoyAdvance" ) );
 
   extern void winAccelAddCommands(CAcceleratorManager&);
 
@@ -526,7 +526,7 @@ BOOL VBA::InitInstance()
 	//	##RA
 	HINSTANCE hInst = AfxGetInstanceHandle();
 
-	RA_Init( ( (MainWnd*)m_pMainWnd )->GetSafeHwnd(), RA_VisualboyAdvance, CLIENT_VERSION );
+	RA_Init( ( (MainWnd*)m_pMainWnd )->GetSafeHwnd(), RA_VisualboyAdvance, RAVBA_VERSION );
 	RA_InitShared();
 	RA_RebuildMenu();
 	RA_AttemptLogin( true );
@@ -899,40 +899,35 @@ void VBA::updateMenuBar()
   //	Associate RA to the main menu:
   HMENU hRA = RA_CreatePopupMenu();
   if( hRA )
-	AppendMenu( menu, MF_POPUP|MF_STRING, (UINT_PTR)hRA, TEXT("RetroAchievements") );
+	AppendMenu( menu, MF_POPUP|MF_STRING, (UINT_PTR)hRA, _T("RetroAchievements") );
 
   if(m_pMainWnd)
       m_pMainWnd->SetMenu(&m_menu);
 }
 
-void winlog(const char *msg, ...)
+void winlog(const char* format, ...)
 {
-  CString buffer;
-  va_list valist;
+	char buffer[ 2048 ];
+	va_list valist;
+	va_start( valist, format );
+	vsprintf_s( buffer, 2048, format, valist );
 
-  va_start(valist, msg);
-  buffer.FormatV(msg, valist);
+	if(theApp.winout == NULL) {
+		theApp.winout = fopen("vba-trace.log","w");
+	}
 
-  if(theApp.winout == NULL) {
-    theApp.winout = fopen("vba-trace.log","w");
-  }
-
-  fputs(buffer, theApp.winout);
-
-  va_end(valist);
+	fputs( buffer, theApp.winout );
+	va_end( valist );
 }
 
-void log(const char *msg, ...)
+void log(const char* format, ...)
 {
-  CString buffer;
-  va_list valist;
-
-  va_start(valist, msg);
-  buffer.FormatV(msg, valist);
-
-  toolsLog(buffer);
-
-  va_end(valist);
+	char buffer[ 2048 ];
+	va_list valist;
+	va_start( valist, format );
+	vsprintf_s( buffer, 2048, format, valist );
+	toolsLog( buffer );
+	va_end( valist );
 }
 
 bool systemReadJoypads()
@@ -1029,15 +1024,15 @@ u32 systemGetClock()
   return GetTickCount();
 }
 
-void systemMessage(int number, const char *defaultMsg, ...)
+void systemMessage(int number, const char* defaultMsg, ...)
 {
   CString buffer;
   va_list valist;
-  CString msg = defaultMsg;
+  CString msg = StrToWideStr( std::string( defaultMsg ) ).c_str();
   if(number)
     msg = winResLoadString(number);
 
-  va_start(valist, defaultMsg);
+  va_start( valist, defaultMsg );
   buffer.FormatV(msg, valist);
 
   CWnd *win = AfxGetApp()->GetMainWnd();
@@ -1060,20 +1055,18 @@ void systemSetTitle(const char *title)
 
 void systemShowSpeed(int speed)
 {
-  systemSpeed = speed;
-  theApp.showRenderedFrames = theApp.renderedFrames;
-  theApp.renderedFrames = 0;
-  if(theApp.videoOption <= VIDEO_6X && theApp.showSpeed) {
-    CString buffer;
-    if(theApp.showSpeed == 1)
-      buffer.Format(VBA_NAME_AND_SUBVERSION "-%3d%%", systemSpeed);
-    else
-      buffer.Format(VBA_NAME_AND_SUBVERSION "-%3d%%(%d, %d fps)", systemSpeed,
-                    systemFrameSkip,
-                    theApp.showRenderedFrames);
-
-    systemSetTitle(buffer);
-  }
+	systemSpeed = speed;
+	theApp.showRenderedFrames = theApp.renderedFrames;
+	theApp.renderedFrames = 0;
+	if(theApp.videoOption <= VIDEO_6X && theApp.showSpeed) 
+	{
+		char buffer[ 1024 ];
+		if(theApp.showSpeed == 1)
+			sprintf_s( buffer, 1024, VBA_NAME_AND_SUBVERSION "-%3d%%", systemSpeed );
+		else
+			sprintf_s( buffer, 1024, VBA_NAME_AND_SUBVERSION "-%3d%%(%d, %d fps)", systemSpeed, systemFrameSkip, theApp.showRenderedFrames );
+		systemSetTitle( buffer );
+	}
 }
 
 

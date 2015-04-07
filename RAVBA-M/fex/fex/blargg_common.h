@@ -79,15 +79,15 @@ future version. In GCC, we can let the compiler warn. In other compilers,
 we strip it out unless BLARGG_LEGACY is true. */
 #if BLARGG_LEGACY
 	// Allow old client code to work without warnings
-	#define BLARGG_DEPRECATED_TEXT( text ) text
+	#define BLARGG_DEPRECATED__T( text ) text
 	#define BLARGG_DEPRECATED(      text ) text
 #elif __GNUC__ >= 4
 	// In GCC, we can mark declarations and let the compiler warn
-	#define BLARGG_DEPRECATED_TEXT( text ) text
+	#define BLARGG_DEPRECATED__T( text ) text
 	#define BLARGG_DEPRECATED(      text ) __attribute__ ((deprecated)) text
 #else
 	// By default, deprecated items are removed, to avoid use in new code
-	#define BLARGG_DEPRECATED_TEXT( text )
+	#define BLARGG_DEPRECATED__T( text )
 	#define BLARGG_DEPRECATED(      text )
 #endif
 

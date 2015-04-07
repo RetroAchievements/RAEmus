@@ -4,6 +4,7 @@
 
 #include "../gba/GBA.h"
 #include "../NLS.h"
+#include "RA_Interface.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -25,8 +26,8 @@ ExportGSASnapshot::ExportGSASnapshot(CString filename, CString title, CWnd* pPar
   //}}AFX_DATA_INIT
   m_title = title;
   m_filename = filename;
-  char date[100];
-  char time[100];
+  TCHAR date[100];
+  TCHAR time[100];
 
   GetDateFormat(LOCALE_USER_DEFAULT,
                 DATE_SHORTDATE,
@@ -40,7 +41,7 @@ ExportGSASnapshot::ExportGSASnapshot(CString filename, CString title, CWnd* pPar
                 NULL,
                 time,
                 100);
-  m_desc.Format("%s %s", date, time);
+  m_desc.Format( _T( "%s %s" ), date, time);
 }
 
 
@@ -86,7 +87,11 @@ void ExportGSASnapshot::OnOk()
 {
   UpdateData(TRUE);
 
-  bool result = CPUWriteGSASnapshot(m_filename, m_title, m_desc, m_notes);
+  bool result = CPUWriteGSASnapshot(
+	  WideStrToStr( m_filename.GetString() ).c_str(), 
+	  WideStrToStr( m_title.GetString() ).c_str(), 
+	  WideStrToStr( m_desc.GetString() ).c_str(), 
+	  WideStrToStr( m_notes.GetString() ).c_str() );
 
   if(!result)
     systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s",

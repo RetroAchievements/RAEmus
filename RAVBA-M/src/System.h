@@ -2,7 +2,6 @@
 #define SYSTEM_H
 
 #include "common/Types.h"
-
 #include <zlib.h>
 
 class SoundDriver;
@@ -49,7 +48,7 @@ extern bool systemReadJoypads();
 // return information about the given joystick, -1 for default joystick
 extern u32 systemReadJoypad(int);
 extern u32 systemGetClock();
-extern void systemMessage(int, const char *, ...);
+extern void systemMessage(int, const char*, ...);
 extern void systemSetTitle(const char *);
 extern SoundDriver * systemSoundInit();
 extern void systemOnWriteDataToSoundBuffer(const u16 * finalWave, int length);

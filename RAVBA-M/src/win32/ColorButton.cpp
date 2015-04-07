@@ -92,7 +92,7 @@ void ColorButton::registerClass()
     wc.hIcon = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH )GetStockObject(BLACK_BRUSH);
     wc.lpszMenuName = NULL;
-    wc.lpszClassName = "VbaColorButton";
+    wc.lpszClassName = _T("VbaColorButton");
     AfxRegisterClass(&wc);
     isRegistered = true;
   }

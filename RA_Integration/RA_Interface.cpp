@@ -1,9 +1,12 @@
 #include "RA_Interface.h"
 
 #include <Windows.h>
-#include <WinHttp.h>
+#include <winhttp.h>
 #include <stdio.h>
 #include <assert.h>
+#include <tchar.h>
+#include <locale>
+#include <codecvt>
 
 
 #ifndef CCONV
@@ -56,6 +59,18 @@ void RA_GetEstimatedGameTitle( char* sNameOut )
 {
 	if( _RA_GetEstimatedGameTitle != NULL )
 		_RA_GetEstimatedGameTitle( sNameOut );
+}
+
+std::string WideStrToStr( const std::wstring& wstr )
+{
+    std::wstring_convert< std::codecvt_utf8< wchar_t >, wchar_t > converter;
+    return converter.to_bytes( wstr );
+}
+
+std::wstring StrToWideStr( const std::string& str )
+{
+    std::wstring_convert< std::codecvt_utf8< wchar_t > , wchar_t > converter;
+    return converter.from_bytes( str );
 }
 
 
@@ -348,7 +363,8 @@ void WriteBufferToFile( const char* sFile, const char* sBuffer, int nBytes )
 	}
 	else
 	{
-		MessageBox( nullptr, "Problems writing file!", sFile, MB_OK );
+		//	If we are using const char*, we must use ASCII version of MessageBox!
+		MessageBoxA( nullptr, "Problems writing file!", sFile, MB_OK );
 	}
 }
 
@@ -392,15 +408,15 @@ const char* CCONV _RA_InstallIntegration()
 	SetErrorMode( 0 );
 	
 #ifndef NDEBUG
-	g_hRADLL = ::LoadLibraryEx( TEXT( "RA_Integration_d.dll" ), NULL, 0 ); //LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE
+	g_hRADLL = ::LoadLibraryEx( _T( "RA_Integration_d.dll" ), NULL, 0 ); //LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE
 #else
-	g_hRADLL = ::LoadLibrary( TEXT( "RA_Integration.dll" ) );
+	g_hRADLL = ::LoadLibrary( _T( "RA_Integration.dll" ) );
 #endif
 	if( g_hRADLL == NULL )
 	{
 		char buffer[1024];
 		sprintf_s( buffer, 1024, "LoadLibrary failed: %d : %s\n", ::GetLastError(), GetLastErrorAsString().c_str() );
-		MessageBox( NULL, buffer, "Sorry!", MB_OK );
+		MessageBoxA( NULL, buffer, "Sorry!", MB_OK );
 		return "0.000";
 	}
 
@@ -553,6 +569,5 @@ void RA_Shutdown()
 	//	Uninstall DLL
 	FreeLibrary( g_hRADLL );
 }
-
 
 #endif //RA_EXPORTS

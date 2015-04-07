@@ -75,7 +75,7 @@ void ColorControl::registerClass()
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH )GetStockObject(BLACK_BRUSH);
     wc.lpszMenuName = NULL;
-    wc.lpszClassName = "VbaColorControl";
+    wc.lpszClassName = _T( "VbaColorControl" );
     AfxRegisterClass(&wc);
     isRegistered = true;
   }

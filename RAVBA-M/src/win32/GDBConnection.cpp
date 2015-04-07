@@ -2,7 +2,8 @@
 #include "vba.h"
 #include "GDBConnection.h"
 
-#include <winsock.h>
+#include <Windows.h>
+#include <WinSock2.h>
 
 #define SOCKET_MESSAGE WM_APP+1
 

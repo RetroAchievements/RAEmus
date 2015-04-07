@@ -7,7 +7,8 @@
 // GDBConnection.h : header file
 //
 
-#include <winsock.h>
+#include <Windows.h>
+#include <WinSock2.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // GDBPortDlg dialog

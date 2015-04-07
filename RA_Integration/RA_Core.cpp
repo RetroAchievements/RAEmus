@@ -714,35 +714,35 @@ API HMENU CCONV _RA_CreatePopupMenu()
 	HMENU hRA = CreatePopupMenu();
 	if( RAUsers::LocalUser.IsLoggedIn() )
 	{
-		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_LOGOUT, TEXT("Log&out") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_LOGOUT, _T("Log&out") );
 		AppendMenu( hRA, MF_SEPARATOR, NULL, NULL );
-		AppendMenu( hRA, MF_STRING, IDM_RA_OPENUSERPAGE, TEXT("Open my &User Page") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_OPENUSERPAGE, _T("Open my &User Page") );
 
 		UINT nGameFlags = MF_STRING;
 		//if( g_pActiveAchievements->GameID() == 0 )	//	Disabled til I can get this right: Snes9x doesn't call this?
 		//	nGameFlags |= (MF_GRAYED|MF_DISABLED);
 
-		AppendMenu( hRA, nGameFlags, IDM_RA_OPENGAMEPAGE, TEXT("Open this &Game's Page") );
+		AppendMenu( hRA, nGameFlags, IDM_RA_OPENGAMEPAGE, _T("Open this &Game's Page") );
 		AppendMenu( hRA, MF_SEPARATOR, NULL, NULL );
-		AppendMenu( hRA, g_bHardcoreModeActive ? MF_CHECKED : MF_UNCHECKED, IDM_RA_HARDCORE_MODE, TEXT("&Hardcore Mode") );
+		AppendMenu( hRA, g_bHardcoreModeActive ? MF_CHECKED : MF_UNCHECKED, IDM_RA_HARDCORE_MODE, _T("&Hardcore Mode") );
 		AppendMenu( hRA, MF_SEPARATOR, NULL, NULL );
-		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_ACHIEVEMENTS, TEXT("Achievement &Sets") );
-		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_ACHIEVEMENTEDITOR, TEXT("Achievement &Editor") );
-		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_MEMORYFINDER, TEXT("&Memory Inspector") );
-		AppendMenu( hRA, MF_STRING, IDM_RA_PARSERICHPRESENCE, TEXT("&Parse Rich Presence script") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_ACHIEVEMENTS, _T("Achievement &Sets") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_ACHIEVEMENTEDITOR, _T("Achievement &Editor") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_MEMORYFINDER, _T("&Memory Inspector") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_PARSERICHPRESENCE, _T("&Parse Rich Presence script") );
 		AppendMenu( hRA, MF_SEPARATOR, NULL, NULL );
-		AppendMenu( hRA, MF_STRING, IDM_RA_REPORTBROKENACHIEVEMENTS, TEXT("&Report Broken Achievements") );
-		AppendMenu( hRA, MF_STRING, IDM_RA_GETROMCHECKSUM, TEXT("Get ROM &Checksum") );
-		AppendMenu( hRA, MF_STRING, IDM_RA_SCANFORGAMES, TEXT("Scan &for games") );
-		AppendMenu( hRA, MF_STRING, IDM_RA_TOGGLELEADERBOARDS, TEXT("Toggle &Leaderboards") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_REPORTBROKENACHIEVEMENTS, _T("&Report Broken Achievements") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_GETROMCHECKSUM, _T("Get ROM &Checksum") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_SCANFORGAMES, _T("Scan &for games") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_TOGGLELEADERBOARDS, _T("Toggle &Leaderboards") );
 	}
 	else
 	{
-		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_LOGIN, TEXT("&Login to RA") );
+		AppendMenu( hRA, MF_STRING, IDM_RA_FILES_LOGIN, _T("&Login to RA") );
 	}
 
 	AppendMenu( hRA, MF_SEPARATOR, NULL, NULL );
-	AppendMenu( hRA, MF_STRING, IDM_RA_FILES_CHECKFORUPDATE, TEXT("&Check for Emulator Update") );
+	AppendMenu( hRA, MF_STRING, IDM_RA_FILES_CHECKFORUPDATE, _T("&Check for Emulator Update") );
 	
 	return hRA;
 }
@@ -1400,18 +1400,6 @@ BOOL _FileExists( const std::string& sFileName )
 	{
 		return FALSE;
 	}
-}
-
-std::string WideStrToStr( const std::wstring& wstr )
-{
-    std::wstring_convert< std::codecvt_utf8< wchar_t >, wchar_t > converter;
-    return converter.to_bytes( wstr );
-}
-
-std::wstring StrToWideStr( const std::string& str )
-{
-    std::wstring_convert< std::codecvt_utf8< wchar_t > , wchar_t > converter;
-    return converter.from_bytes( str );
 }
 
 std::string GetFolderURLFromDialog()

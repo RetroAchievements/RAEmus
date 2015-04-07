@@ -4,15 +4,17 @@
 #include <string.h>
 #include <memory.h>
 #include <assert.h>
+#include <tchar.h>
+#include <WTypes.h>
 
-#include "../System.h"
-#include "../NLS.h"
 #include "gb.h"
 #include "gbCheats.h"
 #include "gbGlobals.h"
 #include "gbMemory.h"
 #include "gbSGB.h"
 #include "gbSound.h"
+#include "../System.h"
+#include "../NLS.h"
 #include "../Util.h"
 
 #ifdef __GNUC__
@@ -2137,7 +2139,7 @@ void gbCPUInit(const char *biosFileName, bool useBiosFile)
       if(size == 0x100)
         useBios = true;
       else
-        systemMessage(MSG_INVALID_BIOS_FILE_SIZE, N_("Invalid BOOTROM file size"));
+        systemMessage(MSG_INVALID_BIOS_FILE_SIZE, "Invalid BOOTROM file size");
     }
   }
 }
@@ -2726,7 +2728,7 @@ void gbWriteSaveMBC1(const char * name)
     FILE *gzFile = fopen(name,"wb");
 
     if(gzFile == NULL) {
-      systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), name);
+      systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", name);
       return;
     }
 
@@ -2746,7 +2748,7 @@ void gbWriteSaveMBC2(const char * name)
     FILE *file = fopen(name, "wb");
 
     if(file == NULL) {
-      systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), name);
+      systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", name);
       return;
     }
 
@@ -2768,7 +2770,7 @@ void gbWriteSaveMBC3(const char * name, bool extendedSave)
     {
 
       if(gzFile == NULL) {
-        systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), name);
+        systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", name);
         return;
       }
 
@@ -2795,7 +2797,7 @@ void gbWriteSaveMBC5(const char * name)
     FILE *gzFile = fopen(name,"wb");
 
     if(gzFile == NULL) {
-      systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), name);
+      systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", name);
       return;
     }
 
@@ -2815,7 +2817,7 @@ void gbWriteSaveMBC7(const char * name)
     FILE *file = fopen(name, "wb");
 
     if(file == NULL) {
-      systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), name);
+      systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", name);
       return;
     }
 
@@ -2833,7 +2835,7 @@ void gbWriteSaveTAMA5(const char * name, bool extendedSave)
   FILE *gzFile = fopen(name,"wb");
 
   if(gzFile == NULL) {
-    systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), name);
+    systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", name);
     return;
   }
   if (gbRam)
@@ -2863,7 +2865,7 @@ void gbWriteSaveMMM01(const char * name)
     FILE *gzFile = fopen(name,"wb");
 
     if(gzFile == NULL) {
-      systemMessage(MSG_ERROR_CREATING_FILE, N_("Error creating file %s"), name);
+      systemMessage(MSG_ERROR_CREATING_FILE, "Error creating file %s", name);
       return;
     }
 
@@ -2893,7 +2895,7 @@ bool gbReadSaveMBC1(const char * name)
 
     if(read != (gbRamSizeMask+1)) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       gzclose(gzFile);
       gbBatteryError = true;
       return false;
@@ -2908,7 +2910,7 @@ bool gbReadSaveMBC1(const char * name)
                   1);
     if(read >0) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       gzclose(gzFile);
       gbBatteryError = true;
       return false;
@@ -2939,7 +2941,7 @@ bool gbReadSaveMBC2(const char * name)
 
     if(read != 512) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       fclose(file);
       gbBatteryError = true;
       return false;
@@ -2955,7 +2957,7 @@ bool gbReadSaveMBC2(const char * name)
                  file);
     if(read > 0) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       fclose(file);
       gbBatteryError = true;
       return false;
@@ -2990,7 +2992,7 @@ bool gbReadSaveMBC3(const char * name)
 
   if(read != (gbRamSizeMask+1)) {
     systemMessage(MSG_FAILED_TO_READ_SGM,
-                  N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                  "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
     gbBatteryError = true;
     res = false;
   } else if ((gbRomType == 0xf) || (gbRomType == 0x10)){
@@ -2999,13 +3001,13 @@ bool gbReadSaveMBC3(const char * name)
                   sizeof(int)*10 + sizeof(time_t));
 
     if(read != (sizeof(int)*10 + sizeof(time_t)) && read != 0) {
-       systemMessage(MSG_FAILED_TO_READ_RTC,N_("Failed to read RTC from save game %s (continuing)"),
+       systemMessage(MSG_FAILED_TO_READ_RTC, "Failed to read RTC from save game %s (continuing)",
                      name);
        res = false;
     }
     else if (read == 0)
     {
-       systemMessage(MSG_FAILED_TO_READ_RTC,N_("Failed to read RTC from save game %s (continuing)"),
+       systemMessage(MSG_FAILED_TO_READ_RTC, "Failed to read RTC from save game %s (continuing)",
                      name);
        res = false;
     }
@@ -3020,7 +3022,7 @@ bool gbReadSaveMBC3(const char * name)
                     1);
       if(read >0) {
         systemMessage(MSG_FAILED_TO_READ_SGM,
-                      N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                      "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
         gbBatteryError = true;
         res = false;
       }
@@ -3047,7 +3049,7 @@ bool gbReadSaveMBC5(const char * name)
 
     if(read != (gbRamSizeMask+1)) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       gzclose(gzFile);
       gbBatteryError = true;
       return false;
@@ -3063,7 +3065,7 @@ bool gbReadSaveMBC5(const char * name)
                   1);
     if(read >0) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       gzclose(gzFile);
       gbBatteryError = true;
       return false;
@@ -3093,7 +3095,7 @@ bool gbReadSaveMBC7(const char * name)
 
     if(read != 256) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       fclose(file);
       gbBatteryError = true;
       return false;
@@ -3109,7 +3111,7 @@ bool gbReadSaveMBC7(const char * name)
                  file);
     if(read > 0) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       fclose(file);
       gbBatteryError = true;
       return false;
@@ -3147,7 +3149,7 @@ bool gbReadSaveTAMA5(const char * name)
 
   if(read != (gbRamSizeMask+gbTAMA5ramSize+1)) {
     systemMessage(MSG_FAILED_TO_READ_SGM,
-                  N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                  "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
     gbBatteryError = true;
     res = false;
   } else {
@@ -3156,13 +3158,13 @@ bool gbReadSaveTAMA5(const char * name)
                   sizeof(int)*14 + sizeof(time_t));
 
     if(read != (sizeof(int)*14 + sizeof(time_t)) && read != 0) {
-       systemMessage(MSG_FAILED_TO_READ_RTC,N_("Failed to read RTC from save game %s (continuing)"),
+       systemMessage(MSG_FAILED_TO_READ_RTC, "Failed to read RTC from save game %s (continuing)",
                      name);
        res = false;
     }
     else if (read == 0)
     {
-       systemMessage(MSG_FAILED_TO_READ_RTC,N_("Failed to read RTC from save game %s (continuing)"),
+       systemMessage(MSG_FAILED_TO_READ_RTC, "Failed to read RTC from save game %s (continuing)",
                      name);
        res = false;
     }
@@ -3177,7 +3179,7 @@ bool gbReadSaveTAMA5(const char * name)
                     1);
       if(read >0) {
         systemMessage(MSG_FAILED_TO_READ_SGM,
-                      N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                      "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
         gbBatteryError = true;
         res = false;
       }
@@ -3205,7 +3207,7 @@ bool gbReadSaveMMM01(const char * name)
 
     if(read != (gbRamSizeMask+1)) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       gzclose(gzFile);
       gbBatteryError = true;
       return false;
@@ -3220,7 +3222,7 @@ bool gbReadSaveMMM01(const char * name)
                   1);
     if(read >0) {
       systemMessage(MSG_FAILED_TO_READ_SGM,
-                    N_("Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !"), name, read);
+                    "Battery file's size incompatible with the rom settings %s (%d).\nWarning : save of the battery file is now disabled !", name, read);
       gzclose(gzFile);
       gbBatteryError = true;
       return false;
@@ -3388,7 +3390,7 @@ bool gbReadGSASnapshot(const char *fileName)
   FILE *file = fopen(fileName, "rb");
 
   if(!file) {
-    systemMessage(MSG_CANNOT_OPEN_FILE, N_("Cannot open file %s"), fileName);
+    systemMessage(MSG_CANNOT_OPEN_FILE, "Cannot open file %s", fileName);
     return false;
   }
 
@@ -3401,7 +3403,7 @@ bool gbReadGSASnapshot(const char *fileName)
   buffer2[15] = 0;
   if(memcmp(buffer, buffer2, 15)) {
     systemMessage(MSG_CANNOT_IMPORT_SNAPSHOT_FOR,
-                  N_("Cannot import snapshot for %s. Current game is %s"),
+                  "Cannot import snapshot for %s. Current game is %s",
                   buffer,
                   buffer2);
     fclose(file);
@@ -3428,7 +3430,7 @@ bool gbReadGSASnapshot(const char *fileName)
     break;
   default:
     systemMessage(MSG_UNSUPPORTED_SNAPSHOT_FILE,
-                  N_("Unsupported snapshot file %s"),
+                  "Unsupported snapshot file %s",
                   fileName);
     fclose(file);
     return false;
@@ -3622,7 +3624,7 @@ static bool gbReadSaveState(gzFile gzFile)
 
   if(version > GBSAVE_GAME_VERSION || version < 0) {
     systemMessage(MSG_UNSUPPORTED_VB_SGM,
-                  N_("Unsupported VisualBoy save game version %d"), version);
+                  "Unsupported VisualBoy save game version %d", version);
     return false;
   }
 
@@ -3632,7 +3634,7 @@ static bool gbReadSaveState(gzFile gzFile)
 
   if(memcmp(&gbRom[0x134], romname, 15) != 0) {
     systemMessage(MSG_CANNOT_LOAD_SGM_FOR,
-                  N_("Cannot load save game for %s. Playing %s"),
+                  "Cannot load save game for %s. Playing %s",
                   romname, &gbRom[0x134]);
     return false;
   }
@@ -3649,10 +3651,10 @@ static bool gbReadSaveState(gzFile gzFile)
     if((ub != useBios) && (ib)) {
       if(useBios)
         systemMessage(MSG_SAVE_GAME_NOT_USING_BIOS,
-                      N_("Save game is not using the BIOS files"));
+                      "Save game is not using the BIOS files" );
       else
         systemMessage(MSG_SAVE_GAME_USING_BIOS,
-                      N_("Save game is using the BIOS file"));
+                      "Save game is using the BIOS file" );
       return false;
     }
   }
@@ -4109,7 +4111,7 @@ bool gbUpdateSizes()
 {
   if(gbRom[0x148] > 8) {
     systemMessage(MSG_UNSUPPORTED_ROM_SIZE,
-                  N_("Unsupported rom size %02x"), gbRom[0x148]);
+                  "Unsupported rom size %02x", gbRom[0x148]);
     return false;
   }
 
@@ -4168,7 +4170,7 @@ bool gbUpdateSizes()
 
   if(ramsize > 5) {
     systemMessage(MSG_UNSUPPORTED_RAM_SIZE,
-                  N_("Unsupported ram size %02x"), gbRom[0x149]);
+                  "Unsupported ram size %02x", gbRom[0x149]);
     return false;
   }
 
@@ -4305,7 +4307,7 @@ bool gbUpdateSizes()
     break;
   default:
     systemMessage(MSG_UNKNOWN_CARTRIDGE_TYPE,
-                  N_("Unknown cartridge type %02x"), gbRomType);
+                  "Unknown cartridge type %02x", gbRomType);
     return false;
   }
 

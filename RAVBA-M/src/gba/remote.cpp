@@ -16,7 +16,8 @@
 # endif // ! HAVE_ARPA_INET_H
 # define SOCKET int
 #else // _WIN32
-# include <winsock.h>
+#include <WinSock2.h>
+//#include <Windows.h>
 # include <io.h>
 # define socklen_t int
 # define close closesocket

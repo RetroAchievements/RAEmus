@@ -1,15 +1,6 @@
 #pragma once
 
-// make windows controls look newer / enable visual styles:
-//#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' ""version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
-
-//#ifndef VC_EXTRALEAN
-//#define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
-//#endif
-
-#ifndef NO_STRICT
-#define STRICT
-#endif
+#define WIN32_LEAN_AND_MEAN
 
 #include "targetver.h"
 
@@ -20,6 +11,8 @@
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
+
+#include <WinSock2.h>		//	Must include early!
 
 
 #ifndef _AFX_NO_OLE_SUPPORT

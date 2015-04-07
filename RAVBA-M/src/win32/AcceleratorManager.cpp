@@ -495,7 +495,7 @@ void CAcceleratorManager::UpdateMenu(HMENU menu)
 
   if(info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
     MENUITEMINFO info;
-    char ss[128];
+    TCHAR ss[128];
     ZeroMemory(&info, sizeof(info));
     info.cbSize = sizeof(info) - sizeof(HBITMAP);
     info.fMask = MIIM_ID | MIIM_SUBMENU;
@@ -577,12 +577,12 @@ void CAcceleratorManager::UpdateMenu(HMENU menu)
               CString s;
               accel->GetString(s);
 
-              wchar_t temp[128];
+              TCHAR temp[128];
               temp[0] = '\t';
               temp[1] = 0;
               wcscat(str, temp);
               p = temp;
-              for(const char *sp = s; *sp; sp++)
+              for(const TCHAR* sp = s; *sp; sp++)
                 *p++ = *sp;
               *p = 0;
               wcscat(str, temp);

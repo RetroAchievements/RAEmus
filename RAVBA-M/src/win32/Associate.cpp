@@ -2,6 +2,7 @@
 #include "vba.h"
 #include "Associate.h"
 #include "Reg.h"
+#include "RA_Interface.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -92,16 +93,16 @@ void Associate::OnOk()
   if(m_bin)
     mask |= 128;
   if(mask) {
-    char applicationPath[2048];
-    CString commandPath;
-    LPCTSTR types[] = { "*.dmg", ".gb", ".sgb", ".cgb", ".gbc", ".gba", ".agb", ".bin" };
+    TCHAR applicationPath[2048];
     GetModuleFileName(NULL, applicationPath, 2048);
-    commandPath.Format("\"%s\" \"%%1\"", applicationPath);
+    CString commandPath;
+    commandPath.Format( L"\"%s\" \"%%1\"", applicationPath);
     regAssociateType("VisualBoyAdvance.Binary",
                      "Binary",
-                     commandPath,
+                     WideStrToStr( std::wstring( commandPath.GetString() ) ).c_str(),
 					 "%SystemRoot%\\system32\\SHELL32.dll,-13");
-
+	
+    const char* types[] = { "*.dmg", ".gb", ".sgb", ".cgb", ".gbc", ".gba", ".agb", ".bin" };
     for(int i = 0; i < 8; i++) {
       if(mask & (1<<i)) {
         regCreateFileType(types[i],"VisualBoyAdvance.Binary");

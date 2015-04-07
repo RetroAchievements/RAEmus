@@ -242,7 +242,7 @@ void BitmapControl::registerClass()
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszMenuName = NULL;
-    wc.lpszClassName = "VbaBitmapControl";
+    wc.lpszClassName = _T( "VbaBitmapControl" );
     AfxRegisterClass(&wc);
     isRegistered = true;
   }

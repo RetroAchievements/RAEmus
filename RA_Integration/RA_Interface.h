@@ -1,18 +1,17 @@
 #pragma once
-
 //	NB. Shared between RA_Integration and emulator
 
 #include "RA_Defs.h"
 
 struct ControllerInput
 {
-	BOOL m_bUpPressed;
-	BOOL m_bDownPressed;
-	BOOL m_bLeftPressed;
-	BOOL m_bRightPressed;
-	BOOL m_bConfirmPressed;	//	Usually C or A
-	BOOL m_bCancelPressed;	//	Usually B
-	BOOL m_bQuitPressed;	//	Usually Start
+	bool m_bUpPressed;
+	bool m_bDownPressed;
+	bool m_bLeftPressed;
+	bool m_bRightPressed;
+	bool m_bConfirmPressed;	//	Usually C or A
+	bool m_bCancelPressed;	//	Usually B
+	bool m_bQuitPressed;	//	Usually Start
 };
 
 enum EmulatorID
@@ -63,6 +62,9 @@ extern void RA_RebuildMenu();
 extern void RA_GetEstimatedGameTitle( char* sNameOut );
 extern void RA_ResetEmulation();
 extern void RA_LoadROM( char* sFullPath );
+
+extern std::string WideStrToStr( const std::wstring& wstr );
+extern std::wstring StrToWideStr( const std::string& str );
 
 #ifndef RA_EXPORTS
 

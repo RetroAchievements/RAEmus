@@ -6,6 +6,7 @@
 #include "../gba/armdis.h"
 #include "../gba/GBA.h"
 #include "../gba/Globals.h"
+#include "RA_Interface.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -112,7 +113,8 @@ void Disassemble::OnGo()
 {
   CString buffer;
   m_address.GetWindowText(buffer);
-  sscanf(buffer, "%x", &address);
+  _tscanf(buffer, "%x", &address);
+
   if (mode==1)
       address&=0xfffffffc;
   else if (mode==2)
@@ -183,7 +185,7 @@ BOOL Disassemble::OnInitDialog()
     SetData(sz,
             TRUE,
             HKEY_CURRENT_USER,
-            "Software\\Emulators\\VisualBoyAdvance\\Viewer\\DisassembleView",
+            _T( "Software\\Emulators\\VisualBoyAdvance\\Viewer\\DisassembleView" ),
             NULL);
 
   SCROLLINFO si;
@@ -300,7 +302,7 @@ void Disassemble::refresh()
     } else {
       addr += disThumb(addr, buffer, 3);
     }
-    m_list.InsertString(-1, buffer);
+    m_list.InsertString(-1, StrToWideStr( buffer ).c_str() );
   }
 
   if(sel != -1)
@@ -310,7 +312,7 @@ void Disassemble::refresh()
 
   for(i = 0; i < 17; i++) {
     sprintf(buffer, "%08x", reg[i].I);
-    GetDlgItem(IDC_R0+i)->SetWindowText(buffer);
+    GetDlgItem(IDC_R0+i)->SetWindowText( StrToWideStr( buffer ).c_str() );
   }
 
   m_n = (reg[16].I & 0x80000000) != 0;
@@ -325,7 +327,7 @@ void Disassemble::refresh()
 
   int v = reg[16].I & 0x1f;
   sprintf(buffer, "%02x", v);
-  GetDlgItem(IDC_MODE)->SetWindowText(buffer);
+  GetDlgItem(IDC_MODE)->SetWindowText( StrToWideStr( buffer ).c_str() );
 }
 
 void Disassemble::update()

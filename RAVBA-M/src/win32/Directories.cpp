@@ -4,6 +4,8 @@
 #include "Reg.h"
 #include "WinResUtil.h"
 
+#include "RA_Interface.h"
+
 #include <shlobj.h>
 #include <shlwapi.h>
 #ifdef _DEBUG
@@ -151,8 +153,9 @@ void Directories::OnOK()
 {
 	CDialog::OnOK();
 
-	char baseDir[MAX_PATH+1];
-	char temp[MAX_PATH+1];
+	TCHAR baseDir[MAX_PATH+1];
+	TCHAR temp[MAX_PATH+1];
+
 	GetModuleFileName( NULL, baseDir, MAX_PATH );
 	baseDir[MAX_PATH] = '\0'; // for security reasons
 	PathRemoveFileSpec( baseDir ); // removes the trailing file name and backslash
@@ -162,11 +165,11 @@ void Directories::OnOK()
 
 	m_romPath.GetWindowText(buffer);
 	if( !buffer.IsEmpty() )
-		regSetStringValue( "romdir", buffer );
+		regSetStringValue( "romdir", WideStrToStr( buffer.GetString() ).c_str() );
 	if( buffer[0] == '.' ) {
-		strcpy( temp, baseDir );
-		strcat( temp, "\\" );
-		strcat( temp, buffer );
+		_tcsnccpy_s( temp, MAX_PATH, baseDir, MAX_PATH );
+		_tcscat_s( temp, MAX_PATH, _T( "\\" ) );
+		_tcscat_s( temp, MAX_PATH, buffer );
 		buffer = temp;
 	}
 	if( !directoryDoesExist( buffer ) )
@@ -174,11 +177,11 @@ void Directories::OnOK()
 
 	m_gbcromPath.GetWindowText(buffer);
 	if( !buffer.IsEmpty() )
-		regSetStringValue( "gbcromdir", buffer );
+		regSetStringValue( "gbcromdir", WideStrToStr( buffer.GetString() ).c_str() );
 	if( buffer[0] == '.' ) {
-		strcpy( temp, baseDir );
-		strcat( temp, "\\" );
-		strcat( temp, buffer );
+		_tcsnccpy_s( temp, MAX_PATH, baseDir, MAX_PATH );
+		_tcscat_s( temp, MAX_PATH, _T( "\\" ) );
+		_tcscat_s( temp, MAX_PATH, buffer );
 		buffer = temp;
 	}
 	if( !directoryDoesExist( buffer ) )
@@ -186,11 +189,11 @@ void Directories::OnOK()
 
 	m_gbromPath.GetWindowText(buffer);
 	if( !buffer.IsEmpty() )
-		regSetStringValue( "gbromdir", buffer );
+		regSetStringValue( "gbromdir", WideStrToStr( buffer.GetString() ).c_str() );
 	if( buffer[0] == '.' ) {
-		strcpy( temp, baseDir );
-		strcat( temp, "\\" );
-		strcat( temp, buffer );
+		_tcsnccpy_s( temp, MAX_PATH, baseDir, MAX_PATH );
+		_tcscat_s( temp, MAX_PATH, _T( "\\" ) );
+		_tcscat_s( temp, MAX_PATH, buffer );
 		buffer = temp;
 	}
 	if( !directoryDoesExist( buffer ) )
@@ -198,11 +201,11 @@ void Directories::OnOK()
 
 	m_batteryPath.GetWindowText(buffer);
 	if( !buffer.IsEmpty() )
-		regSetStringValue( "batteryDir", buffer );
+		regSetStringValue( "batteryDir", WideStrToStr( buffer.GetString() ).c_str() );
 	if( buffer[0] == '.' ) {
-		strcpy( temp, baseDir );
-		strcat( temp, "\\" );
-		strcat( temp, buffer );
+		_tcsnccpy_s( temp, MAX_PATH, baseDir, MAX_PATH );
+		_tcscat_s( temp, MAX_PATH, _T( "\\" ) );
+		_tcscat_s( temp, MAX_PATH, buffer );
 		buffer = temp;
 	}
 	if( !directoryDoesExist( buffer ) )
@@ -210,11 +213,11 @@ void Directories::OnOK()
 
 	m_savePath.GetWindowText(buffer);
 	if( !buffer.IsEmpty() )
-		regSetStringValue( "saveDir", buffer );
+		regSetStringValue( "saveDir", WideStrToStr( buffer.GetString() ).c_str() );
 	if( buffer[0] == '.' ) {
-		strcpy( temp, baseDir );
-		strcat( temp, "\\" );
-		strcat( temp, buffer );
+		_tcsnccpy_s( temp, MAX_PATH, baseDir, MAX_PATH );
+		_tcscat_s( temp, MAX_PATH, _T( "\\" ) );
+		_tcscat_s( temp, MAX_PATH, buffer );
 		buffer = temp;
 	}
 	if( !directoryDoesExist( buffer ) )
@@ -222,11 +225,11 @@ void Directories::OnOK()
 
 	m_capturePath.GetWindowText(buffer);
 	if( !buffer.IsEmpty() )
-		regSetStringValue( "captureDir", buffer );
+		regSetStringValue( "captureDir", WideStrToStr( buffer.GetString() ).c_str() );
 	if( buffer[0] == '.' ) {
-		strcpy( temp, baseDir );
-		strcat( temp, "\\" );
-		strcat( temp, buffer );
+		_tcsnccpy_s( temp, MAX_PATH, baseDir, MAX_PATH );
+		_tcscat_s( temp, MAX_PATH, _T( "\\" ) );
+		_tcscat_s( temp, MAX_PATH, buffer );
 		buffer = temp;
 	}
 	if( !directoryDoesExist( buffer ) )
@@ -237,7 +240,7 @@ void Directories::OnOK()
 
 CString Directories::browseForDir(CString title)
 {
-  static char buffer[1024];
+  static TCHAR buffer[1024];
   LPMALLOC pMalloc;
   LPITEMIDLIST pidl;
 
@@ -267,7 +270,7 @@ CString Directories::browseForDir(CString title)
 }
 
 // returns true if the directory does exist
-bool Directories::directoryDoesExist(const char *directory)
+bool Directories::directoryDoesExist(const TCHAR* directory)
 {
 	HANDLE hDir;
 	hDir = CreateFile(
