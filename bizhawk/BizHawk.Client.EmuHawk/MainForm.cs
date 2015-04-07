@@ -466,6 +466,7 @@ namespace BizHawk.Client.EmuHawk
             //  RA:
 
             //  Test:
+            RACore.Init();
             RAWebInterface.PerformBackgroundLogin("qwe", "qwe");
             RACore.EventService.RegisterHandler(RAEventType.Login, RAOnLogin);
 		}

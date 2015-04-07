@@ -234,3 +234,7 @@
 /RANes/vc/Debug/obj/*.cache
 /RASnes9x/win32/*.user
 /RAVBA-M/project/vs2012_mfc/Debug
+/bizhawk/RAInterface/BuildVer.cs
+/bizhawk/RAInterface/Diffs.txt
+/bizhawk/RAInterface/LiveTag.txt
+/BuildVer.cs
