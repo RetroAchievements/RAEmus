@@ -75,6 +75,7 @@
 
 
 //	##RA
+#include "../../BuildVer.h"
 #include "RA_Resource.h" 
 #include "RA_Interface.h"
 #include "RA_Implementation.h"
