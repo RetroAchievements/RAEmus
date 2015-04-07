@@ -252,6 +252,7 @@ extern SNPServer NPServer;
 #include "RA_Defs.h"
 #include "RA_Implementation.h"
 #include "RA_Interface.h"
+#include "BuildVer.h"
 
 
 #ifdef _MSC_VER

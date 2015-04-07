@@ -134,6 +134,9 @@ robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
 robocopy ..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
 if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>MakeBuildVer.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -187,6 +190,9 @@ robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
 robocopy ..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
 if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>MakeBuildVer.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
