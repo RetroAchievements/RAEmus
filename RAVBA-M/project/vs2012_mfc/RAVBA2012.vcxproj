@@ -20,6 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v120_xp</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <PlatformToolset>v120_xp</PlatformToolset>
@@ -68,7 +69,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../../RA_Integration;../../src;../../fex;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../RA_Integration;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEV_VERSION;BKPT_SUPPORT;GBA_LOGGING;MMX;ASM;_CRT_SECURE_NO_WARNINGS;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -115,7 +116,7 @@
     </Midl>
     <ClCompile>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>../../DXSDK_March09_x86;../../src;../../fex;../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../DXSDK_March09_x86;../../src;../../fex;../../RA_Integration;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GBA_LOGGING;OEMRESOURCE;MMX;ASM;FINAL_VERSION;BKPT_SUPPORT;_CRT_SECURE_NO_DEPRECATE;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
