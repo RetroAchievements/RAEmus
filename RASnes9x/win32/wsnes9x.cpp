@@ -4078,22 +4078,32 @@ static void ResetFrameTimer ()
 
 unsigned char ByteReader( size_t nOffs )
 {
-	return Memory.RAM[ nOffs ];
+	return Memory.RAM[ nOffs % 0x20000 ];
 }
 
 unsigned char ByteReaderSRAM( size_t nOffs )
 {
-	return Memory.SRAM[ nOffs ];
+	unsigned int nSRAMBytes = Memory.SRAMSize ? (1 << (Memory.SRAMSize + 3)) * 128 : 0;
+	if( nSRAMBytes > 0x20000 )
+		nSRAMBytes = 0x20000;
+
+	return Memory.SRAM[ nOffs % nSRAMBytes ];
 }
 
 void ByteWriter( size_t nOffs, unsigned int nVal )
 {
-	Memory.RAM[ nOffs ] = nVal;
+	if( nOffs < 0x20000 )
+		Memory.RAM[ nOffs ] = nVal;
 }
 
 void ByteWriterSRAM( size_t nOffs, unsigned int nVal )
 {
-	Memory.SRAM[ nOffs ] = nVal;
+	unsigned int nSRAMBytes = Memory.SRAMSize ? (1 << (Memory.SRAMSize + 3)) * 128 : 0;
+	if( nSRAMBytes > 0x20000 )
+		nSRAMBytes = 0x20000;
+
+	if( nOffs < nSRAMBytes )
+		Memory.SRAM[ nOffs ] = nVal;
 }
 
 static bool LoadROMPlain(const TCHAR *filename)

@@ -224,7 +224,7 @@ bool CXAudio2::InitXAudio2(void)
 
 	HRESULT hr;
 	if ( FAILED(hr = XAudio2Create( &pXAudio2 ) ) ) {
-		DXTRACE_ERR_MSGBOX(TEXT("Unable to create XAudio2 object."),hr);
+		//DXTRACE_ERR_MSGBOX(TEXT("Unable to create XAudio2 object."),hr);
 		MessageBox (GUI.hWnd, TEXT("\
 Unable to initialize XAudio2. You will not be able to hear any\n\
 sound effects or music while playing.\n\n\
