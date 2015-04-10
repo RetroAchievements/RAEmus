@@ -52,9 +52,9 @@ void ResetEmulation()
 	}
 }
 
-void LoadROM( char* sFullPath )
+void LoadROM( const char* sFullPath )
 {
-	Pre_Load_Rom( HWnd, sFullPath );
+	Pre_Load_Rom( HWnd, const_cast<char*>( sFullPath ) );
 }
 
 //	Installs these shared functions into the DLL

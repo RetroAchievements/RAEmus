@@ -1484,14 +1484,14 @@ BOOL Init(HINSTANCE hInst, int nCmdShow)
   
 	Identify_CPU();
 
-	i = GetVersion();
+	//i = GetVersion();
  
 	// Get major and minor version numbers of Windows
 
-	if (((i & 0xFF) > 4) || (i & 0x80000000))
-		WinNT_Flag = 0;
-	else 
-		WinNT_Flag = 1;
+	//if (((i & 0xFF) > 4) || (i & 0x80000000))
+	//	WinNT_Flag = 0;
+	//else 
+	//	WinNT_Flag = 1;
 
 	GetCurrentDirectory( 1024, Gens_Path );
 	GetCurrentDirectory( 1024, Language_Path );

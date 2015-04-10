@@ -16,14 +16,13 @@ SRC_RA=..\..\RA_Integration
 DX_LIBS="C:\SDK\DX90CSDK\Lib\x86"
 DX_SDK="C:\SDK\DX90CSDK\Include"
 
+PREBUILD=MakeBuildVer.bat
 
 !IF "$(RELEASE)"=="1"
 POSTBUILD=copy $(SRC_RA)\RA_Integration.dll . && copy $(SRC_RA)\*.pdb .
 !ELSE
 POSTBUILD=copy $(SRC_RA)\RA_Integration_d.dll . && copy $(SRC_RA)\*.pdb .
 !ENDIF
-
-PREBUILD=MakeBuildVer.bat
 
 !IF [if not exist $(GENSPATH) mkdir $(GENSPATH)]
 !ERROR Could not create path "$(GENSPATH)".
@@ -162,7 +161,9 @@ STARSCREAM_LIBS = \
 	odbc32.lib \
 	odbccp32.lib
 
-all:
+all: pre-build gens
+
+pre-build:
 	$(PREBUILD)
 
 gens: $(GENSPATH)\RAGens.exe
