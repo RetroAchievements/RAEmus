@@ -7,8 +7,6 @@
 #include "memmap.h"
 #include "controls.h"
 
-extern bool8 S9xLoadROMImage (const TCHAR *string);
-
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.
 bool GameIsActive()
@@ -45,10 +43,14 @@ void ResetEmulation()
 		S9xReset();
 }
 
-void LoadROMFromEmu( char* sFullPath )
+extern bool8 S9xLoadROMImage( const TCHAR* string );
+void LoadROMFromEmu( const char* sFullPath )
 {
+#ifdef UNICODE
+	S9xLoadROMImage( Widen( sFullPath ).c_str() );
+#else
 	S9xLoadROMImage( sFullPath );
-	//Pre_Load_Rom( HWnd, sFullPath );
+#endif
 }
 
 //	Installs these shared functions into the DLL

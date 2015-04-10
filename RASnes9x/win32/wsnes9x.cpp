@@ -2427,7 +2427,7 @@ LRESULT CALLBACK WinProc(
 		if( LOWORD(wParam) >= IDM_RA_MENUSTART &&
 			LOWORD(wParam) < IDM_RA_MENUEND )
 		{
-			LoadLibrary("RichEd20.dll");
+			LoadLibrary( _T( "RichEd20.dll" ) );
 			RA_InvokeDialog( LOWORD(wParam) );
 
 			//	hack! undo autosave
@@ -3721,12 +3721,12 @@ void FreezeUnfreeze (int slot, bool8 freeze)
 {
 	if( RA_HardcoreModeIsActive() )
 	{
-		if( MessageBox( NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO ) == IDNO )
+		if( MessageBox( nullptr,
+						_T( "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?" ),
+						_T( "Warning" ),
+						MB_YESNO ) == IDNO )
 			return;
 	}
-
-    const char *filename;
-    char ext [_MAX_EXT + 1];
 
 #ifdef NETPLAY_SUPPORT
     if (!freeze && Settings.NetPlay && !Settings.NetPlayServer)
@@ -3736,9 +3736,10 @@ void FreezeUnfreeze (int slot, bool8 freeze)
         return;
     }
 #endif
-
+	
+    char ext [_MAX_EXT + 1];
 	snprintf(ext, _MAX_EXT, ".%03d", slot);
-	filename = S9xGetFilename(ext,SNAPSHOT_DIR);
+	const char *filename = S9xGetFilename(ext,SNAPSHOT_DIR);
 
     S9xSetPause (PAUSE_FREEZE_FILE);
 
