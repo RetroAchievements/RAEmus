@@ -256,3 +256,5 @@
 /RAVBA-M/src/BuildVer.h
 /bizhawk/output/N64/SaveRAM/*.SaveRAM
 /bizhawk/output/N64/SaveRAM/*.bak
+/bizhawk/output/N64/State/*.State
+/bizhawk/output/N64/State/*.bak
