@@ -184,17 +184,17 @@ const int Dlg_AchievementEditor::AddCondition( HWND hList, const Condition& Cond
 	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_GROUP ],		MEM_STRING_TEXT_LEN, "%s", CONDITIONTYPE_STR[ Cond.GetConditionType() ] );
 	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_TYPE_SRC ],		MEM_STRING_TEXT_LEN, "%s", sMemTypStrSrc );
 	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_SIZE_SRC ],		MEM_STRING_TEXT_LEN, "%s", sMemSizeStrSrc );
-	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_VALUE_SRC ],	MEM_STRING_TEXT_LEN, "0x%06x", Cond.CompSource().Value() );
+	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_VALUE_SRC ],	MEM_STRING_TEXT_LEN, "0x%06x", Cond.CompSource().RawValue() );
 	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_COMPARISON ],	MEM_STRING_TEXT_LEN, "%s", COMPARISONTYPE_STR[ Cond.CompareType() ] );
 	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_TYPE_TGT ],		MEM_STRING_TEXT_LEN, "%s", sMemTypStrDst );
 	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_SIZE_TGT ],		MEM_STRING_TEXT_LEN, "%s", sMemSizeStrDst );
-	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_VALUE_TGT ],	MEM_STRING_TEXT_LEN, "0x%02x", Cond.CompTarget().Value() );
+	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_VALUE_TGT ],	MEM_STRING_TEXT_LEN, "0x%02x", Cond.CompTarget().RawValue() );
 	sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_HITCOUNT ],		MEM_STRING_TEXT_LEN, "%d (%d)", Cond.RequiredHits(), Cond.CurrentHits() );
 
 	if( g_bPreferDecimalVal )
 	{
 		if( Cond.CompTarget().Type() == ValueComparison )
-			sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_VALUE_TGT ], MEM_STRING_TEXT_LEN, "%d", Cond.CompTarget().Value() );
+			sprintf_s( m_lbxData[ m_nNumOccupiedRows ][ CSI_VALUE_TGT ], MEM_STRING_TEXT_LEN, "%d", Cond.CompTarget().RawValue() );
 	}
 
 	//	Copy our local text into the listbox (:S)
@@ -313,9 +313,9 @@ HWND g_hIPEEdit;
 int nSelItem;
 int nSelSubItem;
 
-long _stdcall EditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+long _stdcall EditProc( HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam )
 {
-	switch(message)
+	switch( nMsg )
 	{
 		case WM_DESTROY:
 			g_hIPEEdit = nullptr;
@@ -371,7 +371,7 @@ long _stdcall EditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
  		}
 	}
 
-	return CallWindowProc( EOldProc, hwnd, message, wParam, lParam );
+	return CallWindowProc( EOldProc, hwnd, nMsg, wParam, lParam );
 }
 
 long _stdcall DropDownProc( HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam )
@@ -481,29 +481,6 @@ long _stdcall DropDownProc( HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam )
 		case CBN_SELCHANGE:
 		case CBN_CLOSEUP:
 		case CBN_KILLFOCUS:
-			{
-// 				LV_DISPINFO lvDispinfo;
-// 				ZeroMemory(&lvDispinfo,sizeof(LV_DISPINFO));
-// 				lvDispinfo.hdr.hwndFrom = hwnd;
-// 				lvDispinfo.hdr.idFrom = GetDlgCtrlID(hwnd);
-// 				lvDispinfo.hdr.code = LVN_ENDLABELEDIT;
-// 				lvDispinfo.item.mask = LVIF_TEXT;
-// 				lvDispinfo.item.iItem = nSelItem;
-// 				lvDispinfo.item.iSubItem = nSelSubItem;
-// 				lvDispinfo.item.pszText = NULL;
-// 
-// 				char szEditText[12];
-// 				GetWindowText( hwnd, szEditText, 12 );
-// 				lvDispinfo.item.pszText = szEditText;
-// 				lvDispinfo.item.cchTextMax = lstrlen(szEditText);
-// 
-// 				HWND hList = GetDlgItem( g_AchievementEditorDialog.GetHWND(), IDC_RA_LBX_CONDITIONS );
-// 
-// 				//	the LV ID and the LVs Parent window's HWND
-// 				SendMessage( GetParent( hList ), WM_NOTIFY, (WPARAM)IDC_RA_LBX_CONDITIONS, (LPARAM)&lvDispinfo );
-// 
-// 				DestroyWindow(hwnd);
-			}
 			break;
 		}
 	}
@@ -560,7 +537,8 @@ BOOL CreateIPE( int nItem, int nSubItem )
 				ZeroMemory( &lvItem, sizeof( lvItem ) );
 				lvItem.iItem = nItem;
 				lvItem.iSubItem = nSubItem;
-				lvItem.pszText = const_cast<LPWSTR>( Widen( sNewText ).c_str() );
+				std::wstring sStrWide = Widen( sNewText );	//	Scoped cache!
+				lvItem.pszText = const_cast<LPWSTR>( sStrWide.c_str() );
 				lvItem.cchTextMax = 256;
 
 				//	Inject the new text into the lbx
@@ -613,9 +591,9 @@ BOOL CreateIPE( int nItem, int nSubItem )
 // 			}
 
 			/*CB_ERRSPACE*/
-			ComboBox_AddString( g_hIPEEdit, "Mem" );
-			ComboBox_AddString( g_hIPEEdit, "Delta" );
-			ComboBox_AddString( g_hIPEEdit, "Value" );
+			ComboBox_AddString( g_hIPEEdit, Widen("Mem").c_str() );
+			ComboBox_AddString( g_hIPEEdit, Widen("Delta").c_str() );
+			ComboBox_AddString( g_hIPEEdit, Widen("Value").c_str() );
 			
 			int nSel;
 			if( strcmp( g_AchievementEditorDialog.LbxDataAt( nItem, nSubItem ), "Mem" ) == 0 )
@@ -668,7 +646,7 @@ BOOL CreateIPE( int nItem, int nSubItem )
 
 			for( size_t i = 0; i < NumComparisonVariableSizeTypes; ++i )
 			{
-				ComboBox_AddString( g_hIPEEdit, COMPARISONVARIABLESIZE_STR[ i ] );
+				ComboBox_AddString( g_hIPEEdit, Widen( COMPARISONVARIABLESIZE_STR[ i ] ).c_str() );
 
 				if( strcmp( g_AchievementEditorDialog.LbxDataAt( nItem, nSubItem ), COMPARISONVARIABLESIZE_STR[i] ) == 0 )
 					ComboBox_SetCurSel( g_hIPEEdit, i );
@@ -707,7 +685,7 @@ BOOL CreateIPE( int nItem, int nSubItem )
 
 			for( size_t i = 0; i < NumComparisonTypes; ++i )
 			{
-				ComboBox_AddString( g_hIPEEdit, COMPARISONVARIABLETYPE_STR[ i ] );
+				ComboBox_AddString( g_hIPEEdit, Widen( COMPARISONVARIABLETYPE_STR[ i ] ).c_str() );
 
 				if( strcmp( g_AchievementEditorDialog.LbxDataAt( nItem, nSubItem ), COMPARISONVARIABLETYPE_STR[ i ] ) == 0 )
 					ComboBox_SetCurSel( g_hIPEEdit, i );
@@ -831,16 +809,13 @@ INT_PTR Dlg_AchievementEditor::AchievementEditorProc( HWND hDlg, UINT uMsg, WPAR
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam))
+		switch( LOWORD( wParam ) )
 		{
-// 		case IDAPPLY:
-// 			//TBD: deal with whatever 'OK' is supposed to do(?)
-// 			bHandled = TRUE;
-// 			break;
 		case IDCLOSE:
-			EndDialog(hDlg, true);
+			EndDialog( hDlg, true );
 			bHandled = TRUE;
 			break;
+
 		case IDC_RA_CHK_SHOW_DECIMALS:
 			{
 				g_bPreferDecimalVal = !g_bPreferDecimalVal;
@@ -1316,7 +1291,7 @@ INT_PTR Dlg_AchievementEditor::AchievementEditorProc( HWND hDlg, UINT uMsg, WPAR
 
 								//	Update the text to match
 								char buffer[ 16 ];
-								sprintf_s( buffer, 16, "0x%06x", rCond.CompSource().Value() );
+								sprintf_s( buffer, 16, "0x%06x", rCond.CompSource().RawValue() );
 								SetDlgItemText( g_MemoryDialog.GetHWND(), IDC_RA_WATCHING, Widen( buffer ).c_str() );
 
 								//	Nudge the ComboBox to update the mem note
@@ -1332,7 +1307,7 @@ INT_PTR Dlg_AchievementEditor::AchievementEditorProc( HWND hDlg, UINT uMsg, WPAR
 
 								//	Update the text to match
 								char buffer[ 16 ];
-								sprintf_s( buffer, 16, "0x%06x", rCond.CompTarget().Value() );
+								sprintf_s( buffer, 16, "0x%06x", rCond.CompTarget().RawValue() );
 								SetDlgItemText( g_MemoryDialog.GetHWND(), IDC_RA_WATCHING, Widen( buffer ).c_str() );
 
 								//	Nudge the ComboBox to update the mem note
@@ -1819,17 +1794,17 @@ void BadgeNames::OnNewBadgeNames( const Document& data )
 	{
 	}
 
-	char buffer[256];
 	for( unsigned int i = nLowerLimit; i < nUpperLimit; ++i )
 	{
-		sprintf_s( buffer, 256, "%05d", i );
+		wchar_t buffer[ 256 ];
+		wsprintf( buffer, L"%05d", i );
 		ComboBox_AddString( m_hDestComboBox, buffer );
 	}
 }
 
 void BadgeNames::AddNewBadgeName( const char* pStr, bool bAndSelect )
 {
-	int nSel = ComboBox_AddString( m_hDestComboBox, pStr );
+	int nSel = ComboBox_AddString( m_hDestComboBox, Widen( pStr ).c_str() );
 
 	if( bAndSelect )
 	{

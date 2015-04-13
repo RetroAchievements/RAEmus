@@ -254,3 +254,7 @@
 /RAVBA-M/project/vs2012_mfc/Diffs.txt
 /RAVBA-M/project/vs2012_mfc/LiveTag.txt
 /RAVBA-M/src/BuildVer.h
+/bizhawk/output/N64/SaveRAM/*.SaveRAM
+/bizhawk/output/N64/SaveRAM/*.bak
+/bizhawk/output/N64/State/*.State
+/bizhawk/output/N64/State/*.bak

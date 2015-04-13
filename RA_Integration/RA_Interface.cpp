@@ -341,18 +341,22 @@ void WriteBufferToFile( const char* sFile, const char* sBuffer, int nBytes )
 	}
 	else
 	{
+#ifdef UNICODE
 		MessageBox( nullptr, _T( "Problems writing file!" ), Widen( sFile ).c_str(), MB_OK );
+#else
+		MessageBox( nullptr, _T( "Problems writing file!" ), sFile, MB_OK );
+#endif
 	}
 }
 
 void FetchIntegrationFromWeb()
 {
-	char* buffer = new char[2*1024*1024];
+	const int MAX_SIZE = 2 * 1024 * 1024;
+	char* buffer = new char[ MAX_SIZE ];
 	if( buffer != nullptr )
 	{
 		DWORD nBytesRead = 0;
-
-		if( DoBlockingHttpGet( "RA_Integration.dll", buffer, 2*1024*1024, &nBytesRead ) )
+		if( DoBlockingHttpGet( "bin/RA_Integration.dll", buffer, MAX_SIZE, &nBytesRead ) )
 			WriteBufferToFile( "RA_Integration.dll", buffer, nBytesRead );
  
 		delete[] ( buffer );
@@ -393,7 +397,13 @@ const char* CCONV _RA_InstallIntegration()
 	{
 		char buffer[ 1024 ];
 		sprintf_s( buffer, 1024, "LoadLibrary failed: %d : %s\n", ::GetLastError(), GetLastErrorAsString().c_str() );
+
+#ifdef UNICODE
 		MessageBox( nullptr, Widen( buffer ).c_str(), _T( "Sorry!" ), MB_OK );
+#else
+		MessageBox( nullptr, buffer, _T( "Sorry!" ), MB_OK );
+#endif
+
 		return "0.000";
 	}
 
