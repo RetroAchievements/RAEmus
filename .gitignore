@@ -258,3 +258,6 @@
 /bizhawk/output/N64/SaveRAM/*.bak
 /bizhawk/output/N64/State/*.State
 /bizhawk/output/N64/State/*.bak
+/RA_Integration/RA_BuildVer.h
+/RA_Integration/Diffs.txt
+/RA_Integration/LiveTag.txt
