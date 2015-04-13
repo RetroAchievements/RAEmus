@@ -369,6 +369,14 @@ int Load_State(char *Name)
 	return 1;
 }
 
+//pReader is typedef unsigned char (_RAMByteReadFn)( unsigned int nOffset );
+//pWriter is typedef void (_RAMByteWriteFn)( unsigned int nOffs, unsigned int nVal );
+
+extern unsigned char RAMByteReader( unsigned int nOffs );
+extern void RAMByteWriter( unsigned int nOffs, unsigned int nVal );
+extern unsigned char RAMByteReaderSegaCD( unsigned int nOffs );
+extern void RAMByteWriterSegaCD( unsigned int nOffs, unsigned int nVal );
+
 int Load_Memstate(BYTE *memBuf)
 {
 	BYTE *buf;
@@ -416,13 +424,15 @@ int Load_Memstate(BYTE *memBuf)
 
 		if( RA_HardcoreModeIsActive() )
 		{
-			if(SegaCD_Started)
+			if( SegaCD_Started )
 			{
-				RA_OnLoadNewRom( CD_Data, 512, Ram_Prg, 512*1024, NULL, 0 );
+				RA_InstallMemoryBank( 0, &RAMByteReaderSegaCD, &RAMByteWriterSegaCD, 512 * 1024 );
+				RA_OnLoadNewRom( CD_Data, 512 );
 			}
 			else
 			{
-				RA_OnLoadNewRom( Rom_Data, 6*1024*1024, Ram_68k, 64*1024, NULL, 0 );
+				RA_InstallMemoryBank( 0, &RAMByteReader, &RAMByteWriter, 64 * 1024 );
+				RA_OnLoadNewRom( Rom_Data, 6*1024*1024 );
 			}
 		}
 

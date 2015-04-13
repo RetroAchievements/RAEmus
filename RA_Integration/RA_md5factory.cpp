@@ -11,7 +11,7 @@ namespace
 	const static unsigned int MD5_STRING_LEN = 32;
 }
 
-std::string RA::GenerateMD5( const std::string& sStringToMD5 )
+std::string RAGenerateMD5( const std::string& sStringToMD5 )
 {
 	static char buffer[33];
 	
@@ -42,7 +42,7 @@ std::string RA::GenerateMD5( const std::string& sStringToMD5 )
 	return buffer;
 }
 
-std::string RA::GenerateMD5( const BYTE* pRawData, size_t nDataLen )
+std::string RAGenerateMD5( const BYTE* pRawData, size_t nDataLen )
 {
 	static char buffer[33];
 	
@@ -56,16 +56,16 @@ std::string RA::GenerateMD5( const BYTE* pRawData, size_t nDataLen )
 	md5_finish( &pms, digest );
 
 	memset( buffer, 0, MD5_STRING_LEN+1 );
-	sprintf_s( buffer, MD5_STRING_LEN+1, 
-			  "%02x%02x%02x%02x%02x%02x%02x%02x"
-			  "%02x%02x%02x%02x%02x%02x%02x%02x",
-			  digest[0],digest[1],digest[2],digest[3],digest[4],digest[5],digest[6],digest[7],
-			  digest[8],digest[9],digest[10],digest[11],digest[12],digest[13],digest[14],digest[15] );
+	sprintf_s( buffer, MD5_STRING_LEN + 1,
+			   "%02x%02x%02x%02x%02x%02x%02x%02x"
+			   "%02x%02x%02x%02x%02x%02x%02x%02x",
+			   digest[ 0 ], digest[ 1 ], digest[ 2 ], digest[ 3 ], digest[ 4 ], digest[ 5 ], digest[ 6 ], digest[ 7 ],
+			   digest[ 8 ], digest[ 9 ], digest[ 10 ], digest[ 11 ], digest[ 12 ], digest[ 13 ], digest[ 14 ], digest[ 15 ] );
 
 	return buffer;	//	Implicit promotion to std::string
 }
 
-std::string RA::GenerateMD5( const std::vector<BYTE> DataIn )
+std::string RAGenerateMD5( const std::vector<BYTE> DataIn )
 {
-	return GenerateMD5( DataIn.data(), DataIn.size() );
+	return RAGenerateMD5( DataIn.data(), DataIn.size() );
 }

@@ -72,6 +72,11 @@ namespace RAInterface
         public static AchievementSet LocalAchievements = new AchievementSet();
         public static RAAchievementSet ActiveAchievementSet;
 
+        public static void Init()
+        {
+            Console.WriteLine("RACore.Init, Ver" + RABuildVer.BuildVer);
+        }
+
         public static void OnLoad(RAConsoleID consoleID, string gameTitle, string hash)
         {
             MessageBox.Show(gameTitle + " -> " + hash);

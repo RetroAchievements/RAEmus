@@ -1,23 +1,13 @@
-#if defined (RA_VBA)
-#include "stdafx.h"
-#endif
-
 #include "RA_Dlg_Memory.h"
 
-#include <windows.h>
-#include <windowsx.h>
-#include <CommCtrl.h>
-#include <stdio.h>
-#include <assert.h>
-#include <sstream>
-
-#include "RA_Resource.h"
-#include "RA_Core.h"
 #include "RA_Achievement.h"
+#include "RA_AchievementSet.h"
+#include "RA_CodeNotes.h"
+#include "RA_Core.h"
 #include "RA_httpthread.h"
 #include "RA_MemManager.h"
+#include "RA_Resource.h"
 #include "RA_User.h"
-#include "RA_CodeNotes.h"
 
 
 #ifndef ID_OK
@@ -30,11 +20,23 @@
 namespace
 {
 	const size_t MIN_RESULTS_TO_DUMP = 500;
+	
+	const char* COMP_STR[] = {
+		{ "EQUAL" },
+		{ "LESS THAN" },
+		{ "LESS THAN/EQUAL" },
+		{ "GREATER THAN" },
+		{ "GREATER THAN/EQUAL" },
+		{ "NOT EQUAL" } };
 }
 
 Dlg_Memory g_MemoryDialog;
 
-HFONT MemoryViewerControl::m_hViewerFont = NULL;
+//static 
+CodeNotes Dlg_Memory::m_CodeNotes;
+HWND Dlg_Memory::m_hWnd = nullptr;
+
+HFONT MemoryViewerControl::m_hViewerFont = nullptr;
 SIZE MemoryViewerControl::m_szFontSize;
 unsigned int MemoryViewerControl::m_nDataStartXOffset = 0;
 unsigned int MemoryViewerControl::m_nAddressOffset = 0;
@@ -45,113 +47,84 @@ bool MemoryViewerControl::m_bHasCaret = 0;
 unsigned int MemoryViewerControl::m_nCaretWidth = 0;
 unsigned int MemoryViewerControl::m_nCaretHeight = 0;
 unsigned int MemoryViewerControl::m_nDisplayedLines = 0;
+unsigned short MemoryViewerControl::m_nActiveMemBank = 0;
 
-
-BOOL IsLargeRAM() 
-{
-	return( g_MemManager.RAMTotalSize() > 65536 );
-}
 
 std::string ByteAddressToString( ByteAddress nAddr )
 {
 	static char buffer[16];
-
-	if( IsLargeRAM() )
-		sprintf_s( buffer, "0x%06x", nAddr );
-	else
-		sprintf_s( buffer, "0x%04x", nAddr );
-
+	sprintf_s( buffer, "0x%06x", nAddr );
 	return std::string( buffer );
 }
 
-
 INT_PTR CALLBACK MemoryViewerControl::s_MemoryDrawProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-	//char buffer[1024];
-	//sprintf_s( buffer, "uMsg Child = 0x%08x\n", uMsg );
-	//OutputDebugString( buffer );
-
-	switch(uMsg)
+	switch( uMsg )
 	{
 	case WM_NCCREATE:
 	case WM_NCDESTROY:
 		return TRUE;
 
+	case WM_CREATE:
+		return TRUE;
+
 	case WM_PAINT:
 		RenderMemViewer( hDlg );
-		return FALSE;
+		return 0;
 
 	case WM_ERASEBKGND:
 		return TRUE;
 
-	case WM_LBUTTONUP:
-		{
-			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+	//case WM_LBUTTONUP:
+	//	OnClick( { GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) } );
+	//	return FALSE;
 
-			/*if( GetCursorPos( &pt ) )
-			{
-				ScreenToClient( hDlg, &pt );*/
-			OnClick( pt );
-			return 0;
-		}
+	//case WM_KEYDOWN:
+	//	return( !OnKeyDown( static_cast<UINT>( LOWORD( wParam ) ) ) );
 
-	case WM_KEYDOWN:
-		if( OnKeyDown( (UINT)LOWORD( wParam ) ) )
-			return 0;
-		else
-			return 1;
-
-	case WM_CHAR:
-		if( OnEditInput( (UINT)wParam&0xffff ) )
-			return 0;
-		else
-			return 1;
-
-		break;
+	//case WM_CHAR:
+	//	return( !OnEditInput( static_cast<UINT>( LOWORD( wParam ) ) ) );
 	}
 
 	return DefWindowProc( hDlg, uMsg, wParam, lParam );
+	//return FALSE;
 }
 
 bool MemoryViewerControl::OnKeyDown( UINT nChar ) 
 {
 	int maxNibble = 0;
-	if(m_nDataSize == 0)
+	if( m_nDataSize == 0 )
 		maxNibble = 1;
-	else if(m_nDataSize == 1)
+	else if( m_nDataSize == 1 )
 		maxNibble = 3;
 	else
 		maxNibble = 7;
 
-	bool isShift = (GetKeyState(VK_SHIFT) & 0x80000000) == 0x80000000;
+	bool bShiftHeld = ( GetKeyState(VK_SHIFT) & 0x80000000 ) == 0x80000000;
 
-	switch(nChar)
+	switch( nChar )
 	{
-		case VK_RIGHT:
-			/*if(editAscii)
-				moveAddress(1,0);
-			else */if(isShift)
-				moveAddress((maxNibble+1)>>1,0);
-			else
-				moveAddress(0, 1);
+	case VK_RIGHT:
+		if( bShiftHeld )
+			moveAddress( ( maxNibble + 1 ) >> 1, 0 );
+		else
+			moveAddress( 0, 1 );
 		return true;
-		case VK_LEFT:
-			/*if(editAscii)
-				moveAddress(-1, 0);
-			else */if(isShift)
-				moveAddress(-((maxNibble+1)>>1),0);
-			else
-				moveAddress(0, -1);
+
+	case VK_LEFT:
+		if( bShiftHeld )
+			moveAddress( -( ( maxNibble + 1 ) >> 1 ), 0 );
+		else
+			moveAddress( 0, -1 );
 		return true;
-		case VK_DOWN:
-			moveAddress(16, 0);
+
+	case VK_DOWN:
+		moveAddress( 16, 0 );
 		return true;
-		case VK_UP:
-			moveAddress(-16, 0);
+
+	case VK_UP:
+		moveAddress( -16, 0 );
 		return true;
-		//case VK_TAB:
-		//	GetNextDlgTabItem(GetParent(), isShift)->SetFocus();
-		//return true;
 	}
 
 	return false;
@@ -214,7 +187,7 @@ void MemoryViewerControl::moveAddress( int offset, int nibbleOff )
 	  MessageBeep((UINT)-1);
       return;
     }
-    if( m_nEditAddress >= g_MemManager.RAMTotalSize() )
+    if( m_nEditAddress >= g_MemManager.ActiveBankSize() )
 	{
       m_nEditAddress -= offset;
 	  MessageBeep((UINT)-1);
@@ -264,26 +237,29 @@ void MemoryViewerControl::editData( unsigned int nByteAddress, bool bLowerNibble
 	{
 		//	We're submitting a new lower nibble:
 		//	Fetch existing upper nibble,
-		unsigned int nVal = ( g_MemManager.RAMByte( nByteAddress ) >> 4 ) << 4;
+		unsigned int nVal = ( g_MemManager.RAMByte( m_nActiveMemBank, nByteAddress ) >> 4 ) << 4;
 		//	Merge in given (lower nibble) value,
 		nVal |= nNewVal;
 		//	Write value:
-		g_MemManager.RAMByteWrite( nByteAddress, nVal );
+		g_MemManager.RAMByteWrite( m_nActiveMemBank, nByteAddress, nVal );
 	}
 	else
 	{
 		//	We're submitting a new upper nibble:
 		//	Fetch existing lower nibble,
-		unsigned int nVal = g_MemManager.RAMByte( nByteAddress ) & 0xf;
+		unsigned int nVal = g_MemManager.RAMByte( m_nActiveMemBank, nByteAddress ) & 0xf;
 		//	Merge in given value at upper nibble
-		nVal |= (nNewVal<<4);
+		nVal |= ( nNewVal << 4 );
 		//	Write value:
-		g_MemManager.RAMByteWrite( nByteAddress, nVal );
+		g_MemManager.RAMByteWrite( m_nActiveMemBank, nByteAddress, nVal );
 	}
 }
 
 bool MemoryViewerControl::OnEditInput( UINT c )
 {
+	if( g_MemManager.NumMemoryBanks() == 0 )
+		return false;
+
 	if( c > 255 || !RA_GameIsActive() )
 	{
 		MessageBeep((UINT)-1);
@@ -333,19 +309,6 @@ bool MemoryViewerControl::OnEditInput( UINT c )
 
 		editData( nByteAddress, bLowerNibble, value );
 
-		//switch(m_nDataSize)
-		//{
-		//case 0:
-		//	editData( m_nEditAddress, 8, mask, value );
-		//	break;
-		//case 1:
-		//	editData( m_nEditAddress, 16, mask, value );
-		//	break;
-		//case 2:
-		//	editData( m_nEditAddress, 32, mask, value );
-		//	break;
-		//}
-
 		moveAddress(0, 1);
 		Invalidate();
 
@@ -371,6 +334,9 @@ void MemoryViewerControl::destroyEditCaret()
 
 void MemoryViewerControl::SetCaretPos()
 {
+	if( g_MemManager.NumMemoryBanks() == 0 )
+		return;
+
 	HWND hOurDlg = GetDlgItem( g_MemoryDialog.GetHWND(), IDC_RA_MEMTEXTVIEWER );
 	if(GetFocus() != hOurDlg)
 	{
@@ -381,8 +347,8 @@ void MemoryViewerControl::SetCaretPos()
 	g_MemoryDialog.SetWatchingAddress( m_nEditAddress );
 
 	unsigned int nTopLeft = m_nAddressOffset - 0x40;
-	if( g_MemManager.RAMTotalSize() > 0 )
-		nTopLeft %= g_MemManager.RAMTotalSize();
+	if( g_MemManager.ActiveBankSize() > 0 )
+		nTopLeft %= g_MemManager.ActiveBankSize();
 	else
 		nTopLeft %= 0x10000;
 
@@ -434,6 +400,9 @@ void MemoryViewerControl::SetCaretPos()
 
 void MemoryViewerControl::OnClick( POINT point )
 {
+	if( g_MemManager.NumMemoryBanks() == 0 )
+		return;
+
 	HWND hOurDlg = GetDlgItem( g_MemoryDialog.GetHWND(), IDC_RA_MEMTEXTVIEWER );
 
 	int x = point.x;
@@ -470,8 +439,8 @@ void MemoryViewerControl::OnClick( POINT point )
 
 	m_nEditAddress = ( nTopLeft + (line<<4) );
 
-	if( g_MemManager.RAMTotalSize() > 0 )
-		m_nEditAddress %= g_MemManager.RAMTotalSize();
+	if( g_MemManager.ActiveBankSize() > 0 )
+		m_nEditAddress %= g_MemManager.ActiveBankSize();
 	else
 		m_nEditAddress %= 0x10000;
 
@@ -514,6 +483,7 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 {
 	PAINTSTRUCT ps;
 	HDC dc = BeginPaint( hTarget, &ps );
+
 	HDC hMemDC = CreateCompatibleDC( dc );
 
 	RECT rect;
@@ -523,74 +493,59 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 
 	//	Pick font
 	if( m_hViewerFont == NULL )
-		m_hViewerFont = (HFONT)GetStockObject(SYSTEM_FIXED_FONT);
+		m_hViewerFont = (HFONT)GetStockObject( SYSTEM_FIXED_FONT );
 	HGDIOBJ hOldFont = SelectObject( hMemDC, m_hViewerFont );
 
 	HBITMAP hBitmap = CreateCompatibleBitmap( dc, w, rect.bottom - rect.top );
 	HGDIOBJ hOldBitmap = SelectObject( hMemDC, hBitmap );
 
-	GetTextExtentPoint32( hMemDC, "0", 1, &m_szFontSize );
+	GetTextExtentPoint32( hMemDC, L"0", 1, &m_szFontSize );
 
 	//	Fill white:
-	HBRUSH hBrush = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	HBRUSH hBrush = (HBRUSH)GetStockObject( WHITE_BRUSH );
 	FillRect( hMemDC, &rect, hBrush );
 	DrawEdge( hMemDC, &rect, EDGE_ETCHED, BF_RECT );
 
-	BOOL bGroup32 = (BOOL)SendDlgItemMessage( g_MemoryDialog.GetHWND(), IDC_RA_MEMVIEW32BIT, BM_GETCHECK, (WPARAM)0, 0);
-	BOOL bGroup16 = bGroup32 | (BOOL)SendDlgItemMessage( g_MemoryDialog.GetHWND(), IDC_RA_MEMVIEW16BIT, BM_GETCHECK, (WPARAM)0, 0);
-	
-	//if( g_MemManager.RAMTotalSize() == 0 )
-	//	break;
-	
-	BOOL bUseLongAddresses = IsLargeRAM();
-	const DWORD nOKAddressLength = ( bUseLongAddresses ? 8 : 6 );
+	BOOL bGroup32 = ( IsDlgButtonChecked( g_MemoryDialog.GetHWND(), IDC_RA_MEMVIEW32BIT ) == BST_CHECKED );
+	BOOL bGroup16 = bGroup32 | ( IsDlgButtonChecked( g_MemoryDialog.GetHWND(), IDC_RA_MEMVIEW16BIT ) == BST_CHECKED );
 
 	m_nDataSize = ( bGroup32 ? 2 : ( bGroup16 ? 1 : 0 ) );
-	//m_nAddressSize = ( g_MemManager.RAMTotalSize() <= 65536 );	//	??
 
-	char* sHeader = bGroup32 ? "          0        4        8        c"
-		: bGroup16 ? "          0    2    4    6    8    a    c    e"
-		: "          0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f";
+	const char* sHeader = bGroup32 ? "          0        4        8        c"
+		: bGroup16 ?				 "          0    2    4    6    8    a    c    e"
+		:							 "          0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f";
 
 	int lines = h / m_szFontSize.cy;
 	lines -= 1;	//	Watch out for header
 	m_nDisplayedLines = lines;
-	
+
 	//	Infer the offset from the watcher window
-	char sCurrentAddr[16];
-	ComboBox_GetText( GetDlgItem( g_MemoryDialog.GetHWND(), IDC_RA_WATCHING ), sCurrentAddr, 16 );
-	unsigned int nWatchedAddress = strtol( sCurrentAddr, NULL, 16 );
+	wchar_t sCurrentAddrWide[ 16 ];
+	ComboBox_GetText( GetDlgItem( g_MemoryDialog.GetHWND(), IDC_RA_WATCHING ), sCurrentAddrWide, 16 );
+	unsigned int nWatchedAddress = strtol( Narrow( sCurrentAddrWide ).c_str(), nullptr, 16 );
 	m_nAddressOffset = ( nWatchedAddress - ( nWatchedAddress & 0xf ) );
 
 	int addr = m_nAddressOffset;
-
-	//	Push reader up 4 lines, so center current watch var.
-	//int iter = 0;
-	//while( addr > 0 && iter++ < 4 )
-		addr -= (0x40);
-
-	//if( addr < 0 )
-	//	addr = 0;
-
-	if( IsLargeRAM() )
-		addr &= 0xffffff;
-	else
-		addr &= 0xffff;
+	addr -= ( 0x40 );	//	Offset will be this quantity (push up four lines)...
+	//addr &= 0xffffff;	//	This should be mem size!!!
+	if( m_nActiveMemBank < g_MemManager.NumMemoryBanks() )
+		addr &= ( g_MemManager.ActiveBankSize() - 1 );
 
 	int line = 0;
 
-	SetTextColor( hMemDC, RGB(0,0,0) );
+	SetTextColor( hMemDC, RGB( 0, 0, 0 ) );
 
-	unsigned int data[32];
+	unsigned int data[ 32 ];
+	ZeroMemory( data, 32 * sizeof( unsigned int ) );
 
 	RECT r;
 	r.top = 3;
 	r.left = 3;
-	r.bottom = r.top+m_szFontSize.cy;
-	r.right = rect.right-3;
+	r.bottom = r.top + m_szFontSize.cy;
+	r.right = rect.right - 3;
 
 	//	Draw header:
-	DrawText( hMemDC, sHeader, strlen( sHeader ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
+	DrawText( hMemDC, Widen( sHeader ).c_str(), strlen( sHeader ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
 
 	//	Adjust for header:
 	r.top += m_szFontSize.cy;
@@ -599,109 +554,84 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 	for( int i = 0; i < lines; i++ )
 	{
 		//char sLocalAddr[64];
-		char buffer[4096];
+		char buffer[ 4096 ];
+		sprintf_s( buffer, 4096, "0x%06x", addr );
 
-		if( IsLargeRAM() )
-			sprintf_s( buffer, 4096, "0x%06x", addr );
-		else
-			sprintf_s( buffer, 4096, "0x%04x", addr );
+		DrawText( hMemDC, Widen( buffer ).c_str(), strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
 
-		DrawText( hMemDC, buffer, strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
-
-		r.left += 10*m_szFontSize.cx;
+		r.left += 10 * m_szFontSize.cx;
 		m_nDataStartXOffset = r.left;
 
 		for( int j = 0; j < 16; ++j )
-			data[j] = g_MemManager.RAMByte(addr+j);
+		{
+			if( m_nActiveMemBank < g_MemManager.NumMemoryBanks() )
+			{
+				if( static_cast<size_t>( addr + j ) < g_MemManager.BankSize( m_nActiveMemBank ) )
+					data[ j ] = g_MemManager.RAMByte( m_nActiveMemBank, addr + j );
+			}
+		}
 		//readData(addr, 16, data);
 
 		if( m_nDataSize == 0 )	//	8-bit
 		{
 			for( int j = 0; j < 16; j++ )
 			{
-				const CodeNotes::CodeNoteObj* SavedNote = g_MemoryDialog.m_pCodeNotes->FindCodeNote( addr+j );
-	
-				if( addr+j == nWatchedAddress )
-					SetTextColor( hMemDC, RGB(255,0,0) );
-				else if( SavedNote != NULL )
-					SetTextColor( hMemDC, RGB(0,0,255) );
-				else
-					SetTextColor( hMemDC, RGB(0,0,0) );
+				const CodeNotes::CodeNoteObj* pSavedNote = g_MemoryDialog.Notes().FindCodeNote( addr + j );
 
-				sprintf_s( buffer, 4096, "%02x", data[j] );
-				DrawText( hMemDC, buffer, strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
-				r.left += 3*m_szFontSize.cx;
+				if( addr + j == nWatchedAddress )
+					SetTextColor( hMemDC, RGB( 255, 0, 0 ) );
+				else if( pSavedNote != NULL )
+					SetTextColor( hMemDC, RGB( 0, 0, 255 ) );
+				else
+					SetTextColor( hMemDC, RGB( 0, 0, 0 ) );
+
+				sprintf_s( buffer, 4096, "%02x", data[ j ] );
+				DrawText( hMemDC, Widen( buffer ).c_str(), strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
+				r.left += 3 * m_szFontSize.cx;
 			}
 		}
 		else if( m_nDataSize == 1 )	//	16-bit
 		{
 			for( int j = 0; j < 16; j += 2 )
 			{
-				const CodeNotes::CodeNoteObj* SavedNote = g_MemoryDialog.m_pCodeNotes->FindCodeNote( addr+j );
-	
-				if( ((addr+j) - (addr+j)%2) == nWatchedAddress )
-					SetTextColor( hMemDC, RGB(255,0,0) );
-				else if( SavedNote != NULL )
-					SetTextColor( hMemDC, RGB(0,0,255) );
-				else
-					SetTextColor( hMemDC, RGB(0,0,0) );
+				const CodeNotes::CodeNoteObj* pSavedNote = g_MemoryDialog.Notes().FindCodeNote( addr + j );
 
-				sprintf_s( buffer, 4096, "%04x", data[j] | data[j+1]<<8 );
-				DrawText( hMemDC, buffer, strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
-				r.left += 5*m_szFontSize.cx;
-			}      
+				if( ( ( addr + j ) - ( addr + j ) % 2 ) == nWatchedAddress )
+					SetTextColor( hMemDC, RGB( 255, 0, 0 ) );
+				else if( pSavedNote != NULL )
+					SetTextColor( hMemDC, RGB( 0, 0, 255 ) );
+				else
+					SetTextColor( hMemDC, RGB( 0, 0, 0 ) );
+
+				sprintf_s( buffer, 4096, "%04x", data[ j ] | data[ j + 1 ] << 8 );
+				DrawText( hMemDC, Widen( buffer ).c_str(), strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
+				r.left += 5 * m_szFontSize.cx;
+			}
 		}
 		else if( m_nDataSize == 2 )	//	32-bit
 		{
 			for( int j = 0; j < 16; j += 4 )
 			{
-				if( ((addr+j) - (addr+j)%4) == nWatchedAddress )
-					SetTextColor( hMemDC, RGB(255,0,0) );
+				if( ( ( addr + j ) - ( addr + j ) % 4 ) == nWatchedAddress )
+					SetTextColor( hMemDC, RGB( 255, 0, 0 ) );
 				else
-					SetTextColor( hMemDC, RGB(0,0,0) );
+					SetTextColor( hMemDC, RGB( 0, 0, 0 ) );
 
-				sprintf_s( buffer, 4096, "%08x", data[j] | data[j+1]<<8 | data[j+2] << 16 | data[j+3] << 24 );
-				DrawText( hMemDC, buffer, strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
-				r.left += 9*m_szFontSize.cx;
-			}            
+				sprintf_s( buffer, 4096, "%08x", data[ j ] | data[ j + 1 ] << 8 | data[ j + 2 ] << 16 | data[ j + 3 ] << 24 );
+				DrawText( hMemDC, Widen( buffer ).c_str(), strlen( buffer ), &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
+				r.left += 9 * m_szFontSize.cx;
+			}
 		}
-    
-		SetTextColor( hMemDC, RGB(0,0,0) );
+
+		SetTextColor( hMemDC, RGB( 0, 0, 0 ) );
 
 		line = r.left;
-
 		r.left += m_szFontSize.cx;
-
-		//	ASCII render:
-
-		//beginAscii = r.left;
-		////buffer.Empty();
-		//buffer[0] = '\0';
-
-		//char* pIter = &buffer[0];
-
-		//for(j = 0; j < 16; j++)
-		//{
-		//	char c = data[j];
-		//	if(c >= 32 && c <= 127)
-		//	{
-		//		(*pIter) = c;
-		//	}
-		//	else
-		//	{
-		//		(*pIter) = '.';
-		//	}
-		//	pIter++;
-		//}
-		//DrawText( hMemDC, buffer, 16, &r, DT_TOP | DT_LEFT | DT_NOPREFIX );
-
 
 		addr += 16;
 
-		if( IsLargeRAM() )
-			addr &= 0xffffff;
-		else
-			addr &= 0xffff;
+		if( m_nActiveMemBank < g_MemManager.NumMemoryBanks() )
+			addr &= ( g_MemManager.ActiveBankSize() - 1 );
 
 		r.top += m_szFontSize.cy;
 		r.bottom += m_szFontSize.cy;
@@ -709,14 +639,11 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 	}
 
 	{
-		HPEN hPen = CreatePen( PS_SOLID, 1, RGB(0,0,0) );
+		HPEN hPen = CreatePen( PS_SOLID, 1, RGB( 0, 0, 0 ) );
 		HGDIOBJ hOldPen = SelectObject( hMemDC, hPen );
 
-		MoveToEx( hMemDC, 3+m_szFontSize.cx*9, 3+m_szFontSize.cy, NULL );
-		LineTo( hMemDC, 3+m_szFontSize.cx*9, 3+( (m_nDisplayedLines+1) * m_szFontSize.cy ) );
-
-		//MoveToEx( hMemDC, line, 3, NULL );
-		//LineTo( hMemDC, line, 3+displayedLines*m_szFontSize.cy );
+		MoveToEx( hMemDC, 3 + m_szFontSize.cx * 9, 3 + m_szFontSize.cy, NULL );
+		LineTo( hMemDC, 3 + m_szFontSize.cx * 9, 3 + ( ( m_nDisplayedLines + 1 ) * m_szFontSize.cy ) );
 
 		SelectObject( hMemDC, hOldPen );
 		DeleteObject( hPen );
@@ -733,29 +660,17 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 	EndPaint( hTarget, &ps );
 }
 
-
-Dlg_Memory::Dlg_Memory()
-{
-	m_pCodeNotes = new CodeNotes();
-	m_hWnd = NULL;
-}
-
-Dlg_Memory::~Dlg_Memory()
-{
-	SAFE_DELETE( m_pCodeNotes );
-}
-
 void Dlg_Memory::Init()
 {
-    WNDCLASS wc;
-    ZeroMemory(&wc, sizeof(wc));
-    wc.style = CS_PARENTDC | CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
-    wc.lpfnWndProc = (WNDPROC)MemoryViewerControl::s_MemoryDrawProc;
-    wc.hInstance = g_hThisDLLInst;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    wc.lpszMenuName = NULL;
-    wc.lpszClassName = "MemoryViewerControl";
+	WNDCLASS wc;
+	ZeroMemory( &wc, sizeof( wc ) );
+	wc.style = CS_PARENTDC | CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
+	wc.lpfnWndProc = (WNDPROC)MemoryViewerControl::s_MemoryDrawProc;
+	wc.hInstance = g_hThisDLLInst;
+	wc.hCursor = LoadCursor( NULL, IDC_ARROW );
+	wc.hbrBackground = (HBRUSH)GetStockObject( WHITE_BRUSH );
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = L"MemoryViewerControl";
 
 	RegisterClass( &wc );
 }
@@ -766,291 +681,152 @@ INT_PTR CALLBACK Dlg_Memory::s_MemoryProc( HWND hDlg, UINT uMsg, WPARAM wParam, 
 	return g_MemoryDialog.MemoryProc( hDlg, uMsg, wParam, lParam );
 }
 
-INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
+void Dlg_Memory::ClearLogOutput()
 {
-	//char buffer[1024];
-	//sprintf_s( buffer, "uMsg = 0x%08x\n", uMsg );
-	//OutputDebugString( buffer );
+	ListBox_ResetContent( GetDlgItem( m_hWnd, IDC_RA_MEM_LIST ) );
+}
 
-	switch(uMsg)
+void Dlg_Memory::AddLogLine( const std::string& sNextLine )
+{
+	ListBox_AddString( GetDlgItem( m_hWnd, IDC_RA_MEM_LIST ), Widen( sNextLine ).c_str() );
+}
+
+
+INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT nMsg, WPARAM wParam, LPARAM lParam )
+{
+	switch( nMsg )
 	{
 	case WM_TIMER:
 		{
-			const int BufferSize = 2048;
-			char sOutputBuffer[BufferSize];
-			DWORD iterAddr = 0;
-			DWORD nAddrOffsetOdd = 0;
-			DWORD n = 0;
+			SetDlgItemText( hDlg, IDC_RA_MEMBITS_TITLE, L"" );
+			SetDlgItemText( hDlg, IDC_RA_MEMBITS, L"" );
 
-			SetDlgItemText( hDlg, IDC_RA_MEMBITS_TITLE, "" );
-			SetDlgItemText( hDlg, IDC_RA_MEMBITS, "" );
+			if( ( g_MemManager.NumMemoryBanks() == 0 ) || ( g_MemManager.ActiveBankSize() == 0 ) )
+				return FALSE;
 
-			if( g_MemManager.RAMTotalSize() == 0 )
-				break;
-
-			BOOL bView8Bit = (BOOL)SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW8BIT, BM_GETCHECK, (WPARAM)0, 0);
+			bool bView8Bit = ( SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW8BIT, BM_GETCHECK, 0, 0 ) == BST_CHECKED );
 			if( !bView8Bit )
-				break;
-
-			BOOL bUseLongAddresses = ( g_MemManager.RAMTotalSize() > 65536 );
-			const DWORD nOKAddressLength = ( bUseLongAddresses ? 8 : 6 );
-
-			GetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING, sOutputBuffer, 14 );
-			if( strlen( sOutputBuffer ) == nOKAddressLength )
+				return FALSE;
+			
+			wchar_t bufferWide[ 1024 ];
+			GetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING, bufferWide, 1024 );
+			const std::string buffer = Narrow( bufferWide );
+			if( ( buffer.length() >= 3 ) && buffer[ 0 ] == '0' && buffer[ 1 ] == 'x' )
 			{
-				char* sData = sOutputBuffer+2;
-				DWORD nAddr = strtol( sData, NULL, 16 );
-				unsigned short nVal = (unsigned short)( g_MemManager.RAMByte(nAddr) );
+				ByteAddress nAddr = static_cast<ByteAddress>( strtol( buffer.c_str() + 2, nullptr, 16 ) );
+				unsigned char nVal = g_MemManager.ActiveBankRAMByteRead( nAddr );
 
-				const char* sTitle =	"Bits: 7 6 5 4 3 2 1 0";
-				char sDesc[32];
-				sprintf_s( sDesc, 32,	"      %d %d %d %d %d %d %d %d",
-					(int)( (nVal&(1<<7))!=0 ),
-					(int)( (nVal&(1<<6))!=0 ),
-					(int)( (nVal&(1<<5))!=0 ),
-					(int)( (nVal&(1<<4))!=0 ),
-					(int)( (nVal&(1<<3))!=0 ),
-					(int)( (nVal&(1<<2))!=0 ),
-					(int)( (nVal&(1<<1))!=0 ),
-					(int)( (nVal&(1<<0))!=0 ) );
+				wchar_t sDesc[ 32 ];
+				wsprintf( sDesc,	L"      %d %d %d %d %d %d %d %d",
+					static_cast<int>( ( nVal & ( 1 << 7 ) ) != 0 ),
+					static_cast<int>( ( nVal & ( 1 << 6 ) ) != 0 ),
+					static_cast<int>( ( nVal & ( 1 << 5 ) ) != 0 ),
+					static_cast<int>( ( nVal & ( 1 << 4 ) ) != 0 ),
+					static_cast<int>( ( nVal & ( 1 << 3 ) ) != 0 ),
+					static_cast<int>( ( nVal & ( 1 << 2 ) ) != 0 ),
+					static_cast<int>( ( nVal & ( 1 << 1 ) ) != 0 ),
+					static_cast<int>( ( nVal & ( 1 << 0 ) ) != 0 ) );
 
-				SetDlgItemText( hDlg, IDC_RA_MEMBITS_TITLE, sTitle );
+				SetDlgItemText( hDlg, IDC_RA_MEMBITS_TITLE, L"Bits: 7 6 5 4 3 2 1 0" );
 				SetDlgItemText( hDlg, IDC_RA_MEMBITS, sDesc );
 			}
-
-
-
-
-			//GetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING, sOutputBuffer, 14 );
-			//if( strlen( sOutputBuffer ) == nOKAddressLength )
-			//{
-			//	SendDlgItemMessage( g_MemoryDialog.m_hWnd, IDC_RA_WATCH, WM_CLEAR, (WPARAM)0, (LPARAM)0 );
-
-			//	char* sData = sOutputBuffer+2;
-			//	DWORD nAddr = strtol( sData, NULL, 16 );
-
-			//	char* sHeader = bGroup32 ? "0        4        8        c"
-			//		: bGroup16 ? "0    2    4    6    8    a    c    e"
-			//		: "0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f";
-
-			//	sprintf_s( sOutputBuffer, BufferSize, "%s%s        %s\\line\n", 
-			//		"{\\rtf1\\ansi\\deff0"
-			//		"{\\colortbl;\\red0\\green0\\blue0;\\red255\\green0\\blue0;}",
-			//		(bUseLongAddresses ? "  " : ""), sHeader );
-
-			//	for( DWORD i = 0; i < 128; i++ )
-			//	{
-			//		iterAddr = nAddr + (i - (64+15));
-			//		if( iterAddr < 0 )
-			//			continue;
-
-			//		if( iterAddr > (g_MemManager.RAMTotalSize() - 16) )
-			//			continue;
-
-			//		if( iterAddr%16 != 0 )
-			//			continue;
-
-
-			//		if( bUseLongAddresses )
-			//			sprintf_s( sOutputBuffer, BufferSize, "%s0x%06x:", sOutputBuffer, iterAddr );
-			//		else //if( g_MemManager.RAMSize() <= 65536 )
-			//			sprintf_s( sOutputBuffer, BufferSize, "%s0x%04x:", sOutputBuffer, iterAddr );
-
-			//		nAddrOffsetOdd = (nAddr%2 == 0) ? 0 : 1;
-
-			//		unsigned int nInterval = bGroup32 ? 4 : bGroup16 ? 2 : 1;
-
-			//		for( n = 0; n < 16; n+=nInterval )
-			//		{
-			//			//const DWORD nOffset = (iterAddr+n - nAddr) + nAddrOffsetOdd;
-			//			const DWORD nOffset = (iterAddr+n - nAddr);
-			//			
-			//			if( nOffset == 0 )
-			//				strcat_s( sOutputBuffer, BufferSize, "\\cf2\n" );
-			//			
-			//			strcat_s( sOutputBuffer, BufferSize, " " );
-
-			//			if( bGroup32 )
-			//			{
-			//				sprintf_s( sOutputBuffer, BufferSize, "%s%02x", sOutputBuffer, (unsigned short)( g_MemManager.RAMByte(iterAddr+n+3) ) );
-			//				sprintf_s( sOutputBuffer, BufferSize, "%s%02x", sOutputBuffer, (unsigned short)( g_MemManager.RAMByte(iterAddr+n+2) ) );
-			//				sprintf_s( sOutputBuffer, BufferSize, "%s%02x", sOutputBuffer, (unsigned short)( g_MemManager.RAMByte(iterAddr+n+1) ) );
-			//				sprintf_s( sOutputBuffer, BufferSize, "%s%02x", sOutputBuffer, (unsigned short)( g_MemManager.RAMByte(iterAddr+n) ) );
-			//			}
-			//			else if( bGroup16 )
-			//			{
-			//				sprintf_s( sOutputBuffer, BufferSize, "%s%02x", sOutputBuffer, (unsigned short)( g_MemManager.RAMByte(iterAddr+n+1) ) );
-			//				sprintf_s( sOutputBuffer, BufferSize, "%s%02x", sOutputBuffer, (unsigned short)( g_MemManager.RAMByte(iterAddr+n) ) );
-			//			}
-			//			else //if( bGroup8 )
-			//			{
-			//				sprintf_s( sOutputBuffer, BufferSize, "%s%02x", sOutputBuffer, (unsigned short)( g_MemManager.RAMByte(iterAddr+n) ) );
-			//			}
-
-			//			if( nOffset == 0 )
-			//				strcat_s( sOutputBuffer, BufferSize, "\\cf1\n" );
-
-			//		}
-
-			//		strcat_s( sOutputBuffer, BufferSize, "\\line\n" );
-
-			//		i += 15;
-			//	}
-
-			//	strcat_s( sOutputBuffer, BufferSize, "}" );
-			//	SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCH, sOutputBuffer );
-			//}
 		}
-		break;
+		return FALSE;
+
 	case WM_INITDIALOG:
 		{
-			char buffer[1024];
-			//	Setup fixed-width font for edit box 'watch'
-			//SendMessage( GetDlgItem(hDlg, IDC_RA_WATCH), WM_SETFONT, (WPARAM)GetStockObject(SYSTEM_FIXED_FONT), TRUE );
-			SendMessage( GetDlgItem(hDlg, IDC_RA_MEMBITS), WM_SETFONT, (WPARAM)GetStockObject(SYSTEM_FIXED_FONT), TRUE );
-			SendMessage( GetDlgItem(hDlg, IDC_RA_MEMBITS_TITLE), WM_SETFONT, (WPARAM)GetStockObject(SYSTEM_FIXED_FONT), TRUE );
-
 			g_MemoryDialog.m_hWnd = hDlg;
 
  			RECT rc;
  			GetWindowRect( g_RAMainWnd, &rc );
- 			int dx1 = (rc.right - rc.left);
- 			int dy1 = (rc.bottom - rc.top);
- 			SetWindowPos(hDlg, NULL, rc.right, rc.top, NULL, NULL, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
+			SetWindowPos( hDlg, NULL, rc.right, rc.top, NULL, NULL, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
 
-			if( g_MemManager.m_bUseLastKnownValue )
-			{
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_GIVENVAL, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_LASTKNOWNVAL, BM_SETCHECK, (WPARAM)1, (LONG)0 );
-				EnableWindow( GetDlgItem( hDlg, IDC_RA_TESTVAL ), FALSE );
-			}
-			else
-			{
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_GIVENVAL, BM_SETCHECK, (WPARAM)1, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_LASTKNOWNVAL, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				EnableWindow( GetDlgItem( hDlg, IDC_RA_TESTVAL ), TRUE );
-			}
+			CheckDlgButton( hDlg, IDC_RA_CBO_GIVENVAL, BST_UNCHECKED );
+			CheckDlgButton( hDlg, IDC_RA_CBO_LASTKNOWNVAL, BST_CHECKED );
+			EnableWindow( GetDlgItem( hDlg, IDC_RA_TESTVAL ), FALSE );
 
-			if( g_MemManager.m_nComparisonSizeMode == CMP_SZ_4BIT_LOWER || g_MemManager.m_nComparisonSizeMode == CMP_SZ_4BIT_UPPER )
-			{
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_4BIT, BM_SETCHECK, (WPARAM)1, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_8BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_16BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_32BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-			}
-			else if( g_MemManager.m_nComparisonSizeMode == CMP_SZ_8BIT )
-			{
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_4BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_8BIT, BM_SETCHECK, (WPARAM)1, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_16BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_32BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-			}
-			else if( g_MemManager.m_nComparisonSizeMode == CMP_SZ_16BIT )
-			{
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_4BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_8BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_16BIT, BM_SETCHECK, (WPARAM)1, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_32BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-			}
-			else //if( g_MemManager.m_nComparisonSizeMode == CMP_SZ_32BIT )
-			{
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_4BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_8BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_16BIT, BM_SETCHECK, (WPARAM)0, (LONG)0 );
-				SendDlgItemMessage( hDlg, IDC_RA_CBO_32BIT, BM_SETCHECK, (WPARAM)1, (LONG)0 );
-			}
+			for( size_t i = 0; i < NumComparisonTypes; ++i )
+				ComboBox_AddString( GetDlgItem( hDlg, IDC_RA_CBO_CMPTYPE ), Widen( COMPARISONTYPE_STR[ i ] ).c_str() );
 
-			sprintf_s( buffer, 1024, "Restored: Aware of %d mem locations.", g_MemManager.m_NumCandidates );
-			SendDlgItemMessage( hDlg, IDC_RA_MEM_LIST, LB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)buffer );
+			ComboBox_SetCurSel( GetDlgItem( hDlg, IDC_RA_CBO_CMPTYPE ), 0 );
 
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)"==" );	//	EQ
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)"<" );	//	LT
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)"<=" );	//	LTE
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)">" );	//	GT
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)">=" );	//	GTE
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)"!=" );	//	NEQ
+			//	Every 50ms, update timer proc
+			SetTimer( hDlg, 1, 50, (TIMERPROC)s_MemoryProc );
 
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_SETCURSEL, (WPARAM)0, (LPARAM)0 );
+			EnableWindow( GetDlgItem( hDlg, IDC_RA_DOTEST ), g_MemManager.NumCandidates() > 0 );
 
-			SetTimer( g_MemoryDialog.m_hWnd, 1, 50, (TIMERPROC)s_MemoryProc );
+			SetDlgItemText( hDlg, IDC_RA_WATCHING, L"0x0000" );
 
-			EnableWindow( GetDlgItem( hDlg, IDC_RA_DOTEST ), g_MemManager.m_NumCandidates > 0 );
+			SendMessage( GetDlgItem( hDlg, IDC_RA_MEMBITS ), WM_SETFONT, reinterpret_cast<WPARAM>( GetStockObject( SYSTEM_FIXED_FONT ) ), TRUE );
+			SendMessage( GetDlgItem( hDlg, IDC_RA_MEMBITS_TITLE ), WM_SETFONT, reinterpret_cast<WPARAM>( GetStockObject( SYSTEM_FIXED_FONT ) ), TRUE );
 
-			SetDlgItemText( hDlg, IDC_RA_WATCHING, "0x8000" );
+			//	8-bit by default:
+			CheckDlgButton( hDlg, IDC_RA_CBO_4BIT, BST_UNCHECKED );
+			CheckDlgButton( hDlg, IDC_RA_CBO_8BIT, BST_CHECKED );
+			CheckDlgButton( hDlg, IDC_RA_CBO_16BIT, BST_UNCHECKED );
+			CheckDlgButton( hDlg, IDC_RA_CBO_32BIT, BST_UNCHECKED );
 
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_4BIT, BM_SETCHECK, (WPARAM)0, 0);
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_8BIT, BM_SETCHECK, (WPARAM)1, 0);
-			SendDlgItemMessage( hDlg, IDC_RA_CBO_16BIT, BM_SETCHECK, (WPARAM)0, 0);
+			CheckDlgButton( hDlg, IDC_RA_MEMVIEW8BIT, BST_CHECKED );
+			CheckDlgButton( hDlg, IDC_RA_MEMVIEW16BIT, BST_UNCHECKED );
+			CheckDlgButton( hDlg, IDC_RA_MEMVIEW32BIT, BST_UNCHECKED );
 
-			SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW8BIT, BM_SETCHECK, (WPARAM)0, 0);
-			SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW16BIT, BM_SETCHECK, (WPARAM)1, 0);
-			SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW32BIT, BM_SETCHECK, (WPARAM)0, 0);
-
-			//Dlg_Memory_MemoryProc( hDlg, WM_COMMAND, ID_RESET, 0 );
-			MemoryProc( hDlg, WM_COMMAND, IDC_RA_CBO_8BIT, 0 );
-
+			MemoryProc( hDlg, WM_COMMAND, IDC_RA_CBO_8BIT, 0 );		//	Imitate a buttonpress of '8-bit'
 			g_MemoryDialog.OnLoad_NewRom();
+
+			return TRUE;
 		}
-		return TRUE;
-		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam))
+	{
+		switch( LOWORD( wParam ) )
 		{
-		case IDC_RA_DOTEST:
+			case IDC_RA_DOTEST:
 			{
-				if( g_MemManager.RAMTotalSize() == 0 )
-					break;
+				if( g_MemManager.NumMemoryBanks() == 0 )
+					return TRUE;	//	Ignored
 
-				const char* CmpStrings[] = {
-					{ "EQUAL" },
-					{ "LESS THAN" },
-					{ "LESS THAN/EQUAL" },
-					{ "GREATER THAN" },
-					{ "GREATER THAN/EQUAL" },
-					{ "NOT EQUAL" } };
+				if( g_MemManager.ActiveBankSize() == 0 )
+					return TRUE;	//	Handled
 
-				int nCmpType = (int)( SendDlgItemMessage( hDlg, IDC_RA_CBO_CMPTYPE, CB_GETCURSEL, (WPARAM)0, (LPARAM)0 ) );
+				ComparisonType nCmpType = static_cast<ComparisonType>( ComboBox_GetCurSel( GetDlgItem( hDlg, IDC_RA_CBO_CMPTYPE ) ) );
 
-				if( g_MemManager.m_pCoreRAM == NULL )
-					break;
+				ClearLogOutput();
 
-				SendDlgItemMessage( hDlg, IDC_RA_MEM_LIST, LB_RESETCONTENT, (WPARAM)0, (LPARAM)0 );
-				
 				unsigned int nValueQuery = 0;
 
 				{
-					char buffer[1024];
-					if( GetDlgItemText( hDlg, IDC_RA_TESTVAL, buffer, 1024 ) )
+					wchar_t bufferWide[ 1024 ];
+					if( GetDlgItemText( hDlg, IDC_RA_TESTVAL, bufferWide, 1024 ) )
 					{
+						std::string buffer = Narrow( bufferWide );
 						//	Read hex or dec
-						if( buffer[0] == '0' && buffer[1] == 'x' )
-							nValueQuery = static_cast<unsigned int>( std::strtoul( buffer+2, NULL, 16 ) );
+						if( buffer[ 0 ] == '0' && buffer[ 1 ] == 'x' )
+							nValueQuery = static_cast<unsigned int>( std::strtoul( buffer.c_str() + 2, NULL, 16 ) );
 						else
-							nValueQuery = static_cast<unsigned int>( std::strtoul( buffer, NULL, 10 ) );
+							nValueQuery = static_cast<unsigned int>( std::strtoul( buffer.c_str(), NULL, 10 ) );
 					}
 				}
 
-				std::stringstream sstr;
-				if( g_MemManager.m_bUseLastKnownValue )
-					sstr << "Filtering for " << CmpStrings[nCmpType] << " last known value...";
-				else
-					sstr << "Filtering for " << CmpStrings[nCmpType] << std::to_string( nValueQuery );
 
-				SendDlgItemMessage( hDlg, IDC_RA_MEM_LIST, LB_ADDSTRING, (WPARAM)0, (LPARAM)( sstr.str().c_str() ) );
+				std::string str(
+					"Filtering for " + std::string( COMP_STR[ nCmpType ] ) +
+					( ( g_MemManager.UseLastKnownValue() ) ? " last known value..." : std::to_string( nValueQuery ) ) );
+
+				AddLogLine( str );
 
 				//////////////////////////////////////////////////////////////////////////
-				BOOL bResultsFound = FALSE;
+				bool bResultsFound = false;
 				size_t nResults = g_MemManager.Compare( nCmpType, nValueQuery, bResultsFound );
 				//////////////////////////////////////////////////////////////////////////
 
-				sstr.clear();
+
+				std::stringstream sstr;
 				if( !bResultsFound )
-					sstr << "Found *ZERO* matches: restoring old results set!";
+					sstr << "Found *ZERO* matches: restoring old results set ( " << nResults << " results )!";
 				else
 					sstr << "Found " << nResults << " matches!";
 
-				SendDlgItemMessage( hDlg, IDC_RA_MEM_LIST, LB_ADDSTRING, (WPARAM)0, (LPARAM)( sstr.str().c_str() ) );
+				AddLogLine( sstr.str() );
 
 				if( nResults < MIN_RESULTS_TO_DUMP )
 				{
@@ -1058,304 +834,256 @@ INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					{
 						const DWORD nCandidateAddr = g_MemManager.ValidMemAddrFound( i );
 
-						char buffer[1024];
+						char buffer[ 1024 ];
 
-						char sMem[16];
-						if( IsLargeRAM() )
-							sprintf_s( sMem, 16, "0x%06x", nCandidateAddr );
-						else
-							sprintf_s( sMem, 16, "0x%04x", nCandidateAddr );
+						char sMem[ 16 ];
+						sprintf_s( sMem, 16, "0x%06x", nCandidateAddr );
 
-
-						// 						if( g_MemManager.GetComparisonSize() == CMP_SZ_32BIT )
-						// 						{
-						// 							sprintf_s( TempBuffer, "0x%04x: 0x%08x", g_MemManager.ValidMemAddrFound( i ), Ram_68k[g_MemManager.ValidMemAddrFound( i )] );
-						// 						}
-
-						if( g_MemManager.m_nComparisonSizeMode == CMP_SZ_16BIT )
+						if( g_MemManager.MemoryComparisonSize() == ThirtyTwoBit )
 						{
-							sprintf_s( buffer, 1024, "%s: 0x%04x", sMem, g_MemManager.RAMByte( nCandidateAddr ) | ( g_MemManager.RAMByte( nCandidateAddr + 1 ) << 8 ) );
+							sprintf_s( buffer, 1024, "%s: 0x%04x", sMem, g_MemManager.ActiveBankRAMByteRead( nCandidateAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nCandidateAddr + 1 ) << 8 ) );
 						}
-						else if( g_MemManager.m_nComparisonSizeMode == CMP_SZ_8BIT )
+						if( g_MemManager.MemoryComparisonSize() == SixteenBit )
 						{
-							sprintf_s( buffer, 1024, "%s: 0x%02x", sMem, g_MemManager.RAMByte( nCandidateAddr ));
+							sprintf_s( buffer, 1024, "%s: 0x%04x", sMem, g_MemManager.ActiveBankRAMByteRead( nCandidateAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nCandidateAddr + 1 ) << 8 ) );
 						}
-						else if( g_MemManager.m_nComparisonSizeMode == CMP_SZ_4BIT_LOWER || g_MemManager.m_nComparisonSizeMode == CMP_SZ_4BIT_UPPER )
+						else if( g_MemManager.MemoryComparisonSize() == EightBit )
 						{
-							if( g_MemManager.m_Candidates[i].m_bUpperNibble )
-								sprintf_s( buffer, 1024, "%s: 0x%01x", sMem, (g_MemManager.RAMByte( nCandidateAddr )>>4)&0xf );
+							sprintf_s( buffer, 1024, "%s: 0x%02x", sMem, g_MemManager.ActiveBankRAMByteRead( nCandidateAddr ) );
+						}
+						else if( g_MemManager.MemoryComparisonSize() == Nibble_Lower || g_MemManager.MemoryComparisonSize() == Nibble_Upper )
+						{
+							if( g_MemManager.GetCandidate( i ).m_bUpperNibble )
+								sprintf_s( buffer, 1024, "%s: 0x%01x", sMem, ( g_MemManager.ActiveBankRAMByteRead( nCandidateAddr ) >> 4 ) & 0xf );
 							else
-								sprintf_s( buffer, 1024, "%s: 0x%01x", sMem, g_MemManager.RAMByte( nCandidateAddr )&0xf );
+								sprintf_s( buffer, 1024, "%s: 0x%01x", sMem, g_MemManager.ActiveBankRAMByteRead( nCandidateAddr ) & 0xf );
 						}
 						else
 						{
 							//?
+							buffer[ 0 ] = '\0';
 						}
 
-						const CodeNotes::CodeNoteObj* pSavedNote = m_pCodeNotes->FindCodeNote( nCandidateAddr );
+						//	Append memory note if we can find one:
+						const CodeNotes::CodeNoteObj* pSavedNote = m_CodeNotes.FindCodeNote( nCandidateAddr );
 						if( ( pSavedNote != NULL ) && ( pSavedNote->Note().length() > 0 ) )
-						{
-							strcat_s( buffer, " (" );
-							strcat_s( buffer, pSavedNote->Note().c_str() );
-							strcat_s( buffer, ")" );
-						}
+							strcat_s( buffer, std::string( " (" + pSavedNote->Note() + ")" ).c_str() );	//	##SD check...
 
-						SendDlgItemMessage( hDlg, IDC_RA_MEM_LIST, LB_ADDSTRING, (WPARAM)0, (LPARAM)buffer );
+						AddLogLine( buffer );
 					}
 				}
 
-				{
-					HWND hFilterButton = GetDlgItem( hDlg, IDC_RA_DOTEST );
-					EnableWindow( hFilterButton, g_MemManager.m_NumCandidates > 0 );
-				}
-
-				break;
+				EnableWindow( GetDlgItem( hDlg, IDC_RA_DOTEST ), g_MemManager.NumCandidates() > 0 );
 			}
-
 			return TRUE;
-			break;
 
-		case IDC_RA_MEMVIEW8BIT:
-		case IDC_RA_MEMVIEW16BIT:
-		case IDC_RA_MEMVIEW32BIT:
-			{
+			case IDC_RA_MEMVIEW8BIT:
+			case IDC_RA_MEMVIEW16BIT:
+			case IDC_RA_MEMVIEW32BIT:
 				Invalidate();	//	Cause the MemoryViewerControl to refresh
 				MemoryViewerControl::destroyEditCaret();
-				//LRESULT n4BitSet = SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW8BIT, BM_GETCHECK, (WPARAM)0, 0);
-				//LRESULT n8BitSet = SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW16BIT, BM_GETCHECK, (WPARAM)0, 0);
-				//LRESULT n16BitSet = SendDlgItemMessage( hDlg, IDC_RA_MEMVIEW32BIT, BM_GETCHECK, (WPARAM)0, 0);
-			}
-			break;
+				return FALSE;
 
-		case IDC_RA_CBO_4BIT:
-		case IDC_RA_CBO_8BIT:
-		case IDC_RA_CBO_16BIT:
-			//case IDC_RA_CBO_32BIT:
-			//case ID_RESET:
+			case IDC_RA_CBO_4BIT:
+			case IDC_RA_CBO_8BIT:
+			case IDC_RA_CBO_16BIT:
+			case IDC_RA_CBO_32BIT:
 			{
-				LRESULT n4BitSet = SendDlgItemMessage( hDlg, IDC_RA_CBO_4BIT, BM_GETCHECK, (WPARAM)0, 0);
-				LRESULT n8BitSet = SendDlgItemMessage( hDlg, IDC_RA_CBO_8BIT, BM_GETCHECK, (WPARAM)0, 0);
-				LRESULT n16BitSet = SendDlgItemMessage( hDlg, IDC_RA_CBO_16BIT, BM_GETCHECK, (WPARAM)0, 0);
-				//LRESULT n32BitSet = SendDlgItemMessage( hDlg, IDC_RA_CBO_32BIT, BM_GETCHECK, (WPARAM)0, 0);
-				const char* sMode = n16BitSet ? "16-bit" : n8BitSet ? "8-bit" : "4-bit";
-				char TempBuffer[1024];
+				bool b4BitSet = ( SendDlgItemMessage( hDlg, IDC_RA_CBO_4BIT, BM_GETCHECK, 0, 0 ) == BST_CHECKED );
+				bool b8BitSet = ( SendDlgItemMessage( hDlg, IDC_RA_CBO_8BIT, BM_GETCHECK, 0, 0 ) == BST_CHECKED );
+				bool b16BitSet = ( SendDlgItemMessage( hDlg, IDC_RA_CBO_16BIT, BM_GETCHECK, 0, 0 ) == BST_CHECKED );
+				bool b32BitSet = ( SendDlgItemMessage( hDlg, IDC_RA_CBO_32BIT, BM_GETCHECK, 0, 0 ) == BST_CHECKED );
 
-				CompVariableSize cmpSize = CMP_SZ_4BIT_LOWER;	//	or upper, doesn't really matter
-				if( n8BitSet )
-					cmpSize = CMP_SZ_8BIT;
-				else if( n16BitSet )
-					cmpSize = CMP_SZ_16BIT;
+				ComparisonVariableSize nCompSize = Nibble_Lower;	//	or upper, doesn't really matter
+				if( b4BitSet )
+					nCompSize = Nibble_Lower;
+				else if( b8BitSet )
+					nCompSize = EightBit;
+				else if( b16BitSet )
+					nCompSize = SixteenBit;
+				else //if( b32BitSet )
+					nCompSize = ThirtyTwoBit;
 
-				g_MemManager.Reset( cmpSize );
+				g_MemManager.Reset( 0, nCompSize );
 
-				SendDlgItemMessage( hDlg, IDC_RA_MEM_LIST, LB_RESETCONTENT, (WPARAM)0, 0 );
-				sprintf_s( TempBuffer, 1024, "Cleared: (%s) mode. Aware of %d RAM locations.", 
-					sMode, g_MemManager.m_NumCandidates );
-				SendDlgItemMessage( hDlg, IDC_RA_MEM_LIST, LB_ADDSTRING, (WPARAM)0, (LONG)(LPTSTR)TempBuffer );
+				ClearLogOutput();
+				AddLogLine( "Cleared: (" + std::string( COMPARISONVARIABLESIZE_STR[ nCompSize ] ) + ") mode. Aware of " + std::to_string( g_MemManager.NumCandidates() ) + " RAM locations." );
+				EnableWindow( GetDlgItem( hDlg, IDC_RA_DOTEST ), g_MemManager.NumCandidates() > 0 );
 
+				return FALSE;
+			}
+
+			case ID_OK:
+				EndDialog( hDlg, TRUE );
+				return TRUE;
+
+			case IDC_RA_CBO_GIVENVAL:
+			case IDC_RA_CBO_LASTKNOWNVAL:
+				EnableWindow( GetDlgItem( hDlg, IDC_RA_TESTVAL ), ( IsDlgButtonChecked( hDlg, IDC_RA_CBO_GIVENVAL ) == BST_CHECKED ) );
+				g_MemManager.SetUseLastKnownValue( IsDlgButtonChecked( hDlg, IDC_RA_CBO_GIVENVAL ) == BST_UNCHECKED );
+				return TRUE;
+
+			case IDC_RA_ADDNOTE:
+			{
+				HWND hMemWatch = GetDlgItem( hDlg, IDC_RA_WATCHING );
+				HWND hMemDescription = GetDlgItem( hDlg, IDC_RA_MEMSAVENOTE );
+
+				wchar_t sAddressWide[ 16 ];
+				ComboBox_GetText( hMemWatch, sAddressWide, 16 );
+				const std::string sAddress = Narrow( sAddressWide );
+
+				if( sAddress[ 0 ] != '0' || sAddress[ 1 ] != 'x' )
+					return FALSE;
+
+				wchar_t sNewNoteWide[ 512 ];
+				GetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, sNewNoteWide, 512 );
+				const std::string sNewNote = Narrow( sNewNoteWide );
+
+				const ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddress.c_str() + 2, nullptr, 16 ) );
+				const CodeNotes::CodeNoteObj* pSavedNote = m_CodeNotes.FindCodeNote( nAddr );
+				if( ( pSavedNote != nullptr ) && ( pSavedNote->Note().length() > 0 ) )
 				{
-					HWND hFilterButton = GetDlgItem( hDlg, IDC_RA_DOTEST );
-					EnableWindow( hFilterButton, g_MemManager.m_NumCandidates > 0 );
-				}
-			}
+					if( pSavedNote->Note().compare( sNewNote ) != 0 )	//	New note is different
+					{
+						char sWarning[ 4096 ];
+						sprintf_s( sWarning, 4096,
+								   "Address 0x%04x already stored with note:\n\n"
+								   "%s\n"
+								   "by %s\n"
+								   "\n\n"
+								   "Would you like to overwrite with\n\n"
+								   "%s",
+								   nAddr,
+								   pSavedNote->Note().c_str(),
+								   pSavedNote->Author().c_str(),
+								   sNewNote.c_str() );
 
-			break;
-
-		case ID_OK:
-			EndDialog( hDlg, TRUE );
-
-			return TRUE;
-			break;
-
-		case IDC_RA_CBO_GIVENVAL:
-		case IDC_RA_CBO_LASTKNOWNVAL:
-			{
-				HWND hEditBox = GetDlgItem( hDlg, IDC_RA_TESTVAL );
-				LRESULT nUseGivenVal = SendDlgItemMessage( hDlg, IDC_RA_CBO_GIVENVAL, BM_GETCHECK, (WPARAM)0, 0);
-				if( nUseGivenVal==BST_CHECKED )
-				{ 
-					SendDlgItemMessage( hDlg, IDC_RA_CBO_GIVENVAL, BM_SETCHECK, (WPARAM)1, 0 );
-					SendDlgItemMessage( hDlg, IDC_RA_CBO_LASTKNOWNVAL, BM_SETCHECK, (WPARAM)0, 0 );
-					EnableWindow( hEditBox, TRUE );
+						if( MessageBox( hDlg, Widen( sWarning ).c_str(), L"Warning: overwrite note?", MB_YESNO ) == IDYES )
+							m_CodeNotes.Add( nAddr, RAUsers::LocalUser().Username(), sNewNote );
+					}
+					else
+					{
+						//	Already exists and is added exactly as described. Ignore.
+					}
 				}
 				else
 				{
-					SendDlgItemMessage( hDlg, IDC_RA_CBO_GIVENVAL, BM_SETCHECK, (WPARAM)0, 0 );
-					SendDlgItemMessage( hDlg, IDC_RA_CBO_LASTKNOWNVAL, BM_SETCHECK, (WPARAM)1, 0 );
-					EnableWindow( hEditBox, FALSE );
+					//	Doesn't yet exist: add it newly!
+					m_CodeNotes.Add( nAddr, RAUsers::LocalUser().Username(), sNewNote );
+					ComboBox_AddString( hMemWatch, Widen( sAddress ).c_str() );
 				}
-				g_MemManager.m_bUseLastKnownValue = (nUseGivenVal==BST_UNCHECKED);
+
+				return FALSE;
 			}
 
-			return TRUE;
-			break;
-
-		case IDC_RA_ADDNOTE:
-			{
- 				HWND hMemWatch = GetDlgItem( hDlg, IDC_RA_WATCHING );
-  				char sAddress[16];
-  				ComboBox_GetText( hMemWatch, (LPSTR)sAddress, 16 );
- 
-				if( sAddress[0] != '0' || sAddress[1] != 'x' )
-					return FALSE;
-
- 				char sNewNote[512];
- 				HWND hMemDescription = GetDlgItem( hDlg, IDC_RA_MEMSAVENOTE );
- 				GetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, (LPSTR)sNewNote, 512 );
- 				
- 				BOOL bDoSave = FALSE;
-
-				const ByteAddress nAddr = static_cast< ByteAddress >( std::strtoul( sAddress+2, NULL, 16 ) );
-				const CodeNotes::CodeNoteObj* pSavedNote = m_pCodeNotes->FindCodeNote( nAddr );
-				if( pSavedNote != NULL && pSavedNote->Note().length() > 0 )
- 				{
- 					if( pSavedNote->Note().compare( sNewNote ) != 0 )	//	New note is different
- 					{
- 						char sWarning[4096];
- 						sprintf_s( sWarning, 4096, 
-							"Address 0x%04x already stored with note:\n\n"
- 							"%s\n"
-							"by %s\n"
-							"\n\n"
- 							"Would you like to overwrite with\n\n"
- 							"%s",
- 							nAddr, 
-							pSavedNote->Note().c_str(), 
-							pSavedNote->Author().c_str(),
-							sNewNote );
- 						
- 						if( MessageBox( hDlg, sWarning, "Warning: overwrite note?", MB_YESNO ) == IDYES )
- 						{
- 							m_pCodeNotes->Add( nAddr, RAUsers::LocalUser.Username(), sNewNote );
- 							//ComboBox_AddString( hMemWatch, (LPSTR)sAddress );	//	Already added!
- 						}
- 					}
- 					else
- 					{
- 						//	Already exists and is added exactly as described. Ignore.
- 					}
- 				}
- 				else
- 				{
- 					//	Doesn't yet exist: add it newly!
- 					m_pCodeNotes->Add( nAddr, RAUsers::LocalUser.Username(), sNewNote );
- 					ComboBox_AddString( hMemWatch, (LPSTR)sAddress );
- 				}
- 
-				break;
-			}
-		case IDC_RA_REMNOTE:
-			{
- 				HWND hMemWatch = GetDlgItem( hDlg, IDC_RA_WATCHING );
- 				char sAddress[16];
- 				ComboBox_GetText( hMemWatch, (LPSTR)sAddress, 16 );
- 
- 				char sDescription[1024];
- 				HWND hMemDescription = GetDlgItem( hDlg, IDC_RA_MEMSAVENOTE );
- 				GetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, (LPSTR)sDescription, 1024 );
- 
-				ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddress+2, NULL, 16 ) );
-
- 				m_pCodeNotes->Remove( nAddr );
-
- 				//char buffer[1024];
- 				//int nGameID = g_pActiveAchievements->GameID();
- 				//sprintf_s( buffer, 1024, "%s%d-Notes2.txt", RA_DIR_DATA, nGameID );
- 				//m_pCodeNotes->Save( buffer );
- 
- 				SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, "" );
- 
- 				int nIndex = ComboBox_FindString( hMemWatch, -1, sAddress );
- 				if( nIndex != CB_ERR )
- 					ComboBox_DeleteString( hMemWatch, nIndex );
- 
- 				ComboBox_SetText( hMemWatch, "" );
-
-				break;
-			}
-		case IDC_RA_MEM_LIST:
-			{
-				char sSelectedString[1024];
-				HWND hLbx = GetDlgItem( hDlg, IDC_RA_MEM_LIST );
-				ListBox_GetText( hLbx, ListBox_GetCurSel(hLbx), (LPCTSTR)sSelectedString );
-
-				if( strlen( sSelectedString ) > 4 &&
-					sSelectedString[0] == '0' &&
-					sSelectedString[1] == 'x' )
-				{
-					ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sSelectedString+2, NULL, 16 ) );	//	HEX
-
-					{
-						HWND hMemWatch = GetDlgItem( hDlg, IDC_RA_WATCHING );
-						ComboBox_SetText( hMemWatch, (LPCTSTR)sSelectedString );
-					}
-
-					const CodeNotes::CodeNoteObj* pSavedNote = m_pCodeNotes->FindCodeNote( nAddr );
-					if( pSavedNote != NULL && pSavedNote->Note().length() > 0 )
- 						SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, pSavedNote->Note().c_str() );
- 					else
- 						SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, "" );
-
-					Invalidate();
-				}
-				break;
-			}
-		case IDC_RA_WATCHING:
+			case IDC_RA_REMNOTE:
 			{
 				HWND hMemWatch = GetDlgItem( hDlg, IDC_RA_WATCHING );
-				if( HIWORD(wParam) == CBN_SELCHANGE )
+				HWND hMemDescription = GetDlgItem( hDlg, IDC_RA_MEMSAVENOTE );
+
+				wchar_t sAddressWide[ 16 ];
+				ComboBox_GetText( hMemWatch, sAddressWide, 16 );
+				const std::string sAddress = Narrow( sAddressWide );
+
+				wchar_t sDescriptionWide[ 1024 ];
+				GetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, sDescriptionWide, 1024 );
+				const std::string sDescription = Narrow( sDescriptionWide );
+
+				ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddress.c_str() + 2, nullptr, 16 ) );
+
+				m_CodeNotes.Remove( nAddr );
+
+				SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, L"" );
+
+				int nIndex = ComboBox_FindString( hMemWatch, -1, Widen( sAddress ).c_str() );
+				if( nIndex != CB_ERR )
+					ComboBox_DeleteString( hMemWatch, nIndex );
+
+				ComboBox_SetText( hMemWatch, L"" );
+
+				return FALSE;
+			}
+
+			case IDC_RA_MEM_LIST:
+			{
+				char sSelectedString[ 1024 ];
+				HWND hListbox = GetDlgItem( hDlg, IDC_RA_MEM_LIST );
+				ListBox_GetText( hListbox, ListBox_GetCurSel( hListbox ), sSelectedString );
+
+				if( strlen( sSelectedString ) > 6 &&
+					sSelectedString[ 0 ] == '0' &&
+					sSelectedString[ 1 ] == 'x' )
 				{
-					int nSel = ComboBox_GetCurSel( hMemWatch );
-					if( nSel != CB_ERR )
-					{
-						char sAddr[64];
-						if( ComboBox_GetLBText( hMemWatch, nSel, sAddr ) > 0 )
-						{
-							ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddr+2, NULL, 16 ) );
-							const CodeNotes::CodeNoteObj* pSavedNote = m_pCodeNotes->FindCodeNote( nAddr );
-							if( pSavedNote != NULL && pSavedNote->Note().length() > 0 )
-								SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, pSavedNote->Note().c_str() );
-						}	
-					}
+					sSelectedString[ 8 ] = '\0';
+					ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sSelectedString + 2, NULL, 16 ) );	//	NB. Hex
+					ComboBox_SetText( GetDlgItem( hDlg, IDC_RA_WATCHING ), Widen( sSelectedString ).c_str() );
+
+					const CodeNotes::CodeNoteObj* pSavedNote = m_CodeNotes.FindCodeNote( nAddr );
+					if( ( pSavedNote != nullptr ) && ( pSavedNote->Note().length() > 0 ) )
+						SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, Widen( pSavedNote->Note() ).c_str() );
+					else
+						SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, L"" );
 
 					Invalidate();
 				}
-				else if( HIWORD(wParam) == CBN_EDITCHANGE )
-				{
-					OnWatchingMemChange();
-				}
+
+				return FALSE;
 			}
-			break;
+
+			case IDC_RA_WATCHING:
+				switch( HIWORD( wParam ) )
+				{
+					case CBN_SELCHANGE:
+					{
+						HWND hMemWatch = GetDlgItem( hDlg, IDC_RA_WATCHING );
+						int nSel = ComboBox_GetCurSel( hMemWatch );
+						if( nSel != CB_ERR )
+						{
+							wchar_t sAddr[ 64 ];
+							if( ComboBox_GetLBText( hMemWatch, nSel, sAddr ) > 0 )
+							{
+								ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( Narrow( sAddr ).c_str() + 2, nullptr, 16 ) );
+								const CodeNotes::CodeNoteObj* pSavedNote = m_CodeNotes.FindCodeNote( nAddr );
+								if( pSavedNote != NULL && pSavedNote->Note().length() > 0 )
+									SetDlgItemText( hDlg, IDC_RA_MEMSAVENOTE, Widen( pSavedNote->Note() ).c_str() );
+							}
+						}
+
+						Invalidate();
+						return TRUE;
+					}
+					case CBN_EDITCHANGE:
+						OnWatchingMemChange();
+						return TRUE;
+
+					default:
+						return FALSE;
+						//return DefWindowProc( hDlg, nMsg, wParam, lParam );
+				}
+
+			default:
+				return FALSE;	//	unhandled
 		}
-		break;
-
-	//case WM_SIZE:
-	//	//	Resize control elements:
-
-	//	break;
-
-	case WM_CLOSE:
-		EndDialog( hDlg, TRUE );
-		return TRUE;
-		break;
 	}
 
-	return 0;
-	//return DefWindowProc( hDlg, uMsg, wParam, lParam );
+	case WM_CLOSE:
+		EndDialog( hDlg, 0 );
+		return TRUE;
+
+	default:
+		return FALSE;	//	unhandled
+	}
 }
 
 void Dlg_Memory::OnWatchingMemChange()
 {
-	char sAddr[1024];
-	GetDlgItemText( m_hWnd, IDC_RA_WATCHING, sAddr, 1024 );
+	wchar_t sAddrWide[ 1024 ];
+	GetDlgItemText( m_hWnd, IDC_RA_WATCHING, sAddrWide, 1024 );
+	std::string sAddr = Narrow( sAddrWide );
+	ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddr.c_str() + 2, nullptr, 16 ) );
 
-	ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddr+2, NULL, 16 ) );
-
-	const CodeNotes::CodeNoteObj* pSavedNote = m_pCodeNotes->FindCodeNote( nAddr );
-	if( pSavedNote != NULL )
-		SetDlgItemText( m_hWnd, IDC_RA_MEMSAVENOTE, pSavedNote->Note().c_str() );
-	else
-		SetDlgItemText( m_hWnd, IDC_RA_MEMSAVENOTE, "" );
+	const CodeNotes::CodeNoteObj* pSavedNote = m_CodeNotes.FindCodeNote( nAddr );
+	SetDlgItemText( m_hWnd, IDC_RA_MEMSAVENOTE, Widen( ( pSavedNote != nullptr ) ? pSavedNote->Note() : "" ).c_str() );
 
 	MemoryViewerControl::destroyEditCaret();
 
@@ -1367,25 +1095,23 @@ void Dlg_Memory::RepopulateMemNotesFromFile()
 	HWND hMemWatch = GetDlgItem( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING );
 	if( hMemWatch != NULL )
 	{
-		SetDlgItemText( hMemWatch, IDC_RA_MEMSAVENOTE, "" );
+		SetDlgItemText( hMemWatch, IDC_RA_MEMSAVENOTE, L"" );
 
-		while( ComboBox_DeleteString( hMemWatch, 0 ) > 0 )
-		{
-		}
+		while( ComboBox_DeleteString( hMemWatch, 0 ) != CB_ERR ) {}
 
 		GameID nGameID = g_pActiveAchievements->GetGameID();
 		if( nGameID != 0 )
 		{
 			char sNotesFilename[1024];
 			sprintf_s( sNotesFilename, 1024, "%s%d-Notes2.txt", RA_DIR_DATA, nGameID );
-			size_t nSize = m_pCodeNotes->Load( sNotesFilename );
+			size_t nSize = m_CodeNotes.Load( sNotesFilename );
 
 			//	Issue a fetch instead!
-			std::map<ByteAddress, CodeNotes::CodeNoteObj>::const_iterator iter = m_pCodeNotes->FirstNote();
-			while( iter != m_pCodeNotes->EndOfNotes() )
+			std::map<ByteAddress, CodeNotes::CodeNoteObj>::const_iterator iter = m_CodeNotes.FirstNote();
+			while( iter != m_CodeNotes.EndOfNotes() )
 			{
 				const std::string sAddr = ByteAddressToString( iter->first );
-				ComboBox_AddString( hMemWatch, sAddr.c_str() );
+				ComboBox_AddString( hMemWatch, Widen( sAddr ).c_str() );
 				iter++;
 			}
 
@@ -1395,13 +1121,14 @@ void Dlg_Memory::RepopulateMemNotesFromFile()
 				ComboBox_SetCurSel( hMemWatch, 0 );
 
 				//	Note: as this is sorted, we should grab the desc again
-				char sAddr[64];
-				ComboBox_GetLBText( hMemWatch, 0, sAddr );
+				wchar_t sAddrWide[ 64 ];
+				ComboBox_GetLBText( hMemWatch, 0, sAddrWide );
+				const std::string sAddr = Narrow( sAddrWide );
 
-				ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddr+2, NULL, 16 ) );
-				const CodeNotes::CodeNoteObj* pSavedNote = m_pCodeNotes->FindCodeNote( nAddr );
-				if( pSavedNote != NULL && pSavedNote->Note().length() > 0 )
-					SetDlgItemText( m_hWnd, IDC_RA_MEMSAVENOTE, pSavedNote->Note().c_str() );
+				ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddr.c_str() + 2, nullptr, 16 ) );
+				const CodeNotes::CodeNoteObj* pSavedNote = m_CodeNotes.FindCodeNote( nAddr );
+				if( ( pSavedNote != nullptr ) && ( pSavedNote->Note().length() > 0 ) )
+					SetDlgItemText( m_hWnd, IDC_RA_MEMSAVENOTE, Widen( pSavedNote->Note() ).c_str() );
 			}
 		}
 	}
@@ -1409,14 +1136,14 @@ void Dlg_Memory::RepopulateMemNotesFromFile()
 
 void Dlg_Memory::OnLoad_NewRom()
 {
-	m_pCodeNotes->ReloadFromWeb( g_pActiveAchievements->GetGameID() );
+	m_CodeNotes.ReloadFromWeb( g_pActiveAchievements->GetGameID() );
 	
-	SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_MEM_LIST, "" );
-	SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_MEMSAVENOTE, "" );
+	SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_MEM_LIST, L"" );
+	SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_MEMSAVENOTE, L"" );
 	if( g_pActiveAchievements->GetGameID() == 0 )
-		SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING, "" );
+		SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING, L"" );
 	else
-		SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING, "Loading..." );
+		SetDlgItemText( g_MemoryDialog.m_hWnd, IDC_RA_WATCHING, L"Loading..." );
 
 	RepopulateMemNotesFromFile();
 
@@ -1430,13 +1157,9 @@ void Dlg_Memory::Invalidate()
 
 void Dlg_Memory::SetWatchingAddress( unsigned int nAddr )
 {
-	char buffer[32];
-	if( g_MemManager.RAMTotalSize() <= 65536 )
-		sprintf_s( buffer, 32, "0x%04x", nAddr );
-	else
-		sprintf_s( buffer, 32, "0x%06x", nAddr );
-
-	SetDlgItemText( g_MemoryDialog.GetHWND(), IDC_RA_WATCHING, buffer );
+	char buffer[ 32 ];
+	sprintf_s( buffer, 32, "0x%06x", nAddr );
+	SetDlgItemText( g_MemoryDialog.GetHWND(), IDC_RA_WATCHING, Widen( buffer ).c_str() );
 
 	OnWatchingMemChange();
 }

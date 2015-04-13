@@ -1,11 +1,10 @@
 #include "RA_Leaderboard.h"
-#include <vector>
-#include <assert.h>
-#include <time.h>
 #include "RA_MemManager.h"
 #include "RA_PopupWindows.h"
 #include "RA_md5factory.h"
 #include "RA_httpthread.h"
+
+#include <time.h>
 
 RA_LeaderboardManager g_LeaderboardManager;
 
@@ -33,34 +32,41 @@ double MemValue::GetValue() const
 	}
 	else
 	{
-		if( m_nVarSize == CMP_SZ_4BIT_LOWER )
+		if( m_nVarSize == ComparisonVariableSize::Nibble_Lower )
 		{
-			nRetVal = g_MemManager.RAMByte( m_nAddress )&0xf;
+			nRetVal = g_MemManager.ActiveBankRAMByteRead( m_nAddress ) & 0xf;
 		}
-		else if( m_nVarSize == CMP_SZ_4BIT_UPPER )
+		else if( m_nVarSize == ComparisonVariableSize::Nibble_Upper )
 		{
-			nRetVal = (g_MemManager.RAMByte( m_nAddress )>>4)&0xf;
+			nRetVal = ( g_MemManager.ActiveBankRAMByteRead( m_nAddress ) >> 4 ) & 0xf;
 		}
-		else if( m_nVarSize == CMP_SZ_8BIT )
+		else if( m_nVarSize == ComparisonVariableSize::EightBit )
 		{
-			nRetVal = g_MemManager.RAMByte( m_nAddress );
+			nRetVal = g_MemManager.ActiveBankRAMByteRead( m_nAddress );
 		}
-		else if( m_nVarSize == CMP_SZ_16BIT )
+		else if( m_nVarSize == ComparisonVariableSize::SixteenBit )
 		{
-			nRetVal = g_MemManager.RAMByte( m_nAddress );
-			nRetVal |= (g_MemManager.RAMByte( m_nAddress+1 ) << 8);
+			nRetVal = g_MemManager.ActiveBankRAMByteRead( m_nAddress );
+			nRetVal |= ( g_MemManager.ActiveBankRAMByteRead( m_nAddress + 1 ) << 8 );
 		}
-		else if( m_nVarSize >= CMP_SZ_1BIT_0 && m_nVarSize <= CMP_SZ_1BIT_7 )
+		else if( m_nVarSize == ComparisonVariableSize::ThirtyTwoBit )
 		{
-			const unsigned int nBitmask = ( 1 << (m_nVarSize-CMP_SZ_1BIT_0) );
-			nRetVal = ( g_MemManager.RAMByte( m_nAddress ) & nBitmask ) != 0;
+			nRetVal = g_MemManager.ActiveBankRAMByteRead( m_nAddress );
+			nRetVal |= ( g_MemManager.ActiveBankRAMByteRead( m_nAddress + 1 ) << 8 );
+			nRetVal |= ( g_MemManager.ActiveBankRAMByteRead( m_nAddress + 2 ) << 16 );
+			nRetVal |= ( g_MemManager.ActiveBankRAMByteRead( m_nAddress + 3 ) << 24 );
+		}
+		else if( ( m_nVarSize >= ComparisonVariableSize::Bit_0 ) && ( m_nVarSize <= ComparisonVariableSize::Bit_7 ) )
+		{
+			const unsigned int nBitmask = ( 1 << ( m_nVarSize - ComparisonVariableSize::Bit_0 ) );
+			nRetVal = ( g_MemManager.ActiveBankRAMByteRead( m_nAddress ) & nBitmask ) != 0;
 		}
 		//nRetVal = g_MemManager.RAMByte( m_nAddress );
 
 		if( m_bBCDParse )
 		{
 			//	Reparse this value as a binary coded decimal.
-			nRetVal = ( ( (nRetVal>>4)&0xf) * 10) + (nRetVal&0xf);
+			nRetVal = ( ( ( nRetVal >> 4 ) & 0xf ) * 10 ) + ( nRetVal & 0xf );
 		}
 	}
 
@@ -87,8 +93,8 @@ char* MemValue::ParseFromString( char* pBuffer )
 
 	CompVariable varTemp;
 	varTemp.ParseVariable( pIter );
-	m_nAddress = varTemp.m_nVal;	//	Fetch value ('address') as parsed
-	m_nVarSize = varTemp.m_nVarSize;
+	m_nAddress = varTemp.RawValue();	//	Fetch value ('address') as parsed. Note RawValue! Do not parse memory!
+	m_nVarSize = varTemp.Size();
 
 	m_fModifier = 1.0;
 	if( *pIter == '*' )
@@ -405,8 +411,8 @@ void RA_Leaderboard::Test()
 			m_bStarted = TRUE;
 
 			g_PopupWindows.AchievementPopups().AddMessage( 
-				MessagePopup( " Challenge Available: " + m_sTitle + " ",
-							  " " + m_sDescription + " ",
+				MessagePopup( "Challenge Available: " + m_sTitle,
+							  m_sDescription,
 							  PopupLeaderboardInfo,
 							  NULL ) );
 			g_PopupWindows.LeaderboardPopups().Activate( m_nID );
@@ -421,8 +427,8 @@ void RA_Leaderboard::Test()
 			g_PopupWindows.LeaderboardPopups().Deactivate( m_nID );
 			
 			g_PopupWindows.AchievementPopups().AddMessage( 
-				MessagePopup( " Leaderboard attempt cancelled! ",
-							  " " + m_sTitle + " ",
+				MessagePopup( "Leaderboard attempt cancelled!",
+							  m_sTitle,
 							  PopupLeaderboardCancel,
 							  NULL ) );
 		}
@@ -436,20 +442,20 @@ void RA_Leaderboard::Test()
 			if( g_bRAMTamperedWith )
 			{
 				g_PopupWindows.AchievementPopups().AddMessage( 
-					MessagePopup( " Not posting to leaderboard: memory tamper detected! ",
-								  " Reset game to reenable posting. ",
+					MessagePopup( "Not posting to leaderboard: memory tamper detected!",
+								  "Reset game to reenable posting.",
 								  PopupInfo ) );
 			}
 			else if( g_hRAKeysDLL != NULL && g_fnDoValidation != NULL )
 			{
 				//	TBD: move to keys!
 				char sValidationSig[50];
-				sprintf_s( sValidationSig, 50, "%d%s%d", m_nID, RAUsers::LocalUser.Username().c_str(), m_nID );
-				std::string sValidationMD5 = RA::GenerateMD5( sValidationSig );
+				sprintf_s( sValidationSig, 50, "%d%s%d", m_nID, RAUsers::LocalUser().Username().c_str(), m_nID );
+				std::string sValidationMD5 = RAGenerateMD5( sValidationSig );
 
 				PostArgs args;
-				args['u'] = RAUsers::LocalUser.Username();
-				args['t'] = RAUsers::LocalUser.Token();
+				args['u'] = RAUsers::LocalUser().Username();
+				args['t'] = RAUsers::LocalUser().Token();
 				args['i'] = std::to_string( m_nID );
 				args['v'] = sValidationMD5;
 				args['s'] = std::to_string( nVal );
@@ -460,7 +466,7 @@ void RA_Leaderboard::Test()
 	}
 }
 
-void RA_Leaderboard::SubmitRankInfo( unsigned int nRank, const std::string& sUsername, unsigned int nScore, time_t nAchieved )
+void RA_Leaderboard::SubmitRankInfo( unsigned int nRank, const std::string& sUsername, int nScore, time_t nAchieved )
 {
 	LB_Entry newEntry;
 	newEntry.m_nRank = nRank;
@@ -502,34 +508,34 @@ void RA_Leaderboard::SortRankInfo()
 	}
 }
 
-std::string RA_Leaderboard::FormatScore( int nScore )
+std::string RA_Leaderboard::FormatScore( int nScoreIn ) const
 {
-	char buffer[1024];
-	FormatScore( m_format, nScore, buffer, 1024 );
+	char buffer[ 1024 ];
+	FormatScore( m_format, nScoreIn, buffer, 1024 );
 	return std::string( buffer );
 }
 
 //static 
-void RA_Leaderboard::FormatScore( FormatType nType, unsigned int nScoreIn, char* pBuffer, unsigned int nLen )
+void RA_Leaderboard::FormatScore( FormatType nType, int nScoreIn, char* pBuffer, unsigned int nLen )
 {
 	if( nType == Format_TimeFrames )
 	{
-		int nMins = nScoreIn/3600;
-		int nSecs = (nScoreIn%3600)/60;
-		int nMilli = (int)( ( (nScoreIn%3600)%60 ) * (100.0/60.0) );	//	Convert from frames to 'millisecs'
+		int nMins = nScoreIn / 3600;
+		int nSecs = ( nScoreIn % 3600 ) / 60;
+		int nMilli = static_cast<int>( ( ( nScoreIn % 3600 ) % 60 ) * ( 100.0 / 60.0 ) );	//	Convert from frames to 'millisecs'
 		sprintf_s( pBuffer, nLen, "%02d:%02d.%02d", nMins, nSecs, nMilli );
 	}
 	else if( nType == Format_TimeSecs )
 	{
-		int nMins = nScoreIn/60;
-		int nSecs = nScoreIn%60;
+		int nMins = nScoreIn / 60;
+		int nSecs = nScoreIn % 60;
 		sprintf_s( pBuffer, nLen, "%02d:%02d", nMins, nSecs );
 	}
 	else if( nType == Format_TimeMillisecs )
 	{
-		int nMins = nScoreIn/6000;
-		int nSecs = (nScoreIn%6000)/100;
-		int nMilli = (int)( nScoreIn%100 );
+		int nMins = nScoreIn / 6000;
+		int nSecs = ( nScoreIn % 6000 ) / 100;
+		int nMilli = static_cast<int>( nScoreIn % 100 );
 		sprintf_s( pBuffer, nLen, "%02d:%02d.%02d", nMins, nSecs, nMilli );
 	}
 	else if( nType == Format_Score )
@@ -567,70 +573,64 @@ void RA_LeaderboardManager::OnSubmitEntry( const Document& doc )
 {
 	if( !doc.HasMember( "Response" ) )
 	{
-		ASSERT(!"Cannot process this LB Response!" );
+		ASSERT( !"Cannot process this LB Response!" );
 		return;
 	}
 
-	const Value& Response = doc["Response"];
-	
-	const Value& LBData = Response["LBData"];
+	const Value& Response = doc[ "Response" ];
 
-	const std::string& sFormat = LBData["Format"].GetString();
-	const LeaderboardID nLBID = static_cast<LeaderboardID>( LBData["LeaderboardID"].GetUint() );
-	const GameID nGameID = static_cast<GameID>( LBData["GameID"].GetUint() );
-	const std::string& sLBTitle = LBData["Title"].GetString();
-	const bool bLowerIsBetter = LBData["LowerIsBetter"].GetBool();
+	const Value& LBData = Response[ "LBData" ];
+
+	const std::string& sFormat = LBData[ "Format" ].GetString();
+	const LeaderboardID nLBID = static_cast<LeaderboardID>( LBData[ "LeaderboardID" ].GetUint() );
+	const GameID nGameID = static_cast<GameID>( LBData[ "GameID" ].GetUint() );
+	const std::string& sLBTitle = LBData[ "Title" ].GetString();
+	const bool bLowerIsBetter = ( LBData[ "LowerIsBetter" ].GetUint() == 1 );
 
 	RA_Leaderboard* pLB = g_LeaderboardManager.FindLB( nLBID );
 
-	const int nSubmittedScore = Response["Score"].GetInt();
-	const int nBestScore = Response["BestScore"].GetInt();
-	const std::string& sScoreFormatted = Response["ScoreFormatted"].GetString();
-	
+	const int nSubmittedScore = Response[ "Score" ].GetInt();
+	const int nBestScore = Response[ "BestScore" ].GetInt();
+	const std::string& sScoreFormatted = Response[ "ScoreFormatted" ].GetString();
+
 	pLB->ClearRankInfo();
 
 	RA_LOG( "LB Data, Top Entries:\n" );
-	const Value& TopEntries = Response["TopEntries"];
+	const Value& TopEntries = Response[ "TopEntries" ];
 	for( SizeType i = 0; i < TopEntries.Size(); ++i )
 	{
-		const Value& NextEntry = TopEntries[i];
-		
-		const unsigned int nRank = NextEntry["Rank"].GetUint();
-		const std::string& sUser = NextEntry["User"].GetString();
-		const int nUserScore = NextEntry["Score"].GetUint();	//	Entry
-		time_t nSubmitted = NextEntry["DateSubmitted"].GetUint();
-		
+		const Value& NextEntry = TopEntries[ i ];
+
+		const unsigned int nRank = NextEntry[ "Rank" ].GetUint();
+		const std::string& sUser = NextEntry[ "User" ].GetString();
+		const int nUserScore = NextEntry[ "Score" ].GetInt();
+		time_t nSubmitted = NextEntry[ "DateSubmitted" ].GetUint();
+
 		RA_LOG( std::string( "(" + std::to_string( nRank ) + ") " + sUser + ": " + pLB->FormatScore( nUserScore ) ).c_str() );
 
 		pLB->SubmitRankInfo( nRank, sUser, nUserScore, nSubmitted );
 	}
 
 	pLB->SortRankInfo();
-	
-	const Value& TopEntriesFriends = Response["TopEntriesFriends"];
 
-	const Value& RankData = Response["RankInfo"];
+	const Value& TopEntriesFriends = Response[ "TopEntriesFriends" ];
+	const Value& RankData = Response[ "RankInfo" ];
 
 	//	TBD!
-	/*
-	char sTestData[4096];
-	sprintf_s( sTestData, 4096, "Leaderboard for %s (%s)\n\n", pThisLB->Title(), pThisLB->Description() );
-	for( size_t i = 0; i < pThisLB->GetRankInfoCount(); ++i )
-	{
-		const LB_Entry& NextScore = pThisLB->GetRankInfo( i );
-		char bufferScore[256];
-					
-		RA_Leaderboard::FormatScore( pThisLB->GetFormatType(), NextScore.m_nScore, bufferScore, 256 );
+	//char sTestData[ 4096 ];
+	//sprintf_s( sTestData, 4096, "Leaderboard for %s (%s)\n\n", pLB->Title().c_str(), pLB->Description().c_str() );
+	//for( size_t i = 0; i < pLB->GetRankInfoCount(); ++i )
+	//{
+	//	const LB_Entry& NextScore = pLB->GetRankInfo( i );
 
-		char bufferMessage[512];
-		sprintf_s( bufferMessage, 512, "%02d: %s - %s\n", NextScore.m_nRank, NextScore.m_sUsername, bufferScore );
-		strcat_s( sTestData, 4096, bufferMessage );
-	}
+	//	std::string sScoreFormatted = pLB->FormatScore( NextScore.m_nScore );
 
-	g_PopupWindows.LeaderboardPopups().ShowScoreboard( pThisLB->ID() );
+	//	char bufferMessage[ 512 ];
+	//	sprintf_s( bufferMessage, 512, "%02d: %s - %s\n", NextScore.m_nRank, NextScore.m_sUsername, sScoreFormatted.c_str() );
+	//	strcat_s( sTestData, 4096, bufferMessage );
+	//}
 
-*/
-
+	g_PopupWindows.LeaderboardPopups().ShowScoreboard( pLB->ID() );
 }
 
 void RA_LeaderboardManager::AddLeaderboard( const RA_Leaderboard& lb )

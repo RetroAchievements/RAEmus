@@ -1,8 +1,0 @@
-Reading config file c:\wamp\www\RA_Suite\RASnes9x\win32/snes9x.conf.
-Saving	config file	c:\wamp\www\RA_Suite\RASnes9x\win32/snes9x.conf
-Sound buffer size: 8192 (2048 samples)
-Found ROM file header (and ignored it).
-Map_LoROMMap
-"SUPER MARIOWORLD" [checksum ok] LoROM, 4Mbits, ROM+RAM+BAT, NTSC, SRAM:16Kbits, ID:____, CRC32:B19ED489
-Sound buffer size: 8192 (2048 samples)
-Saving	config file	c:\wamp\www\RA_Suite\RASnes9x\win32/snes9x.conf

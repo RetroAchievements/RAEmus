@@ -16,6 +16,7 @@ SRC_RA=..\..\RA_Integration
 DX_LIBS="C:\SDK\DX90CSDK\Lib\x86"
 DX_SDK="C:\SDK\DX90CSDK\Include"
 
+PREBUILD=MakeBuildVer.bat
 
 !IF "$(RELEASE)"=="1"
 POSTBUILD=copy $(SRC_RA)\RA_Integration.dll . && copy $(SRC_RA)\*.pdb .
@@ -40,7 +41,7 @@ LINK_FLAGS=/RELEASE
 !ELSE
 LINK_FLAGS=/DEBUG
 !ENDIF
-LINK=link.exe /INCREMENTAL:NO /NOLOGO /MACHINE:X86 /LIBPATH:$(SRCPATH) /LIBPATH:$(SRC_RA) /LIBPATH:$(DX_LIBS) /SUBSYSTEM:CONSOLE,5.01 $(LINK_FLAGS)
+LINK=link.exe /INCREMENTAL:NO /NOLOGO /MACHINE:X86 /LIBPATH:$(SRCPATH) /LIBPATH:$(SRC_RA) /LIBPATH:$(DX_LIBS) $(LINK_FLAGS)
 
 NASM=$(TOOLSPATH)\nasmw.exe -f win32 -i$(SRCCOMMONPATH) -i$(SRCPATH)
 
@@ -159,6 +160,11 @@ STARSCREAM_LIBS = \
 	uuid.lib \
 	odbc32.lib \
 	odbccp32.lib
+
+all: pre-build gens
+
+pre-build:
+	$(PREBUILD)
 
 gens: $(GENSPATH)\RAGens.exe
 	copy /Y $(SRCCOMMONPATH)\license.txt $(GENSPATH)\LICENSE.txt

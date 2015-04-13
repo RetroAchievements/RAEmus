@@ -1,6 +1,6 @@
 #pragma once
 
-#include <wtypes.h>
+#include <WTypes.h>
 #include "RA_Achievement.h"
 #include "RA_User.h"
 #include "RA_Core.h"
@@ -10,8 +10,7 @@
 
 enum OverlayPage
 {
-	OP__START = 0,
-	OP_ACHIEVEMENTS = OP__START,
+	OP_ACHIEVEMENTS,
 	OP_FRIENDS,
 	OP_MESSAGES,
 	OP_NEWS,
@@ -24,7 +23,7 @@ enum OverlayPage
 	OP_LEADERBOARD_EXAMINE,
 	OP_MESSAGE_VIEWER,
 
-	OP__MAX
+	NumOverlayPages
 };
 
 enum TransitionState
@@ -47,7 +46,7 @@ public:
 public:
 	unsigned int m_nLBID;
 	//	Refer to RA_Leaderboard entry rank info via g_LeaderboardManager.FindLB(m_nLBID)
-	BOOL m_bHasData;
+	bool m_bHasData;
 };
 extern LeaderboardExamine g_LBExamine;
 
@@ -78,25 +77,25 @@ public:
 	static void CB_OnReceiveData( void* pRequestObject );
 	void OnReceiveData( Document& doc );
 	
-	BOOL HasData() const											{ return m_bHasData; }
+	bool HasData() const											{ return m_bHasData; }
 	const std::string& CreatedDate() const							{ return m_CreatedDate; }
 	const std::string& ModifiedDate() const							{ return m_LastModifiedDate; }
 	size_t NumRecentWinners() const									{ return RecentWinners.size(); }
 	const RecentWinnerData& GetRecentWinner( size_t nOffs ) const	{ return RecentWinners.at( nOffs ); }
 	
-	int TotalWinners() const										{ return m_nTotalWinners; }
-	int PossibleWinners() const										{ return m_nPossibleWinners; }
+	unsigned int TotalWinners() const								{ return m_nTotalWinners; }
+	unsigned int PossibleWinners() const							{ return m_nPossibleWinners; }
 
 private:
 	const Achievement* m_pSelectedAchievement;
 	std::string m_CreatedDate;
 	std::string m_LastModifiedDate;
 	
-	BOOL m_bHasData;
+	bool m_bHasData;
 
 	//	Data found:
-	int	m_nTotalWinners;
-	int m_nPossibleWinners;
+	unsigned int m_nTotalWinners;
+	unsigned int m_nPossibleWinners;
 
 	std::vector<RecentWinnerData> RecentWinners;
 };
@@ -118,13 +117,13 @@ public:
 	void Render( HDC hDC, RECT* rcDest ) const;
 	BOOL Update( ControllerInput* input, float fDelta, BOOL bFullScreen, BOOL bPaused );
 
-	BOOL IsActive();
+	BOOL IsActive() const	{ return( m_nTransitionState!=TS_OFF ); }
 
 	const int* GetActiveScrollOffset() const;
 	const int* GetActiveSelectedItem() const;
 
 	void OnLoad_NewRom();
-	void OnHTTP_UserPic( const char* sUsername );
+	void OnUserPicDownloaded( const char* sUsername );
 
 	void DrawAchievementsPage( HDC hDC, int nDX, int nDY, const RECT& rcTarget ) const;
 	void DrawAchievementExaminePage( HDC hDC, int nDX, int nDY, const RECT& rcTarget ) const;
@@ -134,15 +133,12 @@ public:
 	void DrawLeaderboardPage( HDC hDC, int nDX, int nDY, const RECT& rcTarget ) const;
 	void DrawLeaderboardExaminePage( HDC hDC, int nDX, int nDY, const RECT& rcTarget ) const;
 
-
-
-
 	void DrawBar( HDC hDC, int nX, int nY, int nW, int nH, int nMax, int nSel ) const;
 	void DrawUserFrame( HDC hDC, RAUser* pUser, int nX, int nY, int nW, int nH ) const;
 	void DrawAchievement( HDC hDC, const Achievement* Ach, int nX, int nY, BOOL bSelected, BOOL bCanLock ) const;
 
-	enum OverlayPage CurrentPage();
-	void AddPage( enum OverlayPage NewPage );
+	OverlayPage CurrentPage()		{ return m_Pages[ m_nPageStackPointer ]; }
+	void AddPage( OverlayPage NewPage );
 	BOOL GoBack();
 
 	void SelectNextTopLevelPage( BOOL bPressedRight );
@@ -184,15 +180,13 @@ private:
 	mutable int m_nNumFriendsBeingRendered;
 	mutable int m_nNumLeaderboardsBeingRendered;
 
-	BOOL				 m_bInputLock;	//	Waiting for pad release
+	BOOL					m_bInputLock;	//	Waiting for pad release
+	std::vector<NewsItem>	m_LatestNews;
+	TransitionState			m_nTransitionState;
+	float					m_fTransitionTimer;
 
-	std::vector<NewsItem> m_LatestNews;
-
-	enum TransitionState m_nTransitionState;
-	float				 m_fTransitionTimer;
-
-	enum OverlayPage	 m_Pages[5];
-	unsigned int		 m_nPageStackPointer;
+	OverlayPage				m_Pages[ 5 ];
+	unsigned int			m_nPageStackPointer;
 
 	//HBITMAP m_hLockedBitmap;	//	Cached	
 	HBITMAP m_hOverlayBackground;
@@ -212,11 +206,11 @@ extern "C"
 	API extern void _RA_OnPaint( HWND hWnd );
 }
 
-extern const COLORREF g_ColText;
-extern const COLORREF g_ColTextHighlight;
-extern const COLORREF g_ColSelected;
-extern const COLORREF g_ColWhite;
-extern const COLORREF g_ColBlack;
-extern const COLORREF g_ColPopupBG;
-extern const COLORREF g_ColPopupText;
-extern const COLORREF g_ColPopupShadow;
+extern const COLORREF COL_TEXT;
+extern const COLORREF COL_TEXT_HIGHLIGHT;
+extern const COLORREF COL_SELECTED;
+extern const COLORREF COL_WHITE;
+extern const COLORREF COL_BLACK;
+extern const COLORREF COL_POPUP;
+extern const COLORREF COL_POPUP_BG;
+extern const COLORREF COL_POPUP_SHADOW;

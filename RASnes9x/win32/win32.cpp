@@ -204,9 +204,6 @@
 
 #include <math.h>
 
-//	##RA
-#include "../../RA_Integration/RA_AchievementOverlay.h"
-
 BYTE *ScreenBuf = NULL;
 BYTE *ScreenBuffer = NULL;
 

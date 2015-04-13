@@ -7,6 +7,7 @@
 #include "RA_Dlg_Memory.h"
 #include "RA_User.h"
 #include "RA_Achievement.h"
+#include "RA_AchievementSet.h"
 
 void CodeNotes::Clear()
 {
@@ -17,7 +18,7 @@ size_t CodeNotes::Load( const std::string& sFile )
 {
 	Clear();
 	
-	SetCurrentDirectory( g_sHomeDir.c_str() );
+	SetCurrentDirectory( Widen( g_sHomeDir ).c_str() );
 	FILE* pf = NULL;
 	if( fopen_s( &pf, sFile.c_str(), "rb" ) == 0 )
 	{
@@ -32,11 +33,17 @@ size_t CodeNotes::Load( const std::string& sFile )
 			for( SizeType i = 0; i < NoteArray.Size(); ++i )
 			{
 				const Value& NextNote = NoteArray[i];
-				ByteAddress nAddr = static_cast<ByteAddress>( NextNote["Address"].GetUint() );
-				const std::string& sAuthor = NextNote["Author"].GetString();
-				const std::string& sNote = NextNote["Note"].GetString();
+				if( NextNote[ "Note" ].IsNull() )
+					continue;
 				
-				//m_CodeNotes[ nAddr ] = CodeNoteObj( sAuthor, sNote );
+				const std::string& sNote = NextNote[ "Note" ].GetString();
+				if( sNote.length() < 2 )
+					continue;
+				
+				const std::string& sAddr = NextNote[ "Address" ].GetString();
+				ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sAddr.c_str(), nullptr, 16 ) );
+				const std::string& sAuthor = NextNote[ "User" ].GetString();	//	Author?
+				
 				m_CodeNotes.insert( std::map<ByteAddress,CodeNoteObj>::value_type( nAddr, CodeNoteObj( sAuthor, sNote ) ) );
 			}
 		}
@@ -69,7 +76,7 @@ void CodeNotes::OnCodeNotesResponse( Document& doc )
 	//	Persist then reload
 	const GameID nGameID = doc["GameID"].GetUint();
 
-	SetCurrentDirectory( g_sHomeDir.c_str() );
+	SetCurrentDirectory( Widen( g_sHomeDir ).c_str() );
 	_WriteBufferToFile( std::string( RA_DIR_DATA ) + std::to_string( nGameID ) + "-Notes2.txt", doc );
 
 	g_MemoryDialog.RepopulateMemNotesFromFile();
@@ -82,11 +89,11 @@ void CodeNotes::Add( const ByteAddress& nAddr, const std::string& sAuthor, const
 	else
 		m_CodeNotes.at( nAddr ).SetNote( sNote );
 
-	if( RAUsers::LocalUser.IsLoggedIn() )
+	if( RAUsers::LocalUser().IsLoggedIn() )
 	{ 
 		PostArgs args;
-		args['u'] = RAUsers::LocalUser.Username();
-		args['t'] = RAUsers::LocalUser.Token();
+		args['u'] = RAUsers::LocalUser().Username();
+		args['t'] = RAUsers::LocalUser().Token();
 		args['g'] = std::to_string( g_pActiveAchievements->GetGameID() );
 		args['m'] = std::to_string( nAddr );
 		args['n'] = sNote;
@@ -99,7 +106,7 @@ void CodeNotes::Add( const ByteAddress& nAddr, const std::string& sAuthor, const
 		}
 		else
 		{
-			MessageBox( g_RAMainWnd, "Could not save note! Please check you are online and retry.", "Error!", MB_OK|MB_ICONWARNING );
+			MessageBox( g_RAMainWnd, _T( "Could not save note! Please check you are online and retry." ), _T( "Error!" ), MB_OK|MB_ICONWARNING );
 		}
 	}
 }
@@ -114,11 +121,11 @@ BOOL CodeNotes::Remove( const ByteAddress& nAddr )
 
 	m_CodeNotes.erase( nAddr );
 	
-	if( RAUsers::LocalUser.IsLoggedIn() )
+	if( RAUsers::LocalUser().IsLoggedIn() )
 	{
 		PostArgs args;
-		args['u'] = RAUsers::LocalUser.Username();
-		args['t'] = RAUsers::LocalUser.Token();
+		args['u'] = RAUsers::LocalUser().Username();
+		args['t'] = RAUsers::LocalUser().Token();
 		args['g'] = std::to_string( g_pActiveAchievements->GetGameID() );
 		args['m'] = std::to_string( nAddr );
 		args['n'] = "";

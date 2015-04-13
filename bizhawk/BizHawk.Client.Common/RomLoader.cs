@@ -436,9 +436,9 @@ namespace BizHawk.Client.Common
 							case "GBA":
 								if (false)
 								{
-									var gba = new GBA(nextComm);
-									gba.Load(rom.RomData);
-									nextEmulator = gba;
+                                    //var gba = new GBA(nextComm);
+                                    //gba.Load(rom.RomData);
+                                    //nextEmulator = gba;
 								}
 								else
 								{

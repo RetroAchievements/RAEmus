@@ -1,23 +1,25 @@
 #pragma once
 
-//	NULL, etc
-#include <stddef.h>
-#include <vector>
+#include <Windows.h>
+#include <WindowsX.h>
+#include <ShlObj.h>
+#include <tchar.h>
 #include <assert.h>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <queue>
+#include <deque>
+#include <map>
 
 #ifndef RA_EXPORTS
 
-//NB. These must ONLY accessible from the emulator!
-#define RAGENS_VERSION			"0.051"
-#define RASNES9X_VERSION		"0.016"
-#define RAVBA_VERSION			"0.019"
-#define RANES_VERSION			"0.009"
-#define RAPCE_VERSION			"0.002"
+//	Version Information is integrated into tags
 
 #else
 
 //NB. These must NOT be accessible from the emulator!
-#define RA_INTEGRATION_VERSION	"0.052"
+//#define RA_INTEGRATION_VERSION	"0.053"
 
 //	RA-Only
 #include "rapidjson/include/rapidjson/document.h"
@@ -25,7 +27,9 @@
 #include "rapidjson/include/rapidjson/writer.h"
 #include "rapidjson/include/rapidjson/filestream.h"
 #include "rapidjson/include/rapidjson/stringbuffer.h"
+#include "rapidjson/include/rapidjson/error/en.h"
 using namespace rapidjson;
+extern GetParseErrorFunc GetJSONParseErrorStr;
 
 #endif	//RA_EXPORTS
 
@@ -55,34 +59,51 @@ using namespace rapidjson;
 #define TOWIDESTR(x) WIDEN2(x)
 
 
-#if defined _DEBUG && !defined( _LIVEURL )
-#define RA_HOST "localhost"
+#if defined _DEBUG
+//#define RA_HOST_URL "localhost"
+#define RA_HOST_URL "retroachievements.org"
 #else
-#define RA_HOST "retroachievements.org"
+#define RA_HOST_URL "retroachievements.org"
 #endif
 
-#define RA_HOST_URL RA_HOST
 #define RA_HOST_URL_WIDE TOWIDESTR( RA_HOST_URL )
 
 #define RA_HOST_IMG_URL "i.retroachievements.org"
 #define RA_HOST_IMG_URL_WIDE TOWIDESTR( RA_HOST_IMG_URL )
 
-#define SIZEOF_ARRAY( ar )	( sizeof( ar ) / sizeof( ar[0] ) )
-#define SAFE_DELETE( x )	{ if( x != NULL ) { delete x; x = NULL; } }
+#define SIZEOF_ARRAY( ar )	( sizeof( ar ) / sizeof( ar[ 0 ] ) )
+#define SAFE_DELETE( x )	{ if( x != nullptr ) { delete x; x = nullptr; } }
 
-typedef unsigned char       BYTE;
-typedef unsigned long       DWORD;
-typedef int                 BOOL;
-typedef DWORD				ARGB;
+typedef unsigned char	BYTE;
+typedef unsigned long	DWORD;
+typedef int				BOOL;
+typedef DWORD			ARGB;
 
-namespace RA
-{
+//namespace RA
+//{
 	template<typename T>
-	static inline const T& Clamp( const T& val, const T& lower, const T& upper )
+	static inline const T& RAClamp( const T& val, const T& lower, const T& upper )
 	{
 		return( val < lower ) ? lower : ( ( val > upper ) ? upper : val );
 	}
 	
+	class RARect : public RECT
+	{
+	public:
+		RARect() {}
+		RARect( LONG nX, LONG nY, LONG nW, LONG nH )
+		{
+			left = nX;
+			right = nX + nW;
+			top = nY;
+			bottom = nY + nH;
+		}
+
+	public:
+		inline int Width() const		{ return( right - left ); }
+		inline int Height() const		{ return( bottom - top ); }
+	};
+
 	class RASize
 	{
 	public:
@@ -106,9 +127,9 @@ namespace RA
 
 	enum AchievementSetType
 	{
-		AchievementSetCore,
-		AchievementSetUnofficial,
-		AchievementSetLocal,
+		Core,
+		Unofficial,
+		Local,
 
 		NumAchievementSetTypes
 	};
@@ -122,20 +143,28 @@ namespace RA
 
 	char* DataStreamAsString( DataStream& stream );
 
-	extern void DebugLog( const char* sFormat, ... );
+	extern void RADebugLog( const char* sFormat, ... );
 	extern BOOL DirectoryExists( const char* sPath );
 
 	const int SERVER_PING_DURATION = 1*60;	//s
-};
-
-using namespace RA;
+//};
+//using namespace RA;
+	
+#define RA_LOG RADebugLog
 
 #ifdef _DEBUG
-#define RA_LOG DebugLog
 #undef ASSERT
-#define ASSERT(x) assert(x)
+#define ASSERT( x ) assert( x )
 #else
-#define RA_LOG DebugLog
 #undef ASSERT
-#define ASSERT(x) {}
+#define ASSERT( x ) {}
 #endif
+	
+#ifndef UNUSED
+#define UNUSED( x ) ( x );
+#endif
+
+extern std::string Narrow( const wchar_t* wstr );
+extern std::string Narrow( const std::wstring& wstr );
+extern std::wstring Widen( const char* str );
+extern std::wstring Widen( const std::string& str );

@@ -1,29 +1,36 @@
 #include "RA_AchievementPopup.h"
 
 #include "RA_Achievement.h"
-#include <windows.h>
-#include <stdio.h>
-
 #include "RA_Defs.h"
 #include "RA_AchievementOverlay.h"
 #include "RA_ImageFactory.h"
 
-//	No game-specific code here please!
+namespace
+{
+	const float POPUP_DIST_Y_TO_PCT = 0.856f;		//	Where on screen to end up
+	const float POPUP_DIST_Y_FROM_PCT = 0.4f;		//	Amount of screens to travel
+	const TCHAR* FONT_TO_USE = _T( "Tahoma" );
+	
+	const int FONT_SIZE_TITLE = 32;
+	const int FONT_SIZE_SUBTITLE = 28;
 
-//START_AT					(0.0f)
-#define APPEAR_AT			(0.8f)
-#define FADEOUT_AT			(4.2f)
-#define FINISH_AT			(5.0f)
+	const float START_AT = 0.0f;
+	const float APPEAR_AT = 0.8f;
+	const float FADEOUT_AT = 4.2f;
+	const float FINISH_AT = 5.0f;
 
-//	Where on screen to end up
-#define POPUP_DIST_Y_TO_PCT		(0.856f)
-//	Amount of screens to travel
-#define POPUP_DIST_Y_FROM_PCT	(0.4f)
-
-#define FONT_TO_USE "Tahoma"
-
-
-//AchievementPopup g_PopupWindow;
+	const TCHAR* MSG_SOUND[] =
+	{
+		_T( "./Overlay/login.wav" ),
+		_T( "./Overlay/info.wav" ),
+		_T( "./Overlay/unlock.wav" ),
+		_T( "./Overlay/acherror.wav" ),
+		_T( "./Overlay/lb.wav" ),
+		_T( "./Overlay/lbcancel.wav" ),
+		_T( "./Overlay/message.wav" ),
+	};
+	static_assert( SIZEOF_ARRAY( MSG_SOUND ) == NumMessageTypes, "Must match!" );
+}
 
 AchievementPopup::AchievementPopup() :
 	m_fTimer( 0.0f )
@@ -32,66 +39,29 @@ AchievementPopup::AchievementPopup() :
 
 void AchievementPopup::PlayAudio()
 {
-	if( MessagesPresent() )
-	{
-		switch( ActiveMessage().Type() )
-		{
-		case PopupAchievementUnlocked:
-			PlaySound( "./Overlay/unlock.wav", NULL, SND_FILENAME|SND_ASYNC );
-			break;
-		case PopupAchievementError:
-			PlaySound( "./Overlay/acherror.wav", NULL, SND_FILENAME|SND_ASYNC );
-			break;
-		case PopupLeaderboardInfo:
-			PlaySound( "./Overlay/lb.wav", NULL, SND_FILENAME|SND_ASYNC );
-			break;
-		case PopupLeaderboardCancel:
-			PlaySound( "./Overlay/lbcancel.wav", NULL, SND_FILENAME|SND_ASYNC );
-			break;
-		case PopupLogin:
-			PlaySound( "./Overlay/login.wav", NULL, SND_FILENAME|SND_ASYNC );
-			break;
-		case PopupInfo:
-			PlaySound( "./Overlay/info.wav", NULL, SND_FILENAME|SND_ASYNC );
-			break;
-		default:
-			PlaySound( "./Overlay/message.wav", NULL, SND_FILENAME|SND_ASYNC );
-			break;
-		}
-	}
+	ASSERT( MessagesPresent() );	//	ActiveMessage() dereferences!
+	PlaySound( MSG_SOUND[ ActiveMessage().Type() ], NULL, SND_FILENAME|SND_ASYNC );
 }
 
 void AchievementPopup::AddMessage( const MessagePopup& msg )
 {
-	//	Add to the first available slot.
-	bool bActive = MessagesPresent();
 	m_vMessages.push( msg );
-
-	if( !bActive )
-		PlayAudio();
+	PlayAudio();
 }
 
 void AchievementPopup::Update( ControllerInput input, float fDelta, bool bFullScreen, bool bPaused )
 {
 	if( bPaused )
 		fDelta = 0.0f;
-
-	fDelta = RA::Clamp<float>( fDelta, 0.0f, 0.3f );	//	Limit this!
-
-	//if( m_bSuppressDeltaUpdate )
-	//{
-	//	m_bSuppressDeltaUpdate = false;
-	//	return;
-	//}
-
+	fDelta = RAClamp<float>( fDelta, 0.0f, 0.3f );	//	Limit this!
 	if( m_vMessages.size() > 0 )
-		m_fTimer += fDelta;
-
-	if( ( m_vMessages.size() > 0 ) && ( m_fTimer >= FINISH_AT ) )
 	{
-		m_vMessages.pop();
-		PlayAudio();
-		m_fTimer = 0.0f;
+		m_fTimer += fDelta;
+		if( m_fTimer >= FINISH_AT )
+		{
+			m_vMessages.pop();
+			m_fTimer = 0.0f;
+		}
 	}
 }
 
@@ -106,12 +76,12 @@ float AchievementPopup::GetYOffsetPct() const
 		fDelta *= fDelta;	//	Quadratic
 		fVal = fDelta;
 	}
-	else if( m_fTimer < (FADEOUT_AT) )
+	else if( m_fTimer < FADEOUT_AT )
 	{
 		//	Faded in - held
 		fVal = 0.0f;
 	}
-	else if( m_fTimer < (FINISH_AT) )
+	else if( m_fTimer < FINISH_AT )
 	{
 		//	Fading out
 		float fDelta = ( FADEOUT_AT - m_fTimer );
@@ -132,67 +102,67 @@ void AchievementPopup::Render( HDC hDC, RECT& rcDest )
 	if( !MessagesPresent() )
 		return;
 
-	const MessagePopup& msg = ActiveMessage();
-
 	const int nPixelWidth = rcDest.right - rcDest.left;
 
-	const int nFontSize1 = 32;
-	const int nFontSize2 = 28;
-
 	//SetBkColor( hDC, RGB( 0, 212, 0 ) );
-	SetBkColor( hDC, g_ColTextHighlight );
-	SetTextColor( hDC, g_ColPopupText );
+	SetBkColor( hDC, COL_TEXT_HIGHLIGHT );
+	SetTextColor( hDC, COL_POPUP );
 
-	HFONT hFontTitle = CreateFont( nFontSize1, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 
-		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_CHARACTER_PRECIS, ANTIALIASED_QUALITY,/*NONANTIALIASED_QUALITY,*/
-		DEFAULT_PITCH, TEXT(FONT_TO_USE) );
+	HFONT hFontTitle = CreateFont( FONT_SIZE_TITLE, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+								   DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_CHARACTER_PRECIS, ANTIALIASED_QUALITY,/*NONANTIALIASED_QUALITY,*/
+								   DEFAULT_PITCH, FONT_TO_USE );
 
-	HFONT hFontDesc = CreateFont( nFontSize2, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 
-		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_CHARACTER_PRECIS, ANTIALIASED_QUALITY,/*NONANTIALIASED_QUALITY,*/
-		DEFAULT_PITCH, TEXT(FONT_TO_USE) );
-
+	HFONT hFontDesc = CreateFont( FONT_SIZE_SUBTITLE, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+								  DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_CHARACTER_PRECIS, ANTIALIASED_QUALITY,/*NONANTIALIASED_QUALITY,*/
+								  DEFAULT_PITCH, FONT_TO_USE );
 
 	int nTitleX = 10;
 	int nDescX = nTitleX + 2;
 
 	const int nHeight = rcDest.bottom - rcDest.top;
 
-	float fFadeInY = GetYOffsetPct() * ( POPUP_DIST_Y_FROM_PCT * (float)nHeight );
-	fFadeInY += ( POPUP_DIST_Y_TO_PCT * (float)nHeight );
+	float fFadeInY = GetYOffsetPct() * ( POPUP_DIST_Y_FROM_PCT * static_cast<float>( nHeight ) );
+	fFadeInY += ( POPUP_DIST_Y_TO_PCT * static_cast<float>( nHeight ) );
 
-	int nTitleY = (int)fFadeInY;
-	int nDescY = nTitleY + 32;
+	const int nTitleY = static_cast<int>( fFadeInY );
+	const int nDescY = nTitleY + 32;
 
-	if( msg.Type() == PopupAchievementUnlocked || msg.Type() == PopupAchievementError )
+	if( ActiveMessage().Type() == PopupAchievementUnlocked || ActiveMessage().Type() == PopupAchievementError )
 	{
-		DrawImage( hDC, msg.Image(), nTitleX, nTitleY, 64, 64 );
+		DrawImage( hDC, ActiveMessage().Image(), nTitleX, nTitleY, 64, 64 );
 
 		nTitleX += 64 + 4 + 2;	//	Negate the 2 from earlier!
 		nDescX += 64 + 4;
 	}
-	else if( msg.Type() == PopupLeaderboardInfo )
+	else if( ActiveMessage().Type() == PopupLeaderboardInfo )
 	{
 		//	meh
 	}
 
-	SIZE szTitle = { 0, 0 }, szAchievement = { 0, 0 };
+	const std::string sTitle = std::string( " " + ActiveMessage().Title() + " " );
+	const std::string sSubTitle = std::string( " " + ActiveMessage().Subtitle() + " " );
 
 	SelectObject( hDC, hFontTitle );
-	TextOut( hDC, nTitleX, nTitleY, ActiveMessage().Title().c_str(), strlen( ActiveMessage().Title().c_str() ) );
-	GetTextExtentPoint32( hDC, msg.Title().c_str(), strlen( msg.Title().c_str() ), &szTitle );
-	
-	SelectObject( hDC, hFontDesc );
-	TextOut( hDC, nDescX, nDescY, msg.Subtitle().c_str(), strlen( msg.Subtitle().c_str() ) );
-	GetTextExtentPoint32( hDC, msg.Subtitle().c_str(), strlen( msg.Subtitle().c_str() ), &szAchievement );
+	TextOut( hDC, nTitleX, nTitleY, Widen( sTitle ).c_str(), sTitle.length() );
+	SIZE szTitle = { 0, 0 };
+	GetTextExtentPoint32( hDC, Widen( sTitle ).c_str(), sTitle.length(), &szTitle );
 
-	HGDIOBJ hPen = CreatePen( PS_SOLID, 2, g_ColPopupShadow );
+	SIZE szAchievement = { 0, 0 };
+	if( ActiveMessage().Subtitle().length() > 0 )
+	{
+		SelectObject( hDC, hFontDesc );
+		TextOut( hDC, nDescX, nDescY, Widen( sSubTitle ).c_str(), sSubTitle.length() );
+		GetTextExtentPoint32( hDC, Widen( sSubTitle ).c_str(), sSubTitle.length(), &szAchievement );
+	}
+
+	HGDIOBJ hPen = CreatePen( PS_SOLID, 2, COL_POPUP_SHADOW );
 	SelectObject( hDC, hPen );
 
 	MoveToEx( hDC, nTitleX, nTitleY + szTitle.cy, NULL );
 	LineTo( hDC, nTitleX + szTitle.cx, nTitleY + szTitle.cy );	//	right
 	LineTo( hDC, nTitleX + szTitle.cx, nTitleY + 1 );			//	up
 
-	if( msg.Subtitle().length() > 0 )
+	if( ActiveMessage().Subtitle().length() > 0 )
 	{
 		MoveToEx( hDC, nDescX, nDescY + szAchievement.cy, NULL );
 		LineTo( hDC, nDescX + szAchievement.cx, nDescY + szAchievement.cy );
@@ -206,6 +176,6 @@ void AchievementPopup::Render( HDC hDC, RECT& rcDest )
 
 void AchievementPopup::Clear()
 {
-	while( m_vMessages.size() > 0 )
+	while( !m_vMessages.empty() )
 		m_vMessages.pop();
 }

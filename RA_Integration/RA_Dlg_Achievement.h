@@ -1,5 +1,4 @@
-#ifndef _DLG_ACHIEVEMENT_H_
-#define _DLG_ACHIEVEMENT_H_
+#pragma once
 
 #include "RA_Achievement.h"
 
@@ -58,13 +57,9 @@ private:
 	size_t AddAchievement( HWND hList, const Achievement& Ach );
 
 private:
-	static const int m_nNumCols = 5;//;sizeof( g_sColTitles ) / sizeof( g_sColTitles[0] );
-
 	HWND m_hAchievementsDlg;
 	typedef std::vector< std::string > AchievementDlgRow;
 	std::vector< AchievementDlgRow > m_lbxData;
 };
 
 extern Dlg_Achievements g_AchievementsDialog;
-
-#endif //_DLG_ACHIEVEMENT_H_

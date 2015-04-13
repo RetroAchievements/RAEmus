@@ -201,10 +201,6 @@
 #endif
 #include <assert.h>
 
-//	##RA
-#include "../../RA_Integration/RA_Core.h"
-#include "../../RA_Integration/RA_User.h"
-
 static void WinDeleteRegistryEntries ();
 void WinSetDefaultValues ();
 void WinDeleteRecentGamesList ();

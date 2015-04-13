@@ -1,26 +1,21 @@
 #include "RA_User.h"
 
-#include <stdio.h>
-#include <wincodec.h>
-#include <direct.h>
-
-#include "RA_Interface.h"
-
-#include "RA_Defs.h"
-#include "RA_Core.h"
-#include "RA_Resource.h"
-
 #include "RA_Achievement.h"
-#include "RA_ImageFactory.h"
-#include "RA_PopupWindows.h"
 #include "RA_AchievementOverlay.h"
+#include "RA_AchievementSet.h"
+#include "RA_Core.h"
+#include "RA_Defs.h"
 #include "RA_Dlg_Achievement.h"
 #include "RA_Dlg_AchEditor.h"
 #include "RA_Dlg_Login.h"
 #include "RA_httpthread.h"
+#include "RA_ImageFactory.h"
+#include "RA_Interface.h"
+#include "RA_PopupWindows.h"
+#include "RA_Resource.h"
 
 //static 
-LocalRAUser RAUsers::LocalUser("");
+LocalRAUser RAUsers::ms_LocalUser("");
 std::map<std::string, RAUser*> RAUsers::UserDatabase;
 
 //static 
@@ -39,8 +34,8 @@ void RAUsers::OnUserPicDownloaded( const RequestObject& obj )
 	
 	//	Write this image to local, then signal overlay that new data has arrived.
 	_WriteBufferToFile( RA_DIR_USERPIC + sUsername + ".png", obj.GetResponse() );
-	g_AchievementOverlay.OnHTTP_UserPic( sUsername.c_str() );
-		
+	g_AchievementOverlay.OnUserPicDownloaded( sUsername.c_str() );
+	
 	pUser->LoadOrFetchUserImage();
 }
 
@@ -94,18 +89,36 @@ LocalRAUser::LocalRAUser( const std::string& sUser ) :
 {
 }
 
-//virtual 
-LocalRAUser::~LocalRAUser()
-{
-}
-
-void LocalRAUser::AttemptLogin()
+void LocalRAUser::AttemptLogin( bool bBlocking )
 {
 	m_bIsLoggedIn = FALSE;
 
 	if( Username().length() > 0 )
 	{
-		AttemptSilentLogin();
+		if( bBlocking )
+		{
+			PostArgs args;
+			args[ 'u' ] = Username();
+			args[ 't' ] = Token();		//	Plaintext password(!)
+				
+			Document doc;
+			if( RAWeb::DoBlockingRequest( RequestLogin, args, doc ) )
+			{
+				if( doc[ "Success" ].GetBool() )
+				{
+					const std::string& sUser = doc[ "User" ].GetString();
+					const std::string& sToken = doc[ "Token" ].GetString();
+					const unsigned int nPoints = doc[ "Score" ].GetUint();
+					const unsigned int nUnreadMessages = doc[ "Messages" ].GetUint();
+
+					ProcessSuccessfulLogin( sUser, sToken, nPoints, nUnreadMessages, true );
+				}
+			}
+		}
+		else
+		{
+			AttemptSilentLogin();
+		}
 	}
 	else
 	{
@@ -113,6 +126,7 @@ void LocalRAUser::AttemptLogin()
 		DialogBox( g_hThisDLLInst, MAKEINTRESOURCE(IDD_RA_LOGIN), g_RAMainWnd, RA_Dlg_Login::RA_Dlg_LoginProc );
 		_RA_SavePreferences();
 	}
+
 }
 
 void LocalRAUser::AttemptSilentLogin()
@@ -128,17 +142,17 @@ void LocalRAUser::AttemptSilentLogin()
 
 void LocalRAUser::HandleSilentLoginResponse( Document& doc )
 {
-	if( doc.HasMember( "Success" ) && doc["Success"].GetBool() )
+	if( doc.HasMember( "Success" ) && doc[ "Success" ].GetBool() )
 	{
-		const std::string& sUser = doc["User"].GetString();
-		const std::string& sToken = doc["Token"].GetString();
-		const unsigned int nPoints = doc["Score"].GetUint();
-		const unsigned int nUnreadMessages = doc["Messages"].GetUint();
+		const std::string& sUser = doc[ "User" ].GetString();
+		const std::string& sToken = doc[ "Token" ].GetString();
+		const unsigned int nPoints = doc[ "Score" ].GetUint();
+		const unsigned int nUnreadMessages = doc[ "Messages" ].GetUint();
 		ProcessSuccessfulLogin( sUser, sToken, nPoints, nUnreadMessages, TRUE );
 	}
 	else
 	{
-		MessageBox( NULL, "Silent login failed, please login again!", "Sorry!", MB_OK );
+		MessageBox( nullptr, L"Silent login failed, please login again!", L"Sorry!", MB_OK );
 	}
 }
 
@@ -160,11 +174,10 @@ void LocalRAUser::ProcessSuccessfulLogin( const std::string& sUser, const std::s
 	RequestFriendList();
 	
 	g_PopupWindows.AchievementPopups().AddMessage( 
-		MessagePopup( 
-			" Welcome back " + Username() + " (" + std::to_string( nPoints ) + ") ", 
-			" You have " + std::to_string( nMessages ) + " new " + std::string( (nMessages==1) ? "message" : "messages" ) + ". ", 
-			PopupMessageType::PopupLogin,
-			GetUserImage() ) );
+		MessagePopup( "Welcome back " + Username() + " (" + std::to_string( nPoints ) + ")",
+					  "You have " + std::to_string( nMessages ) + " new " + std::string( (nMessages==1) ? "message" : "messages" ) + ".",
+					  PopupMessageType::PopupLogin,
+					  GetUserImage() ) );
 
 	g_AchievementsDialog.OnLoad_NewRom( g_pActiveAchievements->GetGameID() );
 	g_AchievementEditorDialog.OnLoad_NewRom();
@@ -183,23 +196,23 @@ void LocalRAUser::Logout()
 
 	m_bIsLoggedIn = FALSE;
 
-	MessageBox( NULL, "You are now logged out.", "Info", MB_OK );
+	MessageBox( nullptr, L"You are now logged out.", L"Info", MB_OK );
 }
 
 void LocalRAUser::OnFriendListResponse( const Document& doc )
 {
-	if( !doc.HasMember("Friends") )
+	if( !doc.HasMember( "Friends" ) )
 		return;
 
-	const Value& FriendData = doc["Friends"];		//{"Friend":"LucasBarcelos5","RAPoints":"355","LastSeen":"Unknown"}
+	const Value& FriendData = doc[ "Friends" ];		//{"Friend":"LucasBarcelos5","RAPoints":"355","LastSeen":"Unknown"}
 
 	for( SizeType i = 0; i < FriendData.Size(); ++i )
 	{
-		const Value& NextFriend = FriendData[i];
+		const Value& NextFriend = FriendData[ i ];
 
-		RAUser* pUser = RAUsers::GetUser( NextFriend["Friend"].GetString() );
-		pUser->SetScore( NextFriend["RAPoints"].GetUint() );
-		pUser->UpdateActivity( NextFriend["LastSeen"].GetString() );
+		RAUser* pUser = RAUsers::GetUser( NextFriend[ "Friend" ].GetString() );
+		pUser->SetScore( NextFriend[ "RAPoints" ].GetUint() );
+		pUser->UpdateActivity( NextFriend[ "LastSeen" ].GetString() );
 	}
 }
 
@@ -221,45 +234,44 @@ RAUser* LocalRAUser::AddFriend( const std::string& sUser, unsigned int nScore )
 	std::vector<RAUser*>::const_iterator iter = m_aFriends.begin();
 	while( iter != m_aFriends.end() )
 	{
-		if( (*iter) == pUser )
+		if( ( *iter ) == pUser )
 			break;
 
 		iter++;
 	}
-	
+
 	if( iter == m_aFriends.end() )
 		m_aFriends.push_back( pUser );
 
 	return pUser;
 }
  
-void LocalRAUser::PostActivity( enum ActivityType nActivityType )
+void LocalRAUser::PostActivity( ActivityType nActivityType )
 {
 	switch( nActivityType )
 	{
-		case ActivityType_StartPlaying:
+	case PlayerStartedPlaying:
 		{
 			PostArgs args;
-			args['u'] = Username();
-			args['t'] = Token();
-			args['a'] = std::to_string( nActivityType );
-			args['m'] = std::to_string( g_pActiveAchievements->GetGameID() );
+			args[ 'u' ] = Username();
+			args[ 't' ] = Token();
+			args[ 'a' ] = std::to_string( nActivityType );
+			args[ 'm' ] = std::to_string( g_pActiveAchievements->GetGameID() );
 
 			RAWeb::CreateThreadedHTTPRequest( RequestPostActivity, args );
 			break;
 		}
+
 		default:
-		{
 			//	unhandled
-			assert(0);
+			ASSERT( !"User isn't designed to handle posting this activity!" );
 			break;
-		}
 	}
 }
 
 void LocalRAUser::Clear()
 {
-	SetToken("");
+	SetToken( "" );
 	m_bIsLoggedIn = FALSE;
 }
 
@@ -268,13 +280,8 @@ RAUser* LocalRAUser::FindFriend( const std::string& sName )
 	std::vector<RAUser*>::iterator iter = m_aFriends.begin();
 	while( iter != m_aFriends.end() )
 	{
-		if( sName.compare( (*iter)->Username() ) == 0 )
+		if( sName.compare( ( *iter )->Username() ) == 0 )
 			return *iter;
 	}
-	return NULL;
-}
-
-API bool _RA_UserLoggedIn()
-{
-	return( RAUsers::LocalUser.IsLoggedIn() == TRUE );
+	return nullptr;
 }

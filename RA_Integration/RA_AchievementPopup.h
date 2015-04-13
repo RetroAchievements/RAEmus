@@ -1,11 +1,9 @@
 #pragma once
 
-#include <wtypes.h>
-#include "RA_AchievementOverlay.h"
-#include <queue>
+#include "RA_Defs.h"
+#include "RA_Interface.h"
 
 //	Graphic to display an obtained achievement
-
 enum PopupMessageType
 {
 	PopupLogin,
@@ -14,6 +12,7 @@ enum PopupMessageType
 	PopupAchievementError,
 	PopupLeaderboardInfo,
 	PopupLeaderboardCancel,
+	PopupMessage,
 
 	NumMessageTypes
 };

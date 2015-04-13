@@ -1,6 +1,3 @@
-
-#define CLIENT_VERSION RAVBA_VERSION
-
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.
 extern bool GameIsActive();

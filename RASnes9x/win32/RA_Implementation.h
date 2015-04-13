@@ -1,7 +1,6 @@
 //
 //	Overloadable functions that should be implemented on an emulator-specific level.
 //
-#define CLIENT_VERSION RASNES9X_VERSION
 
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.

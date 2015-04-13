@@ -1,5 +1,4 @@
-#ifndef _DLG_ACHIEVEMENTEDITOR_H_
-#define _DLG_ACHIEVEMENTEDITOR_H_
+#pragma once
 
 #include <wtypes.h>
 #include <vector>
@@ -9,32 +8,23 @@
 
 namespace
 {
-	const int g_nMaxConditions = 200;
-	const int g_nMaxMemStringTextItemSize = 80;
+	const size_t MAX_CONDITIONS = 200;
+	const size_t MEM_STRING_TEXT_LEN = 80;
 }
-
-//struct Achievement;
-
-//extern const char* g_sColTitles[];
-//extern const int g_nColSizes[];
 
 class BadgeNames
 {
 public:
 	BadgeNames()
-	{
-		m_hDestComboBox = NULL;
-	}
-
+	 :	m_hDestComboBox( nullptr ) {}
 	void InstallAchEditorCombo( HWND hCombo )	{ m_hDestComboBox = hCombo; }
-
-	//cb
-	static void CB_OnNewBadgeNames( void* pObj );
+	
 	void FetchNewBadgeNamesThreaded();
-	void AddNewBadgeName( const char* pStr, BOOL bAndSelect );
+	void AddNewBadgeName( const char* pStr, bool bAndSelect );
+	void OnNewBadgeNames( const Document& data );
 
 private:
-	static HWND m_hDestComboBox;
+	HWND m_hDestComboBox;
 };
 
 
@@ -60,9 +50,7 @@ public:
 	HWND GetHWND() const											{ return m_hAchievementEditorDlg; }
 
 	Achievement* ActiveAchievement() const							{ return m_pSelectedAchievement; }
-
 	BOOL IsPopulatingAchievementEditorData() const					{ return m_bPopulatingAchievementEditorData; }
-
 	void SetIgnoreEdits( BOOL bIgnore )								{ m_bPopulatingAchievementEditorData = bIgnore; }
 
 	void UpdateBadge( const std::string& sNewName );							//	Call to set/update data
@@ -70,13 +58,12 @@ public:
 
 	BadgeNames& GetBadgeNames()										{ return m_BadgeNames; }
 
-	int GetSelectedConditionGroup() const;
-	void SetSelectedConditionGroup( int nGrp ) const;
+	size_t GetSelectedConditionGroup() const;
+	void SetSelectedConditionGroup( size_t nGrp ) const;
 
 private:
 	void RepopulateGroupList( Achievement* pCheevo );
 	void PopulateConditions( Achievement* pCheevo );
-	//void Clear();
 	void SetupColumns( HWND hList );
 
 	const int AddCondition( HWND hList, const Condition& Cond );
@@ -87,20 +74,15 @@ private:
 	HWND m_hAchievementEditorDlg;
 	HWND m_hICEControl;
 
-	char m_lbxData[g_nMaxConditions][m_nNumCols][g_nMaxMemStringTextItemSize];
-	char m_lbxGroupNames[g_nMaxConditions][g_nMaxMemStringTextItemSize];
+	char m_lbxData[ MAX_CONDITIONS ][ m_nNumCols ][ MEM_STRING_TEXT_LEN ];
+	char m_lbxGroupNames[ MAX_CONDITIONS ][ MEM_STRING_TEXT_LEN ];
 	int m_nNumOccupiedRows;
 
 	Achievement* m_pSelectedAchievement;
-
 	BOOL m_bPopulatingAchievementEditorData;
-
 	HBITMAP m_hAchievementBadge;
 
 	BadgeNames m_BadgeNames;
 };
 
 extern Dlg_AchievementEditor g_AchievementEditorDialog;
-
-
-#endif //_DLG_ACHIEVEMENT_H_

@@ -75,6 +75,7 @@
 
 
 //	##RA
+#include "../../BuildVer.h"
 #include "RA_Resource.h" 
 #include "RA_Interface.h"
 #include "RA_Implementation.h"
@@ -827,7 +828,7 @@ int main(int argc,char *argv[])
 	RA_InitDirectX();
 	RA_UpdateAppTitle( "" );
 	RebuildMenu();
-	RA_AttemptLogin();
+	RA_AttemptLogin( true );
 	RebuildMenu();
 
 doloopy:

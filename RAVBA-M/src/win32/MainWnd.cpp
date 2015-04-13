@@ -434,6 +434,36 @@ void MainWnd::OnClose()
   CWnd::OnClose();
 }
 
+extern u8 gbReadMemory( register u16 );
+extern void gbWriteMemory( register u16, register u8 );
+
+unsigned char ByteReader( size_t nOffs )
+{
+	return gbReadMemory( nOffs );
+}
+void ByteWriter( size_t nOffs, unsigned char nVal )
+{
+	gbWriteMemory( nOffs, nVal );
+}
+
+unsigned char GBAByteReaderInternalRAM( size_t nOffs )
+{
+	return static_cast<unsigned char>( internalRAM[ nOffs ] );
+}
+void GBAByteWriterInternalRAM( size_t nOffs, unsigned char nVal )
+{
+	internalRAM[ nOffs ] = nVal;
+}
+
+unsigned char GBAByteReaderWorkRAM( size_t nOffs )
+{
+	return static_cast<unsigned char>( workRAM[ nOffs ] );
+}
+void GBAByteWriterWorkRAM( size_t nOffs, unsigned char nVal )
+{
+	workRAM[ nOffs ] = nVal;
+}
+
 bool MainWnd::FileRun()
 {
   // save battery file before we change the filename...
@@ -534,13 +564,17 @@ bool MainWnd::FileRun()
 	{
 		//	Original GB
 		RA_SetConsoleID( 4 );
-		RA_OnLoadNewRom( gbRom, gbRomSize, (BYTE*)gbMemoryMap, 0x10000, NULL, 0 );
+		RA_ClearMemoryBanks();
+		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x10000 );
+		RA_OnLoadNewRom( gbRom, gbRomSize );
 	}
 	else
 	{
 		//	GBC
 		RA_SetConsoleID( 6 );
-		RA_OnLoadNewRom( gbRom, gbRomSize, (BYTE*)gbMemoryMap, 0x10000, NULL, 0 );
+		RA_ClearMemoryBanks();
+		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x10000 );
+		RA_OnLoadNewRom( gbRom, gbRomSize );
 	}
 
 
@@ -611,7 +645,10 @@ bool MainWnd::FileRun()
 
 	//	GBA
 	RA_SetConsoleID( 5 );
-	RA_OnLoadNewRom( rom, theApp.romSize, internalRAM, 0x8000, workRAM, 0x40000 );
+	RA_ClearMemoryBanks();
+	RA_InstallMemoryBank( 0, GBAByteReaderInternalRAM, GBAByteWriterInternalRAM, 0x8000 );
+	RA_InstallMemoryBank( 1, GBAByteReaderWorkRAM, GBAByteWriterWorkRAM, 0x40000 );
+	RA_OnLoadNewRom( rom, theApp.romSize );
   }
 
   if(theApp.soundInitialized) {
