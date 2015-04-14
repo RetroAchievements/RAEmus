@@ -262,3 +262,9 @@
 /RA_Integration/Diffs.txt
 /RA_Integration/LiveTag.txt
 /RA_Integration/Temp.txt
+/RA_Integration_CS/RAInterface/bin/Debug
+/RA_Integration_CS/RAInterface/bin/Release
+/RA_Integration_CS/RAInterface/BuildVer.cs
+/RA_Integration_CS/RAInterface/Diffs.txt
+/RA_Integration_CS/RAInterface/LiveTag.txt
+/RA_Integration_CS/RAInterface/obj/

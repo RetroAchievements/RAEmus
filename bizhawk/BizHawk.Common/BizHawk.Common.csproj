@@ -76,12 +76,6 @@
     <Compile Include="UndoHistory.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RAInterface\RAInterface.csproj">
-      <Project>{f2b1a7e9-ff37-4b90-af87-34f7b6b181ad}</Project>
-      <Name>RAInterface</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>"$(SolutionDir)subwcrev.bat" "$(ProjectDir)"</PreBuildEvent>

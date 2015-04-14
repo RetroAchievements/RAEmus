@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizHawk.Client.Common", "BizHawk.Client.Common\BizHawk.Client.Common.csproj", "{24A0AA3C-B25F-4197-B23D-476D6462DBA0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2B1A7E9-FF37-4B90-AF87-34F7B6B181AD} = {F2B1A7E9-FF37-4B90-AF87-34F7B6B181AD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizHawk.Common", "BizHawk.Common\BizHawk.Common.csproj", "{866F8D13-0678-4FF9-80A4-A3993FD4D8A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizHawk.Client.EmuHawk", "BizHawk.Client.EmuHawk\BizHawk.Client.EmuHawk.csproj", "{DD448B37-BA3F-4544-9754-5406E8094723}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2B1A7E9-FF37-4B90-AF87-34F7B6B181AD} = {F2B1A7E9-FF37-4B90-AF87-34F7B6B181AD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizHawk.Client.DiscoHawk", "BizHawk.Client.DiscoHawk\BizHawk.Client.DiscoHawk.csproj", "{C4366030-6D03-424B-AE53-F4F43BB217C3}"
 EndProject
@@ -29,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizHawk.Client.DBMan", "Biz
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RetroAchievements", "RetroAchievements", "{B2303C02-F8E3-4C91-8ED4-5C09F7385A9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAInterface", "RAInterface\RAInterface.csproj", "{F2B1A7E9-FF37-4B90-AF87-34F7B6B181AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAInterface", "..\RA_Integration_CS\RAInterface\RAInterface.csproj", "{F2B1A7E9-FF37-4B90-AF87-34F7B6B181AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
