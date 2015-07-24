@@ -21,7 +21,7 @@ extern void GetEstimatedGameTitle( char* sNameOut );
 extern void ResetEmulation();
 
 //	Called BY the toolset to tell the emulator to load a particular ROM.
-extern void LoadROMFromEmu( char* sFullPath );
+extern void LoadROMFromEmu( const char* sFullPath );
 
 //	Installs these shared functions into the DLL
 extern void RA_InitShared();

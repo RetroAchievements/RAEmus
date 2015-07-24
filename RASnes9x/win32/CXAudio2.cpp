@@ -181,7 +181,13 @@
 #include "../apu/apu.h"
 #include "wsnes9x.h"
 #include <process.h>
-#include <Dxerr.h>
+#include <stdarg.h>
+//#include <stdlib.h>
+//#include <wtypes.h>
+//#include <Dxerr.h>
+#define DXTRACE_MSG(str)              (0L)
+#define DXTRACE_ERR(str,hr)           (hr)
+#define DXTRACE_ERR_MSGBOX(str,hr)    (hr)
 
 /* CXAudio2
 	Implements audio output through XAudio2.

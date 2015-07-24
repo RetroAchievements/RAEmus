@@ -1069,7 +1069,7 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
 			}
 
 			Settings.Paused = !Settings.Paused;
-			RA_SetPaused( Settings.Paused );
+			RA_SetPaused( Settings.Paused != FALSE );
 
 			CenterCursor();
 			if(!Settings.Paused)
@@ -2261,7 +2261,7 @@ LRESULT CALLBACK WinProc(
 				Settings.FrameAdvance = false;
 				GUI.FrameAdvanceJustPressed = 0;
 			}
-			RA_SetPaused( Settings.Paused );
+			RA_SetPaused( Settings.Paused != FALSE );
 			break;
         case ID_FILE_LOAD0:
 			FreezeUnfreeze (0, FALSE);
@@ -4122,7 +4122,9 @@ static bool LoadROMPlain(const TCHAR *filename)
 		RA_ClearMemoryBanks();
 		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x20000 );
 		RA_InstallMemoryBank( 1, ByteReaderSRAM, ByteWriterSRAM, nSRAMBytes );
-		RA_OnLoadNewRom( Memory.ROM, Memory.ROMSize );
+
+		int nRomSizeBytes = ( ( 1 << ( Memory.ROMSize - 7 ) ) * 128 ) * 1024;
+		RA_OnLoadNewRom( Memory.ROM, nRomSizeBytes );
 
 		S9xStartCheatSearch (&Cheat);
         ReInitSound();

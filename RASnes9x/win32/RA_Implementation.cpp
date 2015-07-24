@@ -43,14 +43,15 @@ void ResetEmulation()
 		S9xReset();
 }
 
+#include <locale>
+#include <codecvt>
+
 extern bool8 S9xLoadROMImage( const TCHAR* string );
 void LoadROMFromEmu( const char* sFullPath )
 {
-#ifdef UNICODE
-	S9xLoadROMImage( Widen( sFullPath ).c_str() );
-#else
-	S9xLoadROMImage( sFullPath );
-#endif
+	static std::wstring_convert< std::codecvt_utf8< wchar_t >, wchar_t > converter;
+	std::wstring str = converter.from_bytes( sFullPath );
+	S9xLoadROMImage( str.c_str() );
 }
 
 //	Installs these shared functions into the DLL

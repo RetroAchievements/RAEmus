@@ -177,7 +177,13 @@
 #include "CD3DCG.h"
 #include "wsnes9x.h"
 #include "win32_display.h"
-#include <Dxerr.h>
+#include <stdarg.h>
+//#include <wtypes.h>
+//#include <stdlib.h>
+//#include <Dxerr.h>
+#define DXTRACE_MSG(str)              (0L)
+#define DXTRACE_ERR(str,hr)           (hr)
+#define DXTRACE_ERR_MSGBOX(str,hr)    (hr)
 #include <png.h>
 #include "CDirect3D.h"
 
