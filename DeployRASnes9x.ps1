@@ -100,3 +100,6 @@ $session.Disconnect()
 
 # Kill Stage
 Remove-Item ".\Stage" -Force -Recurse
+
+# Kill new zip
+Remove-Item $TargetArchiveName -Force
