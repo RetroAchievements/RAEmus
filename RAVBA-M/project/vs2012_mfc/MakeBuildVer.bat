@@ -2,7 +2,7 @@
 
 git describe --tags --match "RAVBA-M.*" > LiveTag.txt
 @set /p ACTIVE_TAG=<LiveTag.txt
-@set VERSION_NUM=%ACTIVE_TAG:~9,3%
+@set VERSION_NUM=%ACTIVE_TAG:~8,3%
 
 git diff HEAD > Diffs.txt
 @set /p RAW_DIFFS_FOUND=<Diffs.txt
