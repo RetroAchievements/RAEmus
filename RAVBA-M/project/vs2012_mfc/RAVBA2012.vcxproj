@@ -15,6 +15,7 @@
     <ProjectGuid>{6D4C5EC8-933F-4C05-A1BF-498E658576DF}</ProjectGuid>
     <RootNamespace>VBA</RootNamespace>
     <Keyword>MFCProj</Keyword>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -24,6 +25,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>
+    </CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -91,17 +94,19 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <AdditionalDependencies>Winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dx9.lib;Winhttp.lib;nafxcwd.lib;libcmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>../../DXSDK_March09_x86</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>../../../DXSDK_March09_x86</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>nafxcwd.lib;libcmtd.lib;</IgnoreSpecificDefaultLibraries>
     </Link>
     <BuildLog />
     <PostBuildEvent>
-      <Command>robocopy ..\..\RA_Integration $(OutputPath) RA_Integration.dll /njh /njs /np /XX</Command>
+      <Command>robocopy ..\..\..\RA_Integration $(OutputPath) RA_Integration_d.dll RA_Integration_d.pdb /njh /njs /np /XX
+robocopy ..\..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
+robocopy ..\..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,7 +120,7 @@
     </Midl>
     <ClCompile>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>../../DXSDK_March09_x86;../../src;../../fex;../../RA_Integration;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../RA_Integration;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GBA_LOGGING;OEMRESOURCE;MMX;ASM;FINAL_VERSION;BKPT_SUPPORT;_CRT_SECURE_NO_DEPRECATE;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
@@ -128,7 +133,7 @@
     </ClCompile>
     <ResourceCompile />
     <Link>
-      <AdditionalDependencies>Winhttp.lib;nafxcw.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dx9.lib;Winhttp.lib;nafxcw.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Version>
       </Version>
       <IgnoreSpecificDefaultLibraries>nafxcw.lib;libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -138,7 +143,7 @@
       <AssemblyDebug>
       </AssemblyDebug>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>../../DXSDK_March09_x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../DXSDK_March09_x86</AdditionalLibraryDirectories>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <NASM>
@@ -147,7 +152,10 @@
     <BuildLog />
     <BuildLog />
     <PostBuildEvent>
-      <Command>copy ..\..\..\RA_Integration\RA_Integration.dll . &amp;&amp; copy ..\..\..\RA_Integration\*.pdb .</Command>
+      <Command>robocopy ..\..\..\RA_Integration $(OutputPath) RA_Integration.dll /njh /njs /np /XX
+robocopy ..\..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
+robocopy ..\..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

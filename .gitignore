@@ -275,3 +275,6 @@
 /RAVBA-M/dependencies/SFML/build/Debug/sfml-network.log
 /RAVBA-M/dependencies/libpng/project/Debug/libpng.log
 /RAVBA-M/dependencies/zlib/project/Debug/zlib.log
+/RAVBA-M/Release/File_Extractor2012.log
+/RAVBA-M/dependencies/SFML/build/Release/sfml-network.log
+/RAVBA-M/dependencies/zlib/project/Release/zlib.log

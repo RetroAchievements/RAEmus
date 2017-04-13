@@ -50,7 +50,7 @@ void ResetEmulator()
 		theApp.emulator.emuReset();
 }
 
-void LoadROM( char* sFullPath )
+void LoadROM( const char* sFullPath )
 {
 	theApp.szFile = sFullPath;
 	theApp.Run();
