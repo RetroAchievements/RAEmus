@@ -7,7 +7,7 @@ $VersionDoc = "..\web\LatestIntegration.html"
 
 $ExpectedTag = "RAIntegration"
 
-$ForceUpdate = $false
+$ForceUpdate = $true
 
 
 ################################################################################
@@ -32,9 +32,12 @@ $WebRootBin = "/var/www/html/bin"
 # Test we are ready for release
 $latestTag = git describe --tags --match "$($ExpectedTag).*"
 $diffs = git diff HEAD
-if( ![string]::IsNullOrEmpty( $diffs ) )
+if( -not $ForceUpdate )
 {
-    throw "Changes exist, cannot deploy!"
+    if( ![string]::IsNullOrEmpty( $diffs ) )
+    {
+        throw "Changes exist, cannot deploy!"
+    }
 }
 
 $newHTMLContent = "0." + $latestTag.Substring( $ExpectedTag.Length + 1, 3 )
