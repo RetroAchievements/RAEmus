@@ -270,3 +270,8 @@
 /RA_Integration_CS/RAInterface/obj/
 /.vs
 /*.db
+/RAVBA-M/project/vs2012_mfc/BuildVer.h
+/RAVBA-M/Debug/File_Extractor2012.log
+/RAVBA-M/dependencies/SFML/build/Debug/sfml-network.log
+/RAVBA-M/dependencies/libpng/project/Debug/libpng.log
+/RAVBA-M/dependencies/zlib/project/Debug/zlib.log
