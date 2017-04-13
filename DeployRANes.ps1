@@ -10,7 +10,7 @@ $VersionDoc = "..\web\LatestRANESVersion.html"
 
 $ExpectedTag = "RANes"
 
-$ForceUpdate = $true
+$ForceUpdate = $false
 
 
 ################################################################################
