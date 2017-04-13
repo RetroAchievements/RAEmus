@@ -379,5 +379,8 @@
     <None Include="..\common\src\vdp_rend.asm">
       <Filter>System</Filter>
     </None>
+    <None Include="Makefile" />
+    <None Include="Makefile.inc" />
+    <None Include="Makefile.targ.inc" />
   </ItemGroup>
 </Project>

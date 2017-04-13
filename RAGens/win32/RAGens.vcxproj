@@ -128,6 +128,9 @@
     <None Include="..\common\src\vdp_io.asm" />
     <None Include="..\common\src\vdp_rend.asm" />
     <None Include="..\common\src\z80.asm" />
+    <None Include="Makefile" />
+    <None Include="Makefile.inc" />
+    <None Include="Makefile.targ.inc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{61CB5C52-C78B-4EE9-A344-7D641631938F}</ProjectGuid>
@@ -137,12 +140,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -160,7 +163,7 @@
     <NMakeBuildCommandLine>nmake DEBUG=1</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>nmake DEBUG=1 clean &amp; nmake DEBUG=1</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>nmake DEBUG=1 clean</NMakeCleanCommandLine>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>nmake RELEASE=1</NMakeBuildCommandLine>
@@ -168,7 +171,7 @@
     <NMakeCleanCommandLine>nmake RELEASE=1 clean</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>nmake RELEASE=1 clean &amp; nmake RELEASE=1</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>RA_GENS;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;$(DXSDK_DIR)/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
