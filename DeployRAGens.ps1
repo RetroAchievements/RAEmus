@@ -1,8 +1,8 @@
 ﻿################################################################################
 # Custom Variables:
 
-$FilesToCopy = @(".\RAGens\win32\Release\gens\RAGens.exe",
-                 ".\RA_Integration\Overlay",
+$FilesToCopy = @(".\RA_Integration\Overlay",
+                 ".\RAGens\win32\Release\gens\RAGens.exe",
                  ".\RAGens\Deploy\LICENSE.txt");
 
 $TargetArchiveName = "RAGens.zip"
@@ -11,7 +11,7 @@ $VersionDoc = "..\web\LatestRAGensVersion.html"
 
 $ExpectedTag = "RAGens"
 
-$ForceUpdate = $true
+$ForceUpdate = $false
 
 
 ################################################################################
@@ -97,3 +97,6 @@ $session.Disconnect()
 
 # Kill Stage
 Remove-Item ".\Stage" -Force -Recurse
+
+# Kill new zip
+Remove-Item $TargetArchiveName -Force

@@ -2,19 +2,15 @@
 # Custom Variables:
 
 $FilesToCopy = @(".\RA_Integration\Overlay",
-                 ".\RASnes9x\win32\Release\RASnes9X.exe",
-                 ".\RASnes9x\win32\Release\D3DX9_41.dll",
-                 ".\RASnes9x\win32\Deploy\changes.txt",
-                 ".\RASnes9x\win32\Deploy\lgpl-2.1.txt",
-                 ".\RASnes9x\win32\Deploy\snes9x-license.txt");
+                 ".\RANes\output");
 
-$TargetArchiveName = "RASnes9x.zip"
+$TargetArchiveName = "RANes.zip"
 
-$VersionDoc = "..\web\LatestRASnesVersion.html"
+$VersionDoc = "..\web\LatestRANESVersion.html"
 
-$ExpectedTag = "RASnes9x"
+$ExpectedTag = "RANes"
 
-$ForceUpdate = $false
+$ForceUpdate = $true
 
 
 ################################################################################
