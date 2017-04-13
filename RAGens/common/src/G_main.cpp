@@ -7,6 +7,7 @@
 #include <string.h>
 
 //	##RA
+#include "BuildVer.h"
 #include "RA_Resource.h"
 #include "RA_Interface.h"
 #include "RA_Implementation.h"
@@ -1483,14 +1484,14 @@ BOOL Init(HINSTANCE hInst, int nCmdShow)
   
 	Identify_CPU();
 
-	i = GetVersion();
+	//i = GetVersion();
  
 	// Get major and minor version numbers of Windows
 
-	if (((i & 0xFF) > 4) || (i & 0x80000000))
-		WinNT_Flag = 0;
-	else 
-		WinNT_Flag = 1;
+	//if (((i & 0xFF) > 4) || (i & 0x80000000))
+	//	WinNT_Flag = 0;
+	//else 
+	//	WinNT_Flag = 1;
 
 	GetCurrentDirectory( 1024, Gens_Path );
 	GetCurrentDirectory( 1024, Language_Path );
@@ -1561,7 +1562,7 @@ BOOL Init(HINSTANCE hInst, int nCmdShow)
 
 	UpdateAppTitle();
 
-	RA_AttemptLogin();
+	RA_AttemptLogin( true );
 
 	return TRUE;
 }
@@ -1592,52 +1593,35 @@ int PASCAL WinMain(HINSTANCE hInst,	HINSTANCE hPrevInst, LPSTR lpCmdLine, int nC
 	// Have to do it *before* load by command line
 	Init_Genesis_Bios();
 
-	if (lpCmdLine[0])
+	if( lpCmdLine[ 0 ] != '\0' )
 	{
-		int src;
-
-#ifdef CC_SUPPORT
-//		src = CC_Connect("CCGEN://Stef:gens@emu.consoleclassix.com/sonicthehedgehog2.gen", (char *) Rom_Data, CC_End_Callback);
-		src = CC_Connect(lpCmdLine, (char *) Rom_Data, CC_End_Callback);
-
-		if (src == 0)
+		//	Fetch target ROM path from cmd line
+		int iter = 0;
+		char buffer[ 1024 ];
+		if( lpCmdLine[ iter ] == '"' )
 		{
-			Load_Rom_CC(CCRom.RName, CCRom.RSize);
-			Build_Main_Menu();
-		}
-		else if (src == 1)
-		{ 
-			MessageBox(NULL, "Error during connection", NULL, MB_OK);
-		}
-		else if (src == 2)
-		{
-#endif
-		src = 0;
-		
-		if (lpCmdLine[src] == '"')
-		{
-			src++;
-			
-			while ((lpCmdLine[src] != '"') && (lpCmdLine[src] != 0))
+			iter++;
+			while ((lpCmdLine[ iter ] != '"') && (lpCmdLine[ iter ] != 0))
 			{
-				Str_Tmp[src - 1] = lpCmdLine[src];
-				src++;
+				buffer[ iter - 1 ] = lpCmdLine[ iter ];
+				iter++;
 			}
 
-			Str_Tmp[src - 1] = 0;
+			buffer[ iter - 1 ] = '\0';
 		}
 		else
 		{
-			while (lpCmdLine[src] != 0)
+			while( lpCmdLine[ iter ] != 0 )
 			{
-				Str_Tmp[src] = lpCmdLine[src];
-				src++;
+				buffer[ iter ] = lpCmdLine[ iter ];
+				iter++;
 			}
 
-			Str_Tmp[src] = 0;
+			buffer[ iter ] = '\0';
 		}
 
-		Pre_Load_Rom(HWnd, Str_Tmp);
+		RA_AttemptLogin( true );
+		Pre_Load_Rom( HWnd, buffer );
 
 #ifdef CC_SUPPORT
 		}

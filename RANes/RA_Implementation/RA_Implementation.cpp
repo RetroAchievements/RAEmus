@@ -72,7 +72,7 @@ void ResetEmulation()
 	FCEUI_ResetNES();
 }
 
-void LoadROM( char* sFullPath )
+void LoadROM( const char* sFullPath )
 {
 	FCEUI_LoadGame( sFullPath, 0 );
 }

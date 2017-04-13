@@ -75,6 +75,7 @@
 
 
 //	##RA
+#include "../../BuildVer.h"
 #include "RA_Resource.h" 
 #include "RA_Interface.h"
 #include "RA_Implementation.h"
@@ -700,20 +701,6 @@ int main(int argc,char *argv[])
 	CreateMainWindow();
 
 	
-  //##RA
-	RA_Init( hAppWnd, RA_FCEUX, RANES_VERSION );
-	RA_InitShared();
-
-	RA_InitDirectX();
-
-	RA_UpdateAppTitle( "" );
-
-	RebuildMenu();
-
-	RA_AttemptLogin();
-
-	RebuildMenu();
-
 	// Do single instance coding, since we now know if the user wants it,
 	// and we have a source window to send from
 	// http://wiki.github.com/ffi/ffi/windows-examples
@@ -834,6 +821,15 @@ int main(int argc,char *argv[])
 	if (PauseAfterLoad) FCEUI_ToggleEmulationPause();
 	SetAutoFirePattern(AFon, AFoff);
 	UpdateCheckedMenuItems();
+	
+  //##RA
+	RA_Init( hAppWnd, RA_FCEUX, RANES_VERSION );
+	RA_InitShared();
+	RA_InitDirectX();
+	RA_UpdateAppTitle( "" );
+	RebuildMenu();
+	RA_AttemptLogin( true );
+	RebuildMenu();
 
 doloopy:
 	UpdateFCEUWindow();

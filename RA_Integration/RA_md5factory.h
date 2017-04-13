@@ -1,4 +1,8 @@
 #pragma once
 
-void md5_GenerateMD5( const char* strIn, const unsigned int nLen, char* strOut );
-void md5_GenerateMD5Raw( const unsigned char* rawIn, const unsigned int nLen, char* strOut );
+#include <string>
+#include "RA_Defs.h"
+
+extern std::string RAGenerateMD5( const std::string& sStringToMD5 );
+extern std::string RAGenerateMD5( const BYTE* pIn, size_t nLen );
+extern std::string RAGenerateMD5( const std::vector<BYTE> DataIn );

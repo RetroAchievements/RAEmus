@@ -7,19 +7,19 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include <Windows.h>
+#define IDC_STATIC -1
+//#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// English (United Kingdom) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -58,6 +58,8 @@ BEGIN
     CONTROL         "Viewer",IDC_RA_MEMTEXTVIEWER,"MemoryViewerControl",WS_TABSTOP,10,212,314,90
     LTEXT           "Bit: 0 1 2 3 4 5 6 7",IDC_RA_MEMBITS_TITLE,200,194,123,8,0,WS_EX_RIGHT
     LTEXT           "    0 0 0 0 0 0 0 0",IDC_RA_MEMBITS,200,204,123,8,0,WS_EX_RIGHT
+	LTEXT           "Mem Bank:", IDC_STATIC, 10, 185, 44, 9
+	COMBOBOX         IDC_RA_MEMBANK,63,182,47,87, CBS_DROPDOWNLIST | CBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP, WS_EX_CLIENTEDGE
 END
 
 IDD_RA_ACHIEVEMENTS DIALOGEX 0, 0, 430, 188
@@ -224,7 +226,19 @@ BEGIN
     LTEXT           "Selected Game:",IDC_STATIC,7,143,51,8
     EDITTEXT        IDC_RA_GLIB_NAME,7,154,320,14,ES_AUTOHSCROLL | ES_READONLY
     DEFPUSHBUTTON   "...",IDC_RA_PICKROMDIR,315,7,14,14
-    LTEXT           "Hold ESC to stop searching",IDC_STATIC,286,25,87,8
+    LTEXT           "Ready",IDC_RA_SCANNERFOUNDINFO,222,25,107,8
+    DEFPUSHBUTTON   "Refresh",IDC_RA_REFRESH,335,22,38,12
+END
+
+IDD_RA_ROMCHECKSUM DIALOGEX 0, 0, 184, 54
+STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "ROM Checksum"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,127,33,50,14
+    DEFPUSHBUTTON   "Copy To Clipboard",IDC_RA_COPYCHECKSUMCLIPBOARD,7,33,82,14
+    LTEXT           "ROM Checksum:",IDC_RA_ROMCHECKSUMTEXT,7,7,170,22
 END
 
 
@@ -247,10 +261,6 @@ BEGIN
 0x5447, 0x0045, 
     IDC_RA_CBO_CMPTYPE, 0x403, 4, 0
 0x454e, 0x0051, 
-    IDC_RA_WATCHING, 0x403, 3, 0
-0x7830, "\000" 
-    IDC_RA_WATCHING, 0x403, 1, 0
-"\000" 
     0
 END
 
@@ -261,7 +271,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_RA_MEMORY, DIALOG
     BEGIN
@@ -415,6 +425,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 168
     END
+
+    IDD_RA_ROMCHECKSUM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 177
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 47
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -447,10 +465,15 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
+// AFX_DIALOG_LAYOUT
 //
 
-#endif    // English (U.K.) resources
+IDD_RA_MEMORY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -32,10 +32,7 @@
 #include "cd_file.h"
 
 //	##RA
-#include "../RA_Integration/RA_User.h"
-#include "../RA_Integration/RA_Core.h"
-#include "../RA_Integration/RA_Achievement.h"
-#include "../RA_Integration/RA_AchievementPopup.h"
+#include "../RA_Integration/RA_Interface.h"
 
 
 

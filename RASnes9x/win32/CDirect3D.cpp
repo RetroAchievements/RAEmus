@@ -177,7 +177,7 @@
 
 #pragma comment( lib, "d3d9" )
 #pragma comment( lib, "d3dx9" )
-#pragma comment( lib, "DxErr" )
+//#pragma comment( lib, "DxErr" )
 
 #include "cdirect3d.h"
 #include "win32_display.h"
@@ -185,7 +185,14 @@
 #include "../gfx.h"
 #include "../display.h"
 #include "wsnes9x.h"
-#include <Dxerr.h>
+#include <stdarg.h>
+//#include <wtypes.h>
+//#include <stdlib.h>
+//#include <Dxerr.h>
+#define DXTRACE_MSG(str)              (0L)
+#define DXTRACE_ERR(str,hr)           (hr)
+#define DXTRACE_ERR_MSGBOX(str,hr)    (hr)
+
 #include <commctrl.h>
 #include "CXML.h"
 

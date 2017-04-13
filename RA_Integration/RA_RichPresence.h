@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include "RA_Leaderboard.h"
+#include "RA_Defs.h"
 
 typedef unsigned int DataPos;
 
@@ -12,7 +13,7 @@ public:
 	RA_Lookup( const std::string& sDesc );
 	
 public:
-	void AddLookupData( DataPos nValue, const std::string& sLookupData );
+	void AddLookupData( DataPos nValue, const std::string& sLookupData )	{ m_lookupData[ nValue ] = sLookupData; }
 	const std::string& Lookup( DataPos nValue ) const;
 
 	const std::string& Description() const									{ return m_sLookupDescription; }
@@ -39,10 +40,13 @@ private:
 class RA_RichPresenceInterpretter
 {
 public:
+	static void PersistAndParseScript( GameID nGameID, const std::string& sScript );
+
+public:
 	RA_RichPresenceInterpretter() {}
 
 public:
-	void ParseRichPresenceFile( const char* sFilename );
+	void ParseRichPresenceFile( const std::string& sFilename );
 
 	const std::string& GetRichPresenceString();
 	const std::string& Lookup( const std::string& sLookupName, const std::string& sMemString ) const;

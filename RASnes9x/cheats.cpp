@@ -176,6 +176,7 @@
  ***********************************************************************************/
 
 
+#include <Windows.h>
 #include <ctype.h>
 #include "snes9x.h"
 #include "memmap.h"

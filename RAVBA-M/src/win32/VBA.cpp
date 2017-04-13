@@ -46,6 +46,7 @@
 //	##RA
 #include "RA_Implementation.h"
 #include "RA_Interface.h"
+#include "BuildVer.h"
 
 extern void Pixelate(u8*,u32,u8*,u8*,u32,int,int);
 extern void Pixelate32(u8*,u32,u8*,u8*,u32,int,int);
@@ -526,12 +527,10 @@ BOOL VBA::InitInstance()
 	//	##RA
 	HINSTANCE hInst = AfxGetInstanceHandle();
 
-	RA_Init( ( (MainWnd*)m_pMainWnd )->GetSafeHwnd(), RA_VisualboyAdvance, CLIENT_VERSION );
+	RA_Init( ( (MainWnd*)m_pMainWnd )->GetSafeHwnd(), RA_VisualboyAdvance, RAVBA_VERSION );
 	RA_InitShared();
-
 	RA_RebuildMenu();
-
-	RA_AttemptLogin();
+	RA_AttemptLogin( true );
 
   return TRUE;
 }

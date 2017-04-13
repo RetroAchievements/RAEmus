@@ -1,248 +1,250 @@
 #include "RA_Dlg_GameTitle.h"
 
-#include <windowsx.h>
-#include <stdio.h>
+//#include <windowsx.h>
+//#include <stdio.h>
+//#include <sstream>
 
 #include "RA_Defs.h"
 #include "RA_Core.h"
 #include "RA_Resource.h"
 #include "RA_User.h"
 #include "RA_Achievement.h"
+#include "RA_AchievementSet.h"
 #include "RA_httpthread.h"
 
 
 Dlg_GameTitle g_GameTitleDialog;
 
-INT_PTR CALLBACK GameTitleProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
+INT_PTR CALLBACK s_GameTitleProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-	//RECT r;
-	//RECT r2;
-	//int dx1, dy1, dx2, dy2;
+	return g_GameTitleDialog.GameTitleProc( hDlg, uMsg, wParam, lParam );
+}
 
+INT_PTR Dlg_GameTitle::GameTitleProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
+{
 	static bool bUpdatingTextboxTitle = false;
 
- 	switch(uMsg)
- 	{
- 	case WM_INITDIALOG:
+	switch( uMsg )
 	{
-		HWND hKnownGamesCbo = GetDlgItem( hDlg, IDC_RA_KNOWNGAMES );
-		char sGameTitleTidy[64];
-		char buffer[65535];
-		char* pBuffer = &buffer[0];
-		int nSel = 0;
-		const char* NewLine = "\n";
-		char* pNextTitle = NULL;
-
-		strcpy_s( sGameTitleTidy, 64, g_GameTitleDialog.m_sEstimatedGameTitle );
-		Dlg_GameTitle::CleanRomName( sGameTitleTidy, 64 );
-
-		SetDlgItemText( hDlg, IDC_RA_GAMETITLE, sGameTitleTidy );
-
-		if( strlen( g_pActiveAchievements->m_sPreferredGameTitle ) < 2 )
-		{
-		}
-		else
-		{
-			//	Why would you ever want this one?
-			//SetDlgItemText( hDlg, IDC_RA_GAMETITLE, g_pActiveAchievements->m_sPreferredGameTitle );
-		}
+	case WM_INITDIALOG:
+	{
+		const HWND hKnownGamesCbo = GetDlgItem( hDlg, IDC_RA_KNOWNGAMES );
+		std::string sGameTitleTidy = Dlg_GameTitle::CleanRomName( g_GameTitleDialog.m_sEstimatedGameTitle );
+		SetDlgItemText( hDlg, IDC_RA_GAMETITLE, Widen( sGameTitleTidy ).c_str() );
 
 		//	Load in the checksum
-		SetDlgItemText( hDlg, IDC_RA_CHECKSUM, g_GameTitleDialog.m_sMD5 );
-
+		SetDlgItemText( hDlg, IDC_RA_CHECKSUM, Widen( g_GameTitleDialog.m_sMD5 ).c_str() );
 
 		//	Populate the dropdown
 		//	***Do blocking fetch of all game titles.***
-		ZeroMemory( buffer, 65535 );
-		
-		nSel = ComboBox_AddString( hKnownGamesCbo, "<New Title>" );
+		int nSel = ComboBox_AddString( hKnownGamesCbo, Widen( "<New Title>" ).c_str() );
 		ComboBox_SetCurSel( hKnownGamesCbo, nSel );
 
+		PostArgs args;
+		args[ 'c' ] = std::to_string( g_ConsoleID );
+
+		Document doc;
+		if( RAWeb::DoBlockingRequest( RequestGamesList, args, doc ) )
 		{
-			char postBuffer[256];
-			sprintf_s( postBuffer, 256, "c=%d", g_ConsoleID );
-			DWORD nBytesRead = 0;
-			if( DoBlockingHttpPost( "requestallgametitles.php", postBuffer, pBuffer, 65535, &nBytesRead ) )
+			const Value& Data = doc[ "Response" ];
+
+			//	For all data responses to this request, populate our m_aGameTitles map
 			{
-				if( strncmp( pBuffer, "OK:", 3 ) == 0 )
+				Value::ConstMemberIterator iter = Data.MemberBegin();
+				while( iter != Data.MemberEnd() )
 				{
-					pBuffer += 3;
-
-					pNextTitle = strtok_s( pBuffer, NewLine, &pBuffer );
-					while( pNextTitle != NULL )
+					if( iter->name.IsNull() || iter->value.IsNull() )
 					{
-						nSel = ComboBox_AddString( hKnownGamesCbo, pNextTitle );
-
-						if( _stricmp( sGameTitleTidy, pNextTitle ) == 0 )
-							ComboBox_SetCurSel( hKnownGamesCbo, nSel );
-
-						pNextTitle = strtok_s( pBuffer, NewLine, &pBuffer );
+						iter++;
+						continue;
 					}
+
+					const GameID nGameID = std::strtoul( iter->name.GetString(), nullptr, 10 );	//	Keys cannot be anything but strings
+					const std::string& sTitle = iter->value.GetString();
+					m_aGameTitles[ sTitle ] = nGameID;
+
+					iter++;
 				}
+			}
+
+			{
+				std::map<std::string, GameID>::const_iterator iter = m_aGameTitles.begin();
+				while( iter != m_aGameTitles.end() )
+				{
+					const std::string& sTitle = iter->first;
+
+					nSel = ComboBox_AddString( hKnownGamesCbo, Widen( sTitle ).c_str() );
+
+					//	Attempt to find this game and select it by default: case insensitive comparison
+					if( sGameTitleTidy.compare( sTitle ) == 0 )
+						ComboBox_SetCurSel( hKnownGamesCbo, nSel );
+
+					iter++;
+				}
+
 			}
 		}
 
 		return TRUE;
 	}
-	break;
- 
- 	case WM_COMMAND:
- 		switch( LOWORD(wParam) )
- 		{
- 		case IDOK:
- 			{
-				//	Fetch input data:
-				char sSelectedTitle[512];
- 				char sRequest[512];
- 				char sResponse[4096];
-				const char* sDestPage = NULL;
- 				DWORD nBytesRead = 0;
-  				
-				HWND hKnownGamesCbo = GetDlgItem( hDlg, IDC_RA_KNOWNGAMES );
+		break;
 
-				ComboBox_GetText( hKnownGamesCbo, sSelectedTitle, 512 );
+	case WM_COMMAND:
+		switch( LOWORD( wParam ) )
+		{
+		case IDOK:
+		{
+			//	Fetch input data:
+			wchar_t sSelectedTitleWide[ 512 ];
+			ComboBox_GetText( GetDlgItem( hDlg, IDC_RA_KNOWNGAMES ), sSelectedTitleWide, 512 );
+			std::string sSelectedTitle = Narrow( sSelectedTitleWide );
 
-				if( strcmp( sSelectedTitle, "<New Title>" ) == 0 )
+			GameID nGameID = 0;
+			if( strcmp( sSelectedTitle.c_str(), "<New Title>" ) == 0 )
+			{
+				//	Add a new title!
+				GetDlgItemText( hDlg, IDC_RA_GAMETITLE, sSelectedTitleWide, 512 );
+			}
+			else
+			{
+				//	Existing title
+				ASSERT( m_aGameTitles.find( std::string( sSelectedTitle ) ) != m_aGameTitles.end() );
+				nGameID = m_aGameTitles[ std::string( sSelectedTitle ) ];
+			}
+
+			PostArgs args;
+			args[ 'u' ] = RAUsers::LocalUser().Username();
+			args[ 't' ] = RAUsers::LocalUser().Token();
+			args[ 'm' ] = m_sMD5;
+			args[ 'i' ] = sSelectedTitle;
+			args[ 'c' ] = std::to_string( g_ConsoleID );
+
+			Document doc;
+			if( RAWeb::DoBlockingRequest( RequestSubmitNewTitle, args, doc ) && doc.HasMember( "Success" ) && doc[ "Success" ].GetBool() )
+			{
+				const Value& Response = doc[ "Response" ];
+
+				const GameID nGameID = static_cast<GameID>( Response[ "GameID" ].GetUint() );
+				const std::string& sGameTitle = Response[ "GameTitle" ].GetString();
+
+				//	If we're setting the game title here...
+				//	 surely we could set the game ID here too?
+				AchievementSet::SetGameTitle( sGameTitle );
+				AchievementSet::SetGameID( nGameID );
+
+				g_GameTitleDialog.m_nReturnedGameID = nGameID;
+
+				//	Close this dialog
+				EndDialog( hDlg, TRUE );
+				return TRUE;
+			}
+			else
+			{
+				if( !doc.HasParseError() && doc.HasMember( "Error" ) )
 				{
-					//	Add a new title!
- 					GetDlgItemText( hDlg, IDC_RA_GAMETITLE, sSelectedTitle, 512 );
- 					sDestPage = "requestsubmitgametitle.php";
+					//Error given
+					MessageBox( hDlg,
+								Widen( std::string( "Could not add new title: " ) + std::string( doc[ "Error" ].GetString() ) ).c_str(),
+								L"Errors encountered",
+								MB_OK );
 				}
 				else
 				{
-					//	Add an alt!
-					sDestPage = "requestsubmitalt.php";
+					MessageBox( hDlg,
+								L"Cannot contact server!",
+								L"Error in connection",
+								MB_OK );
 				}
-				
-				//	Pack query string:
- 				sprintf_s( sRequest, 512, "u=%s&t=%s&m=%s&g=%s&c=%d", 
-					g_LocalUser.m_sUsername, g_LocalUser.m_sToken, g_GameTitleDialog.m_sMD5, sSelectedTitle, g_ConsoleID );
 
-				//	Send request:
-				ZeroMemory( sResponse, 4096 );
+				return TRUE;
+			}
+		}
 
- 				if( DoBlockingHttpPost( sDestPage, sRequest, sResponse, 4096, &nBytesRead ) &&
-					strncmp( sResponse, "OK:", 3 ) == 0 )
- 				{
- 					//g_pActiveAchievements->SetGameTitle( sSelectedTitle );
-					CoreAchievements->SetGameTitle( sSelectedTitle );
-					UnofficialAchievements->SetGameTitle( sSelectedTitle );
-					LocalAchievements->SetGameTitle( sSelectedTitle );
- 
-					g_GameTitleDialog.m_nReturnedGameID = strtol( sResponse+3, NULL, 10 );
+		case IDCANCEL:
+			EndDialog( hDlg, TRUE );
+			return TRUE;
 
- 					//	Close this dialog
- 					EndDialog( hDlg, TRUE );
- 					return TRUE;
- 				}
- 				else
- 				{
-					char bufferFeedback[2048];
- 					sprintf_s( bufferFeedback, 2048, "Failed!\n\nResponse From Server:\n\n%s", sResponse );
- 					MessageBox( hDlg, bufferFeedback, "Error from server!", MB_OK );
- 
- 					return TRUE;
- 				}
- 			}
- 		case IDCANCEL:
- 			EndDialog( hDlg, TRUE );
- 			return TRUE;
- 			break;
 		case IDC_RA_GAMETITLE:
-			switch( HIWORD(wParam) )
+			switch( HIWORD( wParam ) )
 			{
-				case EN_CHANGE:
+			case EN_CHANGE:
+				if( !bUpdatingTextboxTitle )	//	Note: use barrier to prevent automatic switching off.
 				{
-					if( !bUpdatingTextboxTitle )	//	Note: use barrier to prevent automatic switching off.
-					{
-						//	If the user has started to enter a value, set the upper combo to 'new entry'
-						HWND hKnownGamesCbo = GetDlgItem( hDlg, IDC_RA_KNOWNGAMES );
-						ComboBox_SetCurSel( hKnownGamesCbo, 0 );
-					}
+					//	If the user has started to enter a value, set the upper combo to 'new entry'
+					HWND hKnownGamesCbo = GetDlgItem( hDlg, IDC_RA_KNOWNGAMES );
+					ComboBox_SetCurSel( hKnownGamesCbo, 0 );
 				}
 				break;
 			}
 			break;
-		case IDC_RA_KNOWNGAMES:
-			switch( HIWORD(wParam) )
-			{
-				case CBN_SELCHANGE:
-				{
-					//	If the user has selected a value, copy this text to the bottom textbox.
-					bUpdatingTextboxTitle = TRUE;
 
-					char sSelectedTitle[512];
- 					GetDlgItemText( hDlg, IDC_RA_KNOWNGAMES, sSelectedTitle, 512 );
-					SetDlgItemText( hDlg, IDC_RA_GAMETITLE, sSelectedTitle );
-					
-					bUpdatingTextboxTitle = FALSE;
-				}
+		case IDC_RA_KNOWNGAMES:
+			switch( HIWORD( wParam ) )
+			{
+			case CBN_SELCHANGE:
+			{
+				//	If the user has selected a value, copy this text to the bottom textbox.
+				bUpdatingTextboxTitle = TRUE;
+
+				wchar_t sSelectedTitle[ 512 ];
+				GetDlgItemText( hDlg, IDC_RA_KNOWNGAMES, sSelectedTitle, 512 );
+				SetDlgItemText( hDlg, IDC_RA_GAMETITLE, sSelectedTitle );
+
+				bUpdatingTextboxTitle = FALSE;
+			}
 				break;
 			}
 			break;
- 		}
- 		break;
- 	case WM_KEYDOWN:
-		//IDC_RA_GAMETITLE
-		wParam;
+
+		}
 		break;
- 	case WM_CLOSE:
- 		// 		if (Full_Screen)
- 		// 		{
- 		// 			while (ShowCursor(true) < 0);
- 		// 			while (ShowCursor(false) >= 0);
- 		// 		}
- 
- 		EndDialog( hDlg, FALSE );
- 		return TRUE;
- 		break;
- 	}
+
+	case WM_KEYDOWN:
+		break;
+
+	case WM_CLOSE:
+		EndDialog( hDlg, FALSE );
+		return TRUE;
+	}
 
 	return FALSE;
 }
 
-unsigned int Dlg_GameTitle::DoModalDialog( HINSTANCE hInst, HWND hParent, const char* sMD5, const char* sEstimatedGameTitle )
+void Dlg_GameTitle::DoModalDialog( HINSTANCE hInst, HWND hParent, std::string& sMD5InOut, std::string& sEstimatedGameTitleInOut, GameID& nGameIDOut )
 {
-	if( sMD5 == NULL )
-		return 0;
+	if( sMD5InOut.length() == 0 )
+		return;
 
-	if( !g_LocalUser.m_bIsLoggedIn )
-		return 0;
+	if( !RAUsers::LocalUser().IsLoggedIn() )
+		return;
 
-	g_GameTitleDialog.m_sMD5 = sMD5;
-	g_GameTitleDialog.m_sEstimatedGameTitle = sEstimatedGameTitle;
+	g_GameTitleDialog.m_sMD5 = sMD5InOut;
+	g_GameTitleDialog.m_sEstimatedGameTitle = sEstimatedGameTitleInOut;
 	g_GameTitleDialog.m_nReturnedGameID = 0; 
 
-	DialogBox( hInst, MAKEINTRESOURCE(IDD_RA_GAMETITLESEL), hParent, GameTitleProc );
-
-	return g_GameTitleDialog.m_nReturnedGameID;
+	DialogBox( hInst, MAKEINTRESOURCE(IDD_RA_GAMETITLESEL), hParent, s_GameTitleProc );
+	
+	sMD5InOut = g_GameTitleDialog.m_sMD5;
+	sEstimatedGameTitleInOut = g_GameTitleDialog.m_sEstimatedGameTitle;
+	nGameIDOut = g_GameTitleDialog.m_nReturnedGameID;
 }
 
 //	static
-void Dlg_GameTitle::CleanRomName( char* sRomNameRef, unsigned int nLen )
+std::string Dlg_GameTitle::CleanRomName( const std::string& sTryName )
 {
-	if( strlen( sRomNameRef ) < 2 )
-		return;
+	std::stringstream sstr;
 
-	unsigned int i = 0;
+	//	Scan through, reform sRomNameRef using all logical characters
 	int nCharsAdded = 0;
-	char* buffer = (char*)malloc( nLen );
 
-	for( i = 0; i < nLen-1; ++i )
+	for( size_t i = 0; i < sTryName.length(); ++i )
 	{
-		if( sRomNameRef[i] != ' ' || 
-			( sRomNameRef[i+1] != ' ' && sRomNameRef[i+1] != '\0' ) )
-		{
-			//	Attempt to avoid any double-spaces
-			buffer[nCharsAdded] = sRomNameRef[i];
-			nCharsAdded++;
-		}
+		if( sTryName[ i ] == '\0' )
+			break;
+
+		if( __isascii( sTryName[ i ] ) )
+			sstr << sTryName[ i ];
 	}
 
-	buffer[nCharsAdded] = '\0';
-
-	strcpy_s( sRomNameRef, nLen, buffer );
-
-	free( buffer );
-	buffer = NULL;
+	return sstr.str();
 }

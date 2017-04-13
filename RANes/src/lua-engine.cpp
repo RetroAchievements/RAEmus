@@ -5628,6 +5628,9 @@ void FCEU_LuaFrameBoundary()
  * Returns true on success, false on failure.
  */
 int FCEU_LoadLuaCode(const char *filename, const char *arg) {
+
+	return 0;	//##RA - removed!
+
 	if (!DemandLua())
 	{
 		return 0;
@@ -5658,17 +5661,18 @@ int FCEU_LoadLuaCode(const char *filename, const char *arg) {
 		L = lua_open();
 		luaL_openlibs(L);
 		#if defined( WIN32) && !defined(NEED_MINGW_HACKS)
-		iuplua_open(L);
-		iupcontrolslua_open(L);
-		luaopen_winapi(L);
+
+		//iuplua_open(L);
+		//iupcontrolslua_open(L);
+		//luaopen_winapi(L);
 
 		//luasocket - yeah, have to open this in a weird way
-		lua_pushcfunction(L,luaopen_socket_core);
-		lua_setglobal(L,"tmp");
-		luaL_dostring(L, "package.preload[\"socket.core\"] = _G.tmp");
-		lua_pushcfunction(L,luaopen_mime_core);
-		lua_setglobal(L,"tmp");
-		luaL_dostring(L, "package.preload[\"mime.core\"] = _G.tmp");
+		//lua_pushcfunction(L,luaopen_socket_core);
+		//lua_setglobal(L,"tmp");
+		//luaL_dostring(L, "package.preload[\"socket.core\"] = _G.tmp");
+		//lua_pushcfunction(L,luaopen_mime_core);
+		//lua_setglobal(L,"tmp");
+		//luaL_dostring(L, "package.preload[\"mime.core\"] = _G.tmp");
 		#endif
 
 		luaL_register(L, "emu", emulib); // added for better cross-emulator compatibility

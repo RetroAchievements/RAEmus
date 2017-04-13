@@ -176,6 +176,9 @@
  ***********************************************************************************/
 
 
+//	##RA
+#include "RA_Interface.h"
+
 #include <string>
 #include <numeric>
 #include <assert.h>
@@ -198,9 +201,6 @@
 #include "cheats.h"
 #include "movie.h"
 #include "display.h"
-
-//	##RA
-#include "RA_Interface.h"
 
 
 #ifndef SET_UI_COLOR

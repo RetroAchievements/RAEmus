@@ -252,6 +252,7 @@ extern SNPServer NPServer;
 #include "RA_Defs.h"
 #include "RA_Implementation.h"
 #include "RA_Interface.h"
+#include "BuildVer.h"
 
 
 #ifdef _MSC_VER
@@ -1068,7 +1069,7 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
 			}
 
 			Settings.Paused = !Settings.Paused;
-			RA_SetPaused( Settings.Paused );
+			RA_SetPaused( Settings.Paused != FALSE );
 
 			CenterCursor();
 			if(!Settings.Paused)
@@ -2260,7 +2261,7 @@ LRESULT CALLBACK WinProc(
 				Settings.FrameAdvance = false;
 				GUI.FrameAdvanceJustPressed = 0;
 			}
-			RA_SetPaused( Settings.Paused );
+			RA_SetPaused( Settings.Paused != FALSE );
 			break;
         case ID_FILE_LOAD0:
 			FreezeUnfreeze (0, FALSE);
@@ -2426,7 +2427,7 @@ LRESULT CALLBACK WinProc(
 		if( LOWORD(wParam) >= IDM_RA_MENUSTART &&
 			LOWORD(wParam) < IDM_RA_MENUEND )
 		{
-			LoadLibrary("RichEd20.dll");
+			LoadLibrary( _T( "RichEd20.dll" ) );
 			RA_InvokeDialog( LOWORD(wParam) );
 
 			//	hack! undo autosave
@@ -3403,12 +3404,12 @@ int WINAPI WinMain(
 		SetMenu (GUI.hWnd, NULL);
 	}
 
-	RA_Init( GUI.hWnd, RA_Snes9x, CLIENT_VERSION );
+	RA_Init( GUI.hWnd, RA_Snes9x, RASNES9X_VERSION );
 	RA_InitShared();
-
 	RA_RebuildMenu();
 	if( GUI.hMenu )
 	{
+		//?
 		InsertMenu(GUI.hMenu,ID_OPTIONS_SETTINGS,MF_BYCOMMAND | MF_STRING | MF_ENABLED,ID_DEBUG_FRAME_ADVANCE,TEXT("&Debug Frame Advance"));
 		InsertMenu(GUI.hMenu,ID_OPTIONS_SETTINGS,MF_BYCOMMAND | MF_STRING | MF_ENABLED,ID_DEBUG_TRACE,TEXT("&Trace"));
 		InsertMenu(GUI.hMenu,ID_OPTIONS_SETTINGS,MF_BYCOMMAND | MF_STRING | MF_ENABLED,ID_DEBUG_APU_TRACE,TEXT("&APU Trace"));
@@ -3435,7 +3436,7 @@ int WINAPI WinMain(
 	}
 
 	//	Attempt login: show login box or try to log in, AFTER the main window is shown.
-	RA_AttemptLogin();
+	RA_AttemptLogin( true );
 
     TIMECAPS tc;
     if (timeGetDevCaps(&tc, sizeof(TIMECAPS))== TIMERR_NOERROR)
@@ -3720,12 +3721,12 @@ void FreezeUnfreeze (int slot, bool8 freeze)
 {
 	if( RA_HardcoreModeIsActive() )
 	{
-		if( MessageBox( NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO ) == IDNO )
+		if( MessageBox( nullptr,
+						_T( "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?" ),
+						_T( "Warning" ),
+						MB_YESNO ) == IDNO )
 			return;
 	}
-
-    const char *filename;
-    char ext [_MAX_EXT + 1];
 
 #ifdef NETPLAY_SUPPORT
     if (!freeze && Settings.NetPlay && !Settings.NetPlayServer)
@@ -3735,9 +3736,10 @@ void FreezeUnfreeze (int slot, bool8 freeze)
         return;
     }
 #endif
-
+	
+    char ext [_MAX_EXT + 1];
 	snprintf(ext, _MAX_EXT, ".%03d", slot);
-	filename = S9xGetFilename(ext,SNAPSHOT_DIR);
+	const char *filename = S9xGetFilename(ext,SNAPSHOT_DIR);
 
     S9xSetPause (PAUSE_FREEZE_FILE);
 
@@ -4075,10 +4077,41 @@ static void ResetFrameTimer ()
     GUI.hFrameTimer = timeSetEvent ((Settings.FrameTime+500)/1000, 0, (LPTIMECALLBACK)FrameTimer, 0, TIME_PERIODIC);
 }
 
+unsigned char ByteReader( size_t nOffs )
+{
+	return Memory.RAM[ nOffs % 0x20000 ];
+}
+
+unsigned char ByteReaderSRAM( size_t nOffs )
+{
+	unsigned int nSRAMBytes = Memory.SRAMSize ? (1 << (Memory.SRAMSize + 3)) * 128 : 0;
+	if( nSRAMBytes > 0x20000 )
+		nSRAMBytes = 0x20000;
+
+	return Memory.SRAM[ nOffs % nSRAMBytes ];
+}
+
+void ByteWriter( size_t nOffs, unsigned int nVal )
+{
+	if( nOffs < 0x20000 )
+		Memory.RAM[ nOffs ] = nVal;
+}
+
+void ByteWriterSRAM( size_t nOffs, unsigned int nVal )
+{
+	unsigned int nSRAMBytes = Memory.SRAMSize ? (1 << (Memory.SRAMSize + 3)) * 128 : 0;
+	if( nSRAMBytes > 0x20000 )
+		nSRAMBytes = 0x20000;
+
+	if( nOffs < nSRAMBytes )
+		Memory.SRAM[ nOffs ] = nVal;
+}
+
 static bool LoadROMPlain(const TCHAR *filename)
 {
 	if (!filename || !*filename)
 		return (FALSE);
+
 	SetCurrentDirectory(S9xGetDirectoryT(ROM_DIR));
     if (Memory.LoadROM (_tToChar(filename)))
 	{
@@ -4086,7 +4119,12 @@ static bool LoadROMPlain(const TCHAR *filename)
 		if( nSRAMBytes > 0x20000 )
 			nSRAMBytes = 0x20000;
 
-		RA_OnLoadNewRom( Memory.ROM, Memory.MAX_ROM_SIZE, Memory.RAM, 0x20000, Memory.SRAM, nSRAMBytes );
+		RA_ClearMemoryBanks();
+		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x20000 );
+		RA_InstallMemoryBank( 1, ByteReaderSRAM, ByteWriterSRAM, nSRAMBytes );
+
+		int nRomSizeBytes = ( ( 1 << ( Memory.ROMSize - 7 ) ) * 128 ) * 1024;
+		RA_OnLoadNewRom( Memory.ROM, nRomSizeBytes );
 
 		S9xStartCheatSearch (&Cheat);
         ReInitSound();

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 14.00
+# Visual Studio 2015
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RA_Integration", "RA_Integration\RA_Integration.vcxproj", "{825CB292-F069-4B27-82CF-3417746ACDF3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RAGens", "RAGens\win32\RAGens.vcxproj", "{61CB5C52-C78B-4EE9-A344-7D641631938F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{825CB292-F069-4B27-82CF-3417746ACDF3} = {825CB292-F069-4B27-82CF-3417746ACDF3}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.Build.0 = Debug|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.ActiveCfg = Release|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.Build.0 = Release|Win32
+		{61CB5C52-C78B-4EE9-A344-7D641631938F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{61CB5C52-C78B-4EE9-A344-7D641631938F}.Debug|Win32.Build.0 = Debug|Win32
+		{61CB5C52-C78B-4EE9-A344-7D641631938F}.Release|Win32.ActiveCfg = Release|Win32
+		{61CB5C52-C78B-4EE9-A344-7D641631938F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

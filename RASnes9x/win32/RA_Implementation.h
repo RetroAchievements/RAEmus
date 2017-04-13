@@ -1,7 +1,6 @@
 //
 //	Overloadable functions that should be implemented on an emulator-specific level.
 //
-#define CLIENT_VERSION RASNES9X_VERSION
 
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.
@@ -22,7 +21,7 @@ extern void GetEstimatedGameTitle( char* sNameOut );
 extern void ResetEmulation();
 
 //	Called BY the toolset to tell the emulator to load a particular ROM.
-extern void LoadROMFromEmu( char* sFullPath );
+extern void LoadROMFromEmu( const char* sFullPath );
 
 //	Installs these shared functions into the DLL
 extern void RA_InitShared();

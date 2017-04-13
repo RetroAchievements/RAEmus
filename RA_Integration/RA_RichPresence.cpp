@@ -8,19 +8,12 @@ RA_Lookup::RA_Lookup( const std::string& sDesc )
 {
 }
 
-void RA_Lookup::AddLookupData( DataPos nValue, const std::string& sLookupData )
-{
-	m_lookupData[ nValue ] = sLookupData;
-}
-
 const std::string& RA_Lookup::Lookup( DataPos nValue ) const
 {
 	if( m_lookupData.find( nValue ) != m_lookupData.end() )
-	{
 		return m_lookupData.find( nValue )->second;
-	}
 
-	static std::string sUnknown = "Unknown";
+	static const std::string sUnknown = "Unknown";
 	return sUnknown;
 }
 
@@ -32,12 +25,10 @@ RA_Formattable::RA_Formattable( const std::string& sDesc, RA_Leaderboard::Format
 
 std::string RA_Formattable::Lookup( DataPos nValue ) const
 {
-	char buffer[1024];
-	RA_Leaderboard::FormatScore( m_nFormatType, nValue, buffer, 1024 );
-	return buffer;
+	return RA_Leaderboard::FormatScore( m_nFormatType, nValue );
 }
 
-void RA_RichPresenceInterpretter::ParseRichPresenceFile( const char* sFilename )
+void RA_RichPresenceInterpretter::ParseRichPresenceFile( const std::string& sFilename )
 {
 	m_formats.clear();
 	m_lookups.clear();
@@ -51,7 +42,7 @@ void RA_RichPresenceInterpretter::ParseRichPresenceFile( const char* sFilename )
 	const char* DisplayableStr = "Display:";
 
 	FILE* pFile = NULL;
-	fopen_s( &pFile, sFilename, "r" );
+	fopen_s( &pFile, sFilename.c_str(), "r" );
 	if( pFile != NULL )
 	{
 		DWORD nCharsRead = 0;
@@ -203,7 +194,7 @@ const std::string& RA_RichPresenceInterpretter::GetRichPresenceString()
 
 	for( size_t i = 0; i < m_sDisplay.size(); ++i )
 	{
-		const char& c = m_sDisplay.at( i );
+		char c = m_sDisplay.at( i );
 
 		if( bParsingLookupContent )
 		{
@@ -254,4 +245,15 @@ const std::string& RA_RichPresenceInterpretter::GetRichPresenceString()
 	}
 
 	return sReturnVal;
+}
+
+//	static
+void RA_RichPresenceInterpretter::PersistAndParseScript( GameID nGameID, const std::string& str )
+{
+	//	Read to file:
+	SetCurrentDirectory( Widen( g_sHomeDir ).c_str() );
+	_WriteBufferToFile( RA_DIR_DATA + std::to_string( nGameID ) + "-Rich.txt", str );
+						
+	//	Then install it
+	g_RichPresenceInterpretter.ParseRichPresenceFile( RA_DIR_DATA + std::to_string( nGameID ) + "-Rich.txt" );
 }

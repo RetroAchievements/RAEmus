@@ -182,6 +182,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "RA_Interface.h"
+
 #include "wsnes9x.h"
 #include "../snes9x.h"
 #include "../gfx.h"
@@ -193,8 +195,6 @@
 
 
 //	##RA
-#include "../../RA_Integration/RA_PopupWindows.h"
-#include "../../RA_Integration/RA_AchievementOverlay.h"
 #include "port.h"
 #include "controls.h"
 #include "ppu.h"

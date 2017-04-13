@@ -198,10 +198,6 @@
 extern FILE	*trace;
 #endif
 
-//	##RA
-#include "../RA_Integration/RA_Core.h"
-#include "../RA_Integration/RA_User.h"
-
 #define S9X_CONF_FILE_NAME	"snes9x.conf"
 
 static char	*rom_filename = NULL;

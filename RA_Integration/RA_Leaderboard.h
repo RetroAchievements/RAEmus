@@ -1,25 +1,27 @@
 #pragma once
 #include <vector>
+#include "RA_Defs.h"
 #include "RA_Condition.h"
 
 
 class MemValue
 {
 public:
-	MemValue()	{ m_nAddress = 0; m_fModifier = 1.0f; m_nVarSize = CMP_SZ_8BIT; m_bBCDParse = false; m_bParseVal = false; }
-	MemValue( unsigned int nAddr, double fMod, CompVariableSize nSize, bool bBCDParse, bool bParseVal )
-		: m_nAddress(nAddr), m_fModifier(fMod), m_nVarSize(nSize), m_bBCDParse(bBCDParse), m_bParseVal(bParseVal) {}
+	MemValue()
+		: m_nAddress( 0 ), m_fModifier( 1.0f ), m_nVarSize( EightBit ), m_bBCDParse( false ), m_bParseVal( false ) {}
+	MemValue( unsigned int nAddr, double fMod, ComparisonVariableSize nSize, bool bBCDParse, bool bParseVal )
+		: m_nAddress( nAddr ), m_fModifier( fMod ), m_nVarSize( nSize ), m_bBCDParse( bBCDParse ), m_bParseVal( bParseVal ) {}
 	
 public:
 	char* ParseFromString( char* pBuffer );		//	Parse string into values, returns end of string
 	double GetValue() const;					//	Get the value in-memory with modifiers
 
 public:
-	unsigned int		m_nAddress;					//	Raw address of an 8-bit, or value.
-	CompVariableSize	m_nVarSize;				
-	double				m_fModifier;				//	* 60 etc
-	bool				m_bBCDParse;				//	Parse as a binary coded decimal.
-	bool				m_bParseVal;				//	Parse as a value
+	unsigned int			m_nAddress;					//	Raw address of an 8-bit, or value.
+	ComparisonVariableSize	m_nVarSize;				
+	double					m_fModifier;				//	* 60 etc
+	bool					m_bBCDParse;				//	Parse as a binary coded decimal.
+	bool					m_bParseVal;				//	Parse as a value
 };
 
 
@@ -41,9 +43,9 @@ protected:
 struct LB_Entry
 {
 	unsigned int m_nRank;
-	char		 m_sUsername[50];
-	unsigned int m_nScore;
-	time_t		 m_TimeAchieved;
+	std::string	 m_sUsername;
+	int m_nScore;
+	time_t m_TimeAchieved;
 };
 
 class RA_Leaderboard
@@ -60,26 +62,31 @@ public:
 
 		Format__MAX
 	};
-
+	
 public:
-	RA_Leaderboard();
+	RA_Leaderboard( const LeaderboardID nLBID );
 	~RA_Leaderboard();
 
 public:
+	void LoadFromJSON( const Value& element );
 	void ParseLine( char* sBuffer );
+	void ParseLBData( char* sBuffer );
+
 	void Test();
 	double GetCurrentValue();
 	double GetCurrentValueProgress() const;	//	Attempt to get a 'progress' alternative
 	void Clear();
 
-	static void FormatScore( FormatType nType, unsigned int nScoreIn, char* pBuffer, unsigned int nLen );
+	//	Helper: tbd; refactor *into* RA_Formattable
+	static std::string RA_Leaderboard::FormatScore( FormatType nType, int nScoreIn );
+	std::string FormatScore( int nScoreIn ) const;
 	void Reset();
 
-	unsigned int ID() const									{ return m_nID; }
-	const char* Title() const								{ return m_sTitle; }
-	const char* Description() const							{ return m_sDescription; }
+	LeaderboardID ID() const								{ return m_nID; }
+	const std::string& Title() const						{ return m_sTitle; }
+	const std::string& Description() const					{ return m_sDescription; }
 
-	void SubmitRankInfo( unsigned int nRank, char* sUsername, unsigned int nScore, time_t nAchieved );
+	void SubmitRankInfo( unsigned int nRank, const std::string& sUsername, int nScore, time_t nAchieved );
 	void ClearRankInfo()									{ m_RankInfo.clear(); }
 	const LB_Entry& GetRankInfo( unsigned int nAt ) const	{ return m_RankInfo.at( nAt ); }
 	size_t GetRankInfoCount() const							{ return m_RankInfo.size(); }
@@ -88,38 +95,37 @@ public:
 	FormatType GetFormatType() const						{ return m_format; }
 
 private:
-	ConditionSet	m_startCond;	//	Start monitoring if this is true
-	ConditionSet	m_cancelCond;	//	Cancel monitoring if this is true
-	ConditionSet	m_submitCond;	//	Submit new score if this is true
+	const LeaderboardID		m_nID;			//	DB ID for this LB
+	ConditionSet			m_startCond;	//	Start monitoring if this is true
+	ConditionSet			m_cancelCond;	//	Cancel monitoring if this is true
+	ConditionSet			m_submitCond;	//	Submit new score if this is true
 
-	bool			m_bStarted;		//	False = check start condition. True = check cancel or submit conditions.
+	bool					m_bStarted;		//	False = check start condition. True = check cancel or submit conditions.
 
-	ValueSet		m_value;		//	A collection of memory addresses and values to produce one value.
-	ValueSet		m_progress;		//	A collection of memory addresses, used to show progress towards completion.
-	FormatType		m_format;		//	A format to output. Typically "%d" for score or "%02d:%02d.%02d" for time
-	unsigned int	m_nID;			//	DB ID for this LB
+	ValueSet				m_value;		//	A collection of memory addresses and values to produce one value.
+	ValueSet				m_progress;		//	A collection of memory addresses, used to show progress towards completion.
+	FormatType				m_format;		//	A format to output. Typically "%d" for score or "%02d:%02d.%02d" for time
 
-	char			m_sTitle[80];			//	
-	char			m_sDescription[300];	//	
+	std::string				m_sTitle;		//	
+	std::string				m_sDescription;	//	
 
-	std::vector<LB_Entry> m_RankInfo;
+	std::vector<LB_Entry>	m_RankInfo;		//	Recent users ranks
 };
 
 
 class RA_LeaderboardManager
 {
 public:
-	static void s_OnSubmitEntry( void* pDataSent );
+	static void OnSubmitEntry( const Document& doc );
 
 public:
-	void AddLeaderboard( const RA_Leaderboard& lb );
-	void Test();
-	void Clear()					{ m_Leaderboards.clear(); }
-	size_t Count() const			{ return m_Leaderboards.size(); }
-
 	void Reset();
 
-	inline RA_Leaderboard& GetLB( unsigned int nOffs )	{ return m_Leaderboards[nOffs]; }
+	void AddLeaderboard( const RA_Leaderboard& lb );
+	void Test();
+	void Clear()								{ m_Leaderboards.clear(); }
+	size_t Count() const						{ return m_Leaderboards.size(); }
+	inline RA_Leaderboard& GetLB( size_t iter )	{ return m_Leaderboards[ iter ]; }
 
 	RA_Leaderboard* FindLB( unsigned int nID );
 

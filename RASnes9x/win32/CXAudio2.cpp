@@ -181,7 +181,13 @@
 #include "../apu/apu.h"
 #include "wsnes9x.h"
 #include <process.h>
-#include <Dxerr.h>
+#include <stdarg.h>
+//#include <stdlib.h>
+//#include <wtypes.h>
+//#include <Dxerr.h>
+#define DXTRACE_MSG(str)              (0L)
+#define DXTRACE_ERR(str,hr)           (hr)
+#define DXTRACE_ERR_MSGBOX(str,hr)    (hr)
 
 /* CXAudio2
 	Implements audio output through XAudio2.
@@ -220,9 +226,11 @@ bool CXAudio2::InitXAudio2(void)
 	if(initDone)
 		return true;
 
+	CoInitializeEx(NULL, COINIT_MULTITHREADED);
+
 	HRESULT hr;
-	if ( FAILED(hr = XAudio2Create( &pXAudio2, 0 , XAUDIO2_DEFAULT_PROCESSOR ) ) ) {
-		DXTRACE_ERR_MSGBOX(TEXT("Unable to create XAudio2 object."),hr);
+	if ( FAILED(hr = XAudio2Create( &pXAudio2 ) ) ) {
+		//DXTRACE_ERR_MSGBOX(TEXT("Unable to create XAudio2 object."),hr);
 		MessageBox (GUI.hWnd, TEXT("\
 Unable to initialize XAudio2. You will not be able to hear any\n\
 sound effects or music while playing.\n\n\

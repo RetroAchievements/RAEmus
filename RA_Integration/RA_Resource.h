@@ -11,6 +11,7 @@
 #define IDD_RA_LEADERBOARDEDITOR        1507
 #define IDD_RA_REPORTBROKENACHIEVEMENTS 1508
 #define IDD_RA_GAMELIBRARY              1509
+#define IDD_RA_ROMCHECKSUM              1510
 #define IDC_RA_TESTVAL                  1512
 #define IDC_RA_DOTEST                   1513
 #define IDC_RA_MEMSAVENOTE              1514
@@ -67,6 +68,7 @@
 #define IDC_RA_BADGENAME                1564
 #define IDC_RA_KNOWNGAMES               1565
 #define IDC_RA_CHECKSUM                 1566
+#define IDC_RA_MEMBANK                  1567
 #define IDC_RA_ACHPROGRESS_FORMULA      1569
 #define IDC_RA_ACHPROGRESS_EXAMPLE      1570
 #define IDC_RA_ACHPROGRESSENABLE        1571
@@ -92,7 +94,10 @@
 #define IDC_RA_ROMDIR                   1593
 #define IDC_RA_GLIB_NAME                1594
 #define IDC_RA_PICKROMDIR               1595
-#define IDC_RA_RESCAN2                  1595
+#define IDC_RA_REFRESH                  1596
+#define IDC_RA_SCANNERFOUNDINFO         1597
+#define IDC_RA_ROMCHECKSUMTEXT          1598
+#define IDC_RA_COPYCHECKSUMCLIPBOARD    1599
 #define IDM_RA_MENUSTART                1700
 #define IDM_RA_RETROACHIEVEMENTS        1700
 #define IDM_RA_FILES_TEST1              1701
@@ -111,15 +116,20 @@
 #define IDM_RA_OPENGAMEPAGE             1714
 #define IDM_RA_SCANFORGAMES             1715
 #define IDM_RA_PARSERICHPRESENCE        1716
+#define IDM_RA_TOGGLELEADERBOARDS       1717
 #define IDM_RA_MENUEND                  1739
+
+//#include <Windows.h>
+//#define IDC_STATIC -1
+//#include "afxres.h"
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        112
+#define _APS_NEXT_RESOURCE_VALUE        114
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

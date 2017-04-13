@@ -11,7 +11,7 @@
 //	 no ROM is loaded, or a ROM has been unloaded.
 bool GameIsActive()
 { 
-	return ( emulating == TRUE ); 
+	return( emulating == TRUE ); 
 }
 
 //	Perform whatever action is required to unpause emulation.
@@ -50,10 +50,10 @@ void ResetEmulator()
 		theApp.emulator.emuReset();
 }
 
-void LoadROM( char* sFullPath )
+void LoadROM( const char* sFullPath )
 {
 	theApp.szFile = sFullPath;
-	theApp.FileRun();
+	theApp.Run();
 }
 
 //	Installs these shared functions into the DLL

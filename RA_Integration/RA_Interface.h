@@ -1,7 +1,12 @@
 #pragma once
 
+//	NB. Shared between RA_Integration and emulator
+
 #include "RA_Defs.h"
-#include <wtypes.h>
+
+#ifndef CCONV
+#define CCONV __cdecl
+#endif
 
 struct ControllerInput
 {
@@ -24,16 +29,36 @@ enum EmulatorID
 	RA_FCEUX,
 	RA_PCE,
 
-	RA__MAX
+	NumEmulatorIDs,
+	UnknownEmulator = NumEmulatorIDs
+};
+
+//	Should match DB!
+enum ConsoleID
+{
+	UnknownConsoleID = 0,
+	MegaDrive = 1,	//	DB
+	N64,
+	SNES,
+	GB,
+	GBA,
+	GBC,
+	NES,
+	PCEngine,
+	SegaCD,
+	Sega32X,
+	MasterSystem,
+
+	NumConsoleIDs
 };
 
 
-extern bool	(*_RA_GameIsActive)();
-extern void	(*_RA_CauseUnpause)();
-extern void	(*_RA_RebuildMenu)();
-extern void	(*_RA_GetEstimatedGameTitle)(char* sNameOut);
+extern bool (*_RA_GameIsActive)();
+extern void (*_RA_CauseUnpause)();
+extern void (*_RA_RebuildMenu)();
+extern void (*_RA_GetEstimatedGameTitle)( char* sNameOut );
 extern void (*_RA_ResetEmulation)();
-extern void (*_RA_LoadROM)(char* sFullPath);
+extern void (*_RA_LoadROM)( const char* sFullPath );
 
 //	Shared funcs, should be implemented by emulator.
 extern bool RA_GameIsActive();
@@ -41,9 +66,11 @@ extern void RA_CauseUnpause();
 extern void RA_RebuildMenu();
 extern void RA_GetEstimatedGameTitle( char* sNameOut );
 extern void RA_ResetEmulation();
-extern void RA_LoadROM( char* sFullPath );
+extern void RA_LoadROM( const char* sFullPath );
 
 #ifndef RA_EXPORTS
+
+#include <wtypes.h>
 
 //
 //	Note: any changes in these files will require a full binary release of the emulator!
@@ -55,7 +82,7 @@ extern void RA_LoadROM( char* sFullPath );
 extern void RA_Init( HWND hMainHWND, /*enum ConsoleType*/int console, const char* sClientVersion );
 
 //	Call with shared function pointers from app.
-extern void RA_InstallSharedFunctions( bool(*fpIsActive)(void), void(*fpCauseUnpause)(void), void(*fpRebuildMenu)(void), void(*fpEstimateTitle)(char*), void(*fpResetEmulator)(void), void(*fpLoadROM)(char*) );
+extern void RA_InstallSharedFunctions( bool(*fpIsActive)(void), void(*fpCauseUnpause)(void), void(*fpRebuildMenu)(void), void(*fpEstimateTitle)(char*), void(*fpResetEmulator)(void), void(*fpLoadROM)(const char*) );
 
 //	Shuts down, tidies up and deallocs the RA DLL from the app's perspective.
 extern void RA_Shutdown();
@@ -75,10 +102,18 @@ extern bool RA_UserLoggedIn();
 extern const char* RA_Username();
 
 //	Attempts to login, or show login dialog.
-extern void RA_AttemptLogin();
+extern void RA_AttemptLogin( bool bBlocking );
 
 //	Should be called immediately after a new ROM is loaded.
-extern void RA_OnLoadNewRom( BYTE* pROMData, const unsigned int nROMSize, BYTE* pRAMData, const unsigned int nRAMSize, BYTE* pExtraRAMData, const unsigned int nExtraRAMSize );
+extern void RA_OnLoadNewRom( BYTE* pROMData, unsigned int nROMSize );
+
+//	Clear all memory banks before installing any new ones!
+extern void RA_ClearMemoryBanks();
+
+//	Call once for each memory bank found, immediately after a new rom or load
+//pReader is typedef unsigned char (_RAMByteReadFn)( size_t nOffset );
+//pWriter is typedef void (_RAMByteWriteFn)( unsigned int nOffs, unsigned int nVal );
+extern void RA_InstallMemoryBank( int nBankID, void* pReader, void* pWriter, int nBankSize );
 
 //	Call this before loading a new ROM or quitting, to ensure no developer changes are lost.
 extern bool RA_ConfirmLoadNewRom( bool bIsQuitting );
@@ -96,7 +131,7 @@ extern void RA_HandleHTTPResults();
 extern void RA_SetPaused( bool bIsPaused );
 
 //	With multiple platform emulators, call this immediately before loading a new ROM.
-extern int	RA_SetConsoleID( unsigned int nConsoleID );
+extern void RA_SetConsoleID( unsigned int nConsoleID );
 
 //	Should be called immediately after loading or saving a new state.
 extern void RA_OnLoadState( const char* sFilename );
