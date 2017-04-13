@@ -282,3 +282,6 @@
 /*.ppk
 /Stage
 /*.ftp
+/RASnes9x/libpng/projects/Win32_LIB_Release/libpng.log
+/RASnes9x/zlib-1.2.8/contrib/vstudio/x86/ZlibStatRelease/Tmp/zlibstat.log
+/*.log

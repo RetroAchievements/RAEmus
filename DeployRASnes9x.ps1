@@ -1,0 +1,102 @@
+﻿################################################################################
+# Custom Variables:
+
+$FilesToCopy = @(".\RASnes9x\win32\Release\RASnes9X.exe",
+                 ".\RASnes9x\win32\Release\D3DX9_41.dll",
+                 ".\RA_Integration\Overlay",
+                 ".\RASnes9x\win32\Deploy\changes.txt",
+                 ".\RASnes9x\win32\Deploy\lgpl-2.1.txt",
+                 ".\RASnes9x\win32\Deploy\snes9x-license.txt");
+
+$TargetArchiveName = "RASnes9x.zip"
+
+$VersionDoc = "..\web\LatestRASnesVersion.html"
+
+$ExpectedTag = "RASnes9x"
+
+$ForceUpdate = $true
+
+
+################################################################################
+# Set working directory:
+
+$dir = Split-Path $MyInvocation.MyCommand.Path
+Set-Location $dir
+
+
+################################################################################
+# Global Variables:
+
+$Password = ConvertTo-SecureString 'Unused' -AsPlainText -Force
+$Credential = New-Object System.Management.Automation.PSCredential ('ec2-user', $Password)
+$KeyPath = ".\RetroAchievementsAmazonPrivKey.ppk"
+$TargetURL = "RetroAchievements.org"
+$WebRoot = "/var/www/html"
+$WebRootBin = "/var/www/html/bin"
+
+if (-not (Test-Path "$env:ProgramFiles\7-Zip\7z.exe")) 
+{
+    throw "$env:ProgramFiles\7-Zip\7z.exe needed"
+}
+Set-Alias sz "$env:ProgramFiles\7-Zip\7z.exe"
+
+
+################################################################################
+# Test we are ready for release
+$latestTag = git describe --tags --match "$($ExpectedTag).*"
+$diffs = git diff HEAD
+if( ![string]::IsNullOrEmpty( $diffs ) )
+{
+    throw "Changes exist, cannot deploy!"
+}
+
+$newHTMLContent = "0." + $latestTag.Substring( $ExpectedTag.Length + 1, 3 )
+$currentVersion = Get-Content $VersionDoc
+
+if( -not $ForceUpdate )
+{
+    if( $newHTMLContent -eq $currentVersion )
+    {
+        throw "We are already on version $currentVersion, nothing to do!"
+    }
+}
+
+Set-Content $VersionDoc $newHTMLContent
+
+
+################################################################################
+# Produce Archive zip
+
+# Create stage
+if ( Test-Path ".\Stage" )
+{
+    Remove-Item ".\Stage" -Force -Recurse
+}
+$stage = New-Item -ItemType Directory -Name "Stage" -Force
+
+# Copy all required to stage
+Foreach( $filepath in $FilesToCopy )
+{
+    Copy-Item $filepath $stage.PSPath -Recurse -Force
+}
+
+sz a $TargetArchiveName "$($stage.FullName)\*.*" -r > 7z.log
+
+
+################################################################################
+# Upload
+
+# Establish the SFTP connection
+$session = ( New-SFTPSession -ComputerName $TargetURL -Credential $Credential -KeyFile $KeyPath )
+
+# Upload the new version html
+Set-SFTPFile -SessionId $session.SessionId -LocalFile $VersionDoc -RemotePath $WebRoot -Overwrite
+
+# Upload the zip to the SFTP bin path
+Set-SFTPFile -SessionId $session.SessionId -LocalFile $TargetArchiveName -RemotePath $WebRootBin -Overwrite
+
+# Disconnect SFTP session
+$session.Disconnect()
+
+# Kill Stage
+Remove-Item ".\Stage" -Force -Recurse
