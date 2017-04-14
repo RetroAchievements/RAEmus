@@ -77,6 +77,8 @@
 
         # Disconnect SFTP session
         $session.Disconnect()
+
+        Write-Warning "Published $latestTag"
     }
 }
 
