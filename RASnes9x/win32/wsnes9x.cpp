@@ -1289,6 +1289,15 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
         if(wParam == CustomKeys.Rewind.key
 		&& modifiers == CustomKeys.Rewind.modifiers)
 		{
+			if (RA_HardcoreModeIsActive())
+			{
+				MessageBox(nullptr,
+					_T("Hardcore Mode is active. Rewind key is disabled."),
+					_T("Warning"),
+					MB_OK);
+				return 1;
+			}
+
             if(!GUI.rewinding)
                 S9xMessage (S9X_INFO, 0, GUI.rewindBufferSize?WINPROC_REWINDING_TEXT:WINPROC_REWINDING_DISABLED);
             GUI.rewinding = true;
