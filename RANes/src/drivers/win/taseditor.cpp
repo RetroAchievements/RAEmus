@@ -73,6 +73,9 @@ extern void TaseditorManualFunction();
 // returns true if Taseditor is engaged at the end of the function
 bool enterTASEditor()
 {
+	// Disable opening of TAS Editor. Unnecessary feature for RA.
+	return false;
+
 	if (taseditorWindow.hwndTASEditor)
 	{
 		// TAS Editor is already engaged, just set focus to its window
