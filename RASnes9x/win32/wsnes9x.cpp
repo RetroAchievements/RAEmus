@@ -1181,6 +1181,9 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
 		if(wParam == CustomKeys.SpeedDown.key
 		&& modifiers == CustomKeys.SpeedDown.modifiers)
 		{
+			if (RA_HardcoreModeIsActive())
+				return 1;
+
 			// Increase emulated frame time
 			int i;
 			for(i=1; FrameTimings[i]<Settings.FrameTime; ++i)
@@ -1196,6 +1199,9 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
 		if(wParam == CustomKeys.SpeedUp.key
 		&& modifiers == CustomKeys.SpeedUp.modifiers)
 		{
+			if (RA_HardcoreModeIsActive())
+				return 1;
+
 			// Decrease emulated frame time
 			int i;
 			for(i=1; FrameTimings[i]<Settings.FrameTime; ++i)
