@@ -501,11 +501,11 @@ void PopulateMappingDisplay(HWND hwndDlg)
 	int newItemCount = 0;
 
 	// Populate display.
-	for(int i = 0, idx = 0; i < EMUCMD_MAX; ++i)
+	for (int i = 0, idx = 0; i < EMUCMD_MAX-1; ++i)
 	{
 		// Check if the current key should be displayed
 		// according to the current filter.
-		if(ShouldDisplayMapping(i, filter, conflictTable))
+		if (ShouldDisplayMapping(i, filter, conflictTable))
 		{
 			memset(&lvi, 0, sizeof(lvi));
 			lvi.mask = LVIF_TEXT | LVIF_PARAM;
@@ -514,7 +514,7 @@ void PopulateMappingDisplay(HWND hwndDlg)
 			lvi.pszText = (char*)FCEUI_CommandTypeNames[FCEUI_CommandTable[i].type];
 			lvi.lParam = (LPARAM)FCEUI_CommandTable[i].cmd;
 
-			if(newItemCount<num)
+			if (newItemCount<num)
 				SendMessage(hwndListView, LVM_SETITEM, (WPARAM)0, (LPARAM)&lvi);
 			else
 				SendMessage(hwndListView, LVM_INSERTITEM, (WPARAM)0, (LPARAM)&lvi);
@@ -542,12 +542,12 @@ void PopulateMappingDisplay(HWND hwndDlg)
 	}
 
 	//delete unneeded items
-	for(int i=newItemCount;i<num;i++)
+	for (int i = newItemCount; i<num; i++)
 	{
 		SendMessage(hwndListView, LVM_DELETEITEM, (WPARAM)(newItemCount), 0);
 	}
 
-	if(conflictTable)
+	if (conflictTable)
 	{
 		free(conflictTable);
 	}
