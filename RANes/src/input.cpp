@@ -53,6 +53,9 @@
 #include <ostream>
 #include <cstring>
 
+//##RA
+#include "RA_Interface.h"
+
 extern bool mustRewindNow;
 #endif // WIN32
 
@@ -846,7 +849,10 @@ static void CommandToggleDip(void)
 
 static void CommandEmulationSpeed(void)
 {
-	FCEUD_SetEmulationSpeed(EMUSPEED_SLOWEST+(execcmd-EMUCMD_SPEED_SLOWEST));
+	if (!RA_HardcoreModeIsActive())
+	{
+		FCEUD_SetEmulationSpeed(EMUSPEED_SLOWEST + (execcmd - EMUCMD_SPEED_SLOWEST));
+	}
 }
 
 void FCEUI_SelectStateNext(int);
