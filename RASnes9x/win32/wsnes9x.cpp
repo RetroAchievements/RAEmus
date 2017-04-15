@@ -1700,6 +1700,15 @@ LRESULT CALLBACK WinProc(
 			break;
 		case ID_FILE_MOVIE_PLAY:
 			{
+			if (RA_HardcoreModeIsActive())
+			{
+				MessageBox(nullptr,
+					+_T("Hardcore Mode is active. Movie Recording/Playback is disabled."),
+					+_T("Warning"),
+					+MB_OK);
+				break;
+			}
+
 				RestoreGUIDisplay ();  //exit DirectX
 				OpenMovieParams op;
 				memset(&op, 0, sizeof(op));
@@ -1730,6 +1739,15 @@ LRESULT CALLBACK WinProc(
 			break;
 		case ID_FILE_MOVIE_RECORD:
 			{
+			if (RA_HardcoreModeIsActive())
+			{
+				MessageBox(nullptr,
+					+_T("Hardcore Mode is active. Movie Recording/Playback is disabled."),
+					+_T("Warning"),
+					+MB_OK);
+				break;
+			}
+
 				RestoreGUIDisplay ();  //exit DirectX
 				OpenMovieParams op;
 				memset(&op, 0, sizeof(op));

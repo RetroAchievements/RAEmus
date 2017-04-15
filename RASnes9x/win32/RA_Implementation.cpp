@@ -6,6 +6,7 @@
 #include "port.h"
 #include "memmap.h"
 #include "controls.h"
+#include "movie.h"
 
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.
@@ -39,8 +40,12 @@ void GetEstimatedGameTitle( char* sNameOut )
 
 void ResetEmulation()
 {
-	if( !Settings.StopEmulation )
+	if (!Settings.StopEmulation)
+	{
+		if (S9xMoviePlaying())
+			S9xMovieStop(TRUE);
 		S9xReset();
+	}
 }
 
 #include <locale>
