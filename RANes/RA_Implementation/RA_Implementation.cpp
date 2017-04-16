@@ -3,6 +3,7 @@
 
 //	Include any emulator-side headers, externs or functions here
 #include "../Common.h"
+#include "movie.h"
 
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
@@ -69,6 +70,7 @@ void GetEstimatedGameTitle( char* sNameOut )
 
 void ResetEmulation()
 {
+	FCEUI_StopMovie();
 	FCEUI_ResetNES();
 }
 

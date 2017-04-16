@@ -8,6 +8,9 @@
 #include "utils/xstring.h"
 #include "taseditor/taseditor_config.h"
 
+//	#RA
+#include "RA_Interface.h"
+
 static const char* fm2ext[] = { "fm2", "fm3", 0};
 
 int MetaPosX,MetaPosY;
@@ -980,6 +983,12 @@ static BOOL CALLBACK RecordDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 //Show the record movie dialog and record a movie.
 void FCEUD_MovieRecordTo()
 {
+	if (RA_HardcoreModeIsActive())
+	{
+		MessageBox(nullptr, ("Hardcore Mode is active. Movie Recording/Playback is disabled."), ("Warning"), MB_OK);
+		return;
+	}
+
 	if (!GameInfo) return;
 	static struct CreateMovieParameters p;
 	p.szFilename = strdup(FCEU_MakeFName(FCEUMKF_MOVIE,0,0).c_str());
@@ -1037,5 +1046,11 @@ void Replay_LoadMovie()
 /// Show movie replay dialog and replay the movie if necessary.
 void FCEUD_MovieReplayFrom()
 {
+	if (RA_HardcoreModeIsActive())
+	{
+		MessageBox(nullptr, ("Hardcore Mode is active. Movie Recording/Playback is disabled."), ("Warning"), MB_OK);
+		return;
+	}
+
 	if (GameInfo) Replay_LoadMovie();
 }
