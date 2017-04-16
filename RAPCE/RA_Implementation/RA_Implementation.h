@@ -17,6 +17,9 @@ extern void RebuildMenu();
 //	 for the ROM, if one can be inferred from the ROM.
 extern void GetEstimatedGameTitle( char* sNameOut );
 
+//	Called BY the toolset to tell the emulator to load a particular ROM.
+extern void LoadROM( char* sFullPath );
+
 
 //	Installs these shared functions into the DLL
 extern void RA_InitShared();
