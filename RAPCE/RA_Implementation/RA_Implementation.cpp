@@ -5,6 +5,8 @@
 //#include "../Common.h"
 #include "../WinMain.h"
 #include "../MainBoard.h"
+#include "../TocDB.h"
+#include "../App.h"
 
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
@@ -73,9 +75,17 @@ void ResetEmulation()
 	//?
 }
 
+void LoadROM( const char* sFullPath )
+{
+	
+	if (APP_GetCDGame())
+		sFullPath =TOCDB_GetGameTitle();
+	
+}
+
 //	Installs these shared functions into the DLL
 void RA_InitShared()
 {
-	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation );
+	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM );
 }
 
