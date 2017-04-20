@@ -13,9 +13,7 @@
 
         $FilesToCopy = @(".\RA_Integration\Overlay",
                          ".\RAGens\win32\Release\gens\RAGens.exe",
-                         ".\RAGens\Deploy\LICENSE.txt",
-                         ".\RAGens\Deploy\msvcr100.dll", 
-                         ".\RAGens\Deploy\msvcr110.dll");
+                         ".\RAGens\Deploy\LICENSE.txt");
 
         $TargetArchiveName = "RAGens.zip"
 
