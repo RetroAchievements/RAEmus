@@ -425,7 +425,6 @@ int Get_Rom(HWND hWnd)
 	{
 		default:
 		case 1:		// Genesis rom
-			//	BEFORE the ByteSwap in Init_Genesis!
 			RA_SetConsoleID( ConsoleID::MegaDrive );
 			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
@@ -439,7 +438,6 @@ int Get_Rom(HWND hWnd)
 			return Genesis_Started;
 
 		case 2:		// 32X rom
-			//	BEFORE the ByteSwap in Init_32X!
 			RA_SetConsoleID( ConsoleID::Sega32X );
 			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
@@ -453,16 +451,16 @@ int Get_Rom(HWND hWnd)
 			return _32X_Started;
 
 		case 3:		// Sega CD image
-			//	BEFORE the ByteSwap in Init_SegaCD!
 			RA_SetConsoleID( ConsoleID::SegaCD );
 			RA_ClearMemoryBanks();
 			RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, 64 * 1024 );
 			RA_InstallMemoryBank( 1, RAMByteReaderSRAM, RAMByteWriterSRAM, 64 * 1024 );
-			RA_OnLoadNewRom( CD_Data, 1024 );
 
-			//	BEFORE the ByteSwap in Init_SegaCD!
 			allocate_Memstates(SEGACD_STATE_FILE_LENGHT); // ##RW
 			SegaCD_Started = Init_SegaCD(Name);
+
+			//	##SD MUST be after Init_SegaCD
+			RA_OnLoadNewRom(CD_Data, 1024);
 
 			Build_Main_Menu();
 			return SegaCD_Started;
