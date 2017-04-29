@@ -1418,8 +1418,6 @@ void CC_End_Callback(char mess[256])
 
 BOOL Init(HINSTANCE hInst, int nCmdShow)
 {
-	int i;
-	
 	Net_Play = 0;
 	Full_Screen = -1;
 	VDP_Num_Vis_Lines = 224;
@@ -2818,7 +2816,6 @@ HMENU Build_Main_Menu(void)
 	HMENU SoundRate;
 	HMENU OptionsCDDrive;
 	HMENU OptionsSRAMSize;
-	HMENU DebugAchievement;
 
 	DestroyMenu(Gens_Menu);
 

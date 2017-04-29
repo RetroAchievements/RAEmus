@@ -34,6 +34,9 @@
     <Filter Include="RA_Implementation">
       <UniqueIdentifier>{2d7492c0-2f5f-4519-a5a0-14950df33198}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NASM">
+      <UniqueIdentifier>{c5ab6dec-1f83-4329-a311-5eae417da5fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\src\DialogProc.cpp">
@@ -50,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="..\common\src\LC89510.c">
       <Filter>CD</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\src\CCnet.c">
-      <Filter>Misc</Filter>
     </ClCompile>
     <ClCompile Include="..\common\src\Debug.cpp">
       <Filter>Misc</Filter>
@@ -87,16 +87,10 @@
     <ClCompile Include="..\common\src\M68KD.c">
       <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\src\main68kgen.c">
-      <Filter>System</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\src\SH2.c">
       <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="..\common\src\SH2D.c">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\src\sub68kgen.c">
       <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="..\common\src\tabinit.c">
@@ -153,6 +147,9 @@
     <ClCompile Include="..\common\src\RA_Implementation.cpp">
       <Filter>RA_Implementation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\RA_Integration\RA_Interface.cpp">
+      <Filter>RA_Implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\src\DialogProc.h">
@@ -172,9 +169,6 @@
     </ClInclude>
     <ClInclude Include="..\common\src\LC89510.h">
       <Filter>CD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\src\CCnet.h">
-      <Filter>Misc</Filter>
     </ClInclude>
     <ClInclude Include="..\common\src\Debug.h">
       <Filter>Misc</Filter>
@@ -323,28 +317,15 @@
     <ClInclude Include="..\common\src\RA_Implementation.h">
       <Filter>RA_Implementation</Filter>
     </ClInclude>
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="..\common\src\BuildVer.h" />
+    <ClInclude Include="..\..\RA_Integration\RA_Interface.h">
+      <Filter>RA_Implementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\common\src\Misc.asm">
-      <Filter>Misc</Filter>
-    </None>
     <None Include="..\common\src\nasmhead.inc">
       <Filter>Misc</Filter>
-    </None>
-    <None Include="..\common\src\gfx_cd.asm">
-      <Filter>CD</Filter>
-    </None>
-    <None Include="..\common\src\io.asm">
-      <Filter>Input</Filter>
-    </None>
-    <None Include="..\common\src\blit.asm">
-      <Filter>Graphics</Filter>
-    </None>
-    <None Include="..\common\src\z80.asm">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\Mem_M68k.asm">
-      <Filter>System</Filter>
     </None>
     <None Include="..\common\src\Mem_M68K_32X.inc">
       <Filter>System</Filter>
@@ -352,35 +333,70 @@
     <None Include="..\common\src\Mem_M68K_CD.inc">
       <Filter>System</Filter>
     </None>
-    <None Include="..\common\src\Mem_S68k.asm">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\Mem_SH2.asm">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\Mem_Z80.asm">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\pwm.asm">
-      <Filter>System</Filter>
-    </None>
     <None Include="..\common\src\SH2_IO.inc">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\SH2a.asm">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\vdp_32X.asm">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\vdp_io.asm">
-      <Filter>System</Filter>
-    </None>
-    <None Include="..\common\src\vdp_rend.asm">
       <Filter>System</Filter>
     </None>
     <None Include="Makefile" />
     <None Include="Makefile.inc" />
     <None Include="Makefile.targ.inc" />
+    <None Include="..\common\src\language.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\gens.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\common\src\LICENSE.txt" />
+    <Text Include="..\common\src\main68kgen.txt" />
+    <Text Include="..\common\src\sub68kgen.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\common\src\z80.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\vdp_rend.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\vdp_io.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\vdp_32X.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\SH2a.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\blit.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\gfx_cd.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\io.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\Mem_M68k.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\Mem_S68k.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\Mem_SH2.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\Mem_Z80.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\Misc.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\pwm.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\main68k.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\common\src\sub68k.asm">
+      <Filter>NASM</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

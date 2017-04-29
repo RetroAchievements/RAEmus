@@ -505,7 +505,7 @@ int Flip(HWND hWnd)
 			QueryPerformanceFrequency((union _LARGE_INTEGER *) freq_cpu);
 			if (freq_cpu[0] == 0) freq_cpu[0] = 1;
 
-			sprintf_s(Info_String, 1024, "", FPS);
+			sprintf_s(Info_String, 1024, "");
 		}
 
 		Print_Text(Info_String, strlen(Info_String), 10, 210, FPS_Style);

@@ -12,7 +12,7 @@
         # Custom Variables:
 
         $FilesToCopy = @(".\RA_Integration\Overlay",
-                         ".\RAGens\win32\Release\gens\RAGens.exe",
+                         ".\RAGens\win32\Release\RAGens.exe",
                          ".\RAGens\Deploy\LICENSE.txt");
 
         $TargetArchiveName = "RAGens.zip"
