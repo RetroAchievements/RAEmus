@@ -83,6 +83,7 @@
 /RA_Integration/*.sdf
 /RA_Integration/*.suo
 /RA_Integration/*.user
+/RA_Integration/.vs
 /RA_Integration/Backup
 /RA_Integration/Debug
 /RA_Integration/RA_Integration.dll
@@ -94,6 +95,7 @@
 /RA_Integration/RA_Shared.aps
 /RA_Integration/Release
 /RA_Integration/ReleaseWithDebug
+/RAGens/Debug
 /RAGens/win32/*.cfg
 /RAGens/win32/*.dll
 /RAGens/win32/*.gs0
