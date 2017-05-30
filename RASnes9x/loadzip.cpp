@@ -273,6 +273,10 @@ bool8 LoadZip (const char *zipname, uint32 *TotalFileSize, uint8 *buffer)
 			return (FALSE);
 		}
 
+		//	GRAB IT! ##RA
+		memcpy(Memory.ROMUntouched, ptr, FileSize);
+		Memory.FileSizeBytes = FileSize;
+
 		FileSize = Memory.HeaderRemove(FileSize, ptr);
 		ptr += FileSize;
 		*TotalFileSize += FileSize;

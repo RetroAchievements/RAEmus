@@ -236,6 +236,8 @@ struct CMemory
 	uint8	*BSRAM;
 	uint8	*BIOSROM;
 
+	uint8	*ROMUntouched;
+
 	uint8	*Map[MEMMAP_NUM_BLOCKS];
 	uint8	*WriteMap[MEMMAP_NUM_BLOCKS];
 	uint8	BlockIsRAM[MEMMAP_NUM_BLOCKS];
@@ -255,6 +257,7 @@ struct CMemory
 	uint32	ROMComplementChecksum;
 	uint32	ROMCRC32;
 	int32	ROMFramesPerSecond;
+	uint32	FileSizeBytes;
 
 	bool8	HiROM;
 	bool8	LoROM;

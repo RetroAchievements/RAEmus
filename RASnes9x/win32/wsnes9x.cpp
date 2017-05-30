@@ -4156,7 +4156,7 @@ static bool LoadROMPlain(const TCHAR *filename)
 		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x20000 );
 		RA_InstallMemoryBank( 1, ByteReaderSRAM, ByteWriterSRAM, nSRAMBytes );
 
-		RA_OnLoadNewRom( Memory.ROM, Memory.CalculatedSize );
+		RA_OnLoadNewRom(Memory.ROMUntouched, Memory.FileSizeBytes);
 
 		S9xStartCheatSearch (&Cheat);
         ReInitSound();
