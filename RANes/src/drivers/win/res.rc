@@ -413,11 +413,11 @@ FCEUCONTEXTMENUS MENU
 BEGIN
     POPUP "Game+Movie+readonly"
     BEGIN
-        MENUITEM "Toggle to read+write",        FCEUX_CONTEXT_READONLYTOGGLE
-        MENUITEM "Play Movie from Beginning",   FCEU_CONTEXT_PLAYMOVIEFROMBEGINNING
-        MENUITEM "Stop Movie Replay",           FCEU_CONTEXT_STOPMOVIE
-        MENUITEM "View comments and subtitles", FCEUX_CONTEXT_VIEWCOMMENTSSUBTITLES
-        MENUITEM SEPARATOR
+        //MENUITEM "Toggle to read+write",        FCEUX_CONTEXT_READONLYTOGGLE
+        //MENUITEM "Play Movie from Beginning",   FCEU_CONTEXT_PLAYMOVIEFROMBEGINNING
+        //MENUITEM "Stop Movie Replay",           FCEU_CONTEXT_STOPMOVIE
+        //MENUITEM "View comments and subtitles", FCEUX_CONTEXT_VIEWCOMMENTSSUBTITLES
+        //MENUITEM SEPARATOR
         MENUITEM "Undo savestate",              FCEUX_CONTEXT_UNDOSAVESTATE
         MENUITEM "Rewind to last auto-save",    FCEUX_CONTEXT_REWINDTOLASTAUTO
         MENUITEM SEPARATOR
@@ -427,10 +427,10 @@ BEGIN
     END
     POPUP "Game+NoMovie"
     BEGIN
-        MENUITEM "Play Movie...",               FCEUX_CONTEXT_REPLAYMOVIE
-        MENUITEM "Record Movie...",             FCEUX_CONTEXT_RECORDMOVIE
-        MENUITEM "Load Last Movie",             FCEUX_CONTEXT_LOADLASTMOVIE
-        MENUITEM SEPARATOR
+        //MENUITEM "Play Movie...",               FCEUX_CONTEXT_REPLAYMOVIE
+        //MENUITEM "Record Movie...",             FCEUX_CONTEXT_RECORDMOVIE
+        //MENUITEM "Load Last Movie",             FCEUX_CONTEXT_LOADLASTMOVIE
+        //MENUITEM SEPARATOR
         MENUITEM "Undo savestate",              FCEUX_CONTEXT_UNDOSAVESTATE
         MENUITEM "Undo loadstate",              FCEUX_CONTEXT_UNDOLOADSTATE
         MENUITEM "Rewind to last auto-save",    FCEUX_CONTEXT_REWINDTOLASTAUTO
@@ -451,13 +451,13 @@ BEGIN
     END
     POPUP "Game+Movie+readwrite"
     BEGIN
-        MENUITEM "Toggle to Read-only",         FCEUX_CONTEXT_READONLYTOGGLE
-        MENUITEM "Play Movie From Beginning",   FCEU_CONTEXT_PLAYMOVIEFROMBEGINNING
-        MENUITEM "Stop Movie Recording",        FCEU_CONTEXT_STOPMOVIE
-        MENUITEM "View comments and subtitles", FCEUX_CONTEXT_VIEWCOMMENTSSUBTITLES
-        MENUITEM "Make backup",                 FCEUX_CONTEXT_MAKEBACKUP
-        MENUITEM "Save Movie As...",            FCEUX_CONTEXT_SAVEMOVIEAS
-        MENUITEM SEPARATOR
+        //MENUITEM "Toggle to Read-only",         FCEUX_CONTEXT_READONLYTOGGLE
+        //MENUITEM "Play Movie From Beginning",   FCEU_CONTEXT_PLAYMOVIEFROMBEGINNING
+        //MENUITEM "Stop Movie Recording",        FCEU_CONTEXT_STOPMOVIE
+        //MENUITEM "View comments and subtitles", FCEUX_CONTEXT_VIEWCOMMENTSSUBTITLES
+        //MENUITEM "Make backup",                 FCEUX_CONTEXT_MAKEBACKUP
+        //MENUITEM "Save Movie As...",            FCEUX_CONTEXT_SAVEMOVIEAS
+        //MENUITEM SEPARATOR
         MENUITEM "Undo savestate",              FCEUX_CONTEXT_UNDOSAVESTATE
         MENUITEM "Undo loadstate",              FCEUX_CONTEXT_UNDOLOADSTATE
         MENUITEM "Rewind to last auto-save",    FCEUX_CONTEXT_REWINDTOLASTAUTO
