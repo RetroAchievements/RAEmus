@@ -23,8 +23,8 @@
 
         $Password = ConvertTo-SecureString 'Unused' -AsPlainText -Force
         $Credential = New-Object System.Management.Automation.PSCredential ('ec2-user', $Password)
-        $KeyPath = ".\RetroAchievementsAmazonPrivKey.ppk"
-        $TargetURL = "RetroAchievements.org"
+        $KeyPath = ".\RetroAchievementsKey"
+        $TargetURL = "www.RetroAchievements.org"
         $WebRoot = "/var/www/html"
         $WebRootBin = "/var/www/html/bin"
 
