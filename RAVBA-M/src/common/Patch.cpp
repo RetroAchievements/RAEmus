@@ -444,6 +444,8 @@ static bool patchApplyPPF(const char *patchname, u8 **rom, int *size)
 
 bool applyPatch(const char *patchname, u8 **rom, int *size)
 {
+	return false;
+
   if (strlen(patchname) < 5)
     return false;
   const char * p = strrchr(patchname, '.');
