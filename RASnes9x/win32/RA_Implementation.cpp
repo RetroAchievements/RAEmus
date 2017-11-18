@@ -23,6 +23,12 @@ void CauseUnpause()
 	GUI.FrameAdvanceJustPressed = 0;
 } 
 
+//	Perform whatever action is required to pause emulation.
+void CausePause()
+{
+	Settings.Paused = true;
+}
+
 //	Perform whatever function in the case of needing to rebuild the menu.
 void _RebuildMenu()
 {
@@ -62,5 +68,5 @@ void LoadROMFromEmu( const char* sFullPath )
 //	Installs these shared functions into the DLL
 void RA_InitShared()
 {
-	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &_RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROMFromEmu );
+	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &CausePause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROMFromEmu );
 }

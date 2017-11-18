@@ -295,3 +295,5 @@
 /RANes/output/RANes_d.ilk
 /RAGens/win32/*.brm
 /RetroAchievementsKey
+/*.opendb
+/RAVBA-M/dependencies/libpng/project/vs2012/Win32/Release/libpng.lib

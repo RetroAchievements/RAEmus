@@ -9,6 +9,9 @@ extern bool GameIsActive();
 //	Perform whatever action is required to unpause emulation.
 extern void CauseUnpause();
 
+//	Perform whatever action is required to pause emulation.
+extern void CausePause();
+
 //	Perform whatever function in the case of needing to rebuild the menu.
 extern void RebuildMenu();
 

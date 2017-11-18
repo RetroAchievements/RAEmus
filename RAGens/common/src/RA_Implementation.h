@@ -9,6 +9,9 @@ extern void CauseUnpause();
 //	Perform whatever function in the case of needing to rebuild the menu.
 extern void RebuildMenu();
 
+//	Perform whatever action is required to pause emulation.
+extern void CausePause();
+
 //	sNameOut points to a 64 character buffer.
 //	sNameOut should have copied into it the estimated game title 
 //	 for the ROM, if one can be inferred from the ROM.
