@@ -50,7 +50,7 @@ void GetEstimatedGameTitle( char* sNameOut )
 	}
 }
 
-void ResetEmulator()
+void ResetEmulation()
 {
 	if( theApp.emulator.emuReset != NULL )
 		theApp.emulator.emuReset();
