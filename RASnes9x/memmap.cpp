@@ -4132,6 +4132,8 @@ static int unzFindExtension (unzFile &file, const char *ext, bool restart, bool 
 
 void CMemory::CheckForAnyPatch (const char *rom_filename, bool8 header, int32 &rom_size)
 {
+	return;
+
 	if (Settings.NoPatch)
 		return;
 

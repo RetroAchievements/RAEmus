@@ -60,6 +60,8 @@ static char FileBaseDirectory[2048];
 
 void ApplyIPS(FILE *ips, FCEUFILE* fp)
 {
+	return;
+
 	uint8 header[5];
 	uint32 count=0;
 
