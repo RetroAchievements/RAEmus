@@ -809,12 +809,12 @@ struct EMUCMDTABLE FCEUI_CommandTable[]=
 
 #define NUM_EMU_CMDS		(sizeof(FCEUI_CommandTable)/sizeof(FCEUI_CommandTable[0]))
 
-static int execcmd, i;
+static int execcmd;
 
 void FCEUI_HandleEmuCommands(TestCommandState* testfn)
 {
 	bool taseditor = FCEUMOV_Mode(MOVIEMODE_TASEDITOR);
-	for(i=0; i<NUM_EMU_CMDS; ++i)
+	for(int i=0; i<NUM_EMU_CMDS; ++i)
 	{
 		int new_state;
 		int old_state = FCEUI_CommandTable[i].state;
@@ -838,7 +838,14 @@ void FCEUI_HandleEmuCommands(TestCommandState* testfn)
 
 static void CommandUnImpl(void)
 {
-	FCEU_DispMessage("command '%s' unimplemented.",0, FCEUI_CommandTable[i].name);
+	for(int i=0; i<NUM_EMU_CMDS; ++i)
+	{
+		if(FCEUI_CommandTable[i].cmd == execcmd)
+		{
+			FCEU_DispMessage("command '%s' unimplemented.",0, FCEUI_CommandTable[i].name);
+			break;
+		}
+	}
 }
 
 static void CommandToggleDip(void)
