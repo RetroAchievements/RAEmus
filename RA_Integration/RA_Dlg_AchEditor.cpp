@@ -1018,8 +1018,8 @@ INT_PTR Dlg_AchievementEditor::AchievementEditorProc( HWND hDlg, UINT uMsg, WPAR
 
 					//	Implicit updating:
 					//char* psDesc = g_AchievementsDialog.LbxDataAt( nSelectedIndex, (int)Dlg_Achievements:: );
-					wchar_t buffer[ 80 ];
-					if( GetDlgItemText( hDlg, IDC_RA_ACH_DESC, buffer, 80 ) )
+					wchar_t buffer[ 128 ];
+					if( GetDlgItemText( hDlg, IDC_RA_ACH_DESC, buffer, 128 ) )
 						pActiveAch->SetDescription( Narrow( buffer ) );
 				}
 				break;
@@ -1709,6 +1709,7 @@ void Dlg_AchievementEditor::LoadAchievement( Achievement* pCheevo, BOOL bAttempt
 		EnableWindow( GetDlgItem( m_hAchievementEditorDlg, IDC_RA_PROGRESSINDICATORS ), FALSE );
 
 		UpdateBadge( "00000" );
+		PopulateConditions( NULL );
 
 		m_bPopulatingAchievementEditorData = FALSE;
 	}

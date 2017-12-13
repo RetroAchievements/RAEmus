@@ -20,15 +20,14 @@
 #define IDC_RA_ADDNOTE                  1515
 #define IDC_RA_REMNOTE                  1516
 #define IDC_RA_UPLOAD_BADGE             1517
-#define IDC_RA_VOTE_NEG                 1518
 #define IDC_RA_INFO_GG                  1519
 #define IDC_RA_MEM_LIST                 1520
 #define IDC_RA_HELP                     1521
 #define IDC_RA_CHEEVOPIC                1522
 #define IDC_RA_REVERTSELECTED           1523
 #define IDC_RA_RESET_ACH                1524
-#define IDC_RA_VOTE_POS                 1525
 #define IDC_RA_CHK_SHOW_DECIMALS        1526
+
 #define IDC_RA_DELETECOND               1527
 #define IDC_RA_COPYCOND                1528
 #define IDC_RA_ACH_ID                   1529
@@ -40,7 +39,6 @@
 #define IDC_RA_GAMEHASH                 1533
 #define IDC_RA_NUMACH                   1534
 #define IDC_RA_PASSWORD                 1535
-#define IDC_RA_GOTOWEB                  1535
 #define IDC_RA_SAVEPASSWORD             1536
 #define IDC_RA_ACTIVE_CORE              1537
 #define IDC_RA_ACTIVE_UNOFFICIAL        1538
@@ -56,8 +54,8 @@
 #define IDC_RA_ACH_DESC                 1548
 #define IDC_RA_USERNAME                 1549
 #define IDC_RA_DOWNLOAD_ACH             1550
-#define IDC_RA_UPLOAD_ACH               1551
-#define IDC_RA_SAVELOCAL                1552
+#define IDC_RA_COMMIT_ACH               1551
+#define IDC_RA_PROMOTE_ACH              1552
 #define IDC_RA_CBO_4BIT                 1553
 #define IDC_RA_CBO_8BIT                 1554
 #define IDC_RA_CBO_16BIT                1555
@@ -78,6 +76,7 @@
 #define IDC_RA_ACHPROGRESSENABLE        1571
 #define IDC_RA_ACHPROGRESS_FORMATTING   1572
 #define IDC_RA_ACHPROGRESS_MAXIMUM      1573
+#define IDC_RA_ACTIVATE_ALL_ACH         1574
 #define IDC_RA_ACH_GROUP                1575
 #define IDC_RA_ACH_DELGROUP             1576
 #define IDC_RA_ACH_ADDGROUP             1577
