@@ -3,7 +3,9 @@
 // Used by RA_Shared.rc
 //
 #define IDD_RA_RICHPRESENCE             114
+#define IDD_RA_MEMWATCHER               117
 #define IDC_RA_RICHPRESENCERESULTTEXT   1022
+#define IDC_RA_LBX_ADDRESSES            1023
 #define IDD_RA_MEMORY                   1501
 #define IDD_RA_ACHIEVEMENTS             1502
 #define IDD_RA_ACHIEVEMENTEDITOR        1503
@@ -27,9 +29,8 @@
 #define IDC_RA_REVERTSELECTED           1523
 #define IDC_RA_RESET_ACH                1524
 #define IDC_RA_CHK_SHOW_DECIMALS        1526
-
 #define IDC_RA_DELETECOND               1527
-#define IDC_RA_COPYCOND                1528
+#define IDC_RA_COPYCOND                 1528
 #define IDC_RA_ACH_ID                   1529
 #define IDC_RA_DEL_ACH                  1530
 #define IDC_RA_DELETECOND2              1530
@@ -132,9 +133,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        116
+#define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1023
+#define _APS_NEXT_CONTROL_VALUE         1024
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
