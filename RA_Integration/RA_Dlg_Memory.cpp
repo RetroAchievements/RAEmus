@@ -9,6 +9,7 @@
 #include "RA_MemManager.h"
 #include "RA_Resource.h"
 #include "RA_User.h"
+#include "RA_Dlg_MemBookmark.h"
 
 
 #ifndef ID_OK
@@ -339,6 +340,9 @@ bool MemoryViewerControl::OnEditInput( UINT c )
 
 		editData( nByteAddress, bLowerNibble, value );
 
+		if (g_MemBookmarkDialog.GetHWND() != nullptr)
+			g_MemBookmarkDialog.UpdateBookmarks( TRUE );
+
 		moveAddress(0, 1);
 		Invalidate();
     }
@@ -514,6 +518,9 @@ void MemoryViewerControl::OnClick( POINT point )
 
 void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 {
+	if ( g_MemBookmarkDialog.GetHWND() != nullptr )
+		g_MemBookmarkDialog.UpdateBookmarks( FALSE );
+
 	PAINTSTRUCT ps;
 	HDC dc = BeginPaint( hTarget, &ps );
 
@@ -590,7 +597,7 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 				notes = 0;
 				for (int j = 0; j < 16; ++j)
 					notes |= (g_MemoryDialog.Notes().FindCodeNote(addr + j) != NULL) ? (1 << j) : 0;
-				
+
 				g_MemManager.ActiveBankRAMRead(data, addr, 16);
 
 				wchar_t* ptr = buffer + wsprintf(buffer, L"0x%06x  ", addr);
@@ -807,8 +814,8 @@ INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT nMsg, WPARAM wParam, LPARAM lPar
 
 			ComboBox_SetCurSel( GetDlgItem( hDlg, IDC_RA_CBO_CMPTYPE ), 0 );
 
-			//	Every 16ms, update timer proc
-			SetTimer(hDlg, 1, 16, (TIMERPROC)s_MemoryProc);
+			//	Update timer proc
+			SetTimer(hDlg, 1, 1, (TIMERPROC)s_MemoryProc);
 
 			EnableWindow( GetDlgItem( hDlg, IDC_RA_DOTEST ), g_MemManager.NumCandidates() > 0 );
 
@@ -1126,6 +1133,16 @@ INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT nMsg, WPARAM wParam, LPARAM lPar
 				{
 					MessageBox(nullptr, L"No ROM loaded!", L"Error!", MB_ICONWARNING);
 				}
+
+				return FALSE;
+			}
+
+			case IDC_RA_OPENBOOKMARKS:
+			{
+				if (g_MemBookmarkDialog.GetHWND() == NULL)
+					g_MemBookmarkDialog.InstallHWND( CreateDialog(g_hThisDLLInst, MAKEINTRESOURCE(IDD_RA_MEMBOOKMARK), hDlg, g_MemBookmarkDialog.s_MemBookmarkDialogProc) );
+				if (g_MemBookmarkDialog.GetHWND() != NULL)
+					ShowWindow(g_MemBookmarkDialog.GetHWND(), SW_SHOW);
 
 				return FALSE;
 			}

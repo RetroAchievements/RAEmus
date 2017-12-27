@@ -3,9 +3,10 @@
 // Used by RA_Shared.rc
 //
 #define IDD_RA_RICHPRESENCE             114
-#define IDD_RA_MEMWATCHER               117
+#define IDD_RA_MEMBOOKMARK              117
 #define IDC_RA_RICHPRESENCERESULTTEXT   1022
 #define IDC_RA_LBX_ADDRESSES            1023
+#define IDC_RA_ADD_BOOKMARK             1024
 #define IDD_RA_MEMORY                   1501
 #define IDD_RA_ACHIEVEMENTS             1502
 #define IDD_RA_ACHIEVEMENTEDITOR        1503
@@ -22,6 +23,7 @@
 #define IDC_RA_ADDNOTE                  1515
 #define IDC_RA_REMNOTE                  1516
 #define IDC_RA_UPLOAD_BADGE             1517
+#define IDC_RA_OPENBOOKMARKS            1518
 #define IDC_RA_INFO_GG                  1519
 #define IDC_RA_MEM_LIST                 1520
 #define IDC_RA_HELP                     1521
@@ -33,7 +35,6 @@
 #define IDC_RA_COPYCOND                 1528
 #define IDC_RA_ACH_ID                   1529
 #define IDC_RA_DEL_ACH                  1530
-#define IDC_RA_DELETECOND2              1530
 #define IDC_RA_PASTECOND                1530
 #define IDC_RA_CHKACHPROCESSINGACTIVE   1531
 #define IDC_RA_GOTOWIKI                 1532
@@ -135,7 +136,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1024
+#define _APS_NEXT_CONTROL_VALUE         1026
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
