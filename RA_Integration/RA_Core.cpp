@@ -27,6 +27,7 @@
 #include "RA_Dlg_Memory.h"
 #include "RA_Dlg_RichPresence.h"
 #include "RA_Dlg_RomChecksum.h"
+#include "RA_Dlg_MemBookmark.h"
 
 #include <locale>
 #include <codecvt>
@@ -239,10 +240,16 @@ API int CCONV _RA_Shutdown()
 
 	g_GameLibrary.KillThread();
 	
-	if (g_RichPresenceDialog.GetHWND() != nullptr)
+	if ( g_RichPresenceDialog.GetHWND() != nullptr )
 	{
 		DestroyWindow( g_RichPresenceDialog.GetHWND() );
 		g_RichPresenceDialog.InstallHWND( nullptr );
+	}
+
+	if ( g_MemBookmarkDialog.GetHWND() != nullptr )
+	{
+		DestroyWindow( g_MemBookmarkDialog.GetHWND() );
+		g_MemBookmarkDialog.InstallHWND( nullptr );
 	}
 
 	CoUninitialize();
