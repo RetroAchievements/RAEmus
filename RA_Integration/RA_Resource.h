@@ -7,6 +7,10 @@
 #define IDC_RA_RICHPRESENCERESULTTEXT   1022
 #define IDC_RA_LBX_ADDRESSES            1023
 #define IDC_RA_ADD_BOOKMARK             1024
+#define IDC_RA_DEL_BOOKMARK             1025
+#define IDC_RA_CLEAR_CHANGE             1026
+#define IDC_RA_FREEZE                   1027
+#define IDC_RA_BREAKPOINT               1028
 #define IDD_RA_MEMORY                   1501
 #define IDD_RA_ACHIEVEMENTS             1502
 #define IDD_RA_ACHIEVEMENTEDITOR        1503
