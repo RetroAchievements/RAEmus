@@ -572,6 +572,8 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 
 	unsigned char data[ 16 ];
 	unsigned int notes;
+	unsigned int bookmarks;
+	unsigned int freeze;
 
 	RECT r;
 	r.top = 3;
@@ -595,8 +597,16 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 			if (addr >= 0)
 			{
 				notes = 0;
+				bookmarks = 0;
+				freeze = 0;
 				for (int j = 0; j < 16; ++j)
+				{
 					notes |= (g_MemoryDialog.Notes().FindCodeNote(addr + j) != NULL) ? (1 << j) : 0;
+
+					const MemBookmark* bm = g_MemBookmarkDialog.FindBookmark(addr + j);
+					bookmarks |= (bm != NULL) ? (1 << j) : 0;
+					freeze |= (bm != NULL && bm->Frozen()) ? (1 << j) : 0;
+				}
 
 				g_MemManager.ActiveBankRAMRead(data, addr, 16);
 
@@ -646,17 +656,33 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 					SetTextColor(hMemDC, RGB(0, 0, 0));
 					r.left = 3;
 
-					// make sure we don't overwrite the current address with a note indicator
-					notes &= ~(1 << (nWatchedAddress & 0x0F));
+					// make sure we don't overwrite the current address with an indicator
+					notes		&= ~(1 << (nWatchedAddress & 0x0F));
+					bookmarks	&= ~(1 << (nWatchedAddress & 0x0F));
 				}
 
-				if (notes)
+				if (notes || bookmarks)
 				{
-					SetTextColor(hMemDC, RGB(0, 0, 255));
-
 					for (int j = 0; j < 16; ++j)
 					{
-						if (notes & 0x01)
+						bool bDraw = FALSE;
+
+						if (bookmarks & 0x01)
+						{
+							if (freeze & 0x01)
+								SetTextColor(hMemDC, RGB(255, 200, 0));
+							else
+								SetTextColor(hMemDC, RGB(0, 160, 0));
+
+							bDraw = TRUE;
+						}
+						else if (notes & 0x01)
+						{
+							SetTextColor(hMemDC, RGB(0, 0, 255));
+							bDraw = TRUE;
+						}
+
+						if (bDraw)
 						{
 							size_t stride;
 							switch (m_nDataSize)
@@ -680,11 +706,14 @@ void MemoryViewerControl::RenderMemViewer( HWND hTarget )
 						}
 
 						notes >>= 1;
+						bookmarks >>= 1;
+						freeze >>= 1;
 					}
 
-					SetTextColor(hMemDC, RGB(0, 0, 0));
 					r.left = 3;
 				}
+
+				SetTextColor(hMemDC, RGB(0, 0, 0));
 			}
 
 			r.top += m_szFontSize.cy;
