@@ -5,12 +5,6 @@
 
 #include "RA_Defs.h"
 
-namespace
-{
-	const size_t MAX_ADDRESSES = 200;
-	const size_t MAX_STRING_TEXT_LEN = 80;
-}
-
 class MemBookmark
 {
 public:
@@ -58,19 +52,10 @@ public:
 	void UpdateBookmarks( bool bForceWrite );
 
 	void AddBookmark( MemBookmark* newBookmark )		{ m_vBookmarks.push_back(newBookmark); }
-
-
 	void ClearAllBookmarks()							{ m_vBookmarks.clear(); }
 
-	void SetDirty()										{ bIsDirty = TRUE; }
-	void ClearDirty()									{ bIsDirty = FALSE; }
-
 private:
-	static const int m_nNumCols = 6;
-	char m_lbxData[ MAX_ADDRESSES ][ m_nNumCols ][ MAX_STRING_TEXT_LEN ];
-	wchar_t m_lbxGroupNames[ MAX_ADDRESSES ][ MAX_STRING_TEXT_LEN ];
 	int m_nNumOccupiedRows;
-	bool bIsDirty;
 
 	void PopulateList();
 	void SetupColumns( HWND hList );

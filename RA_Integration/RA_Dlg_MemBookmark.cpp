@@ -253,15 +253,9 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 							idx++;
 
 							bookmark->ResetCount();
-
-							LV_ITEM item;
-							ZeroMemory( &item, sizeof( item ) );
-							item.mask = LVIF_TEXT;
-							item.iItem = idx;
-							item.cchTextMax = 256;
-
-							UpdateListItem( hList, item, *bookmark );
 						}
+						
+						InvalidateRect( hList, NULL, TRUE );
 					}
 
 					return TRUE;
@@ -356,7 +350,7 @@ void Dlg_MemBookmark::SetupColumns( HWND hList )
 	LV_COLUMN col;
 	ZeroMemory( &col, sizeof( col ) );
 
-	for ( size_t i = 0; i < m_nNumCols; ++i )
+	for ( size_t i = 0; i < NumColumns; ++i )
 	{
 		col.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM | LVCF_FMT;
 		col.cx = COLUMN_WIDTH[ i ];
@@ -366,13 +360,11 @@ void Dlg_MemBookmark::SetupColumns( HWND hList )
 		col.iSubItem = i;
 
 		col.fmt = LVCFMT_CENTER | LVCFMT_FIXED_WIDTH;
-		if ( i == m_nNumCols - 1 )
+		if ( i == NumColumns - 1 )
 			col.fmt |= LVCFMT_FILL;
 
 		ListView_InsertColumn( hList, i, (LPARAM)&col );
 	}
-
-	ZeroMemory( &m_lbxData, sizeof( m_lbxData ) );
 
 	m_nNumOccupiedRows = 0;
 
