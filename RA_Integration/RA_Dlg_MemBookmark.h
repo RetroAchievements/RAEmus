@@ -14,31 +14,31 @@ namespace
 class MemBookmark
 {
 public:
-	void SetDescription( const std::string& string )		{ m_sDescription = string; }
+	void SetDescription( const std::wstring& string )		{ m_sDescription = string; }
 	void SetAddress( unsigned int nVal )					{ m_nAddress = nVal; }
 	void SetType( unsigned int nVal )						{ m_nType = nVal; }
-	void SetValue( const std::string& string )				{ m_sValue = string; }
-	void SetPrevious( const std::string& string )			{ m_sPrevious = string; }
+	void SetValue( const std::wstring& string )				{ m_sValue = string; }
+	void SetPrevious( const std::wstring& string )			{ m_sPrevious = string; }
 	void IncreaseCount()									{ m_nCount++; }
 	void ResetCount()										{ m_nCount = 0; }
 
 	void SetFrozen( bool b )								{ m_bFrozen = b; }
 
-	inline const std::string& Description() const			{ return m_sDescription; }
+	inline const std::wstring& Description() const			{ return m_sDescription; }
 	unsigned int Address() const							{ return m_nAddress; }
 	unsigned int Type() const								{ return m_nType; }
-	inline const std::string& Value() const					{ return m_sValue; }
-	inline const std::string& Previous() const				{ return m_sPrevious; }
+	inline const std::wstring& Value() const					{ return m_sValue; }
+	inline const std::wstring& Previous() const				{ return m_sPrevious; }
 	unsigned int Count() const								{ return m_nCount; }
 
 	bool Frozen() const										{ return m_bFrozen; }
 
 private:
-	std::string m_sDescription;
+	std::wstring m_sDescription;
 	unsigned int m_nAddress;
 	unsigned int m_nType;
-	std::string m_sValue;
-	std::string m_sPrevious;
+	std::wstring m_sValue;
+	std::wstring m_sPrevious;
 	unsigned int m_nCount = 0;
 	bool m_bFrozen = FALSE;
 };
@@ -75,9 +75,8 @@ private:
 	void PopulateList();
 	void SetupColumns( HWND hList );
 	void AddAddress();
-	void UpdateListItem( HWND hList, LV_ITEM& item, const MemBookmark& Bookmark );
 	void WriteFrozenValue( const MemBookmark& Bookmark );
-	std::string GetMemory( unsigned int nAddr, int type );
+	std::wstring GetMemory( unsigned int nAddr, int type );
 
 	void AddBookmarkMap( MemBookmark* bookmark )
 	{

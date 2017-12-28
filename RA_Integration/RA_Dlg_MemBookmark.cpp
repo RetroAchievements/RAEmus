@@ -93,8 +93,8 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 					rcCol.right = rcCol.left + ListView_GetColumnWidth( hList, 0 );
 
 					// Draw Item Label - Column 0
-					wchar_t buffer[ 128 ];
-					ListView_GetItemText( hList, pdis->itemID, 0, buffer, 128 );
+					wchar_t buffer[ 256 ];
+					swprintf ( buffer, sizeof( buffer ), L"%s", m_vBookmarks[ pdis->itemID ]->Description().c_str() );
 
 					if ( pdis->itemState & ODS_SELECTED )
 					{
@@ -136,7 +136,25 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 						rcCol.left = rcCol.right;
 						rcCol.right += lvc.cx;
 
-						ListView_GetItemText( hList, pdis->itemID, i, buffer, 256 );
+						switch ( i )
+						{
+							case CSI_ADDRESS:
+								swprintf ( buffer, sizeof( buffer ), L"%06x", m_vBookmarks[ pdis->itemID ]->Address() );
+								break;
+							case CSI_VALUE:
+								swprintf ( buffer, sizeof( buffer ), L"%s", m_vBookmarks[ pdis->itemID ]->Value().c_str() );
+								break;
+							case CSI_PREVIOUS:
+								swprintf ( buffer, sizeof( buffer ), L"%s", m_vBookmarks[ pdis->itemID ]->Previous().c_str() );
+								break;
+							case CSI_CHANGES:
+								swprintf ( buffer, sizeof( buffer ), L"%d", m_vBookmarks[ pdis->itemID ]->Count() );
+								break;
+							default:
+								swprintf ( buffer, sizeof( buffer ), L"" );
+								break;
+						}
+
 						if ( wcslen( buffer ) == 0 )
 							continue;
 
@@ -280,7 +298,7 @@ void Dlg_MemBookmark::UpdateBookmarks( bool bForceWrite )
 			continue;
 		}
 
-		std::string mem_string = GetMemory( bookmark->Address(), bookmark->Type() );
+		std::wstring mem_string = GetMemory( bookmark->Address(), bookmark->Type() );
 
 		if ( bookmark->Value() != mem_string )
 		{
@@ -293,10 +311,10 @@ void Dlg_MemBookmark::UpdateBookmarks( bool bForceWrite )
 			item.mask = LVIF_TEXT;
 			item.iItem = idx;
 			item.cchTextMax = 256;
-
-			UpdateListItem( hList, item, *bookmark );
 		}
 	}
+
+	InvalidateRect( hList, NULL, TRUE );
 }
 
 void Dlg_MemBookmark::PopulateList()
@@ -321,52 +339,9 @@ void Dlg_MemBookmark::PopulateList()
 		item.iSubItem = 0;
 		item.iItem = ListView_InsertItem( hAddrList, &item );
 
-		UpdateListItem( hAddrList, item, *bookmark );
-
 		ASSERT( item.iItem == m_nNumOccupiedRows );
 
 		m_nNumOccupiedRows++;
-	}
-}
-
-void Dlg_MemBookmark::UpdateListItem( HWND hList, LV_ITEM& item, const MemBookmark& Bookmark )
-{
-	int nRow = item.iItem;
-
-	snprintf( m_lbxData[ nRow ][ CSI_DESC ], MAX_STRING_TEXT_LEN, "%s", Bookmark.Description().c_str() );
-	snprintf( m_lbxData[ nRow ][ CSI_ADDRESS ], MAX_STRING_TEXT_LEN, "%06x", Bookmark.Address() );
-	snprintf( m_lbxData[ nRow ][ CSI_VALUE ], MAX_STRING_TEXT_LEN, "%s", Bookmark.Value().c_str() );
-	snprintf( m_lbxData[ nRow ][ CSI_PREVIOUS ], MAX_STRING_TEXT_LEN, "%s", Bookmark.Previous().c_str() );
-	snprintf( m_lbxData[ nRow ][ CSI_CHANGES ], MAX_STRING_TEXT_LEN, "%d", Bookmark.Count() );
-
-	switch ( Bookmark.Type() )
-	{
-		case 1:
-			snprintf( m_lbxData[ nRow ][ CSI_TYPE ], MAX_STRING_TEXT_LEN, "%s", "8bit" );
-			break;
-		case 2:
-			snprintf( m_lbxData[ nRow ][ CSI_TYPE ], MAX_STRING_TEXT_LEN, "%s", "16bit" );
-			break;
-		case 3:
-			snprintf( m_lbxData[ nRow ][ CSI_TYPE ], MAX_STRING_TEXT_LEN, "%s", "32bit" );
-			break;
-		default:
-			snprintf( m_lbxData[ nRow ][ CSI_TYPE ], MAX_STRING_TEXT_LEN, "%s", "???" );
-			break;
-	}
-
-	/*if (g_bPreferDecimalVal)
-	{
-		if (Cond.CompTarget().Type() == ValueComparison)
-			sprintf_s(m_lbxData[nRow][CSI_VALUE_TGT], MAX_STRING_TEXT_LEN, "%d", Cond.CompTarget().RawValue());
-	}*/
-
-	for ( size_t i = 0; i < NumColumns; ++i )
-	{
-		item.iSubItem = i;
-		std::wstring sData = Widen( m_lbxData[ nRow ][ i ] );
-		item.pszText = const_cast<LPWSTR>( sData.c_str() );
-		ListView_SetItem( hList, &item );
 	}
 }
 
@@ -434,7 +409,7 @@ void Dlg_MemBookmark::AddAddress()
 	// Get Code Note and add as description
 	const CodeNotes::CodeNoteObj* pSavedNote = g_MemoryDialog.Notes().FindCodeNote( nAddr );
 	if ( ( pSavedNote != nullptr ) && ( pSavedNote->Note().length() > 0 ) )
-		NewBookmark->SetDescription( pSavedNote->Note() );
+		NewBookmark->SetDescription( Widen( pSavedNote->Note().c_str() ) );
 
 	// Add Bookmark to vector and map
 	AddBookmark( NewBookmark );
@@ -469,20 +444,20 @@ void Dlg_MemBookmark::WriteFrozenValue( const MemBookmark & Bookmark )
 	}
 }
 
-std::string Dlg_MemBookmark::GetMemory( unsigned int nAddr, int type )
+std::wstring Dlg_MemBookmark::GetMemory( unsigned int nAddr, int type )
 {
-	char memory_buffer[ 128 ];
+	wchar_t memory_buffer[ 128 ];
 
 	switch ( type )
 	{
 		case 1:
-			sprintf_s( memory_buffer, 128, "%02x", g_MemManager.ActiveBankRAMByteRead( nAddr ) );
+			_swprintf( memory_buffer, L"%02x", g_MemManager.ActiveBankRAMByteRead( nAddr ) );
 			break;
 		case 2:
-			sprintf_s( memory_buffer, 128, "%04x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) );
+			_swprintf( memory_buffer, L"%04x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) );
 			break;
 		case 3:
-			sprintf_s( memory_buffer, 128, "%08x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) |
+			_swprintf( memory_buffer, L"%08x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) |
 				( g_MemManager.ActiveBankRAMByteRead( nAddr + 2 ) << 16 ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 3 ) << 24 ) );
 			break;
 	}
