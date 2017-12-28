@@ -8,7 +8,7 @@
 namespace
 {
 	const size_t MAX_ADDRESSES = 200;
-	const size_t MEM_STRING_TEXT_LEN = 80;
+	const size_t MAX_STRING_TEXT_LEN = 80;
 }
 
 class MemBookmark
@@ -57,7 +57,9 @@ public:
 
 	void UpdateBookmarks( bool bForceWrite );
 
-	void AddBookmark( const MemBookmark& newBookmark )	{ m_vBookmarks.push_back(newBookmark); }
+	void AddBookmark( MemBookmark* newBookmark )		{ m_vBookmarks.push_back(newBookmark); }
+
+
 	void ClearAllBookmarks()							{ m_vBookmarks.clear(); }
 
 	void SetDirty()										{ bIsDirty = TRUE; }
@@ -65,8 +67,8 @@ public:
 
 private:
 	static const int m_nNumCols = 6;
-	char m_lbxData[ MAX_ADDRESSES ][ m_nNumCols ][ MEM_STRING_TEXT_LEN ];
-	wchar_t m_lbxGroupNames[ MAX_ADDRESSES ][ MEM_STRING_TEXT_LEN ];
+	char m_lbxData[ MAX_ADDRESSES ][ m_nNumCols ][ MAX_STRING_TEXT_LEN ];
+	wchar_t m_lbxGroupNames[ MAX_ADDRESSES ][ MAX_STRING_TEXT_LEN ];
 	int m_nNumOccupiedRows;
 	bool bIsDirty;
 
@@ -77,9 +79,26 @@ private:
 	void WriteFrozenValue( const MemBookmark& Bookmark );
 	std::string GetMemory( unsigned int nAddr, int type );
 
+	void AddBookmarkMap( MemBookmark* bookmark )
+	{
+		if (m_BookmarkMap.find( bookmark->Address() ) == m_BookmarkMap.end() )
+			m_BookmarkMap.insert( std::map<ByteAddress, std::vector<const MemBookmark*>>::value_type( bookmark->Address(), std::vector<const MemBookmark*>() ) );
+
+		std::vector<const MemBookmark*> *v = &m_BookmarkMap[ bookmark->Address() ];
+		v->push_back( bookmark );
+	}
+
+public:
+	const MemBookmark* FindBookmark( const ByteAddress& nAddr ) const
+	{
+		std::map<ByteAddress, std::vector<const MemBookmark*>>::const_iterator iter = m_BookmarkMap.find( nAddr );
+		return( iter != m_BookmarkMap.end() && iter->second.size() > 0 ) ? iter->second.back() : nullptr;
+	}
+
 private:
 	HWND m_hMemBookmarkDialog;
-	std::vector<MemBookmark> m_vBookmarks;
+	std::map<ByteAddress, std::vector<const MemBookmark*>> m_BookmarkMap;
+	std::vector<MemBookmark*> m_vBookmarks;
 };
 
 extern Dlg_MemBookmark g_MemBookmarkDialog;
