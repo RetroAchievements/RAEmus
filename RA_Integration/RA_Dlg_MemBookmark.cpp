@@ -11,8 +11,8 @@ Dlg_MemBookmark g_MemBookmarkDialog;
 
 namespace
 {
-	const char* COLUMN_TITLE[] = { "Description", "Address", "Type", "Value", "Prev.", "Changes" };
-	const int COLUMN_WIDTH[] = { 72, 64, 40, 64, 64, 54 };
+	const char* COLUMN_TITLE[] = { "Description", "Address", "Value", "Prev.", "Changes" };
+	const int COLUMN_WIDTH[] = { 112, 64, 64, 64, 54 };
 	static_assert( SIZEOF_ARRAY( COLUMN_TITLE ) == SIZEOF_ARRAY( COLUMN_WIDTH ), "Must match!" );
 }
 
@@ -20,7 +20,6 @@ enum BookmarkSubItems
 {
 	CSI_DESC,
 	CSI_ADDRESS,
-	CSI_TYPE,
 	CSI_VALUE,
 	CSI_PREVIOUS,
 	CSI_CHANGES,
@@ -85,7 +84,7 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 				case ODA_SELECT:
 				case ODA_DRAWENTIRE:
 
-					hList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
+					hList = GetDlgItem( hDlg, IDC_RA_LBX_ADDRESSES );
 
 					ListView_GetItemRect( hList, pdis->itemID, &rcBounds, LVIR_BOUNDS );
 					ListView_GetItemRect( hList, pdis->itemID, &rcLabel, LVIR_LABEL );
@@ -195,7 +194,7 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 				case IDC_RA_LBX_ADDRESSES:
 					if ( ( (LPNMHDR)lParam )->code == NM_CLICK )
 					{
-						hList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
+						hList = GetDlgItem( hDlg, IDC_RA_LBX_ADDRESSES );
 
 						nSelect = ListView_GetNextItem( hList, -1, LVNI_FOCUSED );
 
@@ -224,13 +223,42 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 				}
 				case IDC_RA_DEL_BOOKMARK:
 				{
+					HWND hList = GetDlgItem( hDlg, IDC_RA_LBX_ADDRESSES );
+					int nSel = ListView_GetNextItem( hList, -1, LVNI_SELECTED );
+
+					if ( nSel != -1 )
+					{
+						while ( nSel >= 0 )
+						{
+							MemBookmark* pBookmark = m_vBookmarks[ nSel ];
+
+							// Remove from vector
+							m_vBookmarks.erase( m_vBookmarks.begin() + nSel );
+
+							// Remove from map
+							std::vector<const MemBookmark*> *pVector;
+							pVector = &m_BookmarkMap.find( pBookmark->Address() )->second;
+							pVector->erase( std::find( pVector->begin(), pVector->end(), pBookmark ) );
+							if ( pVector->size() == 0 )
+								m_BookmarkMap.erase( pBookmark->Address() );
+
+							delete pBookmark;
+
+							ListView_DeleteItem( hList, nSel );
+
+							nSel = ListView_GetNextItem( hList, -1, LVNI_SELECTED );
+						}
+
+						InvalidateRect( hList, NULL, TRUE );
+					}
+
 					return TRUE;
 				}
 				case IDC_RA_FREEZE:
 				{
 					if ( m_vBookmarks.size() > 0 )
 					{
-						hList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
+						hList = GetDlgItem( hDlg, IDC_RA_LBX_ADDRESSES );
 						unsigned int uSelectedCount = ListView_GetSelectedCount( hList );
 
 						if ( uSelectedCount > 0 )
@@ -246,7 +274,7 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 				{
 					if ( m_vBookmarks.size() > 0 )
 					{
-						hList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
+						hList = GetDlgItem( hDlg, IDC_RA_LBX_ADDRESSES );
 						int idx = -1;
 						for ( MemBookmark* bookmark : m_vBookmarks )
 						{
@@ -281,11 +309,8 @@ void Dlg_MemBookmark::UpdateBookmarks( bool bForceWrite )
 
 	HWND hList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
 
-	int idx = -1;
 	for ( MemBookmark* bookmark : m_vBookmarks )
 	{
-		idx++;
-
 		if ( bookmark->Frozen() && !bForceWrite )
 		{
 			WriteFrozenValue( *bookmark );
@@ -299,12 +324,6 @@ void Dlg_MemBookmark::UpdateBookmarks( bool bForceWrite )
 			bookmark->SetPrevious( bookmark->Value() );
 			bookmark->SetValue( mem_string );
 			bookmark->IncreaseCount();
-
-			LV_ITEM item;
-			ZeroMemory( &item, sizeof( item ) );
-			item.mask = LVIF_TEXT;
-			item.iItem = idx;
-			item.cchTextMax = 256;
 		}
 	}
 
@@ -316,11 +335,12 @@ void Dlg_MemBookmark::PopulateList()
 	if ( m_vBookmarks.size() == 0 )
 		return;
 
-	HWND hAddrList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
-	if ( hAddrList == NULL )
+	HWND hList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
+	if ( hList == NULL )
 		return;
 
-	ListView_DeleteAllItems( hAddrList );
+	int topIndex = ListView_GetTopIndex( hList );
+	ListView_DeleteAllItems( hList );
 	m_nNumOccupiedRows = 0;
 
 	for ( MemBookmark* bookmark : m_vBookmarks )
@@ -331,12 +351,15 @@ void Dlg_MemBookmark::PopulateList()
 		item.cchTextMax = 256;
 		item.iItem = m_nNumOccupiedRows;
 		item.iSubItem = 0;
-		item.iItem = ListView_InsertItem( hAddrList, &item );
+		item.iItem = ListView_InsertItem( hList, &item );
 
 		ASSERT( item.iItem == m_nNumOccupiedRows );
 
 		m_nNumOccupiedRows++;
 	}
+
+	ListView_EnsureVisible( hList, m_vBookmarks.size() - 1, FALSE ); // Scroll to bottom.
+	//ListView_EnsureVisible( hList, topIndex, TRUE ); // return to last position.
 }
 
 void Dlg_MemBookmark::SetupColumns( HWND hList )
