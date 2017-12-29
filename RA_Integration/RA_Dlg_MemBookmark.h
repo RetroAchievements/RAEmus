@@ -49,8 +49,8 @@ public:
 	void InstallHWND( HWND hWnd )						{ m_hMemBookmarkDialog = hWnd; }
 	HWND GetHWND() const								{ return m_hMemBookmarkDialog; }
 
+	std::vector<MemBookmark*> Bookmarks()				{ return m_vBookmarks; }
 	void UpdateBookmarks( bool bForceWrite );
-
 	void AddBookmark( MemBookmark* newBookmark )		{ m_vBookmarks.push_back(newBookmark); }
 	void ClearAllBookmarks()							{ m_vBookmarks.clear(); }
 
@@ -59,6 +59,7 @@ private:
 
 	void PopulateList();
 	void SetupColumns( HWND hList );
+	BOOL EditLabel ( int nItem, int nSubItem );
 	void AddAddress();
 	void WriteFrozenValue( const MemBookmark& Bookmark );
 	std::wstring GetMemory( unsigned int nAddr, int type );

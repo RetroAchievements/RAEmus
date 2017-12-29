@@ -9,6 +9,11 @@
 
 Dlg_MemBookmark g_MemBookmarkDialog;
 
+WNDPROC EOldProcBM;
+HWND g_hIPEEditBM;
+int nSelItemBM;
+int nSelSubItemBM;
+
 namespace
 {
 	const char* COLUMN_TITLE[] = { "Description", "Address", "Value", "Prev.", "Changes" };
@@ -30,6 +35,58 @@ enum BookmarkSubItems
 INT_PTR CALLBACK Dlg_MemBookmark::s_MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 	return g_MemBookmarkDialog.MemBookmarkDialogProc( hDlg, uMsg, wParam, lParam );
+}
+
+long _stdcall EditProcBM( HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam )
+{
+	switch ( nMsg )
+	{
+		case WM_DESTROY:
+			g_hIPEEditBM = nullptr;
+			break;
+
+		case WM_KILLFOCUS:
+		{
+			LV_DISPINFO lvDispinfo;
+			ZeroMemory( &lvDispinfo, sizeof( LV_DISPINFO ) );
+			lvDispinfo.hdr.hwndFrom = hwnd;
+			lvDispinfo.hdr.idFrom = GetDlgCtrlID( hwnd );
+			lvDispinfo.hdr.code = LVN_ENDLABELEDIT;
+			lvDispinfo.item.mask = LVIF_TEXT;
+			lvDispinfo.item.iItem = nSelItemBM;
+			lvDispinfo.item.iSubItem = nSelSubItemBM;
+			lvDispinfo.item.pszText = nullptr;
+
+			wchar_t sEditText[ 256 ];
+			GetWindowText( hwnd, sEditText, 256 );
+			g_MemBookmarkDialog.Bookmarks()[ nSelItemBM ]->SetDescription( sEditText );
+
+			HWND hList = GetDlgItem( g_MemBookmarkDialog.GetHWND(), IDC_RA_LBX_ADDRESSES );
+
+			//	the LV ID and the LVs Parent window's HWND
+			SendMessage( GetParent( hList ), WM_NOTIFY, static_cast<WPARAM>( IDC_RA_LBX_ADDRESSES ), reinterpret_cast<LPARAM>( &lvDispinfo ) );	//	##reinterpret? ##SD
+
+			DestroyWindow( hwnd );
+			break;
+		}
+
+		case WM_KEYDOWN:
+		{
+			if ( wParam == VK_RETURN || wParam == VK_ESCAPE )
+			{
+				DestroyWindow( hwnd );	//	Causing a killfocus :)
+			}
+			else
+			{
+				//	Ignore keystroke, or pass it into the edit box!
+				break;
+			}
+
+			break;
+		}
+	}
+
+	return CallWindowProc( EOldProcBM, hwnd, nMsg, wParam, lParam );
 }
 
 INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
@@ -200,6 +257,26 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 
 						if ( nSelect == -1 )
 							break;
+					}
+					else if ( ( (LPNMHDR)lParam )->code == NM_DBLCLK )
+					{
+						hList = GetDlgItem( hDlg, IDC_RA_LBX_ADDRESSES );
+
+						LPNMITEMACTIVATE pOnClick = (LPNMITEMACTIVATE)lParam;
+
+						if ( pOnClick->iItem != -1 && pOnClick->iSubItem == CSI_DESC )
+						{
+							nSelItemBM = pOnClick->iItem;
+							nSelSubItemBM = pOnClick->iSubItem;
+
+							EditLabel ( pOnClick->iItem, pOnClick->iSubItem );
+						}
+						else if ( pOnClick->iItem != -1 && pOnClick->iSubItem == CSI_ADDRESS )
+						{
+							g_MemoryDialog.SetWatchingAddress( m_vBookmarks[ pOnClick->iItem ]->Address() );
+							MemoryViewerControl::setAddress( ( m_vBookmarks[ pOnClick->iItem ]->Address() & 
+								~( 0xf ) ) - ( (int)( MemoryViewerControl::m_nDisplayedLines / 2 ) << 4 ) + ( 0x50 ) );
+						}
 					}
 			}
 			return TRUE;
@@ -481,4 +558,51 @@ std::wstring Dlg_MemBookmark::GetMemory( unsigned int nAddr, int type )
 	//	memory_buffer[i] = toupper( memory_buffer[i] );
 
 	return memory_buffer;
+}
+
+BOOL Dlg_MemBookmark::EditLabel ( int nItem, int nSubItem )
+{
+	HWND hList = GetDlgItem( g_MemBookmarkDialog.GetHWND(), IDC_RA_LBX_ADDRESSES );
+	RECT rcSubItem;
+	ListView_GetSubItemRect( hList, nItem, nSubItem, LVIR_BOUNDS, &rcSubItem );
+
+	RECT rcOffset;
+	GetWindowRect ( hList, &rcOffset );
+	rcSubItem.left += rcOffset.left;
+	rcSubItem.right += rcOffset.left;
+	rcSubItem.top += rcOffset.top;
+	rcSubItem.bottom += rcOffset.top;
+
+	int nHeight = rcSubItem.bottom - rcSubItem.top;
+	int nWidth = rcSubItem.right - rcSubItem.left;
+
+	ASSERT ( g_hIPEEditBM == nullptr );
+	if ( g_hIPEEditBM ) return FALSE;
+
+	g_hIPEEditBM = CreateWindowEx(
+		WS_EX_CLIENTEDGE,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | WS_POPUPWINDOW | WS_BORDER | ES_WANTRETURN,
+		rcSubItem.left, rcSubItem.top, nWidth, (int)( 1.5f*nHeight ),
+		g_MemBookmarkDialog.GetHWND(),
+		0,
+		GetModuleHandle( NULL ),
+		NULL );
+
+	if ( g_hIPEEditBM == NULL )
+	{
+		ASSERT( !"Could not create edit box!" );
+		MessageBox( nullptr, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR );
+		return FALSE;
+	};
+
+	SendMessage( g_hIPEEditBM, WM_SETFONT, (WPARAM)GetStockObject( DEFAULT_GUI_FONT ), TRUE );
+	SetWindowText( g_hIPEEditBM, m_vBookmarks[ nItem ]->Description().c_str() );
+
+	SendMessage( g_hIPEEditBM, EM_SETSEL, 0, -1 );
+	SetFocus( g_hIPEEditBM );
+	EOldProcBM = (WNDPROC)SetWindowLong( g_hIPEEditBM, GWL_WNDPROC, (LONG)EditProcBM );
+
+	return TRUE;
 }
