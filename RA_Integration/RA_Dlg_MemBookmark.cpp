@@ -91,20 +91,11 @@ long _stdcall EditProcBM( HWND hwnd, UINT nMsg, WPARAM wParam, LPARAM lParam )
 
 INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-	HDC hdcMem;
-	HBITMAP hbmp;
-	TCHAR achBuffer[ MAX_PATH ];
 	PMEASUREITEMSTRUCT pmis;
 	PDRAWITEMSTRUCT pdis;
-	size_t cch;
-	int yPos;
 	int nSelect;
-	TEXTMETRIC tm;
-	RECT rcBitmap;
-	HRESULT hr;
 	HWND hList;
 	int offset = 2;
-	BOOL bHighlight;
 
 	RECT rcBounds, rcLabel;
 
@@ -543,13 +534,13 @@ std::wstring Dlg_MemBookmark::GetMemory( unsigned int nAddr, int type )
 	switch ( type )
 	{
 		case 1:
-			_swprintf( memory_buffer, L"%02x", g_MemManager.ActiveBankRAMByteRead( nAddr ) );
+			swprintf_s( memory_buffer, L"%02x", g_MemManager.ActiveBankRAMByteRead( nAddr ) );
 			break;
 		case 2:
-			_swprintf( memory_buffer, L"%04x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) );
+			swprintf_s( memory_buffer, L"%04x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) );
 			break;
 		case 3:
-			_swprintf( memory_buffer, L"%08x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) |
+			swprintf_s( memory_buffer, L"%08x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) |
 				( g_MemManager.ActiveBankRAMByteRead( nAddr + 2 ) << 16 ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 3 ) << 24 ) );
 			break;
 	}
