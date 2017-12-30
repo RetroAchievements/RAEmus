@@ -1,8 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugUnicode|Win32">
+      <Configuration>DebugUnicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseUnicode|Win32">
+      <Configuration>ReleaseUnicode</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
@@ -113,119 +121,183 @@
     <CustomBuild Include="..\common\src\blit.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\blit.asm -o $(ProjectDir)$(IntDir)blit.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\blit.asm -o $(ProjectDir)$(IntDir)blit.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)blit.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)blit.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\blit.asm -o $(ProjectDir)$(IntDir)blit.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\blit.asm -o $(ProjectDir)$(IntDir)blit.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)blit.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)blit.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\gfx_cd.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\gfx_cd.asm -o $(ProjectDir)$(IntDir)gfx_cd.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\gfx_cd.asm -o $(ProjectDir)$(IntDir)gfx_cd.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)gfx_cd.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)gfx_cd.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\gfx_cd.asm -o $(ProjectDir)$(IntDir)gfx_cd.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\gfx_cd.asm -o $(ProjectDir)$(IntDir)gfx_cd.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)gfx_cd.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)gfx_cd.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\io.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\io.asm -o $(ProjectDir)$(IntDir)io.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\io.asm -o $(ProjectDir)$(IntDir)io.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)io.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)io.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\io.asm -o $(ProjectDir)$(IntDir)io.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\io.asm -o $(ProjectDir)$(IntDir)io.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)io.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)io.obj</Outputs>
     </CustomBuild>
     <None Include="..\common\src\language.dat" />
     <CustomBuild Include="..\common\src\Mem_M68k.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_M68k.asm -o $(ProjectDir)$(IntDir)Mem_M68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_M68k.asm -o $(ProjectDir)$(IntDir)Mem_M68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)Mem_M68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_M68k.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_M68k.asm -o $(ProjectDir)$(IntDir)Mem_M68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_M68k.asm -o $(ProjectDir)$(IntDir)Mem_M68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)Mem_M68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_M68k.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\main68k.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\main68k.asm -o $(ProjectDir)$(IntDir)main68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\main68k.asm -o $(ProjectDir)$(IntDir)main68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)main68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)main68k.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\main68k.asm -o $(ProjectDir)$(IntDir)main68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\main68k.asm -o $(ProjectDir)$(IntDir)main68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)main68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)main68k.obj</Outputs>
     </CustomBuild>
     <None Include="..\common\src\Mem_M68K_32X.inc" />
     <None Include="..\common\src\Mem_M68K_CD.inc" />
     <CustomBuild Include="..\common\src\Mem_S68k.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_S68k.asm -o $(ProjectDir)$(IntDir)Mem_S68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_S68k.asm -o $(ProjectDir)$(IntDir)Mem_S68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)Mem_S68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_S68k.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_S68k.asm -o $(ProjectDir)$(IntDir)Mem_S68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_S68k.asm -o $(ProjectDir)$(IntDir)Mem_S68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)Mem_S68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_S68k.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\Mem_SH2.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_SH2.asm -o $(ProjectDir)$(IntDir)Mem_SH2.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_SH2.asm -o $(ProjectDir)$(IntDir)Mem_SH2.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)Mem_SH2.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_SH2.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_SH2.asm -o $(ProjectDir)$(IntDir)Mem_SH2.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_SH2.asm -o $(ProjectDir)$(IntDir)Mem_SH2.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)Mem_SH2.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_SH2.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\Mem_Z80.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_Z80.asm -o $(ProjectDir)$(IntDir)Mem_Z80.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_Z80.asm -o $(ProjectDir)$(IntDir)Mem_Z80.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)Mem_Z80.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_Z80.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_Z80.asm -o $(ProjectDir)$(IntDir)Mem_Z80.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Mem_Z80.asm -o $(ProjectDir)$(IntDir)Mem_Z80.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)Mem_Z80.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)Mem_Z80.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\Misc.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Misc.asm -o $(ProjectDir)$(IntDir)Misc.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Misc.asm -o $(ProjectDir)$(IntDir)Misc.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)Misc.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)Misc.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Misc.asm -o $(ProjectDir)$(IntDir)Misc.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\Misc.asm -o $(ProjectDir)$(IntDir)Misc.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)Misc.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)Misc.obj</Outputs>
     </CustomBuild>
     <None Include="..\common\src\nasmhead.inc" />
     <CustomBuild Include="..\common\src\pwm.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\pwm.asm -o $(ProjectDir)$(IntDir)pwm.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\pwm.asm -o $(ProjectDir)$(IntDir)pwm.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)pwm.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)pwm.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\pwm.asm -o $(ProjectDir)$(IntDir)pwm.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\pwm.asm -o $(ProjectDir)$(IntDir)pwm.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)pwm.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)pwm.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\SH2a.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\SH2a.asm -o $(ProjectDir)$(IntDir)SH2a.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\SH2a.asm -o $(ProjectDir)$(IntDir)SH2a.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)SH2a.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)SH2a.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\SH2a.asm -o $(ProjectDir)$(IntDir)SH2a.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\SH2a.asm -o $(ProjectDir)$(IntDir)SH2a.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)SH2a.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)SH2a.obj</Outputs>
     </CustomBuild>
     <None Include="..\common\src\SH2_IO.inc" />
     <CustomBuild Include="..\common\src\vdp_32X.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_32X.asm -o $(ProjectDir)$(IntDir)vdp_32X.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_32X.asm -o $(ProjectDir)$(IntDir)vdp_32X.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)vdp_32X.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)vdp_32X.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_32X.asm -o $(ProjectDir)$(IntDir)vdp_32X.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_32X.asm -o $(ProjectDir)$(IntDir)vdp_32X.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)vdp_32X.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)vdp_32X.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\vdp_io.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_io.asm -o $(ProjectDir)$(IntDir)vdp_io.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_io.asm -o $(ProjectDir)$(IntDir)vdp_io.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)vdp_io.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)vdp_io.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_io.asm -o $(ProjectDir)$(IntDir)vdp_io.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_io.asm -o $(ProjectDir)$(IntDir)vdp_io.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)vdp_io.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)vdp_io.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\vdp_rend.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_rend.asm -o $(ProjectDir)$(IntDir)vdp_rend.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_rend.asm -o $(ProjectDir)$(IntDir)vdp_rend.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)vdp_rend.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)vdp_rend.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_rend.asm -o $(ProjectDir)$(IntDir)vdp_rend.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\vdp_rend.asm -o $(ProjectDir)$(IntDir)vdp_rend.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)vdp_rend.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)vdp_rend.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\z80.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\z80.asm -o $(ProjectDir)$(IntDir)z80.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\z80.asm -o $(ProjectDir)$(IntDir)z80.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)z80.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)z80.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\z80.asm -o $(ProjectDir)$(IntDir)z80.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\z80.asm -o $(ProjectDir)$(IntDir)z80.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)z80.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)z80.obj</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\common\src\sub68k.asm">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\sub68k.asm -o $(ProjectDir)$(IntDir)sub68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\sub68k.asm -o $(ProjectDir)$(IntDir)sub68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)$(IntDir)sub68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">$(ProjectDir)$(IntDir)sub68k.obj</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\sub68k.asm -o $(ProjectDir)$(IntDir)sub68k.obj</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">.\tools\nasmw.exe -f win32 -i ..\common\src -i \src ..\common\src\sub68k.asm -o $(ProjectDir)$(IntDir)sub68k.obj</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)$(IntDir)sub68k.obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">$(ProjectDir)$(IntDir)sub68k.obj</Outputs>
     </CustomBuild>
     <None Include="Makefile" />
     <None Include="Makefile.inc" />
@@ -248,12 +320,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -261,7 +347,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -274,7 +366,25 @@
     <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">
+    <NMakeOutput>RAGens.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>RA_GENS;WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>nmake DEBUG=1</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>nmake DEBUG=1 clean &amp; nmake DEBUG=1</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>nmake DEBUG=1 clean</NMakeCleanCommandLine>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>nmake RELEASE=1</NMakeBuildCommandLine>
+    <NMakeOutput>RAGens.exe</NMakeOutput>
+    <NMakeCleanCommandLine>nmake RELEASE=1 clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>nmake RELEASE=1 clean &amp; nmake RELEASE=1</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>RA_GENS;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">
     <NMakeBuildCommandLine>nmake RELEASE=1</NMakeBuildCommandLine>
     <NMakeOutput>RAGens.exe</NMakeOutput>
     <NMakeCleanCommandLine>nmake RELEASE=1 clean</NMakeCleanCommandLine>
@@ -312,7 +422,60 @@ robocopy ..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
 if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>WIN32;RA_GENS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Full</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4091</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>../../DXSDK_March09_x86;$(ProjectDir)src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dinput8.lib;comctl32.lib;ddraw.lib;wsock32.lib;dsound.lib;dxguid.lib;dxerr.lib;delayimp.lib;Winhttp.lib;htmlhelp.lib;winmm.lib;comdlg32.lib;user32.lib;gdi32.lib;advapi32.lib;windowscodecs.lib;shell32.lib;kernel32.lib;winspool.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+    <PreBuildEvent>
+      <Command>MakeBuildVer.bat</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>robocopy ..\..\RA_Integration $(OutputPath) RA_Integration.dll /njh /njs /np /XX
+robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
+robocopy ..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+if %ERRORLEVEL% LEQ 3 exit 0</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;RA_GENS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4091</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>../../DXSDK_March09_x86;$(ProjectDir)src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dinput8.lib;comctl32.lib;ddraw.lib;wsock32.lib;dsound.lib;dxguid.lib;dxerr.lib;delayimp.lib;Winhttp.lib;htmlhelp.lib;winmm.lib;comdlg32.lib;user32.lib;gdi32.lib;advapi32.lib;windowscodecs.lib;shell32.lib;kernel32.lib;winspool.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libc.lib</IgnoreSpecificDefaultLibraries>
+      <SubSystem>Windows</SubSystem>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+    </Link>
+    <PreBuildEvent>
+      <Command>MakeBuildVer.bat</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>robocopy ..\..\RA_Integration $(OutputPath) RA_Integration_d.dll RA_Integration_d.pdb /njh /njs /np /XX
+robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
+robocopy ..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+if %ERRORLEVEL% LEQ 3 exit 0</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;RA_GENS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
