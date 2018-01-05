@@ -44,6 +44,8 @@
 extern int disableBatteryLoading;
 
 bool isFDS = false; //flag for determining if a FDS game is loaded, movie.cpp needs this
+uint8 *fds_ROM;
+uint32 fds_size = 0;
 
 static DECLFR(FDSRead4030);
 static DECLFR(FDSRead4031);
@@ -603,13 +605,16 @@ static int SubLoad(FCEUFILE *fp) {
 
 	for (x = 0; x < TotalSides; x++) {
 		diskdata[x] = (uint8*)FCEU_malloc(65500);
+
 		if (!diskdata[x]) {
 			int zol;
 			for (zol = 0; zol < x; zol++)
 				free(diskdata[zol]);
 			return 0;
 		}
+
 		FCEU_fread(diskdata[x], 1, 65500, fp);
+		memcpy(&fds_ROM[x * 65500], diskdata[x], 65500);
 		md5_update(&md5, diskdata[x], 65500);
 	}
 	md5_finish(&md5, GameInfo->MD5.data);
@@ -685,8 +690,12 @@ int FDSLoad(const char *name, FCEUFILE *fp) {
 
 	FCEU_fseek(fp, 0, SEEK_SET);
 
+	fds_size = fp->size;
+	fds_ROM = (uint8*)FCEU_malloc(fds_size);
+
 	FreeFDSMemory();
 	if (!SubLoad(fp)) {
+		free(fds_ROM);
 		if(FDSBIOS)
 			free(FDSBIOS);
 		FDSBIOS = NULL;
@@ -708,6 +717,7 @@ int FDSLoad(const char *name, FCEUFILE *fp) {
 			FreeFDSMemory();
 			if (!SubLoad(tp)) {
 				FCEU_PrintError("Error reading auxillary FDS file.");
+				free(fds_ROM);
 				if(FDSBIOS)
 					free(FDSBIOS);
 				FDSBIOS = NULL;
@@ -798,6 +808,8 @@ void FDSClose(void) {
 		}
 
 	FreeFDSMemory();
+	if(fds_ROM)
+		free(fds_ROM);
 	if(FDSBIOS)
 		free(FDSBIOS);
 	FDSBIOS = NULL;
