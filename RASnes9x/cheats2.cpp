@@ -303,6 +303,8 @@ void S9xDisableCheat (uint32 which1)
 
 void S9xApplyCheat (uint32 which1)
 {
+	return;
+
 	uint32	address = Cheat.c[which1].address;
 
 	if (!Cheat.c[which1].saved)
