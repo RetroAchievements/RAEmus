@@ -58,36 +58,6 @@ class SearchResult
 		std::wstring m_sFirstLine;
 		std::wstring m_sSecondLine;
 		ComparisonType m_nCompareType;
-
-		/*void SetText( const std::wstring& string ) { m_sText = string; }
-		//void SetCurrentMem ( const std::wstring& string ) { m_sCurrentMem = string; }
-		//void SetPreviousMem ( const std::wstring& string ) { m_sPreviousMem = string; }
-		void SetCurrent( unsigned int nVal ) { m_nCurrentMem = nVal; }
-		void SetPrevious( unsigned int nVal ) { m_nPreviousMem = nVal; }
-		void SetAddress ( DWORD addr ) { m_nAddress = addr; }
-		void SetFlag ( unsigned int nVal ) { m_nFlag = nVal; }
-
-		inline const std::wstring& Text() const { return m_sText; }
-		//inline const std::wstring& Current() const { return m_sCurrentMem; }
-		//inline const std::wstring& Previous() const { return m_sPreviousMem; }
-		unsigned int Current() const { return m_nCurrentMem; }
-		unsigned int Previous() const { return m_nPreviousMem; }
-		ByteAddress Address() const { return m_nAddress; }
-		unsigned int Flag() const { return m_nFlag; }
-
-		bool bHasChanged = false;
-
-		SearchResult( const std::wstring& string )
-		{
-			m_sText = string;
-		}
-
-	private:
-		std::wstring m_sText;
-		unsigned int m_nCurrentMem;
-		unsigned int m_nPreviousMem;
-		ByteAddress m_nAddress;
-		INT8 m_nFlag = 0;*/
 };
 
 class Dlg_Memory
