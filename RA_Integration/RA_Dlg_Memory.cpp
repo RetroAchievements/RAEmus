@@ -22,9 +22,7 @@
 #endif
 
 namespace
-{
-	const size_t MIN_RESULTS_TO_DUMP = 1000000;
-	
+{	
 	const wchar_t* COMP_STR[] = {
 		{ L"EQUAL" },
 		{ L"LESS THAN" },

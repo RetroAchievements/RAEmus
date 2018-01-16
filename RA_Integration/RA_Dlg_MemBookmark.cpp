@@ -512,18 +512,21 @@ void Dlg_MemBookmark::WriteFrozenValue( const MemBookmark & Bookmark )
 
 	switch ( Bookmark.Type() )
 	{
-		case 1:
-			addr = Bookmark.Address();
-
-			for ( unsigned int i = 0; i < Bookmark.Value().length(); i++ )
-			{
-				c = Bookmark.Value()[ i ];
-				n = ( c >= 'a' ) ? ( c - 'a' + 10 ) : ( c - '0' );
-				MemoryViewerControl::editData( addr, ( i % 2 != 0 ), n );
-			}
-			break;
+		case 1: addr = Bookmark.Address();		break;
+		case 2: addr = Bookmark.Address() + 1;	break;
+		case 3: addr = Bookmark.Address() + 3;	break;
 		default:
 			break;
+	}
+
+	for ( unsigned int i = 0; i < Bookmark.Value().length(); i++ )
+	{
+		c = Bookmark.Value()[ i ];
+		n = ( c >= 'a' ) ? ( c - 'a' + 10 ) : ( c - '0' );
+		MemoryViewerControl::editData( addr, ( i % 2 != 0 ), n );
+
+		if ( i % 2 != 0 )
+			addr--;
 	}
 }
 
