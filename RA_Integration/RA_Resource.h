@@ -9,8 +9,12 @@
 #define IDC_RA_ADD_BOOKMARK             1024
 #define IDC_RA_DEL_BOOKMARK             1025
 #define IDC_RA_CLEAR_CHANGE             1026
+#define IDC_RA_RESULTS_BACK             1026
 #define IDC_RA_FREEZE                   1027
+#define IDC_RA_RESULTS_FORWARD          1027
 #define IDC_RA_BREAKPOINT               1028
+#define IDC_RA_RESULTS_REMOVE           1028
+#define IDC_RA_RESULTS_HIGHLIGHT        1029
 #define IDD_RA_MEMORY                   1501
 #define IDD_RA_ACHIEVEMENTS             1502
 #define IDD_RA_ACHIEVEMENTEDITOR        1503
@@ -140,7 +144,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1026
+#define _APS_NEXT_CONTROL_VALUE         1030
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
