@@ -11,30 +11,33 @@ public:
 	void SetDescription( const std::wstring& string )		{ m_sDescription = string; }
 	void SetAddress( unsigned int nVal )					{ m_nAddress = nVal; }
 	void SetType( unsigned int nVal )						{ m_nType = nVal; }
-	void SetValue( const std::wstring& string )				{ m_sValue = string; }
-	void SetPrevious( const std::wstring& string )			{ m_sPrevious = string; }
+	void SetValue( unsigned int nVal )						{ m_sValue = nVal; }
+	void SetPrevious( unsigned int nVal )					{ m_sPrevious = nVal; }
 	void IncreaseCount()									{ m_nCount++; }
 	void ResetCount()										{ m_nCount = 0; }
 
 	void SetFrozen( bool b )								{ m_bFrozen = b; }
+	void SetDecimal( bool b )								{ m_bDecimal = b; }
 
 	inline const std::wstring& Description() const			{ return m_sDescription; }
 	unsigned int Address() const							{ return m_nAddress; }
 	unsigned int Type() const								{ return m_nType; }
-	inline const std::wstring& Value() const					{ return m_sValue; }
-	inline const std::wstring& Previous() const				{ return m_sPrevious; }
+	unsigned int Value() const								{ return m_sValue; }
+	unsigned int Previous() const							{ return m_sPrevious; }
 	unsigned int Count() const								{ return m_nCount; }
 
 	bool Frozen() const										{ return m_bFrozen; }
+	bool Decimal() const									{ return m_bDecimal; }
 
 private:
 	std::wstring m_sDescription;
 	unsigned int m_nAddress;
 	unsigned int m_nType;
-	std::wstring m_sValue;
-	std::wstring m_sPrevious;
+	unsigned int m_sValue;
+	unsigned int m_sPrevious;
 	unsigned int m_nCount = 0;
 	bool m_bFrozen = FALSE;
+	bool m_bDecimal = FALSE;
 };
 
 class Dlg_MemBookmark
@@ -52,7 +55,8 @@ public:
 	std::vector<MemBookmark*> Bookmarks()				{ return m_vBookmarks; }
 	void UpdateBookmarks( bool bForceWrite );
 	void AddBookmark( MemBookmark* newBookmark )		{ m_vBookmarks.push_back(newBookmark); }
-	void ClearAllBookmarks()							{ m_vBookmarks.clear(); }
+
+	void OnLoad_NewRom();
 
 private:
 	int m_nNumOccupiedRows;
@@ -61,8 +65,13 @@ private:
 	void SetupColumns( HWND hList );
 	BOOL EditLabel ( int nItem, int nSubItem );
 	void AddAddress();
+	void ClearAllBookmarks();
 	void WriteFrozenValue( const MemBookmark& Bookmark );
-	std::wstring GetMemory( unsigned int nAddr, int type );
+	unsigned int GetMemory( unsigned int nAddr, int type );
+
+	void ExportJSON();
+	void ImportFromFile( std::string filename );
+	std::string ImportDialog();
 
 	void AddBookmarkMap( MemBookmark* bookmark )
 	{

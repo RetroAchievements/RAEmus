@@ -1,5 +1,6 @@
 #include "RA_Dlg_MemBookmark.h"
 
+#include "RA_Core.h";
 #include "RA_Resource.h"
 #include "RA_GameData.h"
 #include "RA_Dlg_Memory.h"
@@ -20,6 +21,11 @@ namespace
 	const int COLUMN_WIDTH[] = { 112, 64, 64, 64, 54 };
 	static_assert( SIZEOF_ARRAY( COLUMN_TITLE ) == SIZEOF_ARRAY( COLUMN_WIDTH ), "Must match!" );
 }
+
+const COMDLG_FILTERSPEC c_rgFileTypes[] =
+{
+	{ L"Text Document (*.txt)",       L"*.txt" }
+};
 
 enum BookmarkSubItems
 {
@@ -112,6 +118,13 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 
 			SetupColumns( hList );
 
+			// Auto-import bookmark file when opening dialog
+			if ( g_pCurrentGameData->GetGameID() != 0 )
+			{
+				std::string file = RA_DIR_BOOKMARKS + std::to_string( g_pCurrentGameData->GetGameID() ) + "-Bookmarks.txt";
+				ImportFromFile( file );
+			}
+
 			return TRUE;
 		}
 
@@ -141,7 +154,10 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 
 					// Draw Item Label - Column 0
 					wchar_t buffer[ 256 ];
-					swprintf ( buffer, sizeof( buffer ), L"%s", m_vBookmarks[ pdis->itemID ]->Description().c_str() );
+					if ( m_vBookmarks[ pdis->itemID ]->Decimal() )
+						swprintf ( buffer, sizeof( buffer ), L"(D)%s", m_vBookmarks[ pdis->itemID ]->Description().c_str() );
+					else
+						swprintf ( buffer, sizeof( buffer ), L"%s", m_vBookmarks[ pdis->itemID ]->Description().c_str() );
 
 					if ( pdis->itemState & ODS_SELECTED )
 					{
@@ -189,10 +205,30 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 								swprintf ( buffer, sizeof( buffer ), L"%06x", m_vBookmarks[ pdis->itemID ]->Address() );
 								break;
 							case CSI_VALUE:
-								swprintf ( buffer, sizeof( buffer ), L"%s", m_vBookmarks[ pdis->itemID ]->Value().c_str() );
+								if ( m_vBookmarks[ pdis->itemID ]->Decimal() )
+									swprintf ( buffer, sizeof( buffer ), L"%u", m_vBookmarks[ pdis->itemID ]->Value() );
+								else
+								{
+									switch ( m_vBookmarks[ pdis->itemID ]->Type() )
+									{
+										case 1: swprintf ( buffer, sizeof( buffer ), L"%02x", m_vBookmarks[ pdis->itemID ]->Value() ); break;
+										case 2: swprintf ( buffer, sizeof( buffer ), L"%04x", m_vBookmarks[ pdis->itemID ]->Value() ); break;
+										case 3: swprintf ( buffer, sizeof( buffer ), L"%08x", m_vBookmarks[ pdis->itemID ]->Value() ); break;
+									}
+								}
 								break;
 							case CSI_PREVIOUS:
-								swprintf ( buffer, sizeof( buffer ), L"%s", m_vBookmarks[ pdis->itemID ]->Previous().c_str() );
+								if ( m_vBookmarks[ pdis->itemID ]->Decimal() )
+									swprintf ( buffer, sizeof( buffer ), L"%u", m_vBookmarks[ pdis->itemID ]->Previous() );
+								else
+								{
+									switch ( m_vBookmarks[ pdis->itemID ]->Type() )
+									{
+										case 1: swprintf ( buffer, sizeof( buffer ), L"%02x", m_vBookmarks[ pdis->itemID ]->Previous() ); break;
+										case 2: swprintf ( buffer, sizeof( buffer ), L"%04x", m_vBookmarks[ pdis->itemID ]->Previous() ); break;
+										case 3: swprintf ( buffer, sizeof( buffer ), L"%08x", m_vBookmarks[ pdis->itemID ]->Previous() ); break;
+									}
+								}
 								break;
 							case CSI_CHANGES:
 								swprintf ( buffer, sizeof( buffer ), L"%d", m_vBookmarks[ pdis->itemID ]->Count() );
@@ -356,6 +392,34 @@ INT_PTR Dlg_MemBookmark::MemBookmarkDialogProc( HWND hDlg, UINT uMsg, WPARAM wPa
 
 					return TRUE;
 				}
+				case IDC_RA_DECIMALBOOKMARK:
+				{
+					if ( m_vBookmarks.size() > 0 )
+					{
+						hList = GetDlgItem( hDlg, IDC_RA_LBX_ADDRESSES );
+						unsigned int uSelectedCount = ListView_GetSelectedCount( hList );
+
+						if ( uSelectedCount > 0 )
+						{
+							for ( int i = ListView_GetNextItem( hList, -1, LVNI_SELECTED ); i >= 0; i = ListView_GetNextItem( hList, i, LVNI_SELECTED ) )
+								m_vBookmarks[ i ]->SetDecimal( !m_vBookmarks[ i ]->Decimal() );
+						}
+						ListView_SetItemState( hList, -1, LVIF_STATE, LVIS_SELECTED );
+					}
+					return TRUE;
+				}
+				case IDC_RA_SAVEBOOKMARK:
+				{
+					ExportJSON();
+					return TRUE;
+				}
+				case IDC_RA_LOADBOOKMARK:
+				{
+					std::string file = ImportDialog();
+					if (file.length() > 0 )
+						ImportFromFile( file );
+					return TRUE;
+				}
 				default:
 					return FALSE;
 			}
@@ -385,12 +449,12 @@ void Dlg_MemBookmark::UpdateBookmarks( bool bForceWrite )
 			continue;
 		}
 
-		std::wstring mem_string = GetMemory( bookmark->Address(), bookmark->Type() );
+		unsigned int mem_value = GetMemory( bookmark->Address(), bookmark->Type() );
 
-		if ( bookmark->Value() != mem_string )
+		if ( bookmark->Value() != mem_value )
 		{
 			bookmark->SetPrevious( bookmark->Value() );
-			bookmark->SetValue( mem_string );
+			bookmark->SetValue( mem_value );
 			bookmark->IncreaseCount();
 		}
 	}
@@ -501,11 +565,30 @@ void Dlg_MemBookmark::AddAddress()
 	PopulateList();
 }
 
+void Dlg_MemBookmark::ClearAllBookmarks()
+{
+	while ( m_vBookmarks.size() > 0 )
+	{
+		MemBookmark* pBookmark = m_vBookmarks[ 0 ];
+
+		// Remove from vector
+		m_vBookmarks.erase( m_vBookmarks.begin() );
+
+		// Remove from map
+		std::vector<const MemBookmark*> *pVector;
+		pVector = &m_BookmarkMap.find( pBookmark->Address() )->second;
+		pVector->erase( std::find( pVector->begin(), pVector->end(), pBookmark ) );
+		if ( pVector->size() == 0 )
+			m_BookmarkMap.erase( pBookmark->Address() );
+
+		delete pBookmark;
+	}
+
+	ListView_DeleteAllItems( GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES ) );
+}
+
 void Dlg_MemBookmark::WriteFrozenValue( const MemBookmark & Bookmark )
 {
-	//if ( !Bookmark.Frozen() )
-	//	return;
-
 	unsigned int addr;
 	int n;
 	char c;
@@ -519,9 +602,12 @@ void Dlg_MemBookmark::WriteFrozenValue( const MemBookmark & Bookmark )
 			break;
 	}
 
-	for ( unsigned int i = 0; i < Bookmark.Value().length(); i++ )
+	char buffer[ 32 ];
+	sprintf_s ( buffer, sizeof(buffer), "%x", Bookmark.Value() );
+
+	for ( unsigned int i = 0; i < strlen( buffer ); i++ )
 	{
-		c = Bookmark.Value()[ i ];
+		c = buffer[ i ];
 		n = ( c >= 'a' ) ? ( c - 'a' + 10 ) : ( c - '0' );
 		MemoryViewerControl::editData( addr, ( i % 2 != 0 ), n );
 
@@ -530,28 +616,207 @@ void Dlg_MemBookmark::WriteFrozenValue( const MemBookmark & Bookmark )
 	}
 }
 
-std::wstring Dlg_MemBookmark::GetMemory( unsigned int nAddr, int type )
+unsigned int Dlg_MemBookmark::GetMemory( unsigned int nAddr, int type )
 {
-	wchar_t memory_buffer[ 128 ];
+	unsigned int mem_value;
 
 	switch ( type )
 	{
 		case 1:
-			swprintf_s( memory_buffer, L"%02x", g_MemManager.ActiveBankRAMByteRead( nAddr ) );
+			mem_value = g_MemManager.ActiveBankRAMByteRead( nAddr );
 			break;
 		case 2:
-			swprintf_s( memory_buffer, L"%04x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) );
+			mem_value = ( g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) );
 			break;
 		case 3:
-			swprintf_s( memory_buffer, L"%08x", g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) |
+			mem_value = ( g_MemManager.ActiveBankRAMByteRead( nAddr ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 1 ) << 8 ) |
 				( g_MemManager.ActiveBankRAMByteRead( nAddr + 2 ) << 16 ) | ( g_MemManager.ActiveBankRAMByteRead( nAddr + 3 ) << 24 ) );
 			break;
 	}
 
-	//for (int i = 0; i < strlen(memory_buffer); i++)
-	//	memory_buffer[i] = toupper( memory_buffer[i] );
+	return mem_value;
+}
 
-	return memory_buffer;
+void Dlg_MemBookmark::ExportJSON()
+{
+	if ( g_pCurrentGameData->GetGameID() == 0 )
+	{
+		MessageBox( nullptr, L"ROM not loaded: please load a ROM first!", L"Error!", MB_OK );
+		return;
+	}
+
+	if ( m_vBookmarks.size() == 0)
+	{
+		MessageBox( nullptr, L"No bookmarks to save: please create a bookmark before attempting to save.", L"Error!", MB_OK );
+		return;
+	}
+
+	std::string defaultDir = RA_DIR_BOOKMARKS;
+	defaultDir.erase ( 0, 2 ); // Removes the characters (".\\")
+	defaultDir = g_sHomeDir + defaultDir;
+
+	IFileSaveDialog* pDlg = nullptr;
+	HRESULT hr = CoCreateInstance( CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_IFileSaveDialog, reinterpret_cast<void**>( &pDlg ) );
+	if ( hr == S_OK )
+	{
+		hr = pDlg->SetFileTypes( ARRAYSIZE( c_rgFileTypes ), c_rgFileTypes );
+		if ( hr == S_OK )
+		{
+			char defaultFileName[ 512 ];
+			sprintf ( defaultFileName, "%s-Bookmarks.txt", std::to_string( g_pCurrentGameData->GetGameID() ).c_str() );
+			hr = pDlg->SetFileName( Widen( defaultFileName ).c_str() );
+			if ( hr == S_OK )
+			{
+				IShellItem* pItem = nullptr;
+				SHCreateItemFromParsingName( Widen( defaultDir ).c_str(), NULL, IID_PPV_ARGS( &pItem ) );
+				hr = pDlg->SetDefaultFolder( pItem );
+				if ( hr == S_OK )
+				{
+					pDlg->SetDefaultExtension( L"txt" );
+					hr = pDlg->Show( nullptr );
+					if ( hr == S_OK )
+					{
+						
+						hr = pDlg->GetResult( &pItem );
+						if ( hr == S_OK )
+						{
+							LPWSTR pStr = nullptr;
+							hr = pItem->GetDisplayName( SIGDN_FILESYSPATH, &pStr );
+							if ( hr == S_OK )
+							{
+								Document doc;
+								Document::AllocatorType& allocator = doc.GetAllocator();
+								doc.SetObject();
+
+								Value bookmarks( kArrayType );
+								for ( MemBookmark* bookmark : m_vBookmarks )
+								{
+									Value item( kObjectType );
+									char buffer[ 256 ];
+									wcstombs( buffer, bookmark->Description().c_str(), sizeof( buffer ) );
+									Value s( buffer, allocator );
+
+									item.AddMember( "Description", s, allocator );
+									item.AddMember( "Address", bookmark->Address(), allocator );
+									item.AddMember( "Type", bookmark->Type(), allocator );
+									item.AddMember( "Decimal", bookmark->Decimal(), allocator );
+									bookmarks.PushBack( item, allocator );
+								}
+								doc.AddMember( "Bookmarks", bookmarks, allocator );
+
+								_WriteBufferToFile( Narrow( pStr ), doc );
+							}
+
+							pItem->Release();
+						}
+					}
+				}
+			}
+		}
+		pDlg->Release();
+	}
+}
+
+void Dlg_MemBookmark::ImportFromFile( std::string sFilename )
+{
+	FILE* pFile = nullptr;
+	errno_t nErr = fopen_s( &pFile, sFilename.c_str(), "r" );
+	if ( pFile != nullptr )
+	{
+		Document doc;
+		doc.ParseStream( FileStream( pFile ) );
+		if ( !doc.HasParseError() )
+		{
+			if ( doc.HasMember( "Bookmarks" ) )
+			{
+				ClearAllBookmarks();
+
+				const Value& BookmarksData = doc[ "Bookmarks" ];
+				for ( SizeType i = 0; i < BookmarksData.Size(); ++i )
+				{
+					MemBookmark* NewBookmark = new MemBookmark();
+
+					wchar_t buffer[ 256 ];
+					swprintf ( buffer, 256, L"%s", Widen( BookmarksData[ i ][ "Description" ].GetString() ).c_str() );
+					NewBookmark->SetDescription ( buffer );
+
+					NewBookmark->SetAddress( BookmarksData[ i ][ "Address" ].GetUint() );
+					NewBookmark->SetType( BookmarksData[ i ][ "Type" ].GetInt() );
+					NewBookmark->SetDecimal( BookmarksData[ i ][ "Decimal" ].GetBool() );
+
+					NewBookmark->SetValue( GetMemory( NewBookmark->Address(), NewBookmark->Type() ) );
+					NewBookmark->SetPrevious ( NewBookmark->Value() );
+
+					AddBookmark ( NewBookmark );
+					AddBookmarkMap( NewBookmark );
+				}
+
+				if ( m_vBookmarks.size() > 0 )
+					PopulateList();
+			}
+			else
+			{
+				ASSERT ( " !Invalid Bookmark File..." );
+				MessageBox( nullptr, L"Could not load properly. Invalid Bookmark file.", L"Error", MB_OK | MB_ICONERROR );
+				return;
+			}
+		}
+
+		fclose( pFile );
+	}
+}
+
+std::string Dlg_MemBookmark::ImportDialog()
+{
+	std::string str;
+
+	if ( g_pCurrentGameData->GetGameID() == 0 )
+	{
+		MessageBox( nullptr, L"ROM not loaded: please load a ROM first!", L"Error!", MB_OK );
+		return str;
+	}
+
+	IFileOpenDialog* pDlg = nullptr;
+	HRESULT hr = CoCreateInstance( CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>( &pDlg ) );
+	if ( hr == S_OK )
+	{
+		hr = pDlg->SetFileTypes( ARRAYSIZE( c_rgFileTypes ), c_rgFileTypes );
+		if ( hr == S_OK )
+		{
+			hr = pDlg->Show( nullptr );
+			if ( hr == S_OK )
+			{
+				IShellItem* pItem = nullptr;
+				hr = pDlg->GetResult( &pItem );
+				if ( hr == S_OK )
+				{
+					LPWSTR pStr = nullptr;
+					hr = pItem->GetDisplayName( SIGDN_FILESYSPATH, &pStr );
+					if ( hr == S_OK )
+					{
+						str = Narrow( pStr );
+					}
+
+					pItem->Release();
+				}
+			}
+		}
+		pDlg->Release();
+	}
+
+	return str;
+}
+
+void Dlg_MemBookmark::OnLoad_NewRom()
+{
+	HWND hList = GetDlgItem( m_hMemBookmarkDialog, IDC_RA_LBX_ADDRESSES );
+	if ( hList != nullptr )
+	{
+		ClearAllBookmarks();
+
+		std::string file = RA_DIR_BOOKMARKS + std::to_string( g_pCurrentGameData->GetGameID() ) + "-Bookmarks.txt";
+		ImportFromFile( file );
+	}
 }
 
 BOOL Dlg_MemBookmark::EditLabel ( int nItem, int nSubItem )

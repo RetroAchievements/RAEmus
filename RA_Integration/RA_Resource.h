@@ -15,6 +15,9 @@
 #define IDC_RA_BREAKPOINT               1028
 #define IDC_RA_RESULTS_REMOVE           1028
 #define IDC_RA_RESULTS_HIGHLIGHT        1029
+#define IDC_RA_DECIMALBOOKMARK          1029
+#define IDC_RA_SAVEBOOKMARK             1030
+#define IDC_RA_LOADBOOKMARK             1031
 #define IDD_RA_MEMORY                   1501
 #define IDD_RA_ACHIEVEMENTS             1502
 #define IDD_RA_ACHIEVEMENTEDITOR        1503

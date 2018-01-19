@@ -80,6 +80,9 @@ API BOOL CCONV _RA_InitI( HWND hMainHWND, /*enum EmulatorID*/int nEmulatorID, co
 		_mkdir( RA_DIR_USERPIC );
 	if( DirectoryExists( RA_DIR_OVERLAY ) == FALSE )	//	It should already, really...
 		_mkdir( RA_DIR_OVERLAY );
+	if ( DirectoryExists( RA_DIR_BOOKMARKS ) == FALSE )
+		_mkdir( RA_DIR_BOOKMARKS );
+
 
 	g_EmulatorID = static_cast<EmulatorID>( nEmulatorID );
 	g_RAMainWnd = hMainHWND;
@@ -400,6 +403,7 @@ API int CCONV _RA_OnLoadNewRom( const BYTE* pROM, unsigned int nROMSize )
 	g_AchievementEditorDialog.OnLoad_NewRom();
 	g_MemoryDialog.OnLoad_NewRom();
 	g_AchievementOverlay.OnLoad_NewRom();
+	g_MemBookmarkDialog.OnLoad_NewRom();
 
 	return 0;
 }
