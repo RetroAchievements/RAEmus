@@ -76,6 +76,7 @@
 #include "RA_Interface.h"
 #include "RA_Implementation.h"
 #include "iNes.h"
+#include "fds.h"
 
 #include <fstream>
 #include <sstream>
@@ -1055,7 +1056,14 @@ bool ALoad(const char *nameo, char* innerFilename, bool silent)
 //pWriter is typedef void (_RAMByteWriteFn)( unsigned int nOffs, unsigned int nVal );
 		RA_ClearMemoryBanks();
 		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x10000 );
-		RA_OnLoadNewRom( ROM, ( ROM_size << 14 ) );
+		if (GameInfo->type == EGIT::GIT_FDS)
+		{
+			RA_OnLoadNewRom(fds_ROM, (fds_size));
+		}
+		else
+		{
+			RA_OnLoadNewRom(ROM, (ROM_size << 14));
+		}
 
 		pal_emulation = FCEUI_GetCurrentVidSystem(0, 0);
 

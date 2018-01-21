@@ -2357,6 +2357,7 @@ LRESULT CALLBACK WinProc(
 			FreezeUnfreeze (9, TRUE);
 			break;
 		case ID_CHEAT_ENTER:
+			break; // Disable cheat window.
 			RestoreGUIDisplay ();
 			S9xRemoveCheats ();
 			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_CHEATER), hWnd, DlgCheater);
@@ -2378,6 +2379,7 @@ LRESULT CALLBACK WinProc(
 			RestoreSNESDisplay ();
 			break;
 		case ID_CHEAT_SEARCH_MODAL:
+			break; // Disable cheat window.
 			RestoreGUIDisplay ();
 			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_CHEAT_SEARCH), hWnd, DlgCheatSearch); // modal
 			S9xSaveCheatFile (S9xGetFilename (".cht", CHEAT_DIR));
