@@ -86,6 +86,7 @@
 /RA_Integration/.vs
 /RA_Integration/Backup
 /RA_Integration/Debug
+/RA_Integration/x64
 /RA_Integration/RA_Integration.dll
 /RA_Integration/RA_Integration.exp
 /RA_Integration/RA_Integration.ilk
@@ -129,14 +130,7 @@
 /RAGens/win32/RAGens.ncb
 /RAGens/win32/RAGens.suo
 /RAGens/win32/src/*.aps
-/RANes/output/*.dll
-/RANes/output/*.pdb
-/RANes/output/fceux.cfg
-/RANes/output/RA_Integration.dll
-/RANes/output/RANes.exe
-/RANes/output/RANes.exp
-/RANes/output/RANes.lib
-/RANes/output/RANes.pdb
+/RANes/output/
 /RANes/vc/*.opensdf
 /RANes/vc/*.sdf
 /RANes/vc/*.suo
