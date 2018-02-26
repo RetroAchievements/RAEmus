@@ -37,8 +37,8 @@
         $Credential = New-Object System.Management.Automation.PSCredential ('ec2-user', $Password)
         $KeyPath = ".\RetroAchievementsKey"
         $TargetURL = "www.RetroAchievements.org"
-        $WebRoot = "/var/www/html"
-        $WebRootBin = "/var/www/html/bin"
+        $WebRoot = "/var/www/html/public"
+        $WebRootBin = "/var/www/html/public/bin"
 
         if (-not (Test-Path "$env:ProgramFiles\7-Zip\7z.exe")) 
         {
