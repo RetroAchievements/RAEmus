@@ -20,7 +20,7 @@
 
         $TargetArchiveName = "RASnes9x.zip"
 
-        $VersionDoc = "..\RAWeb\LatestRASnesVersion.html"
+        $VersionDoc = "..\RAWeb\public\LatestRASnesVersion.html"
 
         $ExpectedTag = "RASnes9x"
 

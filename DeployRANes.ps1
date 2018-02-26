@@ -25,7 +25,7 @@
 
         $TargetArchiveName = "RANes.zip"
 
-        $VersionDoc = "..\RAWeb\LatestRANESVersion.html"
+        $VersionDoc = "..\RAWeb\public\LatestRANESVersion.html"
 
         $ExpectedTag = "RANes"
 

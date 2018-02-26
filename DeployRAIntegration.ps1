@@ -13,7 +13,7 @@
 
         $IntegrationDLLSource = "RA_Integration/RA_Integration.dll"
 
-        $VersionDoc = "..\RAWeb\LatestIntegration.html"
+        $VersionDoc = "..\RAWeb\public\LatestIntegration.html"
 
         $ExpectedTag = "RAIntegration"
 
