@@ -20,7 +20,7 @@
 
         $TargetArchiveName = "RAVBA.zip"
 
-        $VersionDoc = "..\web\LatestRAVBAVersion.html"
+        $VersionDoc = "..\RAWeb\LatestRAVBAVersion.html"
 
         $ExpectedTag = "RAVBA-M"
 
