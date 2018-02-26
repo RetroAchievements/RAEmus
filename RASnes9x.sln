@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 14.00
-# Visual Studio 2015
-VisualStudioVersion = 12.0.21005.1
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RASnes9X", "RASnes9x\win32\snes9xw.vcxproj", "{B86059D8-C9A6-46BE-8FBA-3170C54F1DFD}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -73,8 +73,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{0008960E-E0DD-41A6-8265-00B31DDB4C21} = {936A8937-014E-465F-A13D-6E7316CECF08}
 		{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8} = {936A8937-014E-465F-A13D-6E7316CECF08}
 		{825CB292-F069-4B27-82CF-3417746ACDF3} = {936A8937-014E-465F-A13D-6E7316CECF08}
-		{0008960E-E0DD-41A6-8265-00B31DDB4C21} = {936A8937-014E-465F-A13D-6E7316CECF08}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6ED19B25-F460-4430-AFBD-B099F8640E4C}
 	EndGlobalSection
 EndGlobal
