@@ -81,9 +81,10 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
         }
 
 		//Initialize RA
+		MainWindow.Show( true );
 		hMainWindow = reinterpret_cast<HWND>(MainWindow.GetWindowHandle());
 		hMainWindowStatusBar = (HWND)MainWindow.GetStatusBar();
-		BringWindowToTop(hMainWindow);
+		MainWindow.BringToTop();
 		RA_Init(hMainWindow, RA_Project64, "0.058");
 
 		RA_InitShared();
