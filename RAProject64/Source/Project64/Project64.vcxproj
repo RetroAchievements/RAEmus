@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7E534C8E-1ACE-4A88-8807-39A11ED4DA18}</ProjectGuid>
+    <RootNamespace>Project64</RootNamespace>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+    <ProjectName>RAProject64</ProjectName>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(SolutionDir)PropertySheets\Platform.$(Configuration).props" />
+  </ImportGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>RAProject64</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>RAProject64</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>RAProject64</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>RAProject64</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <MinimumRequiredVersion Condition="'$(Platform)'=='Win32'">5.01</MinimumRequiredVersion>
+      <MinimumRequiredVersion Condition="'$(Platform)'=='x64'">5.02</MinimumRequiredVersion>
+      <StackReserveSize>
+      </StackReserveSize>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalDependencies);winhttp.lib</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalDependencies);winhttp.lib</AdditionalDependencies>
+      <HeapReserveSize Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+      <HeapCommitSize Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+      <StackCommitSize Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+      <HeapReserveSize Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+      <HeapCommitSize Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+      <StackCommitSize Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+      <LargeAddressAware Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LargeAddressAware>
+    </Link>
+    <Manifest Condition="'$(PlatformToolset)'!='v90'">
+      <EnableDPIAwareness>true</EnableDPIAwareness>
+    </Manifest>
+    <ClCompile>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y "$(ProjectDir)..\..\..\RA_Integration\RA_Integration.dll" "$(SolutionDir)bin\Release"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y "$(ProjectDir)..\..\..\RA_Integration\RA_Integration_d.dll" "$(SolutionDir)bin\Debug"</Command>
+    </PostBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\RA_Integration\RA_Interface.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\RA_Implementation\RA_Implementation.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Multilanguage\LanguageSelector.cpp" />
+    <ClCompile Include="N64System\Debugger\Debugger-MemoryDump.cpp" />
+    <ClCompile Include="N64System\Debugger\Debugger-MemorySearch.cpp" />
+    <ClCompile Include="N64System\Debugger\Debugger-TLB.cpp" />
+    <ClCompile Include="N64System\Debugger\Debugger-ViewMemory.cpp" />
+    <ClCompile Include="N64System\Debugger\Debugger.cpp" />
+    <ClCompile Include="Plugins\PluginList.cpp" />
+    <ClCompile Include="Settings\GuiSettings.cpp" />
+    <ClCompile Include="Settings\NotificationSettings.cpp" />
+    <ClCompile Include="Settings\UISettings.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UserInterface\CheatClassUI.cpp" />
+    <ClCompile Include="UserInterface\GuiClass.cpp" />
+    <ClCompile Include="UserInterface\LoggingUI.cpp" />
+    <ClCompile Include="UserInterface\MainMenuClass.cpp" />
+    <ClCompile Include="UserInterface\MenuClass.cpp" />
+    <ClCompile Include="UserInterface\MenuShortCuts.cpp" />
+    <ClCompile Include="UserInterface\NotificationClass.cpp" />
+    <ClCompile Include="UserInterface\RomBrowserClass.cpp" />
+    <ClCompile Include="UserInterface\RomInformationClass.cpp" />
+    <ClCompile Include="UserInterface\SettingsConfig.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-AdvancedOptions.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Directories.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Game-General.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Plugin.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Recompiler.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Status.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-GameBrowser.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-KeyboardShortcuts.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Options.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Plugin.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage.cpp" />
+    <ClCompile Include="UserInterface\SupportEnterCode.cpp" />
+    <ClCompile Include="UserInterface\SupportWindow.cpp" />
+    <ClCompile Include="UserInterface\WTLControls\ModifiedEditBox.cpp" />
+    <ClCompile Include="UserInterface\WTLControls\PartialGroupBox.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\RA_Implementation\RA_Implementation.h" />
+    <ClInclude Include="Multilanguage\LanguageSelector.h" />
+    <ClInclude Include="N64System.h" />
+    <ClInclude Include="N64System\Debugger\DebugDialog.h" />
+    <ClInclude Include="N64System\Debugger\Debugger-MemoryDump.h" />
+    <ClInclude Include="N64System\Debugger\Debugger-MemorySearch.h" />
+    <ClInclude Include="N64System\Debugger\Debugger-TLB.h" />
+    <ClInclude Include="N64System\Debugger\Debugger-ViewMemory.h" />
+    <ClInclude Include="N64System\Debugger\debugger.h" />
+    <ClInclude Include="N64System\Debugger\DebuggerUI.h" />
+    <ClInclude Include="Settings\GuiSettings.h" />
+    <ClInclude Include="Settings\NotificationSettings.h" />
+    <ClInclude Include="Settings\UISettings.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Support.h" />
+    <ClInclude Include="UserInterface.h" />
+    <ClInclude Include="UserInterface\CheatClassUI.h" />
+    <ClInclude Include="UserInterface\GuiClass.h" />
+    <ClInclude Include="UserInterface\LoggingUI.h" />
+    <ClInclude Include="UserInterface\MainMenuClass.h" />
+    <ClInclude Include="UserInterface\MenuClass.h" />
+    <ClInclude Include="UserInterface\MenuShortCuts.h" />
+    <ClInclude Include="UserInterface\NotificationClass.h" />
+    <ClInclude Include="UserInterface\resource.h" />
+    <ClInclude Include="UserInterface\RomBrowser.h" />
+    <ClInclude Include="UserInterface\RomInformationClass.h" />
+    <ClInclude Include="UserInterface\SettingsConfig.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-AdvancedOptions.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Directories.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Game-General.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Plugin.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Recompiler.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Status.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-GameBrowser.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-KeyboardShortcuts.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Options.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Plugin.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage.h" />
+    <ClInclude Include="UserInterface\SupportEnterCode.h" />
+    <ClInclude Include="UserInterface\SupportWindow.h" />
+    <ClInclude Include="UserInterface\WTLControls\ModifiedCheckBox.h" />
+    <ClInclude Include="UserInterface\WTLControls\ModifiedComboBox.h" />
+    <ClInclude Include="UserInterface\WTLControls\ModifiedEditBox.h" />
+    <ClInclude Include="UserInterface\WTLControls\numberctrl.h" />
+    <ClInclude Include="UserInterface\WTLControls\PartialGroupBox.h" />
+    <ClInclude Include="WTLApp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\3rdParty\7zip\7zip.vcxproj">
+      <Project>{3326e128-33af-422c-bb7c-67cc6b915610}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\3rdParty\zlib\zlib.vcxproj">
+      <Project>{731bd205-2826-4631-b7af-117658e88dbc}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{b4a4b994-9111-42b1-93c2-6f1ca8bc4421}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Project64-core\Project64-core.vcxproj">
+      <Project>{00c7b43a-ded7-4df0-b072-9a5783ef866d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\divider.cur" />
+    <None Include="res\hand.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\ListItems.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="UserInterface\UIResources.rc" />
+  </ItemGroup>
+</Project>

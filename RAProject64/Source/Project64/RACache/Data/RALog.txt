@@ -1,0 +1,185 @@
+_RA_InitI Init called! ID: 1, ClientVer: 0.058
+(found as: RAP64)
+_RA_InitI - storing "M:\Covers\RAMasterN64\RASuite\RAProject64\Source\Project64\" as home dir
+_RA_LoadPreferences - loading preferences...
+_RA_SavePreferences - saving preferences...
+RAWeb::RA_InitializeHTTPThreads called
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 0 (00006a20, 000003fc)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 1 (00002f64, 00000380)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 2 (000027a8, 000003f4)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 3 (00006ae4, 00000364)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 4 (00005fa0, 00000490)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 5 (00006dbc, 000004b0)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 6 (000036dc, 00000440)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 7 (00005300, 000004b4)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 8 (000065c0, 000004bc)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 9 (00006c30, 000004c0)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 10 (00006ca8, 000004b8)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 11 (000051c0, 000004cc)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 12 (0000541c, 000004c4)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 13 (00003180, 000004d4)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 14 (00002164, 000004d0)
+File could not be found: .\Overlay\overlayBG.png
+RAWeb::CreateThreadedHTTPRequest added 'RequestNews', (''), queue (1)
+RAWeb::DoBlockingHttpPost: (6dbc) POST to dorequest.php?c=6&r=news...
+RAWeb::CreateThreadedHTTPRequest added 'RequestLatestClientPage', (''), queue (1)
+RAWeb::DoBlockingHttpPost: (6c30) POST to dorequest.php?c=2&r=latestclient...
+-> RAWeb::DoBlockingHttpPost: (6dbc) POST to dorequest.php?c=6&r=news Success: 5084 bytes read
+{"Success":true,"News":[{"ID":407,"TimePosted":1519687150,"Title":"Devs wanted: Atari 2600 & Neo Geo Pocket","Payload":"Devs & future achievement makers, <b>Atari 2600</b> & <b>Neo Geo Pocket</b> development is ready. Devs: #developer-news in <a href=\"https://discord.gg/EDx7t5\">Discord</a> If you're new: ask in Discord how you can get the dev emulator as you <a href=\"https://retroachievements.github.io/docs/Getting-Started-as-an-Achievement-Developer/\">get started as a developer</a>.\n<br><br>\nTo play <b>Atari 2600</b> and <b>Neo Geo Pocket</b> games use <a href=\"https://docs.libretro.com/guides/windows/\">Retroarch</a> and this <a href=\"https://buildbot.libretro.com/.docs/guides/retroachievements\">Setup Guide</a>.","Author":"kdecks","Link":"","Image":""},{"ID":406,"TimePosted":1519644336,"Title":"RetroAchievments Hot CheevsFlash #70","Payload":"Games which recently received set of achievements, or major set supplementation:<br/>\n\n09.02.2018 <a href='http://retroachievements.org/Game/10248'>Star Fox 64 (N64)</a> +<a href='http://retroachievements.org/Game/10630'> ~Bonus~</a> by <a href='http://retroachievements.org/User/kdecks'>kdecks</a><br/>\n10.02.2018 <a href='http://retroachievements.org/Game/11632'>~Bonus~ Pokemon - Red and Blue Versions (GB)</a> by <a href='http://retroachievements.org/User/ViperZang'>ViperZang</a><br/>\n15.02.2018 <a href='http://retroachievements.org/game/2077'>Wild Gunman (NES)</a> by <a href='http://retroachievements.org/User/Grenade44'>Grenade44</a><br/>\n22.02.2018 <a href='http://retroachievements.org/Game/10270'>Pokemon Puzzle League (N64)</a> by <a href='http://retroachievements.org/User/anty'>anty</a><br/>\n23.02.2018 <a href='http://retroachievements.org/game/1742'>Hydlide (NES)</a> by <a href='http://retroachievements.org/User/tremeremario'>tremeremario</a><br/>\n24.02.2018 <a href='http://retroachievements.org/game/10255'>Shadow Man (N64)</a> by <a href='http://retroachievements.org/User/Altomar'>Altomar</a><br/>","Author":"LordShin","Link":"","Image":"https://i.imgur.com/rsemIgR.jpg"},{"ID":405,"TimePosted":1519266663,"Title":"Alternative link to download emulators","Payload":"If the links on the Download page isn't working, you can use this one as an alternative: <a href=\"https://retroachievements.github.io/docs/Downloads/\">https://retroachievements.github.io/docs/Downloads/</a>","Author":"meleu","Link":"https://retroachievements.github.io/docs/Downloads/","Image":""},{"ID":404,"TimePosted":1518899344,"Title":"New accounts temporarily suspended","Payload":"<s>Unfortunately new account creation is temporarily disabled - as soon as we are back open for new accounts I will put a new announcement out. Apologies to all in the meantime.</s> All fixed now! Thanks to luchaos for the swift tech response and help :)","Author":"Scott","Link":"http://i.retroachievements.org/Images/03434.png","Image":""},{"ID":403,"TimePosted":1518348000,"Title":"RetroAchievements HotCheevsFlash #69","Payload":"Games which recently received set of achievements, or major set supplementation:<br/>\n\n25.01.2018 <a href='http://retroachievements.org/game/310'>Twinkle Tale (MD)</a> by <a href='http://retroachievements.org/User/Alena'>Alena</a><br/>\n01.02.2018 <a href='http://retroachievements.org/game/1274'>Tom and Jerry (SNES)</a> by <a href='http://retroachievements.org/User/PabloTMF'>PabloTMF</a><br/>\n01.02.2018 <a href='http://retroachievements.org/game/10770'>Maze Hunter 3-D (MS)</a> by <a href='http://retroachievements.org/User/Arcaderama'>Arcaderama</a><br/>\n04.02.2018 <a href='retroachievements.org/game/5057'>The Urbz: Sims in the City (GBA)</a> by <a href='http://retroachievements.org/User/DrPixel'>DrPixel</a><br/>\n05.02.2018 <a href='http://retroachievements.org/game/9999'>Phantasy Star (MS)</a> by <a href='http://retroachievements.org/User/Salsa'>Salsa</a><br/>\n07.02.2018 <a href='http://retroachievements.org/game/10439'>Great Volleyball (MS)</a> by <a href='http://retroachievements.org/User/PabloTMF'>PabloTMF</a><br/>","Author":"LordShin","Link":"","Image":"http://i.retroachievements.org/Images/015878.jpg"},{"ID":402,"TimePosted":1517677533,"Title":"February 2018 Leaderboard of the Month","Payload":"<a href=\"http://retroachievements.org/viewtopic.php?t=5280\">Leaderboard of the Month Thread</a>\n<br><br>\nThe 1st contest of the month and 9th overall <a href=\"http://retroachievements.org/Game/10361\">Krazy Kreatures (NES)</a>: <a href=\"http://retroachievements.org/leaderboardinfo.php?i=3546\">Hi-Score Medium</a>. It's a puzzle game reminiscent of candy Crush or Bejeweled. <a href=\"https://youtu.be/btd_oULr-dU?t=1m43s\">Gameplay video</a>\n<br><br> The competition runs through 28 February 2018.<br>","Author":"kdecks","Link":" http://retroachievements.org/leaderboardinfo.php?i=3496","Image":"http://i.retroachievements.org/Images/015821.jpg"}]}-> RAWeb::DoBlockingHttpPost: (6c30) POST to dorequest.php?c=2&r=latestclient Success: 43 bytes read
+{"Success":true,"LatestVersion":"0.001\n"}_RA_SavePreferences - saving preferences...
+_RA_SavePreferences - saving preferences...
+RAWeb::RA_KillHTTPThreads called
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (2)
+RAWeb::HTTPWorkerThread (000065c0) request queue is at 1
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (2)
+RAWeb::HTTPWorkerThread (00002f64) request queue is at 1
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+_RA_InitI Init called! ID: 1, ClientVer: 0.058
+(found as: RAP64)
+_RA_InitI - storing "M:\Covers\RAMasterN64\RASuite\RAProject64\Source\Project64\" as home dir
+_RA_LoadPreferences - loading preferences...
+RAWeb::RA_InitializeHTTPThreads called
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 0 (00000438, 0000049c)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 1 (00005ca0, 00000370)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 2 (00005cb0, 00000408)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 3 (0000507c, 00000494)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 4 (00006ff0, 00000484)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 5 (00000730, 0000031c)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 6 (0000655c, 000003fc)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 7 (000062c8, 000004a4)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 8 (00006c34, 000004a8)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 9 (00003314, 00000088)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 10 (00002e10, 000004ac)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 11 (0000698c, 00000474)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 12 (000029bc, 000004a0)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 13 (000051d0, 000004b4)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 14 (00004f30, 000004b0)
+File could not be found: .\Overlay\overlayBG.png
+RAWeb::CreateThreadedHTTPRequest added 'RequestNews', (''), queue (1)
+RAWeb::DoBlockingHttpPost: (6c34) POST to dorequest.php?c=6&r=news...
+RAWeb::CreateThreadedHTTPRequest added 'RequestLatestClientPage', (''), queue (1)
+RAWeb::DoBlockingHttpPost: (62c8) POST to dorequest.php?c=2&r=latestclient...
+-> RAWeb::DoBlockingHttpPost: (62c8) POST to dorequest.php?c=2&r=latestclient Success: 43 bytes read
+{"Success":true,"LatestVersion":"0.001\n"}-> RAWeb::DoBlockingHttpPost: (6c34) POST to dorequest.php?c=6&r=news Success: 5084 bytes read
+{"Success":true,"News":[{"ID":407,"TimePosted":1519687150,"Title":"Devs wanted: Atari 2600 & Neo Geo Pocket","Payload":"Devs & future achievement makers, <b>Atari 2600</b> & <b>Neo Geo Pocket</b> development is ready. Devs: #developer-news in <a href=\"https://discord.gg/EDx7t5\">Discord</a> If you're new: ask in Discord how you can get the dev emulator as you <a href=\"https://retroachievements.github.io/docs/Getting-Started-as-an-Achievement-Developer/\">get started as a developer</a>.\n<br><br>\nTo play <b>Atari 2600</b> and <b>Neo Geo Pocket</b> games use <a href=\"https://docs.libretro.com/guides/windows/\">Retroarch</a> and this <a href=\"https://buildbot.libretro.com/.docs/guides/retroachievements\">Setup Guide</a>.","Author":"kdecks","Link":"","Image":""},{"ID":406,"TimePosted":1519644336,"Title":"RetroAchievments Hot CheevsFlash #70","Payload":"Games which recently received set of achievements, or major set supplementation:<br/>\n\n09.02.2018 <a href='http://retroachievements.org/Game/10248'>Star Fox 64 (N64)</a> +<a href='http://retroachievements.org/Game/10630'> ~Bonus~</a> by <a href='http://retroachievements.org/User/kdecks'>kdecks</a><br/>\n10.02.2018 <a href='http://retroachievements.org/Game/11632'>~Bonus~ Pokemon - Red and Blue Versions (GB)</a> by <a href='http://retroachievements.org/User/ViperZang'>ViperZang</a><br/>\n15.02.2018 <a href='http://retroachievements.org/game/2077'>Wild Gunman (NES)</a> by <a href='http://retroachievements.org/User/Grenade44'>Grenade44</a><br/>\n22.02.2018 <a href='http://retroachievements.org/Game/10270'>Pokemon Puzzle League (N64)</a> by <a href='http://retroachievements.org/User/anty'>anty</a><br/>\n23.02.2018 <a href='http://retroachievements.org/game/1742'>Hydlide (NES)</a> by <a href='http://retroachievements.org/User/tremeremario'>tremeremario</a><br/>\n24.02.2018 <a href='http://retroachievements.org/game/10255'>Shadow Man (N64)</a> by <a href='http://retroachievements.org/User/Altomar'>Altomar</a><br/>","Author":"LordShin","Link":"","Image":"https://i.imgur.com/rsemIgR.jpg"},{"ID":405,"TimePosted":1519266663,"Title":"Alternative link to download emulators","Payload":"If the links on the Download page isn't working, you can use this one as an alternative: <a href=\"https://retroachievements.github.io/docs/Downloads/\">https://retroachievements.github.io/docs/Downloads/</a>","Author":"meleu","Link":"https://retroachievements.github.io/docs/Downloads/","Image":""},{"ID":404,"TimePosted":1518899344,"Title":"New accounts temporarily suspended","Payload":"<s>Unfortunately new account creation is temporarily disabled - as soon as we are back open for new accounts I will put a new announcement out. Apologies to all in the meantime.</s> All fixed now! Thanks to luchaos for the swift tech response and help :)","Author":"Scott","Link":"http://i.retroachievements.org/Images/03434.png","Image":""},{"ID":403,"TimePosted":1518348000,"Title":"RetroAchievements HotCheevsFlash #69","Payload":"Games which recently received set of achievements, or major set supplementation:<br/>\n\n25.01.2018 <a href='http://retroachievements.org/game/310'>Twinkle Tale (MD)</a> by <a href='http://retroachievements.org/User/Alena'>Alena</a><br/>\n01.02.2018 <a href='http://retroachievements.org/game/1274'>Tom and Jerry (SNES)</a> by <a href='http://retroachievements.org/User/PabloTMF'>PabloTMF</a><br/>\n01.02.2018 <a href='http://retroachievements.org/game/10770'>Maze Hunter 3-D (MS)</a> by <a href='http://retroachievements.org/User/Arcaderama'>Arcaderama</a><br/>\n04.02.2018 <a href='retroachievements.org/game/5057'>The Urbz: Sims in the City (GBA)</a> by <a href='http://retroachievements.org/User/DrPixel'>DrPixel</a><br/>\n05.02.2018 <a href='http://retroachievements.org/game/9999'>Phantasy Star (MS)</a> by <a href='http://retroachievements.org/User/Salsa'>Salsa</a><br/>\n07.02.2018 <a href='http://retroachievements.org/game/10439'>Great Volleyball (MS)</a> by <a href='http://retroachievements.org/User/PabloTMF'>PabloTMF</a><br/>","Author":"LordShin","Link":"","Image":"http://i.retroachievements.org/Images/015878.jpg"},{"ID":402,"TimePosted":1517677533,"Title":"February 2018 Leaderboard of the Month","Payload":"<a href=\"http://retroachievements.org/viewtopic.php?t=5280\">Leaderboard of the Month Thread</a>\n<br><br>\nThe 1st contest of the month and 9th overall <a href=\"http://retroachievements.org/Game/10361\">Krazy Kreatures (NES)</a>: <a href=\"http://retroachievements.org/leaderboardinfo.php?i=3546\">Hi-Score Medium</a>. It's a puzzle game reminiscent of candy Crush or Bejeweled. <a href=\"https://youtu.be/btd_oULr-dU?t=1m43s\">Gameplay video</a>\n<br><br> The competition runs through 28 February 2018.<br>","Author":"kdecks","Link":" http://retroachievements.org/leaderboardinfo.php?i=3496","Image":"http://i.retroachievements.org/Images/015821.jpg"}]}_RA_SavePreferences - saving preferences...
+_RA_SavePreferences - saving preferences...
+RAWeb::RA_KillHTTPThreads called
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (2)
+RAWeb::HTTPWorkerThread (0000655c) request queue is at 1
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+_RA_InitI Init called! ID: 1, ClientVer: 0.058
+(found as: RAP64)
+_RA_InitI - storing "M:\Covers\RAMasterN64\RASuite\RAProject64\Source\Project64\" as home dir
+_RA_LoadPreferences - loading preferences...
+RAWeb::RA_InitializeHTTPThreads called
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 0 (00003bec, 00000454)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 1 (00004b78, 00000498)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 2 (00004808, 0000045c)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 3 (00004f4c, 0000032c)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 4 (00006590, 00000408)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 5 (00005424, 000003f8)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 6 (00002dc4, 00000468)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 7 (00006068, 00000444)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 8 (00006b74, 00000378)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 9 (0000333c, 000004b8)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 10 (00006fcc, 00000440)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 11 (00000e38, 000004b4)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 12 (000051b8, 00000434)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 13 (00001918, 0000040c)
+RAWeb::RA_InitializeHTTPThreads Adding HTTP thread 14 (00005550, 00000450)
+File could not be found: .\Overlay\overlayBG.png
+RAWeb::CreateThreadedHTTPRequest added 'RequestNews', (''), queue (1)
+RAWeb::DoBlockingHttpPost: (1918) POST to dorequest.php?c=6&r=news...
+RAWeb::CreateThreadedHTTPRequest added 'RequestLatestClientPage', (''), queue (1)
+RAWeb::DoBlockingHttpPost: (4b78) POST to dorequest.php?c=2&r=latestclient...
+-> RAWeb::DoBlockingHttpPost: (1918) POST to dorequest.php?c=6&r=news Success: 5084 bytes read
+{"Success":true,"News":[{"ID":407,"TimePosted":1519687150,"Title":"Devs wanted: Atari 2600 & Neo Geo Pocket","Payload":"Devs & future achievement makers, <b>Atari 2600</b> & <b>Neo Geo Pocket</b> development is ready. Devs: #developer-news in <a href=\"https://discord.gg/EDx7t5\">Discord</a> If you're new: ask in Discord how you can get the dev emulator as you <a href=\"https://retroachievements.github.io/docs/Getting-Started-as-an-Achievement-Developer/\">get started as a developer</a>.\n<br><br>\nTo play <b>Atari 2600</b> and <b>Neo Geo Pocket</b> games use <a href=\"https://docs.libretro.com/guides/windows/\">Retroarch</a> and this <a href=\"https://buildbot.libretro.com/.docs/guides/retroachievements\">Setup Guide</a>.","Author":"kdecks","Link":"","Image":""},{"ID":406,"TimePosted":1519644336,"Title":"RetroAchievments Hot CheevsFlash #70","Payload":"Games which recently received set of achievements, or major set supplementation:<br/>\n\n09.02.2018 <a href='http://retroachievements.org/Game/10248'>Star Fox 64 (N64)</a> +<a href='http://retroachievements.org/Game/10630'> ~Bonus~</a> by <a href='http://retroachievements.org/User/kdecks'>kdecks</a><br/>\n10.02.2018 <a href='http://retroachievements.org/Game/11632'>~Bonus~ Pokemon - Red and Blue Versions (GB)</a> by <a href='http://retroachievements.org/User/ViperZang'>ViperZang</a><br/>\n15.02.2018 <a href='http://retroachievements.org/game/2077'>Wild Gunman (NES)</a> by <a href='http://retroachievements.org/User/Grenade44'>Grenade44</a><br/>\n22.02.2018 <a href='http://retroachievements.org/Game/10270'>Pokemon Puzzle League (N64)</a> by <a href='http://retroachievements.org/User/anty'>anty</a><br/>\n23.02.2018 <a href='http://retroachievements.org/game/1742'>Hydlide (NES)</a> by <a href='http://retroachievements.org/User/tremeremario'>tremeremario</a><br/>\n24.02.2018 <a href='http://retroachievements.org/game/10255'>Shadow Man (N64)</a> by <a href='http://retroachievements.org/User/Altomar'>Altomar</a><br/>","Author":"LordShin","Link":"","Image":"https://i.imgur.com/rsemIgR.jpg"},{"ID":405,"TimePosted":1519266663,"Title":"Alternative link to download emulators","Payload":"If the links on the Download page isn't working, you can use this one as an alternative: <a href=\"https://retroachievements.github.io/docs/Downloads/\">https://retroachievements.github.io/docs/Downloads/</a>","Author":"meleu","Link":"https://retroachievements.github.io/docs/Downloads/","Image":""},{"ID":404,"TimePosted":1518899344,"Title":"New accounts temporarily suspended","Payload":"<s>Unfortunately new account creation is temporarily disabled - as soon as we are back open for new accounts I will put a new announcement out. Apologies to all in the meantime.</s> All fixed now! Thanks to luchaos for the swift tech response and help :)","Author":"Scott","Link":"http://i.retroachievements.org/Images/03434.png","Image":""},{"ID":403,"TimePosted":1518348000,"Title":"RetroAchievements HotCheevsFlash #69","Payload":"Games which recently received set of achievements, or major set supplementation:<br/>\n\n25.01.2018 <a href='http://retroachievements.org/game/310'>Twinkle Tale (MD)</a> by <a href='http://retroachievements.org/User/Alena'>Alena</a><br/>\n01.02.2018 <a href='http://retroachievements.org/game/1274'>Tom and Jerry (SNES)</a> by <a href='http://retroachievements.org/User/PabloTMF'>PabloTMF</a><br/>\n01.02.2018 <a href='http://retroachievements.org/game/10770'>Maze Hunter 3-D (MS)</a> by <a href='http://retroachievements.org/User/Arcaderama'>Arcaderama</a><br/>\n04.02.2018 <a href='retroachievements.org/game/5057'>The Urbz: Sims in the City (GBA)</a> by <a href='http://retroachievements.org/User/DrPixel'>DrPixel</a><br/>\n05.02.2018 <a href='http://retroachievements.org/game/9999'>Phantasy Star (MS)</a> by <a href='http://retroachievements.org/User/Salsa'>Salsa</a><br/>\n07.02.2018 <a href='http://retroachievements.org/game/10439'>Great Volleyball (MS)</a> by <a href='http://retroachievements.org/User/PabloTMF'>PabloTMF</a><br/>","Author":"LordShin","Link":"","Image":"http://i.retroachievements.org/Images/015878.jpg"},{"ID":402,"TimePosted":1517677533,"Title":"February 2018 Leaderboard of the Month","Payload":"<a href=\"http://retroachievements.org/viewtopic.php?t=5280\">Leaderboard of the Month Thread</a>\n<br><br>\nThe 1st contest of the month and 9th overall <a href=\"http://retroachievements.org/Game/10361\">Krazy Kreatures (NES)</a>: <a href=\"http://retroachievements.org/leaderboardinfo.php?i=3546\">Hi-Score Medium</a>. It's a puzzle game reminiscent of candy Crush or Bejeweled. <a href=\"https://youtu.be/btd_oULr-dU?t=1m43s\">Gameplay video</a>\n<br><br> The competition runs through 28 February 2018.<br>","Author":"kdecks","Link":" http://retroachievements.org/leaderboardinfo.php?i=3496","Image":"http://i.retroachievements.org/Images/015821.jpg"}]}-> RAWeb::DoBlockingHttpPost: (4b78) POST to dorequest.php?c=2&r=latestclient Success: 43 bytes read
+{"Success":true,"LatestVersion":"0.001\n"}_RA_SavePreferences - saving preferences...
+_RA_SavePreferences - saving preferences...
+RAWeb::RA_KillHTTPThreads called
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (2)
+RAWeb::HTTPWorkerThread (00004808) request queue is at 1
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::CreateThreadedHTTPRequest added 'STOP_THREAD', (''), queue (1)
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
+RAWeb::RA_KillHTTPThreads ended, result 0
