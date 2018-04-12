@@ -24,12 +24,6 @@
     <ClCompile Include="RA_Achievement.cpp">
       <Filter>Data</Filter>
     </ClCompile>
-    <ClCompile Include="RA_AchievementOverlay.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="RA_AchievementPopup.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="RA_AchievementSet.cpp">
       <Filter>Data</Filter>
     </ClCompile>
@@ -84,9 +78,6 @@
     <ClCompile Include="RA_httpthread.cpp">
       <Filter>Services</Filter>
     </ClCompile>
-    <ClCompile Include="RA_ImageFactory.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="RA_PopupWindows.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -111,18 +102,21 @@
     <ClCompile Include="RA_Defs.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
+    <ClCompile Include="RA_AchievementPopup.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RA_AchievementOverlay.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RA_ImageFactory.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="md5.h">
       <Filter>Services</Filter>
     </ClInclude>
     <ClInclude Include="RA_Achievement.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="RA_AchievementOverlay.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="RA_AchievementPopup.h">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="RA_AchievementSet.h">
@@ -179,9 +173,6 @@
     <ClInclude Include="RA_httpthread.h">
       <Filter>Services</Filter>
     </ClInclude>
-    <ClInclude Include="RA_ImageFactory.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="RA_PopupWindows.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -211,6 +202,15 @@
     </ClInclude>
     <ClInclude Include="RA_BuildVer.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="RA_AchievementPopup.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RA_AchievementOverlay.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RA_ImageFactory.h">
+      <Filter>Services</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
