@@ -1,10 +1,6 @@
 #include "RA_Interface.h"
 
-#include <WinHttp.h>
 #include <stdio.h>
-#include <assert.h>
-#include <string>
-
 
 //	Exposed, shared
 //	App-level:
@@ -62,6 +58,11 @@ void RA_GetEstimatedGameTitle( char* sNameOut )
 
 
 #ifndef RA_EXPORTS
+
+#include <WTypes.h>
+#include <WinHttp.h>
+#include <assert.h>
+#include <string>
 
 //Note: this is ALL public facing! :S tbd tidy up this bit
 
