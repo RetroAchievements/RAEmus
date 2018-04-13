@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A2525D36-8137-4638-B86A-60DB5813380D}</ProjectGuid>
+    <RootNamespace>Ootake</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.27428.2015</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\obj\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\obj\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)/include;..\RA_Integration;RA_Implementation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;D3D_DEBUG_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions />
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;shlwapi.lib;Imm32.lib;dxguid.lib;dinput8.lib;dsound.lib;ddraw.lib;d3d9.lib;winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)/include;$(ProjectDir)/../RA_Integration;$(ProjectDir)/RA_Implementation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <PerUserRedirection>false</PerUserRedirection>
+      <AdditionalDependencies>winmm.lib;shlwapi.lib;Imm32.lib;dxguid.lib;dinput8.lib;dsound.lib;ddraw.lib;d3d9.lib;strmiids.lib;winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EnableUAC>false</EnableUAC>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\RA_Integration\RA_Interface.cpp" />
+    <ClCompile Include="ADPCM.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="AppEvent.cpp" />
+    <ClCompile Include="APU.cpp" />
+    <ClCompile Include="AudioConfig.cpp" />
+    <ClCompile Include="AudioOut.cpp" />
+    <ClCompile Include="Cartridge.cpp" />
+    <ClCompile Include="CDInstall.cpp" />
+    <ClCompile Include="CDInterface.cpp" />
+    <ClCompile Include="CDROM.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="CPU.cpp" />
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="IntCtrl.cpp" />
+    <ClCompile Include="JoyPad.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainBoard.cpp" />
+    <ClCompile Include="MB128.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Option.cpp" />
+    <ClCompile Include="PadConfig.cpp" />
+    <ClCompile Include="Printf.cpp" />
+    <ClCompile Include="PSG.cpp" />
+    <ClCompile Include="RA_Implementation\RA_Implementation.cpp" />
+    <ClCompile Include="RecentRom.cpp" />
+    <ClCompile Include="Resolution.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ScreenD3D.cpp" />
+    <ClCompile Include="ScreenDD.cpp" />
+    <ClCompile Include="Startup.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TocDB.cpp" />
+    <ClCompile Include="VDC.cpp" />
+    <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="WriteMemory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Ootake.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Ootake.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="ADPCM.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="AppEvent.h" />
+    <ClInclude Include="APU.h" />
+    <ClInclude Include="AudioConfig.h" />
+    <ClInclude Include="AudioOut.h" />
+    <ClInclude Include="Cartridge.h" />
+    <ClInclude Include="CDInstall.h" />
+    <ClInclude Include="CDInterface.h" />
+    <ClInclude Include="CDROM.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="CPU.h" />
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="IntCtrl.h" />
+    <ClInclude Include="JoyPad.h" />
+    <ClInclude Include="MainBoard.h" />
+    <ClInclude Include="MB128.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Option.h" />
+    <ClInclude Include="PadConfig.h" />
+    <ClInclude Include="Printf.h" />
+    <ClInclude Include="PSG.h" />
+    <ClInclude Include="RA_Implementation\RA_Implementation.h" />
+    <ClInclude Include="RecentRom.h" />
+    <ClInclude Include="Resolution.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="resource2.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenD3D.h" />
+    <ClInclude Include="ScreenDD.h" />
+    <ClInclude Include="SCSIDEFS.h" />
+    <ClInclude Include="Startup.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="TocDB.h" />
+    <ClInclude Include="TypeDefs.h" />
+    <ClInclude Include="UNZIP32.H" />
+    <ClInclude Include="VDC.h" />
+    <ClInclude Include="WinMain.h" />
+    <ClInclude Include="WNASPI32.h" />
+    <ClInclude Include="WriteMemory.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

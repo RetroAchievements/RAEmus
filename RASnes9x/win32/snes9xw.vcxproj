@@ -132,9 +132,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>robocopy ..\..\RA_Integration $(OutputPath) RA_Integration.dll /njh /njs /np /XX
-robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
-robocopy ..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+      <Command>robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
 if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
     <PreBuildEvent>
@@ -187,9 +185,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>robocopy ..\..\RA_Integration $(OutputPath) RA_Integration_d.dll RA_Integration_d.pdb /njh /njs /np /XX
-robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
-robocopy ..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+      <Command>robocopy ..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
 if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
     <PreBuildEvent>

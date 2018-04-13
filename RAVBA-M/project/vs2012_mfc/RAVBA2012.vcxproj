@@ -72,7 +72,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../RA_Integration;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEV_VERSION;BKPT_SUPPORT;GBA_LOGGING;MMX;ASM;_CRT_SECURE_NO_WARNINGS;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -103,9 +103,7 @@
     </Link>
     <BuildLog />
     <PostBuildEvent>
-      <Command>robocopy ..\..\..\RA_Integration $(OutputPath) RA_Integration_d.dll RA_Integration_d.pdb /njh /njs /np /XX
-robocopy ..\..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
-robocopy ..\..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+      <Command>robocopy ..\..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
 if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -120,7 +118,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </Midl>
     <ClCompile>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../RA_Integration;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GBA_LOGGING;OEMRESOURCE;MMX;ASM;FINAL_VERSION;BKPT_SUPPORT;_CRT_SECURE_NO_DEPRECATE;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
@@ -152,9 +150,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     <BuildLog />
     <BuildLog />
     <PostBuildEvent>
-      <Command>robocopy ..\..\..\RA_Integration $(OutputPath) RA_Integration.dll /njh /njs /np /XX
-robocopy ..\..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
-robocopy ..\..\..\RA_Integration\Overlay $(OutputPath)/Overlay /njh /njs /np /XX
+      <Command>robocopy ..\..\..\DXSDK_March09_x86 $(OutputPath) D3DX9_41.dll /njh /njs /np /XX
 if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -666,9 +662,6 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </NASM>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\RA_Integration\RA_Integration.vcxproj">
-      <Project>{825cb292-f069-4b27-82cf-3417746acdf3}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\dependencies\libpng\project\vs2012\libpng.vcxproj">
       <Project>{0008960e-e0dd-41a6-8265-00b31ddb4c21}</Project>
     </ProjectReference>

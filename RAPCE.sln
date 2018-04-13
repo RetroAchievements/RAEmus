@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RAPCE", "RAPCE\RAPCE.vcxproj", "{A2525D36-8137-4638-B86A-60DB5813380D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		ReleaseWithDebug|Win32 = ReleaseWithDebug|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2525D36-8137-4638-B86A-60DB5813380D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A2525D36-8137-4638-B86A-60DB5813380D}.Debug|Win32.Build.0 = Debug|Win32
+		{A2525D36-8137-4638-B86A-60DB5813380D}.Release|Win32.ActiveCfg = Release|Win32
+		{A2525D36-8137-4638-B86A-60DB5813380D}.Release|Win32.Build.0 = Release|Win32
+		{A2525D36-8137-4638-B86A-60DB5813380D}.ReleaseWithDebug|Win32.ActiveCfg = Debug|Win32
+		{A2525D36-8137-4638-B86A-60DB5813380D}.ReleaseWithDebug|Win32.Build.0 = Debug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23715E07-BE7A-4F8A-9398-2ED19C8174C0}
+	EndGlobalSection
+EndGlobal

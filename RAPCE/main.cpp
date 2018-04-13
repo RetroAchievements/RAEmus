@@ -1,23 +1,23 @@
 /******************************************************************************
 Ootake
-E“ñd‹N“®‚ð‚·‚é‚Æ–â‘è‚ª‹N‚±‚éê‡‚ª‚ ‚é‚Ì‚ÅA“ñd‹N“®‚Í–hŽ~‚·‚é‚æ‚¤‚É‚µ‚½B
-ECOM‚Ì‰Šú‰»‚ÆŠJ•ú‚ð‚±‚±‚Å‚â‚é‚æ‚¤‚É‚µ‚½BVista‚Åƒtƒ@ƒCƒ‹ƒ_ƒCƒAƒƒOŽg—pŽž‚É
-  ‰Šú‰»‚µ‚Ä‚¨‚©‚È‚¢‚Æ•sˆÀ’è‚¾‚Á‚½Bv1.05
-Eƒ}ƒ‹ƒ`ƒƒfƒBƒAƒ^ƒCƒ}‚Ì¸“x‚ð‚±‚±‚Åã‚°‚Ä‚¨‚­‚æ‚¤‚É‚µ‚½Bv1.55
+E"ñd<N"®,ð,·,é,Æ-â'è,ª<N,±,éê?,ª, ,é,Ì,ÅA"ñd<N"®,Í-hZ~,·,é,æ,¤,É,µ,½B
+ECOM,Ì?Sú?»,ÆSJ.ú,ð,±,±,Å,â,é,æ,¤,É,µ,½BVista,Åftf@fCf<f_fCfAffOZg-pZz,É
+  ?Sú?»,µ,Ä,¨,©,È,¢,Æ.s^À'è,¾,Á,½Bv1.05
+Ef}f<f`ffffBfAf^fCf},Ì¸"x,ð,±,±,Åã,°,Ä,¨,­,æ,¤,É,µ,½Bv1.55
 
 Copyright(C)2006-2010 Kitao Nakamura.
     Attach the source code when you open the remodeling version and the
     succession version to the public. and, please contact me by E-mail.
     Business use is prohibited.
 	Additionally, it applies to "GNU General Public License". 
-	‰ü‘¢”ÅEŒãŒp”Å‚ðŒöŠJ‚È‚³‚é‚Æ‚«‚Í•K‚¸ƒ\[ƒXƒR[ƒh‚ð“Y•t‚µ‚Ä‚­‚¾‚³‚¢B
-	‚»‚ÌÛ‚ÉŽ–Œã‚Å‚©‚Ü‚¢‚Ü‚¹‚ñ‚Ì‚ÅA‚Ð‚Æ‚±‚Æ‚¨’m‚ç‚¹‚¢‚½‚¾‚¯‚é‚ÆK‚¢‚Å‚·B
-	¤“I‚È—˜—p‚Í‹Ö‚¶‚Ü‚·B
-	‚ ‚Æ‚ÍuGNU General Public License(ˆê”ÊŒöO—˜—p‹–‘øŒ_–ñ‘)v‚É€‚¶‚Ü‚·B
+	?ü'¢"ÅEOãOp"Å,ðOöSJ,È,³,é,Æ,«,Í.K,¸f\[fXfR[fh,ð"Y.t,µ,Ä,­,¾,³,¢B
+	,»,ÌÛ,ÉZ-Oã,Å,©,Ü,¢,Ü,¹,ñ,Ì,ÅA,Ð,Æ,±,Æ,¨'m,ç,¹,¢,½,¾,¯,é,ÆK,¢,Å,·B
+	¤"I,È-~-p,Í<Ö,¶,Ü,·B
+	, ,Æ,ÍuGNU General Public License(^ê"ÊOöO-~-p<-'øO_-ñ')v,É?,¶,Ü,·B
 
 *******************************************************************************
 	[main]
-		–{ƒvƒƒWƒFƒNƒg‚ÌƒƒCƒ“ŠÖ”‚Å‚·D
+		-{fvffWfFfNfg,ÌffCf"SÖ",Å,·D
 
 		The main function of the project.
 
@@ -38,11 +38,10 @@ Copyright(C)2006-2010 Kitao Nakamura.
 
 #include <objbase.h>
 #include "App.h"
-#include "RA_ImageFactory.h"
 
-// gcc ‚Í main ‚ª’è‹`‚³‚ê‚Ä‚¢‚é‚Æ
-// WinMain ‚æ‚è‚àæ‚É main ‚ðŒÄ‚ñ‚Å‚µ‚Ü‚¤‚ç‚µ‚¢DDD
-// __main__ ‚Æ‚¢‚¤‚Ì‚Í‚»‚Ì workaround.
+// gcc ,Í main ,ª'è<`,³,ê,Ä,¢,é,Æ
+// WinMain ,æ,è,àæ,É main ,ðOÄ,ñ,Å,µ,Ü,¤,ç,µ,¢DDD
+// __main__ ,Æ,¢,¤,Ì,Í,»,Ì workaround.
 int
 __main__(
 	int			argc,
@@ -51,15 +50,15 @@ __main__(
 	HANDLE		hMutex;
 	TIMECAPS	tc;
 
-	//Kitao’Ç‰ÁB“ñd‹N“®‚ð–hŽ~
-	hMutex = CreateMutex(NULL, TRUE, "Ootake Emulator"); //ƒ~ƒ…[ƒeƒbƒNƒX‚Ìì¬
-	if (GetLastError() == ERROR_ALREADY_EXISTS) //‚·‚Å‚ÉOotake‚ð‹N“®‚µ‚Ä‚¢‚½‚ç
-		return 0; //‹N“®‚¹‚¸‚ÉI—¹
+	//Kitao'Ç?ÁB"ñd<N"®,ð-hZ~
+	hMutex = CreateMutex(NULL, TRUE, "Ootake Emulator"); //f~f.[fefbfNfX,Ìì¬
+	if (GetLastError() == ERROR_ALREADY_EXISTS) //,·,Å,ÉOotake,ð<N"®,µ,Ä,¢,½,ç
+		return 0; //<N"®,¹,¸,ÉI-¹
 
-	//CoInitializeEx(NULL, COINIT_MULTITHREADED); //Kitao’Ç‰ÁBv2.17XVBŽQlFƒAƒp[ƒgƒƒ“ƒg(COINIT_APARTMENTTHREADED)‚¾‚Æ‰¹‚ª­‚µd‚¢Š´‚¶‚É‚È‚é(‚¨‚»‚ç‚­’¼‚ÌMTA‚æ‚èSTA‚Ì‚Ù‚¤‚ªˆ—ŠÔŠu‚ª’·‚¢)Bv2.19‹L
-	//CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE); //Kitao’Ç‰ÁBv2.17XVBŽQlFƒAƒp[ƒgƒƒ“ƒg(COINIT_APARTMENTTHREADED)‚¾‚Æ‰¹‚ª­‚µd‚¢Š´‚¶‚É‚È‚é(‚¨‚»‚ç‚­’¼‚ÌMTA‚æ‚èSTA‚Ì‚Ù‚¤‚ªˆ—ŠÔŠu‚ª’·‚¢)Bv2.19‹L
+	//CoInitializeEx(NULL, COINIT_MULTITHREADED); //Kitao'Ç?ÁBv2.17XVBZQlFfAfp[fgff"fg(COINIT_APARTMENTTHREADED),¾,Æ?¹,ª­,µd,¢S´,¶,É,È,é(,¨,»,ç,­'¼,ÌMTA,æ,èSTA,Ì,Ù,¤,ª^-SÔSu,ª'·,¢)Bv2.19<L
+	//CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE); //Kitao'Ç?ÁBv2.17XVBZQlFfAfp[fgff"fg(COINIT_APARTMENTTHREADED),¾,Æ?¹,ª­,µd,¢S´,¶,É,È,é(,¨,»,ç,­'¼,ÌMTA,æ,èSTA,Ì,Ù,¤,ª^-SÔSu,ª'·,¢)Bv2.19<L
 	timeGetDevCaps(&tc, sizeof(tc));
-	timeBeginPeriod(tc.wPeriodMin); //Kitao’Ç‰ÁBƒ^ƒCƒ}¸“x‚ð‚±‚±‚Åã‚°‚Ä‚¨‚­‚æ‚¤‚É‚µ‚½B
+	timeBeginPeriod(tc.wPeriodMin); //Kitao'Ç?ÁBf^fCf}¸"x,ð,±,±,Åã,°,Ä,¨,­,æ,¤,É,µ,½B
 
 	if (!APP_Init(argc, argv))
 		return -1;
@@ -68,8 +67,8 @@ __main__(
 
 	APP_Deinit();
 
-	timeEndPeriod(tc.wPeriodMin); //Kitao’Ç‰Á
-	//CoUninitialize(); //Kitao’Ç‰Á
+	timeEndPeriod(tc.wPeriodMin); //Kitao'Ç?Á
+	//CoUninitialize(); //Kitao'Ç?Á
 
 	return 0;
 }

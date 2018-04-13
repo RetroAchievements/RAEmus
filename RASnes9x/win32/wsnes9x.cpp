@@ -248,8 +248,6 @@ extern SNPServer NPServer;
 #include <ctype.h>
 
 //	##RA
-#include "RA_Resource.h"
-#include "RA_Defs.h"
 #include "RA_Implementation.h"
 #include "RA_Interface.h"
 #include "BuildVer.h"
