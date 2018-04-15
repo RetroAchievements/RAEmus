@@ -2,8 +2,10 @@
 
 All emulators used for interfacing with RetroAchievements.org
 
+## Historical Note
+
 The source files of the emulators here were previously on the [RASuite repository](https://github.com/RetroAchievements/RASuite),
-but since April/2018 that repo is being used for `RA_Integration` code only.
+but since April/2018 that repo was splitted into two: this one here, with emulators' code; and [RAIntegration](https://github.com/RetroAchievements/RAIntegration), with `RA_Integration` code only.
 
 If you are interested in contribute to RetroAchievements project with code on the emulators front, consider working
 on the [RALibretro](https://github.com/RetroAchievements/RALibretro).
