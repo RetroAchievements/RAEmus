@@ -119,10 +119,8 @@ Copyright(C)2006-2012 Kitao Nakamura.
 
 
 //	##RA
-#include "RA_Resource.h" 
 #include "RA_Interface.h"
 #include "RA_Implementation.h"
-#include "RA_httpthread.h"
 
 
 //Kitaoí«â¡ÅBUNZIP32.DLLópíËã`
@@ -5447,7 +5445,7 @@ APP_Init(
 
 	RebuildMenu();
 
-	RA_AttemptLogin();
+	RA_AttemptLogin(true);
 
 	RebuildMenu();
 

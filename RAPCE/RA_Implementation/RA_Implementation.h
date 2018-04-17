@@ -29,3 +29,5 @@ extern void RA_InitShared();
 
 
 //extras
+
+#define RAPCE_VERSION "0.002"

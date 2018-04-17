@@ -19,8 +19,6 @@
 #include "G_ddraw.h"
 #include "G_dsound.h"
 
-#include "md5.h"
-
 
 #ifndef WORD_L
 #define WORD_L(id, str, suffixe, def)															\

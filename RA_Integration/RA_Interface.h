@@ -2,7 +2,7 @@
 
 //	NB. Shared between RA_Integration and emulator
 
-#include "RA_Defs.h"
+typedef int BOOL;
 
 #ifndef CCONV
 #define CCONV __cdecl
@@ -121,6 +121,12 @@ extern void RA_LoadROM( const char* sFullPath );
 //	Note: any changes in these files will require a full binary release of the emulator!
 //	 This file will be fully included in the emulator build as standard.
 //
+
+// resource values for menu items - needed by MFC ON_COMMAND_RANGE macros
+// they're not all currently used, allowing additional items without forcing recompilation of the emulators
+#define IDM_RA_MENUSTART                1700
+#define IDM_RA_MENUEND                  1739
+
 
 //	Captures the RA_DLL and installs/allocs all required information.
 //	Populates all function pointers so they can be used by the app.

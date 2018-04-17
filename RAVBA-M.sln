@@ -1,13 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{8B814174-883E-43D0-969E-3A17D8EDE080}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RAVisualBoyAdvance-M", "RAVBA-M\project\vs2012_mfc\RAVBA2012.vcxproj", "{6D4C5EC8-933F-4C05-A1BF-498E658576DF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{825CB292-F069-4B27-82CF-3417746ACDF3} = {825CB292-F069-4B27-82CF-3417746ACDF3}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "RAVBA-M\dependencies\zlib\project\vs2012\zlib.vcxproj", "{3E03C179-8251-46E4-81F4-466F114BAC63}"
 EndProject
@@ -16,8 +13,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "RAVBA-M\dependencies\libpng\project\vs2012\libpng.vcxproj", "{0008960E-E0DD-41A6-8265-00B31DDB4C21}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "File_Extractor", "RAVBA-M\fex\File_Extractor2012.vcxproj", "{7AEC599C-7C82-4F00-AA60-411E0A359CB0}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RA_Integration", "RA_Integration\RA_Integration.vcxproj", "{825CB292-F069-4B27-82CF-3417746ACDF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +40,6 @@ Global
 		{7AEC599C-7C82-4F00-AA60-411E0A359CB0}.Debug|Win32.Build.0 = Debug|Win32
 		{7AEC599C-7C82-4F00-AA60-411E0A359CB0}.Release|Win32.ActiveCfg = Release|Win32
 		{7AEC599C-7C82-4F00-AA60-411E0A359CB0}.Release|Win32.Build.0 = Release|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.ActiveCfg = Debug|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.Build.0 = Debug|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.ActiveCfg = Release|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +49,8 @@ Global
 		{823DDC98-42D5-4A38-88CF-9DC06C788AE4} = {8B814174-883E-43D0-969E-3A17D8EDE080}
 		{0008960E-E0DD-41A6-8265-00B31DDB4C21} = {8B814174-883E-43D0-969E-3A17D8EDE080}
 		{7AEC599C-7C82-4F00-AA60-411E0A359CB0} = {8B814174-883E-43D0-969E-3A17D8EDE080}
-		{825CB292-F069-4B27-82CF-3417746ACDF3} = {8B814174-883E-43D0-969E-3A17D8EDE080}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3AD34D4F-1DBF-4120-AF08-384689247F08}
 	EndGlobalSection
 EndGlobal
