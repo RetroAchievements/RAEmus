@@ -1,0 +1,174 @@
+----------------------------------------------------------------------------
+ MEKA Sources
+ Short guide to compilation, first-time hacking and various technical notes
+----------------------------------------------------------------------------
+ Quick links:
+ - Homepage:    http://www.smspower.org/meka
+ - Forum:       http://www.smspower.org/forums/viewforum.php?f=7
+ - SVN:         svn://svn.smspower.org/svn/meka
+ - SVN Trunk:   svn://svn.smspower.org/svn/meka/trunk/meka
+----------------------------------------------------------------------------
+ Also refer to TODO.txt file for a (messy) list of possible improvements.
+----------------------------------------------------------------------------
+
+---------------------------------------------------------------------------
+ Note to the knowledge-savy person:
+ - MEKA FEATURES INCORRECT EMULATION BEHAVIOURS.
+ - MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.
+ MEKA is an old piece of software, most of which was essentially written
+ pre-2000. Although MEKA is still competitive in term of available features, 
+ newer emulators are generally more accurate emulation-wise.
+ The SMS Power! development Forums and Wiki are a betterd place to share
+ up to date knowledge about hardware and emulation.
+---------------------------------------------------------------------------
+
+---------------------------------------
+ MEKA License
+---------------------------------------
+
+Applies to hq2x.c, hq2x16.asm, hq2x32.asm:
+
+  HQ2X is originally distributed under GPL license, which legally would 
+  not fit in MEKA (with its current license). An alternate license has 
+  been requested to the author, Maxim Stephin, who answered:
+
+    "Ah, just use it... I don't care much about legal stuff.
+     As long as it's not used in a commercial product, of course."
+
+  Overidding GPL terms.
+  commercial usage).
+  
+Apply to all code by Omar Cornut (see MEKA.txt)
+ 
+ #1 This source code comes free, without any warantee given.
+ 
+ #2 Any modification of this software must have this license preserved,
+    and source code made available under the same condition.
+
+ #3 Reuse of program source code and data authorized for any purpose.
+
+Apply to everything else:
+
+  Unlicensed. Gray area. Kernel Panic. Ahah!
+
+Please contact us for any question.
+
+
+---------------------------------------
+INDEX 
+---------------------------------------
+
+- Before anything else...
+- Introduction
+- Technology
+- Source repository
+- How to Compile
+- How to create distribution packages
+- Hope
+
+---------------------------------------
+ Before anything else...
+---------------------------------------
+
+This document is only a quick introduction to some aspect of MEKA development.
+For any further discussion, please visit MEKA development forum:
+    
+        http://www.smspower.org/forums/viewforum.php?f=7
+    
+I'd be happy to discuss anything over there, answers questions, and see
+how we can all work together in a happy world while holding hands and
+playing games using yet another hand.
+
+
+---------------------------------------
+ Introduction
+---------------------------------------
+
+MEKA has been in development since summer 1998 (it was actually my first 
+proper project using C as programming language), and most of its codebase
+was written in 1998-2000, an era when MEKA was a closed source software.
+
+That is to say that although MEKA is now free software and open-source,
+it hasn't been developed under this premise, and the code is pretty much
+the work of a disturbed adolescent mind learning its way around programming.
+
+In the past decade most of my energy has been put toward other projects,
+but MEKA still gets some occasional love and care. May the code be useful
+and hope some people can contribute in keeping MEKA an up to date software
+and making it better.
+
+
+---------------------------------------
+ Technology
+---------------------------------------
+
+See MEKA.TXT documentation, chapter 11, for a summary of the various
+librairies and technologies used by MEKA.
+
+
+---------------------------------------
+ Source repository
+---------------------------------------
+
+MEKA code is hosted on a public Subversion (SVN) repository.
+
+SVN repository  @ svn://svn.smspower.org/svn/meka
+SVN trunk       @ svn://svn.smspower.org/svn/meka/trunk/meka
+
+Anonymous login allows read-only access.
+
+Please e-mail me patches and they will be applied if deemed useful.
+
+SVN write accesses are granted on a per-user basis. 
+I am totally open to giving access to people demonstrating their value
+to the project.
+
+
+---------------------------------------
+ How to Compile
+---------------------------------------
+
+Note: Several of the libraries belows are patched or compiled with
+specific settings on my computer. This is for the main purpose of
+linking required libraries along with the executable, while stripping
+unused features. You may not need that, just keep in mind that your
+executables may be bigger than the ones provided on MEKA homepage.
+
+I. Compile for Microsoft Windows:
+
+ - Requires Microsoft Visual Studio 2008 (9.0) C++ compiler.
+ - MEKA solution is located in srcs\projects\msvc\Meka.sln
+
+II. Compile for GNU/Linux and other UN*X based systems:
+
+ - You are smart guys, you can figure it out!
+ - Install Allegro library, latest WIP.
+   - https://www.allegro.cc/
+   - $ ./configure --enable-static
+   - $ make
+   - $ make install
+   - $ For Ubuntu see notes on Allegro website 
+ - Compile !
+   - Use provided Makefile.
+ - Contact us thru the forum for any help. :)
+
+
+---------------------------------------
+ How to create distribution packages
+---------------------------------------
+
+Note: require 'make', 'zip' and 'upx'
+
+In trunk/ directory (the directory containing the executable):
+
+# make -f srcs/Makefile dist_src
+# make -f srcs/Makefile dist_bin_win32
+# make -f srcs/Makefile dist_bin_unix
+
+---------------------------------------
+ Just getting started!
+---------------------------------------
+
+Have fun!
+
+----------------------------------------------------------------------------

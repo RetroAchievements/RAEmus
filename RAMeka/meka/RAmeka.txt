@@ -1,0 +1,74 @@
+RAmeka v 0.020535 ()
+
+- Integrating with current RA_Integration DLL (0.068)
+- Major code refactoring. Old Meka code now knows as little as possible about the RAMeka additions. Most RAMeka additions now in RA_Implementation.cpp
+- Added references to GameGear in RA DLL (ConsoleID differs from current Retroarch version)
+- Git merge history looks pretty bad. Might need rebasing if anyone really cares enough.
+
+RAmeka v 0.019535 (Stalking purple ghosts)
+
+- Integrating with current RA_Integration DLL (0.067)
+- Merging with RASuite Master branch (Very kludgey, git confusing, (gitless) merge)
+- Some overlay issues present (bugs maybe related to new memory model/challenge system)
+- Who knows what build system horrors await us next.
+
+RAmeka v 0.018535 (Whispered secrets of Allegro)
+
+- Minor fixes to Sound Interface. Volume can now be set in menu.
+- Preparing for Merge
+
+RAmeka v 0.017535 (Probably didn't break anything)
+
+- Fixed disabling_RA_overlay. This now works
+- Fixed Rich presence code. This now reports correctly (but isn't currently enabled on site at the moment)
+
+RAmeka v 0.016535 (Mea Maxima Culpa)
+
+- Actually packaging a working dll this time
+- Code optimisation now in effect on release build.
+
+RAmeka v 0.01535 (Closing off Loopholes)
+
+- Disable/Warnings for Meka memory editor and debuggers when Hardcoremode activated
+- added several user configurable options to help speedup RAmeka when overlays are used.
+- Speedup win_layer overlway by avoiding creation/deletion of buffers
+
+
+RAmeka v 0.00535 (Deciding on capitalisation)
+
+Source Notes:
+
+- Repo (sms branch)
+  https://github.com/ARoxdale/RASuite/
+  
+- RA integration hacks by AlanRoxdale and GameDragon. RA code by Scott (http://retroachievements.org/). Meka code by the teams at http://smspower.org/.
+
+- RA version is based on an older commit of the RASuite: https://github.com/RetroAchievements/RASuite/commit/874229bb062e09e74a17fdb5bc08f6e3f1df34f1
+  Expect this dll and emulator to be rapidly out of date as the main suite changes.
+  Note RAmeka is effecively using an altered RA_Integration.dll, so don't download the retroachivements.org auto-downloaded dll.
+
+- Based on RAmeka v0.8 alpha which has some sound issues (You may need to fiddle with f2,f3,f4) 
+  Main meka source repo: https://github.com/ocornut/meka
+  VS 2015 meka build: https://github.com/maxim-zhao/meka/    (maxim-zhao is a saint)
+
+  
+Notes:
+- The RA menu is embedded in the Meka console, which is a dialog box (the first thing that pops up)
+  separate from the main Meka Window. Look behind the main window to find it. This is a hack currently, but it works.
+  The title of the console window is RAMeka.
+  The RA menus and dialogs visible from this menu should match those of existing RA Emulators.
+- Meka at present has sound issues. Fiddle with (f2,f3,f4) if you're have problems.
+- Meka has an internal debugger similar to but separate from the RA debugger. Meka's debugger does NOT work with RA.
+- To use the layered Window overlay instead of allegro, set "overlay_render_method = win_layer" in mekaw.cfg
+- To change meka resolution/refresh rate, you will need to edit the relevant lines in mekaw.cfg
+- Basic Meka commands:
+	
+	ESC 	- Enter/exit windowed fullscreen
+	F12 	- Pause / Load RA Overlay Menu
+	F5/F7 	- Save/Load State
+	F6/F8	- Change save state slot
+	F10 	- Exit meka
+	RA Menu	- Attached to the RAMeka console dialog box.
+- To Navigate Directories in meka, clicking ".." takes you up one directory. Directories have ">" next to them in the Load window.
+- This is an early build so expect bugs, crashes, glitches and gremlins. Please leave feedback for any issues. HARDCORE runs are undertaken at your own risk.
+
