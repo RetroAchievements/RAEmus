@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RAMeka", "Meka.vcxproj", "{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "smsid", "..\..\smsid\smsid.vcxproj", "{3391017C-51A4-477A-9C31-BB5D68A07928}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		ReleaseWithDebug|Win32 = ReleaseWithDebug|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug|Win32.Build.0 = Debug|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release|Win32.ActiveCfg = Release|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release|Win32.Build.0 = Release|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.ReleaseWithDebug|Win32.ActiveCfg = Release|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.ReleaseWithDebug|Win32.Build.0 = Release|Win32
+		{3391017C-51A4-477A-9C31-BB5D68A07928}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3391017C-51A4-477A-9C31-BB5D68A07928}.Debug|Win32.Build.0 = Debug|Win32
+		{3391017C-51A4-477A-9C31-BB5D68A07928}.Release|Win32.ActiveCfg = Release|Win32
+		{3391017C-51A4-477A-9C31-BB5D68A07928}.Release|Win32.Build.0 = Release|Win32
+		{3391017C-51A4-477A-9C31-BB5D68A07928}.ReleaseWithDebug|Win32.ActiveCfg = Release|Win32
+		{3391017C-51A4-477A-9C31-BB5D68A07928}.ReleaseWithDebug|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {725EE4AE-B7F7-4112-86E8-84CCEE09E349}
+	EndGlobalSection
+EndGlobal
