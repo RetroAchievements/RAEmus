@@ -1,0 +1,47 @@
+# User data
+meka/Debug
+meka/Music
+meka/Saves
+meka/Screenshots
+meka/RAPrefs_RAMeka.cfg
+meka/RACache/
+meka/srcs/projects/msvc/RAPrefs_RAMeka.cfg
+meka/srcs/projects/msvc/packages.config
+
+# Developer data
+meka/objs
+meka/meka.dsk
+meka/meka.fdb
+meka/mekaw.cfg
+meka/mekaw.exe
+meka/mekaw.ilk
+meka/smsid.exe
+meka/smsid.ilk
+meka/srcs/projects/msvc/Meka.ncb
+meka/libs/allegro
+meka/libs/allegro_deps
+allegro.log
+*.opensdf
+*.sdf
+*.suo
+*.ipch
+*.ipdb
+*.iobj
+*.VC.db
+meka/srcs/obj
+meka/Dist
+*.opendb
+*allegro*.zip
+meka/srcs/projects/msvc/packages
+*.rap
+/meka/srcs/projects/msvc/.vs/
+
+#misc merge latest junk
+meka/RA_Integration_d.dll
+meka/RAmeka.bsc
+meka/RAmeka.exe
+meka/RAmeka.ilk
+meka/hq2x16.obj
+meka/hq2x32.obj
+meka/srcs/projects/msvc/RACache/
+meka/srcs/projects/msvc/RAMeka.VC.db

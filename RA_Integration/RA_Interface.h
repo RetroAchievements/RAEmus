@@ -2,7 +2,7 @@
 
 //	NB. Shared between RA_Integration and emulator
 
-#include "RA_Defs.h"
+typedef int BOOL;
 
 #ifndef CCONV
 #define CCONV __cdecl
@@ -28,6 +28,8 @@ enum EmulatorID
 	RA_Nester,
 	RA_FCEUX,
 	RA_PCE,
+	RA_Libretro,
+    RA_Meka,
 
 	NumEmulatorIDs,
 	UnknownEmulator = NumEmulatorIDs
@@ -48,6 +50,48 @@ enum ConsoleID
 	SegaCD,
 	Sega32X,
 	MasterSystem,
+	PlayStation,
+	Lynx,
+	NeoGeoPocket,
+	GameGear,
+	GameCube,
+	Jaguar,
+	DS,
+	WII,
+	WIIU,
+	PlayStation2,
+	Xbox,
+	Skynet,
+	XboxOne,
+	Atari2600,
+	MSDOS,
+	Arcade,
+	VirtualBoy,
+	MSX,
+	C64,
+	ZX81,
+	NeoGeo,
+	SG1000,
+	VIC20,
+	Amiga,
+	AmigaST,
+	AmstradCPC,
+	AppleII,
+	Saturn,
+	Dreamcast,
+	PSP,
+	CDi,
+	ThreeDO,
+	Colecovision,
+	Intellivision,
+	Vectrex,
+	PC8800,
+	PC9800,
+	PCFX,
+	Atari5200,
+	Atari7800,
+	X68K,
+	WonderSwan,
 
 	NumConsoleIDs
 };
@@ -78,6 +122,12 @@ extern void RA_LoadROM( const char* sFullPath );
 //	Note: any changes in these files will require a full binary release of the emulator!
 //	 This file will be fully included in the emulator build as standard.
 //
+
+// resource values for menu items - needed by MFC ON_COMMAND_RANGE macros
+// they're not all currently used, allowing additional items without forcing recompilation of the emulators
+#define IDM_RA_MENUSTART                1700
+#define IDM_RA_MENUEND                  1739
+
 
 //	Captures the RA_DLL and installs/allocs all required information.
 //	Populates all function pointers so they can be used by the app.

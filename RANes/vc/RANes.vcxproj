@@ -114,7 +114,7 @@
       <AdditionalManifestFiles>$(ProjectDir)../src/drivers/win/fceu_x86.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy ..\..\RA_Integration\RA_Integration_d.dll . &amp;&amp; copy ..\..\RA_Integration\RA_Integration_d.pdb . &amp;&amp; xcopy /y /d "$(ProjectDir)\..\src\drivers\win\7z.dll" "$(OutDir)" &amp;&amp; xcopy /y /d "$(ProjectDir)\..\src\drivers\win\lua\win32\MT\lua5.1.dll" "$(OutDir)"
+      <Command>xcopy /y /d "$(ProjectDir)\..\src\drivers\win\7z.dll" "$(OutDir)" &amp;&amp; xcopy /y /d "$(ProjectDir)\..\src\drivers\win\lua\win32\MT\lua5.1.dll" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -148,7 +148,7 @@
       <AdditionalManifestFiles>$(ProjectDir)../src/drivers/win/fceu_x86.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy ..\..\RA_Integration\RA_Integration.dll $(TargetDir) &amp;&amp; xcopy /y /d "$(ProjectDir)\..\src\drivers\win\7z.dll" "$(OutDir)" &amp;&amp; xcopy /y /d "$(ProjectDir)\..\src\drivers\win\lua\win32\MT\lua5.1.dll" "$(OutDir)"
+      <Command>xcopy /y /d "$(ProjectDir)\..\src\drivers\win\7z.dll" "$(OutDir)" &amp;&amp; xcopy /y /d "$(ProjectDir)\..\src\drivers\win\lua\win32\MT\lua5.1.dll" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -1124,11 +1124,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)auxlib.lua;%(Outputs)</Outputs>
     </CustomBuild>
     <None Include="..\src\pputile.inc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\RA_Integration\RA_Integration.vcxproj">
-      <Project>{825cb292-f069-4b27-82cf-3417746acdf3}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

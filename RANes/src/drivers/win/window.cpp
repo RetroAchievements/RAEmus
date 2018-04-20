@@ -72,7 +72,6 @@
 #include "config.h" //adelikat: For SaveConfigFile()
 
 //	##RA
-#include "RA_Resource.h"
 #include "RA_Interface.h"
 #include "RA_Implementation.h"
 #include "iNes.h"
@@ -2312,16 +2311,15 @@ LRESULT FAR PASCAL AppWndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
             case FCEUX_CONTEXT_GUICONFIG:
                 ConfigGUI();
                 break;
-			}
-					
-			  //	##RA
-			  if( LOWORD(wParam) >= IDM_RA_MENUSTART &&
-				  LOWORD(wParam) < IDM_RA_MENUEND )
-			  {
-				  RA_InvokeDialog( LOWORD(wParam) );
-				  return 0;
-			  }
+            }
 
+              //	##RA
+              if ( LOWORD(wParam) >= IDM_RA_MENUSTART &&
+                   LOWORD(wParam) < IDM_RA_MENUEND )
+              {
+                  RA_InvokeDialog( LOWORD(wParam) );
+                  return 0;
+              }
 		}
 		break;
 

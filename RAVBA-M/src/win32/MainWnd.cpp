@@ -28,7 +28,6 @@
 
 //##RA
 #include "RA_Interface.h"
-#include "RA_Resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

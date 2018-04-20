@@ -1,4 +1,3 @@
-#include "RA_Defs.h"
 #include "RA_Implementation.h"
 #include "RA_Interface.h"
 
