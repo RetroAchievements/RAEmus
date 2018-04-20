@@ -6,7 +6,6 @@ meka/Screenshots
 meka/RAPrefs_RAMeka.cfg
 meka/RACache/
 meka/srcs/projects/msvc/RAPrefs_RAMeka.cfg
-meka/srcs/projects/msvc/packages.config
 
 # Developer data
 meka/objs
