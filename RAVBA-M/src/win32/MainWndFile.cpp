@@ -22,7 +22,7 @@
 #include "../version.h"
 
 //	##RA
-#include "../RA_Integration/RA_Interface.h"
+#include "RA_Interface.h"
 
 extern void remoteCleanUp();
 extern void InterframeCleanup();

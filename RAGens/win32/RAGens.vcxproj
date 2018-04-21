@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\RA_Integration\RA_Interface.cpp" />
+    <ClCompile Include="..\..\RA_Integration\src\RA_Interface.cpp" />
     <ClCompile Include="..\common\src\cdda_mp3.c" />
     <ClCompile Include="..\common\src\cd_aspi.cpp" />
     <ClCompile Include="..\common\src\cd_file.c" />
@@ -58,7 +58,7 @@
     <ClCompile Include="..\common\src\z80dis.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\..\RA_Integration\src\RA_Interface.h" />
     <ClInclude Include="..\common\src\afxres.h" />
     <ClInclude Include="..\common\src\blit.h" />
     <ClInclude Include="..\common\src\BuildVer.h" />
@@ -363,7 +363,7 @@
     <NMakeBuildCommandLine>nmake DEBUG=1</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>nmake DEBUG=1 clean &amp; nmake DEBUG=1</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>nmake DEBUG=1 clean</NMakeCleanCommandLine>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration/src;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">
@@ -372,7 +372,7 @@
     <NMakeBuildCommandLine>nmake DEBUG=1</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>nmake DEBUG=1 clean &amp; nmake DEBUG=1</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>nmake DEBUG=1 clean</NMakeCleanCommandLine>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration/src;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -381,7 +381,7 @@
     <NMakeCleanCommandLine>nmake RELEASE=1 clean</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>nmake RELEASE=1 clean &amp; nmake RELEASE=1</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>RA_GENS;WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>.;..;../../RA_Integration;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>.;..;../../RA_Integration/src;../../DXSDK_March09_x86;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">
@@ -395,7 +395,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration\src;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;RA_GENS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Full</Optimization>
@@ -422,7 +422,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseUnicode|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration\src;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;RA_GENS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Full</Optimization>
@@ -450,7 +450,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;RA_GENS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration\src;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4091</DisableSpecificWarnings>
     </ClCompile>
@@ -472,7 +472,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugUnicode|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;RA_GENS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\RA_Integration\src;$(ProjectDir)..\..\win32\src;$(ProjectDir)src;../../DXSDK_March09_x86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4091</DisableSpecificWarnings>
     </ClCompile>

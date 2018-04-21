@@ -54,7 +54,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(DXSDK_DIR)/include;..\RA_Integration;RA_Implementation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)/include;..\RA_Integration\src;RA_Implementation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;D3D_DEBUG_INFO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -83,7 +83,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(DXSDK_DIR)/include;$(ProjectDir)/../RA_Integration;$(ProjectDir)/RA_Implementation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)/include;$(ProjectDir)/../RA_Integration/src;$(ProjectDir)/RA_Implementation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader />
@@ -109,7 +109,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\RA_Integration\RA_Interface.cpp" />
+    <ClCompile Include="..\RA_Integration\src\RA_Interface.cpp" />
     <ClCompile Include="ADPCM.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="AppEvent.cpp" />
@@ -155,7 +155,7 @@
     <ResourceCompile Include="Ootake.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\RA_Integration\src\RA_Interface.h" />
     <ClInclude Include="ADPCM.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="AppEvent.h" />

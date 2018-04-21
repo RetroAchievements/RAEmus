@@ -72,7 +72,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../../RA_Integration/src;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;DEV_VERSION;BKPT_SUPPORT;GBA_LOGGING;MMX;ASM;_CRT_SECURE_NO_WARNINGS;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -118,7 +118,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </Midl>
     <ClCompile>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../../RA_Integration;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../DXSDK_March09_x86;../../src;../../fex;../../../RA_Integration/src;$(ProjectDir)\..\..\dependencies\libpng;$(ProjectDir)\..\..\dependencies\msvc;$(ProjectDir)\..\..\dependencies\SFML\include;$(ProjectDir)\..\..\dependencies\SubWCRev;$(ProjectDir)\..\..\dependencies\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GBA_LOGGING;OEMRESOURCE;MMX;ASM;FINAL_VERSION;BKPT_SUPPORT;_CRT_SECURE_NO_DEPRECATE;HAS_FILE_EXTRACTOR;NO_OAL;NO_XAUDIO2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
@@ -155,7 +155,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\..\..\RA_Integration\src\RA_Interface.h" />
     <ClInclude Include="..\..\src\win32\RA_Implementation.h" />
     <ClInclude Include="..\..\src\win32\resource.h" />
     <ClInclude Include="..\..\src\gb\gb.h" />
@@ -286,7 +286,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     <ResourceCompile Include="..\..\src\win32\VBA.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\RA_Integration\RA_Interface.cpp" />
+    <ClCompile Include="..\..\..\RA_Integration\src\RA_Interface.cpp" />
     <ClCompile Include="..\..\src\gb\gb.cpp" />
     <ClCompile Include="..\..\src\gb\gbCheats.cpp" />
     <ClCompile Include="..\..\src\gb\gbDis.cpp" />

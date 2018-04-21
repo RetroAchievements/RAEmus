@@ -1,5 +1,5 @@
 #include "RA_Implementation.h"
-#include "../../RA_Integration/RA_Interface.h"
+#include "RA_Interface.h"
 
 //	Include any emulator-side headers, externs or functions here
 #include "../Common.h"
