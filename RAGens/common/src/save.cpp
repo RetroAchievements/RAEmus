@@ -33,7 +33,7 @@
 #include "cd_sys.h"
 
 // ##RA
-#include "../../../RA_Integration/RA_Interface.h"
+#include "RA_Interface.h"
 
 int Current_State = 0;
 char State_Dir[1024] = "";

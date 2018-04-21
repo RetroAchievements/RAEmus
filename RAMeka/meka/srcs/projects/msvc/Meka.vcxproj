@@ -76,7 +76,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../../../RA_Integration/;../..;../../../libs/allegro/include/;../../../libs/allegro_deps/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../../RA_Integration/src/;../..;../../../libs/allegro/include/;../../../libs/allegro_deps/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
@@ -133,7 +133,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>../../../../../RA_Integration/;../..;../../../libs/allegro/include/;../../../libs/allegro_deps/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../../RA_Integration/src/;../..;../../../libs/allegro/include/;../../../libs/allegro_deps/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
@@ -217,7 +217,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\RA_Integration\RA_Interface.cpp">
+    <ClCompile Include="..\..\..\..\..\RA_Integration\src\RA_Interface.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -350,7 +350,7 @@
     <ClCompile Include="..\..\z80marat\Z80DebugHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\..\..\..\..\RA_Integration\src\RA_Interface.h" />
     <ClInclude Include="..\..\allegro4to5.h" />
     <ClInclude Include="..\..\app_about.h" />
     <ClInclude Include="..\..\app_cheatfinder.h" />

@@ -21,7 +21,7 @@
 #include "cdda_mp3.h"
 
 // ##RA
-#include "..\RA_Integration\RA_Interface.h"
+#include "RA_Interface.h"
 
 // ##RW
 #include "save.h"
