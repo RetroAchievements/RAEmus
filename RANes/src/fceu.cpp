@@ -976,6 +976,9 @@ void FCEUI_FrameAdvanceEnd(void) {
 }
 
 void FCEUI_FrameAdvance(void) {
+    if (RA_HardcoreModeIsActive())
+        return;
+
 	frameAdvanceRequested = true;
 	frameAdvance_Delay_count = 0;
 }

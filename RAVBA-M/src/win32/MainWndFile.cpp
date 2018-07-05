@@ -73,6 +73,7 @@ void MainWnd::OnFileReset()
 {
   if(emulating) {
     theApp.emulator.emuReset();
+    RA_OnReset();
     systemScreenMessage(winResLoadString(IDS_RESET));
   }
 }

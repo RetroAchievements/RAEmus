@@ -1017,6 +1017,9 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
 		if(wParam == CustomKeys.FrameAdvance.key
 		&& modifiers == CustomKeys.FrameAdvance.modifiers)
 		{
+            if (RA_HardcoreModeIsActive())
+                return 1;
+
 			static DWORD lastTime = 0;
 			if((int)(timeGetTime() - lastTime) > 20)
 			{
@@ -2412,6 +2415,9 @@ LRESULT CALLBACK WinProc(
 			RestoreSNESDisplay ();
 			break;
 		case ID_FRAME_ADVANCE:
+            if (RA_HardcoreModeIsActive())
+                return 1;
+
 			Settings.Paused = true;
 			Settings.FrameAdvance = true;
 			break;

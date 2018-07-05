@@ -824,7 +824,6 @@ int main(int argc,char *argv[])
   //##RA
 	RA_Init( hAppWnd, RA_FCEUX, RANES_VERSION );
 	RA_InitShared();
-	RA_InitDirectX();
 	RA_UpdateAppTitle( "" );
 	RebuildMenu();
 	RA_AttemptLogin( true );

@@ -541,7 +541,7 @@ int Flip(HWND hWnd)
 			}
 		}
 
-		if( Paused && RA_UserLoggedIn() )
+		if( Paused )
 			Do_VDP_Only();
 
 		if ((VDP_Reg.Set4 & 0x1) || (Debug))
@@ -731,7 +731,7 @@ int Flip(HWND hWnd)
 		}
 		
 
-		if( Paused && RA_UserLoggedIn() )
+		if( Paused )
 			Do_VDP_Only();
 
 		if ((VDP_Reg.Set4 & 0x1) || (Debug))

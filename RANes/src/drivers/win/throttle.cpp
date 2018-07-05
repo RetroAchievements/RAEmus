@@ -23,6 +23,8 @@
 #include "windows.h"
 #include "driver.h"
 
+#include "RA_Interface.h"
+
 static uint64 tmethod,tfreq;
 static uint64 desiredfps;
 int32 fps_scale = 256;
@@ -135,6 +137,9 @@ static void DecreaseEmulationSpeed(void)
 
 void FCEUD_SetEmulationSpeed(int cmd)
 {
+    if (RA_HardcoreModeIsActive())
+        return;
+
 	switch(cmd)
 	{
 	case EMUSPEED_SLOWEST:	fps_scale = fps_scale_unpaused = fps_scale_table[0];  break;
