@@ -614,9 +614,15 @@ static int SubLoad(FCEUFILE *fp) {
 		}
 
 		FCEU_fread(diskdata[x], 1, 65500, fp);
-		memcpy(&fds_ROM[x * 65500], diskdata[x], 65500);
-		md5_update(&md5, diskdata[x], 65500);
+
+		// Only copy the first set of subloaded data
+		if (!fds_ROM[x * 65500])
+		{
+			memcpy(&fds_ROM[x * 65500], diskdata[x], 65500);
+            md5_update(&md5, diskdata[x], 65500);
+		}
 	}
+
 	md5_finish(&md5, GameInfo->MD5.data);
 	return(1);
 }
@@ -695,9 +701,11 @@ int FDSLoad(const char *name, FCEUFILE *fp) {
 
 	FreeFDSMemory();
 	if (!SubLoad(fp)) {
-		free(fds_ROM);
+		if (fds_ROM)
+			free(fds_ROM);
 		if(FDSBIOS)
 			free(FDSBIOS);
+		fds_ROM = NULL;
 		FDSBIOS = NULL;
 		return(0);
 	}
