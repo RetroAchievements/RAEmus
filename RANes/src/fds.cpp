@@ -619,7 +619,7 @@ static int SubLoad(FCEUFILE *fp) {
 		if (!fds_ROM[x * 65500])
 		{
 			memcpy(&fds_ROM[x * 65500], diskdata[x], 65500);
-            md5_update(&md5, diskdata[x], 65500);
+			md5_update(&md5, diskdata[x], 65500);
 		}
 	}
 
