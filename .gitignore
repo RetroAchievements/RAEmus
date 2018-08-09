@@ -81,14 +81,6 @@
 /RAGens/win32/src/*.aps
 /RAGens/win32/Diffs.txt
 /RAGens/win32/LiveTag.txt
-/RANes/output/
-/RANes/src/BuildVer.h
-/RANes/vc/Diffs.txt
-/RANes/vc/LiveTag.txt
-/RANes/vc/vc9_bin_Debug
-/RANes/vc/vc9_obj_Debug
-/RANes/vc/vc9_bin_Release
-/RANes/vc/vc9_obj_Release
 /RASnes9x/libpng/projects/visualc71/Win32_LIB_Debug/
 /RASnes9x/libpng/projects/visualc71/Win32_LIB_Release/
 /RASnes9x/zlib-1.2.8/contrib/vstudio/vc9/x86

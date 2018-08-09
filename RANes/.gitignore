@@ -1,0 +1,13 @@
+output/
+src/BuildVer.h
+vc/Diffs.txt
+vc/LiveTag.txt
+vc/vc9_bin_Debug
+vc/vc9_obj_Debug
+vc/vc9_bin_Release
+vc/vc9_obj_Release
+vc/RACache
+
+# Output files
+*.dll
+*.cfg

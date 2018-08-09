@@ -578,7 +578,7 @@ static void FreeFDSMemory(void) {
 		}
 }
 
-static int SubLoad(FCEUFILE *fp) {
+static int SubLoad(FCEUFILE *fp, int firstSubLoad = 0) {
 	struct md5_context md5;
 	uint8 header[16];
 	int x;
@@ -616,11 +616,12 @@ static int SubLoad(FCEUFILE *fp) {
 		FCEU_fread(diskdata[x], 1, 65500, fp);
 
 		// Only copy the first set of subloaded data
-		if (!fds_ROM[x * 65500])
+		if (firstSubLoad)
 		{
-			memcpy(&fds_ROM[x * 65500], diskdata[x], 65500);
-			md5_update(&md5, diskdata[x], 65500);
+			memcpy(&fds_ROM[x * 65500], diskdata[x], 65500);	
 		}
+
+		md5_update(&md5, diskdata[x], 65500);
 	}
 
 	md5_finish(&md5, GameInfo->MD5.data);
@@ -700,7 +701,7 @@ int FDSLoad(const char *name, FCEUFILE *fp) {
 	fds_ROM = (uint8*)FCEU_malloc(fds_size);
 
 	FreeFDSMemory();
-	if (!SubLoad(fp)) {
+	if (!SubLoad(fp, 1)) {
 		if (fds_ROM)
 			free(fds_ROM);
 		if(FDSBIOS)
