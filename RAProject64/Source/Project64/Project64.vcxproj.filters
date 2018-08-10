@@ -174,7 +174,7 @@
     <ClCompile Include="..\RA_Implementation\RA_Implementation.cpp">
       <Filter>RA_Implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\RA_Integration\RA_Interface.cpp">
+    <ClCompile Include="..\..\..\RA_Integration\src\RA_Interface.cpp">
       <Filter>RA_Implementation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -317,7 +317,7 @@
     <ClInclude Include="..\RA_Implementation\RA_Implementation.h">
       <Filter>RA_Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\RA_Integration\RA_Interface.h">
+    <ClInclude Include="..\..\..\RA_Integration\src\RA_Interface.h">
       <Filter>RA_Implementation</Filter>
     </ClInclude>
   </ItemGroup>

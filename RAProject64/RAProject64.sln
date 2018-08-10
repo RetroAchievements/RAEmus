@@ -7,9 +7,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Source\Common\Common.vcxproj", "{B4A4B994-9111-42B1-93C2-6F1CA8BC4421}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RAProject64", "Source\Project64\Project64.vcxproj", "{7E534C8E-1ACE-4A88-8807-39A11ED4DA18}"
-	ProjectSection(ProjectDependencies) = postProject
-		{825CB292-F069-4B27-82CF-3417746ACDF3} = {825CB292-F069-4B27-82CF-3417746ACDF3}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Settings", "Source\Settings\Settings.vcxproj", "{8B9961B1-88D9-4EA3-A752-507A00DD9F3D}"
 EndProject
@@ -20,15 +17,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "Source\3rdParty\zlib\zlib.vcxproj", "{731BD205-2826-4631-B7AF-117658E88DBC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project64-core", "Source\Project64-core\Project64-core.vcxproj", "{00C7B43A-DED7-4DF0-B072-9A5783EF866D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{825CB292-F069-4B27-82CF-3417746ACDF3} = {825CB292-F069-4B27-82CF-3417746ACDF3}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "png", "Source\3rdParty\png\png.vcxproj", "{17836496-31B0-46F2-B1B1-366D7DF6F04C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RA_Integration", "..\RA_Integration\RA_Integration.vcxproj", "{825CB292-F069-4B27-82CF-3417746ACDF3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RA Integration", "RA Integration", "{C3A40879-3B54-43A2-A0BD-0BA5EB9272BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -232,22 +222,6 @@ Global
 		{17836496-31B0-46F2-B1B1-366D7DF6F04C}.ReleaseWithDebug|Win32.Build.0 = Release|Win32
 		{17836496-31B0-46F2-B1B1-366D7DF6F04C}.ReleaseWithDebug|x64.ActiveCfg = Release|x64
 		{17836496-31B0-46F2-B1B1-366D7DF6F04C}.ReleaseWithDebug|x64.Build.0 = Release|x64
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.ActiveCfg = Debug|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|Win32.Build.0 = Debug|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Debug|x64.ActiveCfg = Debug|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.DebugUnicode|Win32.ActiveCfg = DebugUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.DebugUnicode|Win32.Build.0 = DebugUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.DebugUnicode|x64.ActiveCfg = DebugUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.ActiveCfg = Release|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.Build.0 = Release|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|x64.ActiveCfg = Release|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseUnicode|Win32.ActiveCfg = ReleaseUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseUnicode|Win32.Build.0 = ReleaseUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseUnicode|x64.ActiveCfg = ReleaseUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.ActiveCfg = ReleaseUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.Build.0 = ReleaseUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|x64.ActiveCfg = ReleaseUnicode|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|x64.Build.0 = ReleaseUnicode|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -257,7 +231,6 @@ Global
 		{4BC6906B-213E-40D7-9FC7-1A93E228393D} = {AA8F7F8E-5377-4911-859D-8A8817B0DB26}
 		{731BD205-2826-4631-B7AF-117658E88DBC} = {AA8F7F8E-5377-4911-859D-8A8817B0DB26}
 		{17836496-31B0-46F2-B1B1-366D7DF6F04C} = {AA8F7F8E-5377-4911-859D-8A8817B0DB26}
-		{825CB292-F069-4B27-82CF-3417746ACDF3} = {C3A40879-3B54-43A2-A0BD-0BA5EB9272BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FA283FA-834A-4B87-9C8C-ABF8D9ADE76A}

@@ -30,7 +30,7 @@
 
 // #RA
 #include "RA_Implementation\RA_Implementation.h"
-#include "..\..\RA_Integration\RA_Interface.h"
+#include "..\..\RA_Integration\src\RA_Interface.h"
 #include "Overlay\Overlay.h"
 
 #pragma warning(disable:4355) // Disable 'this' : used in base member initializer list

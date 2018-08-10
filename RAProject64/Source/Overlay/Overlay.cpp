@@ -6,7 +6,7 @@
 #include <Project64-core/N64System/SystemGlobals.h>
 
 #include "RA_Implementation\RA_Implementation.h"
-#include "../../RA_Integration/RA_Interface.h"
+#include "..\..\RA_Integration\src\RA_Interface.h"
 
 HWND layeredWnd;
 HWND hMainWnd;

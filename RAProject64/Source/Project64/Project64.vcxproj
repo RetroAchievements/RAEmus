@@ -73,16 +73,18 @@
       <EnableDPIAwareness>true</EnableDPIAwareness>
     </Manifest>
     <ClCompile>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\RA_Integration\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\RA_Integration\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y "$(ProjectDir)..\..\..\RA_Integration\RA_Integration.dll" "$(SolutionDir)bin\Release"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y "$(ProjectDir)..\..\..\RA_Integration\RA_Integration_d.dll" "$(SolutionDir)bin\Debug"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
     </PostBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -92,7 +94,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\RA_Integration\RA_Interface.cpp">
+    <ClCompile Include="..\..\..\RA_Integration\src\RA_Interface.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -142,7 +144,7 @@
     <ClCompile Include="UserInterface\WTLControls\PartialGroupBox.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\..\..\RA_Integration\src\RA_Interface.h" />
     <ClInclude Include="..\RA_Implementation\RA_Implementation.h" />
     <ClInclude Include="Multilanguage\LanguageSelector.h" />
     <ClInclude Include="N64System.h" />
