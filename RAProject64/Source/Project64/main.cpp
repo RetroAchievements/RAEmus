@@ -6,6 +6,7 @@
 #include "../RA_Implementation/RA_Implementation.h"
 #include "RA_Interface.h"
 #include "RA_Resource.h"
+#include "BuildVer.h"
 #include "Overlay/Overlay.h"
 #include <thread>
 
@@ -85,7 +86,7 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
 		hMainWindow = reinterpret_cast<HWND>(MainWindow.GetWindowHandle());
 		hMainWindowStatusBar = (HWND)MainWindow.GetStatusBar();
 		MainWindow.BringToTop();
-		RA_Init(hMainWindow, RA_Project64, "0.058");
+		RA_Init(hMainWindow, RA_Project64, RAPROJECT64_VERSION);
 
 		RA_InitShared();
 		RA_UpdateAppTitle("");
