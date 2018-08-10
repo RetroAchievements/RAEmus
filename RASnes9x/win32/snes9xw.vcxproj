@@ -101,7 +101,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>../../DXSDK_March09_x86;../../NVIDIA_Cg_x86;$(ProjectDir);$(ProjectDir)..\;$(ProjectDir)..\..\;$(ProjectDir)..\zlib-1.2.8;$(ProjectDir)..\unzip;$(ProjectDir)..\..\FMOD\api\inc;$(ProjectDir)..\libpng;$(ProjectDir)..\snes9x;$(ProjectDir)\..\..\common;$(ProjectDir)..\apu\bapu;$(ProjectDir)..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../DXSDK_March09_x86;../../NVIDIA_Cg_x86;$(ProjectDir);$(ProjectDir)..\;$(ProjectDir)..\..\;$(ProjectDir)..\zlib-1.2.8;$(ProjectDir)..\unzip;$(ProjectDir)..\..\FMOD\api\inc;$(ProjectDir)..\libpng;$(ProjectDir)..\snes9x;$(ProjectDir)\..\..\common;$(ProjectDir)..\apu\bapu;$(ProjectDir)..\..\RA_Integration\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;HAVE_LIBPNG;JMA_SUPPORT;ZLIB_WINAPI;UNZIP_SUPPORT;__WIN32__;NETPLAY_SUPPORT;RA_SNES9X;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -150,7 +150,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../DXSDK_March09_x86;../../NVIDIA_Cg_x86;$(ProjectDir);$(ProjectDir)..\;$(ProjectDir)..\..\;$(ProjectDir)..\apu\bapu;$(ProjectDir)..\libpng;$(ProjectDir)..\unzip;$(ProjectDir)..\zlib-1.2.8;$(ProjectDir)..\..\common;$(ProjectDir)..\..\FMOD\api\inc;$(ProjectDir)..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../DXSDK_March09_x86;../../NVIDIA_Cg_x86;$(ProjectDir);$(ProjectDir)..\;$(ProjectDir)..\..\;$(ProjectDir)..\apu\bapu;$(ProjectDir)..\libpng;$(ProjectDir)..\unzip;$(ProjectDir)..\zlib-1.2.8;$(ProjectDir)..\..\common;$(ProjectDir)..\..\FMOD\api\inc;$(ProjectDir)..\..\RA_Integration\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;HAVE_LIBPNG;JMA_SUPPORT;ZLIB_WINAPI;UNZIP_SUPPORT;__WIN32__;NETPLAY_SUPPORT;D3D_DEBUG_INFO;RA_SNES9X;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <StructMemberAlignment>Default</StructMemberAlignment>
@@ -419,7 +419,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     <ClInclude Include="snes_ntsc_config.h" />
     <ClInclude Include="snes_ntsc_impl.h" />
     <ClInclude Include="RA_Implementation.h" />
-    <ClInclude Include="..\..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="..\..\RA_Integration\src\RA_Interface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\bsx.cpp" />
@@ -542,7 +542,7 @@ if %ERRORLEVEL% LEQ 3 exit 0</Command>
     <ClCompile Include="..\filter\hq2x.cpp" />
     <ClCompile Include="snes_ntsc.c" />
     <ClCompile Include="RA_Implementation.cpp" />
-    <ClCompile Include="..\..\RA_Integration\RA_Interface.cpp" />
+    <ClCompile Include="..\..\RA_Integration\src\RA_Interface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\i386\c4.asm">
