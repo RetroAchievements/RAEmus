@@ -1057,7 +1057,7 @@ bool ALoad(const char *nameo, char* innerFilename, bool silent)
 		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x10000 );
 		if (GameInfo->type == EGIT::GIT_FDS)
 		{
-			RA_OnLoadNewRom(fds_ROM, (fds_size));
+			RA_OnLoadNewRom(FDSROM, FDSSize);
 		}
 		else
 		{

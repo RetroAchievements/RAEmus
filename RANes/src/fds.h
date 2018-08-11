@@ -1,6 +1,9 @@
 extern bool isFDS;
-extern uint8 *fds_ROM;
-extern uint32 fds_size;
+
+// Pointer to base disk data for interfacing with RA
+extern uint8 *FDSROM;
+extern uint32 FDSSize;
+
 void FDSSoundReset(void);
 
 void FCEU_FDSInsert(void);
