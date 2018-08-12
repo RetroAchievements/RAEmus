@@ -1,0 +1,40 @@
+﻿[default]
+7zipCache=..\..\Config\Project64.zcache
+Auto Sleep=0
+Basic Mode=0
+Cheats=..\..\Config\Project64.cht
+ExtInfo=..\..\Config\Project64.rdx
+Glide64RDB=..\..\Config\Glide64.rdb
+Notes=..\..\Config\Project64.rdn
+RomDatabase=..\..\Config\Project64.rdb
+RomListCache=..\..\Config\Project64.cache3
+ShortCuts=..\..\Config\Project64.sc3
+
+[Debugger]
+Debugger=1
+
+[Plugin Directory]
+Directory=..\..\Plugin\
+Use Selected=1
+
+[Plugin64 Directory]
+Directory=..\..\Plugin64\
+Use Selected=1
+
+[Native Save Directory]
+Directory=..\..\Save\
+Use Selected=1
+
+[Instant Save Directory]
+Directory=..\..\Save\
+Use Selected=1
+
+[Lang Directory]
+Directory=..\..\Lang
+
+[Texture Directory]
+Directory=..\..\Textures\
+Use Selected=1
+
+[Support Project64]
+Run Count=-1
