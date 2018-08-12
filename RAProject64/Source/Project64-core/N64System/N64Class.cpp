@@ -620,6 +620,8 @@ void CN64System::GameReset()
     {
         m_SyncCPU->GameReset();
     }
+
+    RA_OnReset();
 }
 
 void CN64System::PluginReset()
