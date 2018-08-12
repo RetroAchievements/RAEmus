@@ -44,8 +44,8 @@
 extern int disableBatteryLoading;
 
 bool isFDS = false; //flag for determining if a FDS game is loaded, movie.cpp needs this
-uint8 *fds_ROM;
-uint32 fds_size = 0;
+uint8 *FDSROM = 0;
+uint32 FDSSize = 0;
 
 static DECLFR(FDSRead4030);
 static DECLFR(FDSRead4031);
@@ -78,7 +78,6 @@ static uint32 CHRRAMSize;
 
 /* Original disk data backup, to help in creating save states. */
 static uint8 *diskdatao[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-
 static uint8 *diskdata[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 static int TotalSides; //mbg merge 7/17/06 - unsignedectomy
@@ -614,9 +613,9 @@ static int SubLoad(FCEUFILE *fp) {
 		}
 
 		FCEU_fread(diskdata[x], 1, 65500, fp);
-		memcpy(&fds_ROM[x * 65500], diskdata[x], 65500);
 		md5_update(&md5, diskdata[x], 65500);
 	}
+
 	md5_finish(&md5, GameInfo->MD5.data);
 	return(1);
 }
@@ -690,34 +689,36 @@ int FDSLoad(const char *name, FCEUFILE *fp) {
 
 	FCEU_fseek(fp, 0, SEEK_SET);
 
-	fds_size = fp->size;
-	fds_ROM = (uint8*)FCEU_malloc(fds_size);
+	FDSSize = fp->size;
 
 	FreeFDSMemory();
 	if (!SubLoad(fp)) {
-		free(fds_ROM);
 		if(FDSBIOS)
 			free(FDSBIOS);
 		FDSBIOS = NULL;
 		return(0);
 	}
 
+	// Save original dump data to a separate buffer
+	FDSROM = (uint8*)FCEU_malloc(TotalSides * 65500);
+	for (int x = 0; x < TotalSides; x++) {
+		uint32 index = 65500 * x;
+		memcpy(FDSROM + index, diskdata[x], 65500);
+
+		// Point the side-indexed array to its location in the buffer
+		diskdatao[x] = FDSROM + index;
+	}
+
 	if (!disableBatteryLoading) {
+		// Load saved data
 		FCEUFILE *tp;
 		char *fn = strdup(FCEU_MakeFName(FCEUMKF_FDS, 0, 0).c_str());
-
-		int x;
-		for (x = 0; x < TotalSides; x++) {
-			diskdatao[x] = (uint8*)FCEU_malloc(65500);
-			memcpy(diskdatao[x], diskdata[x], 65500);
-		}
 
 		if ((tp = FCEU_fopen(fn, 0, "rb", 0))) {
 			FCEU_printf("Disk was written. Auxillary FDS file open \"%s\".\n",fn);
 			FreeFDSMemory();
 			if (!SubLoad(tp)) {
 				FCEU_PrintError("Error reading auxillary FDS file.");
-				free(fds_ROM);
 				if(FDSBIOS)
 					free(FDSBIOS);
 				FDSBIOS = NULL;
@@ -801,15 +802,9 @@ void FDSClose(void) {
 		}
 	}
 
-	for (x = 0; x < TotalSides; x++)
-		if (diskdatao[x]) {
-			free(diskdatao[x]);
-			diskdatao[x] = 0;
-		}
-
 	FreeFDSMemory();
-	if(fds_ROM)
-		free(fds_ROM);
+	if(FDSROM)
+		free(FDSROM);
 	if(FDSBIOS)
 		free(FDSBIOS);
 	FDSBIOS = NULL;
