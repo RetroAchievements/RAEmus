@@ -552,8 +552,6 @@ int Set_Render(HWND hWnd, int Full, int Num, BOOL fForceWindowReposition)
 	Build_Main_Menu();
 	int nResult = Init_DDraw(HWnd);
 	
-	RA_InitDirectX();
-
 	return( nResult );
 }
 
@@ -1807,7 +1805,6 @@ long PASCAL WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_PAINT:
 			Clear_Primary_Screen(HWnd);
 			Flip(hWnd);
-			RA_OnPaint( hWnd );
 			break;
 		
 		case WM_COMMAND:
@@ -2169,18 +2166,20 @@ long PASCAL WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					if (Genesis_Started)
 					{
 						Reset_Genesis();
-						//g_MainOverlay.OnLoad_NewRom();//TBD
+                        RA_OnReset();
 						MESSAGE_L("Genesis reseted", "Genesis reset", 1500)
 					}
 					else if (_32X_Started)
 					{
 						Reset_32X();
-						MESSAGE_L("32X reseted", "32X reset", 1500)
+                        RA_OnReset();
+                        MESSAGE_L("32X reseted", "32X reset", 1500)
 					}
 					else if (SegaCD_Started)
 					{
 						Reset_SegaCD();
-						MESSAGE_L("SegaCD reseted", "SegaCD reset", 1500)
+                        RA_OnReset();
+                        MESSAGE_L("SegaCD reseted", "SegaCD reset", 1500)
 					}
 					return 0;
 
@@ -2877,13 +2876,6 @@ HMENU Build_Main_Menu(void)
 // 	{
 // 		MENU_L(Files, i++, Flags, ID_FILES_NETPLAY, "Netplay", "", "&Netplay");
 // 	}
-
-	if( strcmp( RA_Username(), "Scott" ) == 0 )
-	{
-		InsertMenu(Files, i++, MF_SEPARATOR, NULL, NULL);
-
-		MENU_L(Files, i++, Flags, ID_FILES_GAMEGENIE, "Game Genie", "", "&Game Genie");
-	}
 
 	InsertMenu(Files, i++, MF_SEPARATOR, NULL, NULL);
 

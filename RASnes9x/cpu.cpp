@@ -190,6 +190,8 @@
 #include "debug.h"
 #endif
 
+#include "RA_Interface.h"
+
 static void S9xResetCPU (void);
 static void S9xSoftResetCPU (void);
 
@@ -334,6 +336,8 @@ void S9xSoftReset (void)
 		S9xResetOBC1();
 	if (Settings.SRTC)
 		S9xResetSRTC();
+
+    RA_OnReset();
 
 	S9xInitCheatData();
 }

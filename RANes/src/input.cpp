@@ -607,6 +607,8 @@ void FCEUI_ResetNES(void)
 	FCEU_DispMessage("Command: Soft reset", 0);
 	FCEU_QSimpleCommand(FCEUNPCMD_RESET);
 	ResetFrameCounter();
+
+    RA_OnReset();
 }
 
 //Powers off the NES
@@ -856,10 +858,7 @@ static void CommandToggleDip(void)
 
 static void CommandEmulationSpeed(void)
 {
-	if (!RA_HardcoreModeIsActive())
-	{
-		FCEUD_SetEmulationSpeed(EMUSPEED_SLOWEST + (execcmd - EMUCMD_SPEED_SLOWEST));
-	}
+	FCEUD_SetEmulationSpeed(EMUSPEED_SLOWEST + (execcmd - EMUCMD_SPEED_SLOWEST));
 }
 
 void FCEUI_SelectStateNext(int);

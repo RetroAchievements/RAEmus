@@ -859,6 +859,9 @@ void VBA::updateFilter()
 
 void VBA::updateThrottle( unsigned short throttle )
 {
+    if (RA_HardcoreModeIsActive())
+        return;
+
 	this->throttle = throttle;
 
 	if( throttle ) {

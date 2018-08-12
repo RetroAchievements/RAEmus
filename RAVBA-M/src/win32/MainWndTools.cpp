@@ -27,6 +27,8 @@
 #include "../gba/Globals.h"
 #include "../gba/Sound.h"
 
+#include "RA_Interface.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -172,6 +174,9 @@ void MainWnd::OnUpdateToolsTileviewer(CCmdUI* pCmdUI)
 
 void MainWnd::OnDebugNextframe()
 {
+  if (RA_HardcoreModeIsActive())
+    return;
+
   if(theApp.paused)
     theApp.paused = false;
   theApp.winPauseNextFrame = true;

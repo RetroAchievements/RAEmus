@@ -5439,8 +5439,6 @@ APP_Init(
 	RA_Init( hWnd, RA_PCE, RAPCE_VERSION );
 	RA_InitShared();
 
-	RA_InitDirectX();
-
 	RA_UpdateAppTitle( "" );
 
 	RebuildMenu();
@@ -5761,12 +5759,6 @@ APP_Init(
 #endif
 
 	//##RA
-	while( RA_HTTPRequestExists( "requestlogin.php" ) )
-	{
-		RA_HandleHTTPResults();
-		Sleep( 16 );
-	}
-	
 	RA_HandleHTTPResults();
 	MAINBOARD_Init( _OpenFilePathName );
 
