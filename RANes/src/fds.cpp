@@ -700,7 +700,7 @@ int FDSLoad(const char *name, FCEUFILE *fp) {
 	}
 
 	// Save original dump data to a separate buffer
-	FDSROM = (uint8*)FCEU_malloc(FDSSize);
+	FDSROM = (uint8*)FCEU_malloc(TotalSides * 65500);
 	for (int x = 0; x < TotalSides; x++) {
 		uint32 index = 65500 * x;
 		memcpy(FDSROM + index, diskdata[x], 65500);
