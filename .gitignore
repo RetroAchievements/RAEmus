@@ -119,3 +119,11 @@
 /*.db
 /RAVBA-M/Debug/File_Extractor2012.log
 /RetroAchievementsKey
+/*.opendb
+/RAVBA-M/dependencies/libpng/project/vs2012/Win32/Release/libpng.lib
+/RAProject64/bin/
+/RAProject64/build/
+/RAProject64/Debug/
+/RAProject64/ipch/
+/RAProject64/.vs/
+/RAProject64/Source/Project64/BuildVer.h
