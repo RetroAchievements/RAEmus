@@ -152,7 +152,7 @@ static void FCEU_CloseGame(void)
 {
 	if (GameInfo)
 	{
-		if (AutoResumePlay)
+		if (AutoResumePlay && !RA_HardcoreModeIsActive())
 		{
 			// save "-resume" savestate
 			FCEUSS_Save(FCEU_MakeFName(FCEUMKF_RESUMESTATE, 0, 0).c_str(), false);
@@ -513,7 +513,7 @@ FCEUGI *FCEUI_LoadGameVirtual(const char *name, int OverwriteVidMode, bool silen
 	if (GameInfo->type != GIT_NSF)
 		FCEU_LoadGameCheats(0);
 
-	if (AutoResumePlay)
+	if (AutoResumePlay && !RA_HardcoreModeIsActive())
 	{
 		// load "-resume" savestate
 		if (FCEUSS_Load(FCEU_MakeFName(FCEUMKF_RESUMESTATE, 0, 0).c_str(), false))
@@ -1003,7 +1003,7 @@ void UpdateAutosave(void) {
 }
 
 void FCEUI_RewindToLastAutosave(void) {
-	if (!EnableAutosave || !AutoSS)
+	if (!EnableAutosave || !AutoSS || !RA_HardcoreModeIsActive())
 		return;
 
 	if (AutosaveStatus[AutosaveIndex] == 1) {

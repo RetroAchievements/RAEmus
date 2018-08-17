@@ -456,12 +456,6 @@ bool FCEUSS_SaveMS(EMUFILE* outstream, int compressionLevel)
 
 void FCEUSS_Save(const char *fname, bool display_message)
 {
-	if( RA_HardcoreModeIsActive() )
-	{
-		if( MessageBox( NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO ) == IDNO )
-			return;
-	}
-
 	EMUFILE* st = 0;
 	char fn[2048];
 
@@ -726,12 +720,6 @@ bool FCEUSS_Load(const char *fname, bool display_message)
 	EMUFILE* st;
 	char fn[2048];
 
-	if( RA_HardcoreModeIsActive() )
-	{
-		if( MessageBox( NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO ) == IDNO )
-			return false;
-	}
-
 	//mbg movie - this needs to be overhauled
 	////this fixes read-only toggle problems
 	//if(FCEUMOV_IsRecording()) {
@@ -955,6 +943,8 @@ void FCEUI_SaveState(const char *fname, bool display_message)
 {
 	if(!FCEU_IsValidUI(FCEUI_SAVESTATE)) return;
 
+    if(!RA_WarnDisableHardcore("save a state")) return;
+
 	StateShow = 0;
 
 	FCEUSS_Save(fname, display_message);
@@ -974,6 +964,8 @@ bool file_exists(const char * filename)
 void FCEUI_LoadState(const char *fname, bool display_message)
 {
 	if(!FCEU_IsValidUI(FCEUI_LOADSTATE)) return;
+
+    if(!RA_WarnDisableHardcore("load a state")) return;
 
 	StateShow = 0;
 	loadStateFailed = 0;

@@ -2077,13 +2077,6 @@ void CMemory::ClearSRAM (bool8 onlyNonSavedSRAM)
 
 bool8 CMemory::LoadSRAM (const char *filename)
 {
-	//	Must allow SRAM in hardcore, surely?!
-	//if( RA_HardcoreModeIsActive() )
-	//{
-	//	if( MessageBox( NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO ) == IDNO )
-	//		return (FALSE);
-	//}
-
 	FILE	*file;
 	int		size, len;
 	char	sramName[PATH_MAX + 1];
@@ -2174,13 +2167,6 @@ bool8 CMemory::SaveSRAM (const char *filename)
 
 	if (Settings.SA1 && ROMType == 0x34)    // doesn't have SRAM
 		return (TRUE);
-
-	//	Must allow SRAM in hardcore, surely?!
-	//if( RA_HardcoreModeIsActive() )
-	//{
-	//	if( MessageBox( NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO ) == IDNO )
-	//		return false;
-	//}
 
 	FILE	*file;
 	int		size;

@@ -983,11 +983,8 @@ static BOOL CALLBACK RecordDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 //Show the record movie dialog and record a movie.
 void FCEUD_MovieRecordTo()
 {
-	if (RA_HardcoreModeIsActive())
-	{
-		MessageBox(nullptr, ("Hardcore Mode is active. Movie Recording/Playback is disabled."), ("Warning"), MB_OK);
-		return;
-	}
+    if (!RA_WarnDisableHardcore("record a movie"))
+        return;
 
 	if (!GameInfo) return;
 	static struct CreateMovieParameters p;
@@ -1046,11 +1043,8 @@ void Replay_LoadMovie()
 /// Show movie replay dialog and replay the movie if necessary.
 void FCEUD_MovieReplayFrom()
 {
-	if (RA_HardcoreModeIsActive())
-	{
-		MessageBox(nullptr, ("Hardcore Mode is active. Movie Recording/Playback is disabled."), ("Warning"), MB_OK);
-		return;
-	}
+    if (!RA_WarnDisableHardcore("playback a recording"))
+        return;
 
 	if (GameInfo) Replay_LoadMovie();
 }

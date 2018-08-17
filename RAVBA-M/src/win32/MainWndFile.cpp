@@ -261,7 +261,8 @@ BOOL MainWnd::OnFileLoadSlot(UINT nID)
   if (theApp.paused)
     InterframeCleanup();
 
-  systemScreenMessage(buffer);
+  if (res)
+      systemScreenMessage(buffer);
 
   systemDrawScreen();
 
@@ -357,12 +358,12 @@ BOOL MainWnd::OnFileSaveSlot(UINT nID)
     filename.Format("%s\\%s%d.sgm", saveDir, buffer, nID);
 
   bool res = writeSaveGame(filename);
+  if (res) {
+      CString format = winResLoadString(IDS_WROTE_STATE_N);
+      buffer.Format(format, nID);
 
-  CString format = winResLoadString(IDS_WROTE_STATE_N);
-  buffer.Format(format, nID);
-
-  systemScreenMessage(buffer);
-
+      systemScreenMessage(buffer);
+  }
   systemDrawScreen();
 
   return res;

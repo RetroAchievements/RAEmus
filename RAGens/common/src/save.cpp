@@ -140,10 +140,7 @@ int load_Memstate()
 {
 	// #RA
 	if( RA_HardcoreModeIsActive() )
-	{
-		MessageBox( HWnd, "Please disable Hardcore mode when using REWiND!", "Warning", MB_OK );
 		return 0;
-	}
 
 	if(memstateAllocated == 0)
 		return 0;
@@ -299,11 +296,8 @@ void Get_State_File_Name(char *name)
 int Load_State(char *Name)
 {
 	// #RA
-	if( RA_HardcoreModeIsActive() )
-	{
-		if( MessageBox( HWnd, "Hardcore mode is active. If you load a state, you will disable Hardcore Mode. Continue?", "Warning", MB_YESNO ) == IDNO )
-			return 0;
-	}
+    if (!RA_WarnDisableHardcore("load a state"))
+        return 0;
 
 	FILE *f;
 	unsigned char *buf;
@@ -435,6 +429,10 @@ int Load_Memstate(BYTE *memBuf)
 				RA_OnLoadNewRom( Rom_Data, 6*1024*1024 );
 			}
 		}
+        else
+        {
+            RA_OnLoadState( NULL );
+        }
 
   //}
 
@@ -444,11 +442,8 @@ int Load_Memstate(BYTE *memBuf)
 int Save_State(char *Name)
 {
 	// #RA
-	if( RA_HardcoreModeIsActive() )
-	{
-		if( MessageBox( HWnd, "Hardcore mode is active. If you save a state, you will disable Hardcore Mode. Continue?", "Warning", MB_YESNO ) == IDNO )
-			return 0;
-	}
+    if (!RA_WarnDisableHardcore("save a state"))
+        return 0;
 
 	FILE *f;
 	unsigned char *buf;
