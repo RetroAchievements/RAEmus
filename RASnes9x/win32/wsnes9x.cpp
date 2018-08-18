@@ -1290,7 +1290,7 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
         if(wParam == CustomKeys.Rewind.key
 		&& modifiers == CustomKeys.Rewind.modifiers)
 		{
-            if (RA_WarnDisableHardcore("rewind"))
+            if (!RA_HardcoreModeIsActive())
                 return 1;
 
             if(!GUI.rewinding)
