@@ -4,6 +4,7 @@
 //	Include any emulator-side headers, externs or functions here
 #include "../Common.h"
 #include "movie.h"
+#include "cheat.h"
 
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
@@ -77,6 +78,7 @@ void GetEstimatedGameTitle( char* sNameOut )
 void ResetEmulation()
 {
 	FCEUI_StopMovie();
+    FCEU_FlushGameCheats(0, 1);
 	FCEUI_ResetNES();
 }
 
