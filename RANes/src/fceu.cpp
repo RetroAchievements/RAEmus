@@ -510,7 +510,7 @@ FCEUGI *FCEUI_LoadGameVirtual(const char *name, int OverwriteVidMode, bool silen
 	FCEU_ResetPalette();
 	FCEU_ResetMessages();   // Save state, status messages, etc.
 
-	if (GameInfo->type != GIT_NSF)
+	if (GameInfo->type != GIT_NSF && !RA_HardcoreModeIsActive())
 		FCEU_LoadGameCheats(0);
 
 	if (AutoResumePlay && !RA_HardcoreModeIsActive())
@@ -834,7 +834,9 @@ void PowerNES(void) {
 #ifdef WIN32
 	ResetDebugStatisticsCounters();
 #endif
-	FCEU_PowerCheats();
+    if (!RA_HardcoreModeIsActive())
+    	FCEU_PowerCheats();
+
 	LagCounterReset();
 	// clear back buffer
 	extern uint8 *XBackBuf;
