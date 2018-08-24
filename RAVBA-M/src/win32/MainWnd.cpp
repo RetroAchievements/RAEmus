@@ -1087,9 +1087,6 @@ bool MainWnd::loadSaveGame(const char *name)
 
 bool MainWnd::writeSaveGame(const char *name)
 {
-    if (!RA_WarnDisableHardcore("save a state"))
-        return false;
-
 	if(theApp.emulator.emuWriteState)
 	{
 		bool bSaveOK = theApp.emulator.emuWriteState(name);

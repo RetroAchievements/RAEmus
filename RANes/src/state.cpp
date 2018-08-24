@@ -943,8 +943,6 @@ void FCEUI_SaveState(const char *fname, bool display_message)
 {
 	if(!FCEU_IsValidUI(FCEUI_SAVESTATE)) return;
 
-    if(!RA_WarnDisableHardcore("save a state")) return;
-
 	StateShow = 0;
 
 	FCEUSS_Save(fname, display_message);

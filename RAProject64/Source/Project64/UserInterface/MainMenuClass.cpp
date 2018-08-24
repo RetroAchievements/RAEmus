@@ -317,27 +317,15 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         }
         break;
     case ID_SYSTEM_SAVE:
-        if (!RA_WarnDisableHardcore("save a state"))
-            break;
-
-		RA_OnSaveState( NULL );
-
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_SAVE");
         g_BaseSystem->ExternalEvent(SysEvent_SaveMachineState);
         break;
     case ID_SYSTEM_SAVEAS:
-        if (!RA_WarnDisableHardcore("save a state"))
-            break;
-
-		RA_OnSaveState( NULL );
-
         OnSaveAs(hWnd); 
 		break;
     case ID_SYSTEM_RESTORE:
         if (!RA_WarnDisableHardcore("load a state"))
             break;
-
-        RA_OnLoadState( NULL );
 
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESTORE");
         g_BaseSystem->ExternalEvent(SysEvent_LoadMachineState);
@@ -346,7 +334,6 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         if (!RA_WarnDisableHardcore("load a state"))
             break;
 
-        RA_OnLoadState( NULL );
 		OnLodState(hWnd); 
 		break;
     case ID_SYSTEM_CHEAT: //OnCheats(hWnd); 

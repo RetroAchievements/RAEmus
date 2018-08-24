@@ -3740,7 +3740,7 @@ loop_exit:
 
 void FreezeUnfreeze (int slot, bool8 freeze)
 {
-    if(!RA_WarnDisableHardcore(freeze ? "save a state" : "load a state"))
+    if(!freeze && !RA_WarnDisableHardcore("load a state"))
         return;
 
 #ifdef NETPLAY_SUPPORT

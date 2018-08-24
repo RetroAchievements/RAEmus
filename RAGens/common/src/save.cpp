@@ -441,10 +441,6 @@ int Load_Memstate(BYTE *memBuf)
 
 int Save_State(char *Name)
 {
-	// #RA
-    if (!RA_WarnDisableHardcore("save a state"))
-        return 0;
-
 	FILE *f;
 	unsigned char *buf;
 	int len;
