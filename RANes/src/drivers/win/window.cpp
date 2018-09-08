@@ -201,7 +201,6 @@ void SetMainWindowText()
 	{
 		//Add the filename to the window caption
 		extern char FileBase[];
-		str.append(": ");
 		str.append(FileBase);
 		if (FCEUMOV_IsLoaded())
 		{
