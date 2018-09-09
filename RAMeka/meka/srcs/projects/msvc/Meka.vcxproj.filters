@@ -421,9 +421,7 @@
     <ClCompile Include="..\..\RA_Implementation.cpp">
       <Filter>RA_Implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\RA_Integration\RA_Interface.cpp">
-      <Filter>RA_Implementation</Filter>
-    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\RA_Integration\src\RA_Interface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\allegro4to5.h">
@@ -789,9 +787,7 @@
     <ClInclude Include="..\..\RA_Implementation.h">
       <Filter>RA_Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\RA_Integration\RA_Interface.h">
-      <Filter>RA_Implementation</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\RA_Integration\src\RA_Interface.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Meka.rc">

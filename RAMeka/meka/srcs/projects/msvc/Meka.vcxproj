@@ -122,6 +122,9 @@
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PostBuildEvent />
+    <PreBuildEvent>
+      <Command>$(ProjectDir)MakeBuildVer.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -182,6 +185,9 @@
     <CustomBuildStep />
     <Manifest />
     <PostBuildEvent />
+    <PreBuildEvent>
+      <Command>$(ProjectDir)MakeBuildVer.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\..\..\meka.blt" />
