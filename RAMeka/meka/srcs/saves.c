@@ -160,10 +160,10 @@ void        SaveState_Save()
         fclose (f);
     }
 
-
-    StrPath_RemoveDirectory (buf);
 	//#RA
 	RAMeka_RA_OnSaveStateSave(buf);
+
+    StrPath_RemoveDirectory(buf);
 
 	switch (result)
     {
@@ -218,12 +218,10 @@ void        SaveState_Load()
         fclose (f);
     }
 
-
-
-    StrPath_RemoveDirectory (buf);
-
 	//#RA
 	RAMeka_RA_OnSaveStateLoad(buf);
+
+    StrPath_RemoveDirectory(buf);
 
     switch (result)
     {
