@@ -41,10 +41,6 @@ extern void RA_InitShared();
 //                Emulator RA Integration Wrapper Functions             | 
 //-----------------------------------------------------------------------
 
-//Most of the other emulators define their version in their MakeBuildVer.bat scripts. 
-//But we're using NuGet/Allegro/VS2015 so nothing here is "straightforward"
-#define RAMEKA_VERSION  "0.021"
-
 #include <windows.h> //for WPARAM (kind of wasteful really)
 #include "RA_Interface.h"
 
@@ -65,30 +61,13 @@ void RAMeka_RA_SetPaused(bool bIsPaused);
 void RAMeka_RA_OnSaveStateLoad(char* filename);
 void RAMeka_RA_OnSaveStateSave(char* filename);
 
-void RAMeka_RA_MountMasterSystemROM();
 void RAMeka_RA_MountROM( ConsoleID consoleID );
 
 
 void RAMeka_MakePlaceholderRAMenu();
 void RAMeka_InstallRA();
 
-void RAMeka_ValidateHardcoreMode();
-
 void RAMeka_RA_AchievementsFrameCheck();
-
-
-enum RAMeka_Softcore_Feature {
-	SCF_MEMORY_EDITOR,
-	SCF_DEBUGGER,
-	SCF_CHEAT_FINDER,
-	SCF_SAVE_LOAD,
-//	SCF_LOAD,
-//	SCF_SAVE,
-	SCF_UNKNOWN
-};
-
-bool RAMeka_HardcoreIsActiveCheck(RAMeka_Softcore_Feature current_feature);
-bool RAMeka_HardcoreDeactivateConfirm(RAMeka_Softcore_Feature current_feature);
 
 
 void RAMeka_Config_Load_Line(char *var, char *value);

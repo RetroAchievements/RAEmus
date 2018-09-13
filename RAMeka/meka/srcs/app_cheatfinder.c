@@ -619,8 +619,8 @@ void	CheatFinder_SwitchMainInstance()
 
 	//Not sure if hardcore deactivation is really required in case of cheat finder alone
 	//if (!app->active) {
-	//	if (!RAMeka_HardcoreDeactivateConfirm(SCF_CHEAT_FINDER)) {
-	//		return; //user did not agree to a hardcore mode deactivation, abandon debugger activation
+	//	if (!RA_WarnDisableHardcore("find cheats")) {
+	//		return; //user did not agree to a hardcore mode deactivation, abandon cheat finder activation
 	//	}
 	//}
 

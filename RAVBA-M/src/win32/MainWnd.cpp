@@ -1070,12 +1070,8 @@ CString MainWnd::winLoadFilter(UINT id)
 
 bool MainWnd::loadSaveGame(const char *name)
 {
-	if( RA_HardcoreModeIsActive() )
-	{
-		if( ::MessageBox( theApp.GetMainWnd()->GetSafeHwnd(),
-			"Hardcore mode is active. If you load a state, you will disable Hardcore Mode. Continue?", "Warning", MB_YESNO ) == IDNO )
-			return false;
-	}
+    if (!RA_WarnDisableHardcore("load a state"))
+        return false;
 
 	if(theApp.emulator.emuReadState)
 	{	
@@ -1091,13 +1087,6 @@ bool MainWnd::loadSaveGame(const char *name)
 
 bool MainWnd::writeSaveGame(const char *name)
 {
-	if( RA_HardcoreModeIsActive() )
-	{
-		if( ::MessageBox( theApp.GetMainWnd()->GetSafeHwnd(),
-			"Hardcore mode is active. If you save a state, you will disable Hardcore Mode. Continue?", "Warning", MB_YESNO ) == IDNO )
-			return false;
-	}
-
 	if(theApp.emulator.emuWriteState)
 	{
 		bool bSaveOK = theApp.emulator.emuWriteState(name);

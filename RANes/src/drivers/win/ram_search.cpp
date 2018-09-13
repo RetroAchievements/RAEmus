@@ -46,6 +46,8 @@
 #endif
 #include "memview.h"
 
+#include "RA_Interface.h"
+
 bool ShowROM = false;
 
 bool IsHardwareAddressValid(HWAddressType address)
@@ -1744,6 +1746,9 @@ LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 				}	{rv = true; break;}
 				case IDC_C_ADDCHEAT:
 				{
+                    if (!RA_WarnDisableHardcore("add cheats"))
+                        {rv = true; break;}
+
 					HWND ramListControl = GetDlgItem(hDlg,IDC_RAMLIST);
 					int watchItemIndex = ListView_GetNextItem(ramListControl, -1, LVNI_SELECTED);
 					while (watchItemIndex >= 0)

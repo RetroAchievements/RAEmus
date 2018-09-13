@@ -40,6 +40,8 @@
 #include "Win32InputBox.h"
 #include "utils/xstring.h"
 
+#include "RA_Interface.h"
+
 extern Name* lastBankNames;
 extern Name* loadedBankNames;
 extern Name* ramBankNames;
@@ -909,6 +911,10 @@ void InputData(char *input){
 	int addr, i, j, datasize = 0;
 	unsigned char *data;
 	char inputc;
+
+    if (!RA_WarnDisableHardcore("edit memory"))
+        return;
+
 	//char str[100];
 	//mbg merge 7/18/06 added cast:
 	data = (uint8 *)malloc(strlen(input) + 1); //it can't be larger than the input string, so use that as the size

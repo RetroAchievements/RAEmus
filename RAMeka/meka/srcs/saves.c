@@ -133,10 +133,6 @@ void        Load_Game_Fixup(void)
 void        SaveState_Save()
 {
 
-	if (!RAMeka_HardcoreDeactivateConfirm(SCF_SAVE_LOAD)) {
-		return; //user did not agree to a hardcore mode deactivation, abandon debugger activation
-	}
-
     // Do not allow saving if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
@@ -164,10 +160,10 @@ void        SaveState_Save()
         fclose (f);
     }
 
-
-    StrPath_RemoveDirectory (buf);
 	//#RA
 	RAMeka_RA_OnSaveStateSave(buf);
+
+    StrPath_RemoveDirectory(buf);
 
 	switch (result)
     {
@@ -181,10 +177,10 @@ void        SaveState_Save()
 // Load state from current slot
 void        SaveState_Load()
 {
-	
-	if (!RAMeka_HardcoreDeactivateConfirm(SCF_SAVE_LOAD)) {
-		return; //user did not agree to a hardcore mode deactivation, abandon debugger activation
-	}
+    if (!RA_WarnDisableHardcore("load a state"))
+    {
+        return; //user did not agree to a hardcore mode deactivation, abandon debugger activation
+    }
 
     // Do not allow loading if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
@@ -222,12 +218,10 @@ void        SaveState_Load()
         fclose (f);
     }
 
-
-
-    StrPath_RemoveDirectory (buf);
-
 	//#RA
 	RAMeka_RA_OnSaveStateLoad(buf);
+
+    StrPath_RemoveDirectory(buf);
 
     switch (result)
     {

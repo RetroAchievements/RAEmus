@@ -675,6 +675,9 @@ void        Machine_Reset(void)
     #ifdef MEKA_Z80_DEBUGGER
         Debugger_MachineReset();
     #endif
+
+    // RA
+    RA_OnReset();
 }
 
 //-----------------------------------------------------------------------------

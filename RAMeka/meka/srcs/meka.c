@@ -428,10 +428,16 @@ int main(int argc, char **argv)
 	Init_GUI               (); // Initialize Graphical User Interface
 	FB_Init_2              (); // Finish initializing the file browser
 
-	//RA
-	RAMeka_ValidateHardcoreMode	(); // Disable Hardcore mode if required
-
-
+	// RA
+    if (RA_HardcoreModeIsActive())
+    {
+        if (MemoryViewer_MainInstance->active)
+            gui_box_show(MemoryViewer_MainInstance->box, FALSE, FALSE);
+        if (Debugger.enabled)
+            Debugger_Close();
+        if (g_CheatFinder_MainInstance->active)
+            gui_box_show(g_CheatFinder_MainInstance->box, FALSE, FALSE);
+    }
 
     // Load ROM from command line if necessary
     Load_ROM_Command_Line();

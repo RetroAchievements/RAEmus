@@ -651,7 +651,7 @@ void	Debugger_Update()
 {
     if (Debugger.active)
     {
-		if (RAMeka_HardcoreIsActiveCheck(SCF_DEBUGGER)) {
+		if (RA_HardcoreModeIsActive()) {
 			Debugger_Switch();
 			return;
 		}
@@ -1866,7 +1866,7 @@ void	Debugger_Switch()
         return;
 
 	if (!Debugger.active) {
-		if (! RAMeka_HardcoreDeactivateConfirm(SCF_DEBUGGER)) {
+        if (!RA_WarnDisableHardcore("debug")) {
 			return; //user did not agree to a hardcore mode deactivation, abandon debugger activation
 		}
 	}

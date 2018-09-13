@@ -13,6 +13,8 @@ using namespace std;
 #include <commctrl.h>
 #include <string>
 
+#include "RA_Interface.h"
+
 /*
 #include <commctrl.h>
 #pragma comment(lib, "comctl32.lib")
@@ -1203,7 +1205,10 @@ LRESULT CALLBACK RamWatchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 				}
 				case IDC_C_ADDCHEAT:
 				{
-					watchIndex = ListView_GetSelectionMark(GetDlgItem(hDlg,IDC_WATCHLIST));
+                    if (!RA_WarnDisableHardcore("add cheats"))
+                        break;
+
+                    watchIndex = ListView_GetSelectionMark(GetDlgItem(hDlg,IDC_WATCHLIST));
 					if(watchIndex >= 0)
 					{
 						unsigned int address = rswatches[watchIndex].Address;

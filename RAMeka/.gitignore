@@ -32,10 +32,12 @@ meka/Dist
 *.opendb
 *allegro*.zip
 meka/srcs/projects/msvc/packages
+meka/srcs/BuildVer.h
 *.rap
 /meka/srcs/projects/msvc/.vs/
 
 #misc merge latest junk
+meka/RA_Integration.dll
 meka/RA_Integration_d.dll
 meka/RAmeka.bsc
 meka/RAmeka.exe

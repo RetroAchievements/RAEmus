@@ -1070,9 +1070,9 @@ void systemShowSpeed(int speed)
   if(theApp.videoOption <= VIDEO_6X && theApp.showSpeed) {
     CString buffer;
     if(theApp.showSpeed == 1)
-      buffer.Format(VBA_NAME_AND_SUBVERSION "-%3d%%", systemSpeed);
+      buffer.Format("%3d%%", systemSpeed);
     else
-      buffer.Format(VBA_NAME_AND_SUBVERSION "-%3d%%(%d, %d fps)", systemSpeed,
+      buffer.Format("%3d%%(%d, %d fps)", systemSpeed,
                     systemFrameSkip,
                     theApp.showRenderedFrames);
 

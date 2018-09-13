@@ -483,7 +483,7 @@ static void        MemoryViewer_Update(t_memory_viewer* app)
 		return;
 	}
 
-	if (RAMeka_HardcoreIsActiveCheck(SCF_MEMORY_EDITOR)) {
+	if (RA_HardcoreModeIsActive()) {
 		MemoryViewer_SwitchMainInstance();
 		return;
 	}
@@ -646,7 +646,7 @@ void    MemoryViewer_SwitchMainInstance()
     t_memory_viewer* app = MemoryViewer_MainInstance;
 
 	if (!app->active) {
-		if (!RAMeka_HardcoreDeactivateConfirm(SCF_MEMORY_EDITOR)) {
+		if (!RA_WarnDisableHardcore("view memory")) {
 			return; //user did not agree to a hardcore mode deactivation, abandon debugger activation
 		}
 	}

@@ -1,5 +1,6 @@
 #include "RA_Implementation.h"
 #include "RA_Interface.h"
+#include "BuildVer.h"
 #include <windows.h>
 
 //#ifdef ARCH_WIN32
@@ -9,8 +10,6 @@
 #include "vmachine.h"
 
 //Don't like using externs, but many of the corressponding header files don't agree well with inclusion here
-//extern void Machine_UnPause();						//machine.c
-//extern void Machine_Pause();						//machine.c
 extern HWND ConsoleHWND(void);						//message.c
 extern void ConsolePrintf(const char *format, ...);	//message.c
 
@@ -19,10 +18,6 @@ extern void ConsolePrintf(const char *format, ...);	//message.c
 #include "app_memview.h"
 #include "app_cheatfinder.h"
 #include "debugger.h"
-
-//extern t_memory_viewer *MemoryViewer_MainInstance;
-//extern struct t_cheat_finder *g_CheatFinder_MainInstance;
-//extern struct t_debugger   Debugger;
 
 
 //Required for new RA Memory Bank interface
@@ -136,7 +131,7 @@ void GetEstimatedGameTitle(char* sNameOut)
 }
 
 
-void Machine_Reset(); //machine.c
+extern void Machine_Reset(); //machine.c
 void ResetEmulation()
 {
 	Machine_Reset(); // FCEUI_ResetNES();
@@ -208,27 +203,12 @@ void RAMeka_InstallRA() {
 	RA_Init(ConsoleHWND(), RA_Meka, RAMEKA_VERSION);
 
 	RA_InitShared();
-	RA_InitDirectX();
 	RA_UpdateAppTitle("RAMEKA");
 
 	RebuildMenu();
 	RA_HandleHTTPResults();
 	RA_AttemptLogin(true);
 	RebuildMenu();
-
-}
-
-//Silently disable Hardcore Mode if any of several Meka dialogs is active.
-void RAMeka_ValidateHardcoreMode() {
-
-	//If either the Memory_Viewer (allows editing), or the CheatFinder (is cheating),
-	//or the Debugger are active, hardcore mode must be disabled  
-	if (MemoryViewer_MainInstance->active || Debugger.active /*|| g_CheatFinder_MainInstance->active*/ ) {
-
-        RA_OnSaveState( "" ); // Needs better function for disabling hardcore from emulator.
-		//Silently disable Hardcore mode if any  of these are active at startup
-		//(Will also need code to disable when they are activated as well)
-	}
 }
 
 //Performs needed procedures for shutting down achievement system
@@ -307,58 +287,6 @@ void RAMeka_RA_MountROM( ConsoleID consoleID ) {
 
     RAMeka_Restore_Meka_CurrentDirectory();
     chdir( Meka_currDir );
-}
-
-
-//Check if hardcore mode is active, and if so, warns that current feature will be disabled
-bool RAMeka_HardcoreIsActiveCheck(RAMeka_Softcore_Feature current_feature) {
-
-	const char *disabling_feature_messages[] = {
-		"Hardcore Mode active. Disabling Memory Editor",
-		"Hardcore Mode active. Disabling Debugger",
-		"Hardcore Mode active. Disabling CheatFinder",
-		"Hardcore Mode active. Disabling Save/Load states" //not actually used
-//		"Hardcore Mode active. Disabling Load states", //not actually used
-//		"Hardcore Mode active. Disabling Save states", //not actually used
-	};
-
-	if (RA_HardcoreModeIsActive()) {
-		const char *warning_message = disabling_feature_messages[current_feature];
-		MessageBox(NULL, warning_message, "Warning!", MB_ICONWARNING);
-		return true;
-	}
-	else {
-		return false;
-	}
-
-}
-
-//If harcore mode is active, request explicit user confirmation before deactivating it
-bool RAMeka_HardcoreDeactivateConfirm(RAMeka_Softcore_Feature current_feature) {
-
-	const char *deactivation_confirm_messages[] = {
-		"Hardcore mode is active. If you enable the Memory Editor, Hardcore Mode will be disabled. Continue?",
-		"Hardcore mode is active. If you enable the Debugger, Hardcore Mode will be disabled. Continue?",
-		"Hardcore mode is active. If you enable the Cheat Finder, Hardcore Mode will be disabled. Continue?", //strictly nessesary?
-		"Hardcore mode is active. If you Save/Load a state, Hardcore Mode will be disabled. Continue?"
-//		"Hardcore mode is active. If you Load a state, Hardcore Mode will be disabled. Continue?",
-//		"Hardcore mode is active. If you Save a state, Hardcore Mode will be disabled. Continue?",
-	};
-
-	if (!RA_HardcoreModeIsActive()) {
-		return true; //no need to ask for confirmation
-	}
-	else {
-		const char *warning_message = deactivation_confirm_messages[current_feature];
-		bool user_confirmation_response =
-			(MessageBox(NULL, warning_message, "Warning", (MB_YESNO | MB_SETFOREGROUND)) == IDYES);
-
-		if (user_confirmation_response == true) {
-			RA_OnSaveState( "" );
-		}
-		return user_confirmation_response;
-	}
-
 }
 
 //Code to handle reading RAMeka specific configuration variables

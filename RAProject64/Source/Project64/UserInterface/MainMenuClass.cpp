@@ -317,49 +317,23 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         }
         break;
     case ID_SYSTEM_SAVE:
-		if (RA_HardcoreModeIsActive())
-		{
-			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
-				break;
-			else {
-				RA_OnSaveState( NULL );
-			}
-		}
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_SAVE");
         g_BaseSystem->ExternalEvent(SysEvent_SaveMachineState);
         break;
-    case ID_SYSTEM_SAVEAS: 
-		if (RA_HardcoreModeIsActive())
-		{
-			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
-				break;
-			else {
-				RA_OnSaveState( NULL );
-			}
-		}
-		OnSaveAs(hWnd); 
+    case ID_SYSTEM_SAVEAS:
+        OnSaveAs(hWnd); 
 		break;
     case ID_SYSTEM_RESTORE:
-		if (RA_HardcoreModeIsActive())
-		{
-			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
-				break;
-			else {
-				RA_OnSaveState( NULL );
-			}
-		}
+        if (!RA_WarnDisableHardcore("load a state"))
+            break;
+
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESTORE");
         g_BaseSystem->ExternalEvent(SysEvent_LoadMachineState);
         break;
-    case ID_SYSTEM_LOAD: 
-		if (RA_HardcoreModeIsActive())
-		{
-			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
-				break;
-			else {
-				RA_OnSaveState( NULL );
-			}
-		}
+    case ID_SYSTEM_LOAD:
+        if (!RA_WarnDisableHardcore("load a state"))
+            break;
+
 		OnLodState(hWnd); 
 		break;
     case ID_SYSTEM_CHEAT: //OnCheats(hWnd); 
@@ -384,27 +358,15 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         }
         break;
     case ID_OPTIONS_INCREASE_SPEED:
-		if (RA_HardcoreModeIsActive())
-		{
-			if (MessageBox(NULL, "Hardcore mode is active. If you increase/decrease the speed of the game, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
-				break;
-			else {
-				RA_OnSaveState( NULL );
-				break;
-			}
-		}
+        if (RA_HardcoreModeIsActive())
+            break;
+
         g_BaseSystem->AlterSpeed(CSpeedLimiter::INCREASE_SPEED);
         break;
     case ID_OPTIONS_DECREASE_SPEED:
-		if (RA_HardcoreModeIsActive())
-		{
-			if (MessageBox(NULL, "Hardcore mode is active. If you increase/decrease the speed of the game, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
-				break;
-			else {
-				RA_OnSaveState( NULL );
-				break;
-			}
-		}
+        if (RA_HardcoreModeIsActive())
+            break;
+
         g_BaseSystem->AlterSpeed(CSpeedLimiter::DECREASE_SPEED);
         break;
     case ID_OPTIONS_FULLSCREEN:
