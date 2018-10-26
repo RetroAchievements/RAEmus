@@ -44,6 +44,9 @@ extern void remoteSetSockets(SOCKET, SOCKET);
 
 void MainWnd::OnToolsDisassemble()
 {
+  if (!RA_WarnDisableHardcore("disassemble"))
+    return;
+
   if(theApp.cartridgeType == 0) {
     Disassemble *dlg = new Disassemble();
     dlg->Create(IDD_DISASSEMBLE, this);
@@ -84,6 +87,9 @@ void MainWnd::OnUpdateToolsIoviewer(CCmdUI* pCmdUI)
 
 void MainWnd::OnToolsMapview()
 {
+  if (!RA_WarnDisableHardcore("view maps"))
+    return;
+
   if(theApp.cartridgeType == 0) {
     MapView *dlg = new MapView;
     dlg->Create(IDD_MAP_VIEW, this);
@@ -102,6 +108,9 @@ void MainWnd::OnUpdateToolsMapview(CCmdUI* pCmdUI)
 
 void MainWnd::OnToolsMemoryviewer()
 {
+  if (!RA_WarnDisableHardcore("view memory"))
+    return;
+
   if(theApp.cartridgeType == 0) {
     MemoryViewerDlg *dlg = new MemoryViewerDlg;
     dlg->Create(IDD_MEM_VIEWER, this);
@@ -184,6 +193,9 @@ void MainWnd::OnDebugNextframe()
 
 void MainWnd::OnToolsDebugGdb()
 {
+  if (!RA_WarnDisableHardcore("debug"))
+    return;
+
   GDBPortDlg dlg;
 
   if(dlg.DoModal()) {
@@ -524,6 +536,9 @@ void MainWnd::OnUpdateToolsRecordStopmovierecording(CCmdUI* pCmdUI)
 
 void MainWnd::OnToolsPlayStartmovieplaying()
 {
+  if (!RA_WarnDisableHardcore("play a movie"))
+    return;
+
   static bool moviePlayMessage = false;
 
   if(!moviePlayMessage) {
