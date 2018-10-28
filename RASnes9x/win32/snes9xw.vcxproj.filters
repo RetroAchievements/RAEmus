@@ -240,9 +240,7 @@
     <ClInclude Include="RA_Implementation.h">
       <Filter>RA_Implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\RA_Integration\RA_Interface.h">
-      <Filter>RA_Implementation</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\RA_Integration\src\RA_Interface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\bsx.cpp">
@@ -536,9 +534,7 @@
     <ClCompile Include="RA_Implementation.cpp">
       <Filter>RA_Implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\RA_Integration\RA_Interface.cpp">
-      <Filter>RA_Implementation</Filter>
-    </ClCompile>
+    <ClCompile Include="..\..\RA_Integration\src\RA_Interface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="rsrc\nodrop.cur">
