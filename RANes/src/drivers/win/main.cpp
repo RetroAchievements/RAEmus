@@ -861,9 +861,8 @@ doloopy:
 				skippy = 0;
 			}
 
-			//##RA
-			RA_DoAchievementsFrame();
-			RA_HandleHTTPResults();
+            //##RA
+            RA_HandleHTTPResults();
 
 			FCEUI_Emulate(&gfx, &sound, &ssize, skippy); //emulate a single frame
 			FCEUD_Update(gfx, sound, ssize); //update displays and debug tools
