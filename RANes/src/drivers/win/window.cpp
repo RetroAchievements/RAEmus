@@ -1060,8 +1060,8 @@ bool ALoad(const char *nameo, char* innerFilename, bool silent)
 		}
 		else
 		{
-			int ROM_bytes = ROM_size << 14;   // 16KB per chunk
-			int VROM_bytes = VROM_size << 13; // 8KB per chunk
+			int ROM_bytes = head.ROM_size << 14;   // 16KB per chunk
+			int VROM_bytes = head.VROM_size << 13; // 8KB per chunk
 			unsigned char* buffer = new unsigned char[ROM_bytes + VROM_bytes];
 			memcpy(buffer, ROM, ROM_bytes);
 			memcpy(&buffer[ROM_bytes], VROM, VROM_bytes);
