@@ -361,8 +361,9 @@ void RenderAchievementOverlays( const RECT& rc, LPDIRECT3DSURFACE9 pSurface )
 {
 	static int nOldTime = GetTickCount();
 
-	int nDelta = GetTickCount() - nOldTime;
-	nOldTime = GetTickCount();
+	DWORD nNow = GetTickCount();
+	int nDelta = nNow - nOldTime;
+	nOldTime = nNow;
 
 	if( pSurface != NULL )
 	{
@@ -530,8 +531,11 @@ void Direct3DDisplay::render()
 
 		//##RA
 		LPDIRECT3DSURFACE9 pTempSurface = NULL;
-		if( SUCCEEDED( tempImage->GetSurfaceLevel( 0, &pTempSurface ) ) )
-			RenderAchievementOverlays( target, pTempSurface );
+		if (SUCCEEDED(tempImage->GetSurfaceLevel(0, &pTempSurface)))
+		{
+			RenderAchievementOverlays(target, pTempSurface);
+			pTempSurface->Release();
+		}
 
 		pDevice->UpdateTexture( tempImage, emulatedImage[ mbCurrentTexture ] );
 	}
