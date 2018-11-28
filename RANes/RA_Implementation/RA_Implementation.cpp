@@ -78,7 +78,8 @@ void GetEstimatedGameTitle( char* sNameOut )
 void ResetEmulation()
 {
 	FCEUI_StopMovie();
-    FCEU_FlushGameCheats(0, 1);
+	FCEU_FlushGameCheats(0, 1);
+	FCEUD_ResetEmulationSpeed();
 	FCEUI_ResetNES();
 }
 
