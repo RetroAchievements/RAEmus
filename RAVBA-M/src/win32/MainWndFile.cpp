@@ -153,6 +153,8 @@ void MainWnd::OnFileClose()
     soundPause();
     theApp.emulator.emuCleanUp();
     remoteCleanUp();
+
+    RA_OnLoadNewRom(NULL, 0);
   }
   emulating = 0;
   RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_ALLCHILDREN);

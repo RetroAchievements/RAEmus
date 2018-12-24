@@ -1025,6 +1025,8 @@ void CloseGame()
 		updateGameDependentMenus(GameInfo != 0);
 		updateGameDependentMenusDebugger(GameInfo != 0);
 		SetMainWindowText();
+
+		RA_OnLoadNewRom(NULL, 0);
 	}
 }
 

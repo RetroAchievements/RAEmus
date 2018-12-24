@@ -289,6 +289,11 @@ void RAMeka_RA_MountROM( ConsoleID consoleID ) {
     chdir( Meka_currDir );
 }
 
+void RAMeka_RA_UnmountROM()
+{
+    RA_OnLoadNewRom( NULL, 0 );
+}
+
 //Code to handle reading RAMeka specific configuration variables
 void RAMeka_Config_Load_Line(char *var, char *value) {
 

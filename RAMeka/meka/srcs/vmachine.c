@@ -11,6 +11,8 @@
 #include "effects.h"
 #include "skin_bg.h"
 
+#include "RA_Implementation.h"
+
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -127,6 +129,9 @@ void    Free_ROM (void)
         Game_ROM = NULL;
         tsms.Size_ROM = 0;
         DB.current_entry = NULL;
+
+        RAMeka_RA_UnmountROM();
+
         BIOS_Load();
     }
     if (g_machine.driver_id != DRV_COLECO)
