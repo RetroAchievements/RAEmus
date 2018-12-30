@@ -1,16 +1,46 @@
 #ifndef	VERSION_H
 #define	VERSION_H
 
-#ifndef	Q_TITLE
-#define	Q_TITLE		"RAQUASI88"
+#ifndef	BASE_TITLE
+#define	BASE_TITLE		"QUASI88"
 #endif
 
-#ifndef	Q_VERSION
-#define	Q_VERSION	"1.0.0"
+#ifndef	BASE_VERSION
+#define	BASE_VERSION	"0.6.5"
 #endif
 
-#ifndef	Q_COMMENT
-#define	Q_COMMENT	""
+#ifndef	BASE_COMMENT
+#define	BASE_COMMENT	""
+#endif
+
+#if USE_RETROACHIEVEMENTS
+
+#ifndef RAQ_TITLE
+#define RAQ_TITLE "RAQUASI88"
+#endif
+
+#ifndef RAQ_VERSION
+#define RAQ_VERSION "1.0.0"
+#endif
+
+#ifndef Q_TITLE
+#define Q_TITLE RAQ_TITLE
+#endif
+
+#ifndef Q_VERSION
+#define Q_VERSION RAQ_VERSION
+#endif
+
+#else
+
+#ifndef Q_TITLE
+#define Q_TITLE BASE_TITLE
+#endif
+
+#ifndef Q_VERSION
+#define Q_VERSION BASE_VERSION
+#endif
+
 #endif
 
 
