@@ -1,0 +1,514 @@
+#----------------------------------------------------------------------
+# keyconf.rc
+
+#	このファイルは、UNIX版 QUASI88 のキー設定ファイルです。
+#	このファイルは、QUASI88起動時のオプション、ないし設定ファイルにて
+#	「-keyboard 0」を指定した場合に限り、読み込まれます。
+#	上記指定が無い場合は、このファイルは読まれません。
+#
+#	このファイルは、 ~/.quasi88/keyconf.rc にコピーしてお使いください
+
+#----------------------------------------------------------------------
+
+# 簡単な説明
+#
+#	・1行は 255文字以内としてください。
+#	・# から行末までは、コメントとみなされます。
+#	・各パラメータの区切りは、1個以上のスペースかタブです。
+#
+#	X11 (X.Org,XFree86) では、ESC キーを押すと、「XK_Escape」のキーシンボル
+#	が発生します。以下の行のように書いておくと、このキーシンボル発生時に、
+#	QUASI88 では 「KEY88_ESC」のキー(ESCキー)を押したとみなされます。
+#
+#		XK_Escape		KEY88_ESC
+#
+#	また、1 キーを押すと 「XK_1」のキーシンボルが、シフトキーを押しながら
+#	1 キーを押すと、「XK_exclam」のキーシンボルが発生します。
+#	
+#		XK_1			KEY88_1
+#		XK_exclam		KEY88_EXCLAM
+#
+#	QUASI88 では 1 キー と ! キー の区別はないので、以下のように書いても
+#	問題ありません。
+#
+#		XK_1			KEY88_1
+#		XK_exclam		KEY88_1
+#
+#	半角/全角キーを押すと、「XK_Zenkaku_Hankaku」のキーシンボルが発生
+#	します。以下のように書くと、このキーを無視できます。
+#
+#		XK_Zenkaku_Hankaku	0
+#
+#	バックスペースの左の \ キーと、右側シフトキーの左の \ キーは、
+#	どちらを押しても「XK_backslash」のキーシンボルが発生します。
+#	前者のキーはキーコード 133、後者のキーはキーコード 123 が割り当て
+#	られているので、以下のようにキーコードで区別します。
+#
+#		<133>			KEY88_YEN
+#		<123>			KEY88_UNDERSCORE
+#
+#	ソフトウェアNumLock を有効にした際に、 U キーをテンキーの 4 とみなす
+#	ようにしたい場合、以下のように書きます。
+#
+#		XK_u			KEY88_u			KEY88_KP_4
+#		XK_U			KEY88_U			KEY88_KP_4
+#
+#
+#	SDL の場合も、X11 の場合と同様ですが、キーシンボル名が異なります。
+#	キーシンボルの無いキーには、キーコードによる割り当てを書きます。
+
+#----------------------------------------------------------------------
+
+#	以下は、X11 (X.Org,XFree86)の jp106キーボード向けサンプルです。
+#	各自で好きなようにカスタマイズしてください。
+
+#----------------------------------------------------------------------
+
+#
+# X11 の場合
+#	
+
+[X11]
+
+XK_Escape		KEY88_ESC				#
+XK_F1			KEY88_F1				#
+XK_F2			KEY88_F2				#
+XK_F3			KEY88_F3				#
+XK_F4			KEY88_F4				#
+XK_F5			KEY88_F5				#
+XK_F6			KEY88_F6				#
+XK_F7			KEY88_F7				#
+XK_F8			KEY88_F8				#
+XK_F9			KEY88_F9				#
+XK_F10			KEY88_F10				#
+XK_F11			KEY88_F11				#
+XK_F12			KEY88_F12				#
+XK_Print		KEY88_COPY				#
+XK_Scroll_Lock		KEY88_KANA				#
+XK_Pause		KEY88_STOP				#
+
+XK_Zenkaku_Hankaku	KEY88_ZENKAKU				# 半角全角 キー
+XK_1			KEY88_1					#
+XK_2			KEY88_2					#
+XK_3			KEY88_3					#
+XK_4			KEY88_4					#
+XK_5			KEY88_5			KEY88_HOME	#
+XK_6			KEY88_6			KEY88_HELP	#
+XK_7			KEY88_7			KEY88_KP_7	#
+XK_8			KEY88_8			KEY88_KP_8	#
+XK_9			KEY88_9			KEY88_KP_9	#
+<19>			KEY88_0			KEY88_KP_MULTIPLY
+XK_minus		KEY88_MINUS		KEY88_KP_SUB	# -
+XK_asciicircum		KEY88_CARET		KEY88_KP_DIVIDE	# ^
+XK_backslash		KEY88_YEN				# \
+XK_BackSpace		KEY88_INS_DEL				#
+XK_Insert		KEY88_INS				#
+XK_Home			KEY88_HOME				#
+XK_Prior		KEY88_ROLLDOWN				#
+XK_Num_Lock		0					#
+XK_KP_Divide		KEY88_KP_DIVIDE				#
+XK_KP_Multiply		KEY88_KP_MULTIPLY			#
+XK_KP_Subtract		KEY88_KP_SUB				#
+
+XK_Tab			KEY88_TAB				#
+XK_q			KEY88_q					#
+XK_w			KEY88_w					#
+XK_e			KEY88_e					#
+XK_r			KEY88_r					#
+XK_t			KEY88_t					#
+XK_y			KEY88_y					#
+XK_u			KEY88_u			KEY88_KP_4	#
+XK_i			KEY88_i			KEY88_KP_5	#
+XK_o			KEY88_o			KEY88_KP_6	#
+XK_p			KEY88_p			KEY88_KP_ADD	#
+XK_at			KEY88_AT				# @
+XK_bracketleft		KEY88_BRACKETLEFT			# [
+XK_Return		KEY88_RETURNL				#
+XK_Delete		KEY88_DEL				#
+XK_End			KEY88_HELP				#
+XK_Next			KEY88_ROLLUP				#
+XK_KP_Home		KEY88_KP_7				#
+XK_KP_Up		KEY88_KP_8				#
+XK_KP_Page_Up		KEY88_KP_9				#
+XK_KP_Add		KEY88_KP_ADD				#
+
+XK_Caps_Lock		KEY88_CAPS				#
+XK_a			KEY88_a					#
+XK_s			KEY88_s					#
+XK_d			KEY88_d					#
+XK_f			KEY88_f					#
+XK_g			KEY88_g					#
+XK_h			KEY88_h					#
+XK_j			KEY88_j			KEY88_KP_1	#
+XK_k			KEY88_k			KEY88_KP_2	#
+XK_l			KEY88_l			KEY88_KP_3	#
+XK_semicolon		KEY88_SEMICOLON		KEY88_KP_EQUAL	# ;
+XK_colon		KEY88_COLON				# :
+XK_bracketright		KEY88_BRACKETRIGHT			# ]
+XK_KP_Left		KEY88_KP_4				#
+XK_KP_Begin		KEY88_KP_5				#
+XK_KP_Right		KEY88_KP_6				#
+
+XK_Shift_L		KEY88_SHIFTL				#
+XK_z			KEY88_z					#
+XK_x			KEY88_x					#
+XK_c			KEY88_c					#
+XK_v			KEY88_v					#
+XK_b			KEY88_b					#
+XK_n			KEY88_n					#
+XK_m			KEY88_m			KEY88_KP_0	#
+XK_comma		KEY88_COMMA		KEY88_KP_COMMA	# ,
+XK_period		KEY88_PERIOD		KEY88_KP_PERIOD	# .
+XK_slash		KEY88_SLASH		KEY88_RETURNR	# /
+<123>			KEY88_UNDERSCORE			# \ _ ロ
+XK_Shift_R		KEY88_SHIFTR				#
+XK_Up			KEY88_UP				#
+XK_KP_End		KEY88_KP_1				#
+XK_KP_Down		KEY88_KP_2				#
+XK_KP_Page_Down		KEY88_KP_3				#
+XK_KP_Enter		KEY88_RETURNR				#
+
+XK_Control_L		KEY88_CTRL				#
+XK_Super_L		KEY88_KANA				# Windows
+XK_Alt_L		KEY88_GRAPH				#
+XK_Muhenkan		KEY88_KETTEI				# 無変換
+XK_space		KEY88_SPACE				#
+XK_Henkan_Mode		KEY88_HENKAN				# 変換
+XK_Hiragana_Katakana	KEY88_KANA				# ひらがな
+XK_Alt_R		KEY88_ZENKAKU				#
+XK_Super_R		0					# Windows
+XK_Menu			KEY88_SYS_MENU				# Application
+XK_Control_R		KEY88_UNDERSCORE			#
+XK_Left			KEY88_LEFT				#
+XK_Down			KEY88_DOWN				#
+XK_Right		KEY88_RIGHT				#
+XK_KP_Insert		KEY88_KP_0				#
+XK_KP_Delete		KEY88_KP_PERIOD				#
+
+
+
+
+XK_Execute		KEY88_COPY				#
+XK_Break		KEY88_STOP				#
+
+XK_Kanji		KEY88_ZENKAKU				#
+XK_exclam		KEY88_EXCLAM				# !
+XK_quotedbl		KEY88_QUOTEDBL				# "
+XK_numbersign		KEY88_NUMBERSIGN			# #
+XK_dollar		KEY88_DOLLAR				# $
+XK_percent		KEY88_PERCENT		KEY88_HOME	# %
+XK_ampersand		KEY88_AMPERSAND		KEY88_HENKAN	# &
+XK_apostrophe		KEY88_APOSTROPHE	KEY88_KP_7	# '
+XK_parenleft		KEY88_PARENLEFT		KEY88_KP_8	# (
+XK_parenright		KEY88_PARENRIGHT	KEY88_KP_9	# )
+# XK_asciitilde		KEY88_0			KEY88_KP_MULTIPLY
+XK_equal		KEY88_EQUAL		KEY88_KP_SUB	# =
+XK_asciitilde		KEY88_TILDE		KEY88_KP_DIVIDE	# ~
+XK_bar			KEY88_BAR				# |
+
+XK_Q			KEY88_Q					#
+XK_W			KEY88_W					#
+XK_E			KEY88_E					#
+XK_R			KEY88_R					#
+XK_T			KEY88_T					#
+XK_Y			KEY88_Y					#
+XK_U			KEY88_U			KEY88_KP_4	#
+XK_I			KEY88_I			KEY88_KP_5	#
+XK_O			KEY88_O			KEY88_KP_6	#
+XK_P			KEY88_P			KEY88_KP_ADD	#
+XK_grave		KEY88_BACKQUOTE				# `
+XK_braceleft		KEY88_BRACELEFT				# {
+XK_KP_7			KEY88_KP_7				#
+XK_KP_8			KEY88_KP_8				#
+XK_KP_9			KEY88_KP_9				#
+
+XK_Eisu_toggle		KEY88_CAPS				#
+XK_A			KEY88_A					#
+XK_S			KEY88_S					#
+XK_D			KEY88_D					#
+XK_F			KEY88_F					#
+XK_G			KEY88_G					#
+XK_H			KEY88_H					#
+XK_J			KEY88_J			KEY88_KP_1	#
+XK_K			KEY88_K			KEY88_KP_2	#
+XK_L			KEY88_L			KEY88_KP_3	#
+XK_plus			KEY88_PLUS		KEY88_KP_EQUAL	# +
+XK_asterisk		KEY88_ASTERISK				# *
+XK_braceright		KEY88_BRACERIGHT			# }
+XK_KP_4			KEY88_KP_4				#
+XK_KP_5			KEY88_KP_5				#
+XK_KP_6			KEY88_KP_6				#
+
+XK_Z			KEY88_Z					#
+XK_X			KEY88_X					#
+XK_C			KEY88_C					#
+XK_V			KEY88_V					#
+XK_B			KEY88_B					#
+XK_N			KEY88_N					#
+XK_M			KEY88_M			KEY88_KP_0	#
+XK_less			KEY88_LESS		KEY88_KP_COMMA	# <
+XK_greater		KEY88_GREATER		KEY88_KP_PERIOD	# >
+XK_question		KEY88_QUESTION		KEY88_RETURNR	# ?
+# XK_underscore		KEY88_UNDERSCORE			# _
+XK_KP_1			KEY88_KP_1				#
+XK_KP_2			KEY88_KP_2				#
+XK_KP_3			KEY88_KP_3				#
+
+XK_Meta_L		KEY88_GRAPH				#
+XK_Mode_switch		KEY88_HENKAN				#
+XK_Romaji		KEY88_KANA				#
+XK_Meta_R		KEY88_ZENKAKU				#
+XK_KP_0			KEY88_KP_0				#
+XK_KP_Decimal		KEY88_KP_PERIOD				#
+
+XK_KP_TAB		KEY88_TAB				#
+
+
+
+################################################
+
+#
+# SDL の場合 (SDL_VIDEODRIVER に x11 を定義した場合)
+#	
+
+[SDL]			x11
+
+SDLK_ESCAPE		KEY88_ESC				#
+SDLK_F1			KEY88_F1				#
+SDLK_F2			KEY88_F2				#
+SDLK_F3			KEY88_F3				#
+SDLK_F4			KEY88_F4				#
+SDLK_F5			KEY88_F5				#
+SDLK_F6			KEY88_F6				#
+SDLK_F7			KEY88_F7				#
+SDLK_F8			KEY88_F8				#
+SDLK_F9			KEY88_F9				#
+SDLK_F10		KEY88_F10				#
+SDLK_F11		KEY88_F11				#
+SDLK_F12		KEY88_F12				#
+SDLK_PRINT		KEY88_COPY				#
+SDLK_SCROLLOCK		KEY88_KANA				#
+SDLK_PAUSE		KEY88_STOP				#
+
+<49>			KEY88_ZENKAKU				#
+SDLK_1			KEY88_1					#
+SDLK_2			KEY88_2					#
+SDLK_3			KEY88_3					#
+SDLK_4			KEY88_4					#
+SDLK_5			KEY88_5			KEY88_HOME	#
+SDLK_6			KEY88_6			KEY88_HELP	#
+SDLK_7			KEY88_7			KEY88_KP_7	#
+SDLK_8			KEY88_8			KEY88_KP_8	#
+SDLK_9			KEY88_9			KEY88_KP_9	#
+SDLK_0			KEY88_0			KEY88_KP_MULTIPLY
+SDLK_MINUS		KEY88_MINUS		KEY88_KP_SUB	#
+SDLK_CARET		KEY88_CARET		KEY88_KP_DIVIDE	#
+<133>			KEY88_YEN				# \ | キー
+SDLK_BACKSPACE		KEY88_INS_DEL				#
+SDLK_INSERT		KEY88_INS				#
+SDLK_HOME		KEY88_HOME				#
+SDLK_PAGEUP		KEY88_ROLLDOWN				#
+SDLK_NUMLOCK		0					#
+SDLK_KP_DIVIDE		KEY88_KP_DIVIDE				#
+SDLK_KP_MULTIPLY	KEY88_KP_MULTIPLY			#
+SDLK_KP_MINUS		KEY88_KP_SUB				#
+
+SDLK_TAB		KEY88_TAB				#
+SDLK_q			KEY88_q					#
+SDLK_w			KEY88_w					#
+SDLK_e			KEY88_e					#
+SDLK_r			KEY88_r					#
+SDLK_t			KEY88_t					#
+SDLK_y			KEY88_y					#
+SDLK_u			KEY88_u			KEY88_KP_4	#
+SDLK_i			KEY88_i			KEY88_KP_5	#
+SDLK_o			KEY88_o			KEY88_KP_6	#
+SDLK_p			KEY88_p			KEY88_KP_ADD	#
+SDLK_AT			KEY88_AT				#
+SDLK_LEFTBRACKET	KEY88_BRACKETLEFT			#
+SDLK_RETURN		KEY88_RETURNL				#
+SDLK_DELETE		KEY88_DEL				#
+SDLK_END		KEY88_HELP				#
+SDLK_PAGEDOWN		KEY88_ROLLUP				#
+SDLK_KP7		KEY88_KP_7				#
+SDLK_KP8		KEY88_KP_8				#
+SDLK_KP9		KEY88_KP_9				#
+SDLK_KP_PLUS		KEY88_KP_ADD				#
+
+SDLK_CAPSLOCK		KEY88_CAPS				#
+SDLK_a			KEY88_a					#
+SDLK_s			KEY88_s					#
+SDLK_d			KEY88_d					#
+SDLK_f			KEY88_f					#
+SDLK_g			KEY88_g					#
+SDLK_h			KEY88_h					#
+SDLK_j			KEY88_j			KEY88_KP_1	#
+SDLK_k			KEY88_k			KEY88_KP_2	#
+SDLK_l			KEY88_l			KEY88_KP_3	#
+SDLK_SEMICOLON		KEY88_SEMICOLON		KEY88_KP_EQUAL	#
+SDLK_COLON		KEY88_COLON				#
+SDLK_RIGHTBRACKET	KEY88_BRACKETRIGHT			# ] } キー
+SDLK_KP4		KEY88_KP_4				#
+SDLK_KP5		KEY88_KP_5				#
+SDLK_KP6		KEY88_KP_6				#
+
+SDLK_LSHIFT		KEY88_SHIFTL				#
+SDLK_z			KEY88_z					#
+SDLK_x			KEY88_x					#
+SDLK_c			KEY88_c					#
+SDLK_v			KEY88_v					#
+SDLK_b			KEY88_b					#
+SDLK_n			KEY88_n					#
+SDLK_m			KEY88_m			KEY88_KP_0	#
+SDLK_COMMA		KEY88_COMMA		KEY88_KP_COMMA	#
+SDLK_PERIOD		KEY88_PERIOD		KEY88_KP_PERIOD	#
+SDLK_SLASH		KEY88_SLASH		KEY88_RETURNR	#
+<123>			KEY88_UNDERSCORE			# \ _ キー
+SDLK_RSHIFT		KEY88_SHIFTR				#
+SDLK_UP			KEY88_UP				#
+SDLK_KP1		KEY88_KP_1				#
+SDLK_KP2		KEY88_KP_2				#
+SDLK_KP3		KEY88_KP_3				#
+SDLK_KP_ENTER		KEY88_RETURNR				#
+
+SDLK_LCTRL		KEY88_CTRL				#
+SDLK_LSUPER		KEY88_KANA				# Windows キー
+SDLK_LALT		KEY88_GRAPH				#
+<131>			KEY88_KETTEI				# 無変換 キー
+SDLK_SPACE		KEY88_SPACE				#
+<129>			KEY88_HENKAN				# 変換 キー
+<120>			KEY88_KANA				# ひらがな キー
+SDLK_RALT		KEY88_ZENKAKU				#
+SDLK_RSUPER		0					# Windows キー
+SDLK_MENU		KEY88_SYS_MENU				# Menu キー
+SDLK_RCTRL		KEY88_CTRL				#
+SDLK_LEFT		KEY88_LEFT				#
+SDLK_DOWN		KEY88_DOWN				#
+SDLK_RIGHT		KEY88_RIGHT				#
+SDLK_KP0		KEY88_KP_0				#
+SDLK_KP_PERIOD		KEY88_KP_PERIOD				#
+
+
+
+################################################
+
+#
+# SDL の場合 (SDL_VIDEODRIVER に dga を定義した場合)
+#	
+
+[SDL]			dga
+
+SDLK_ESCAPE		KEY88_ESC				#
+SDLK_F1			KEY88_F1				#
+SDLK_F2			KEY88_F2				#
+SDLK_F3			KEY88_F3				#
+SDLK_F4			KEY88_F4				#
+SDLK_F5			KEY88_F5				#
+SDLK_F6			KEY88_F6				#
+SDLK_F7			KEY88_F7				#
+SDLK_F8			KEY88_F8				#
+SDLK_F9			KEY88_F9				#
+SDLK_F10		KEY88_F10				#
+SDLK_F11		KEY88_F11				#
+SDLK_F12		KEY88_F12				#
+SDLK_PRINT		KEY88_COPY				#
+SDLK_SCROLLOCK		KEY88_KANA				#
+SDLK_PAUSE		KEY88_STOP				#
+
+<49>			KEY88_ZENKAKU				#
+SDLK_1			KEY88_1					#
+SDLK_2			KEY88_2					#
+SDLK_3			KEY88_3					#
+SDLK_4			KEY88_4					#
+SDLK_5			KEY88_5			KEY88_HOME	#
+SDLK_6			KEY88_6			KEY88_HELP	#
+SDLK_7			KEY88_7			KEY88_KP_7	#
+SDLK_8			KEY88_8			KEY88_KP_8	#
+SDLK_9			KEY88_9			KEY88_KP_9	#
+SDLK_0			KEY88_0			KEY88_KP_MULTIPLY
+SDLK_MINUS		KEY88_MINUS		KEY88_KP_SUB	#
+SDLK_CARET		KEY88_CARET		KEY88_KP_DIVIDE	#
+<133>			KEY88_YEN				# \ | キー
+SDLK_BACKSPACE		KEY88_INS_DEL				#
+SDLK_INSERT		KEY88_INS				#
+SDLK_HOME		KEY88_HOME				#
+SDLK_PAGEUP		KEY88_ROLLDOWN				#
+SDLK_NUMLOCK		0					#
+SDLK_KP_DIVIDE		KEY88_KP_DIVIDE				#
+SDLK_KP_MULTIPLY	KEY88_KP_MULTIPLY			#
+SDLK_KP_MINUS		KEY88_KP_SUB				#
+
+SDLK_TAB		KEY88_TAB				#
+SDLK_q			KEY88_q					#
+SDLK_w			KEY88_w					#
+SDLK_e			KEY88_e					#
+SDLK_r			KEY88_r					#
+SDLK_t			KEY88_t					#
+SDLK_y			KEY88_y					#
+SDLK_u			KEY88_u			KEY88_KP_4	#
+SDLK_i			KEY88_i			KEY88_KP_5	#
+SDLK_o			KEY88_o			KEY88_KP_6	#
+SDLK_p			KEY88_p			KEY88_KP_ADD	#
+SDLK_AT			KEY88_AT				#
+SDLK_LEFTBRACKET	KEY88_BRACKETLEFT			#
+SDLK_RETURN		KEY88_RETURNL				#
+SDLK_DELETE		KEY88_DEL				#
+SDLK_END		KEY88_HELP				#
+SDLK_PAGEDOWN		KEY88_ROLLUP				#
+SDLK_KP7		KEY88_KP_7				#
+SDLK_KP8		KEY88_KP_8				#
+SDLK_KP9		KEY88_KP_9				#
+SDLK_KP_PLUS		KEY88_KP_ADD				#
+
+SDLK_CAPSLOCK		KEY88_CAPS				#
+SDLK_a			KEY88_a					#
+SDLK_s			KEY88_s					#
+SDLK_d			KEY88_d					#
+SDLK_f			KEY88_f					#
+SDLK_g			KEY88_g					#
+SDLK_h			KEY88_h					#
+SDLK_j			KEY88_j			KEY88_KP_1	#
+SDLK_k			KEY88_k			KEY88_KP_2	#
+SDLK_l			KEY88_l			KEY88_KP_3	#
+SDLK_SEMICOLON		KEY88_SEMICOLON		KEY88_KP_EQUAL	#
+SDLK_COLON		KEY88_COLON				#
+SDLK_RIGHTBRACKET	KEY88_BRACKETRIGHT			# ] } キー
+SDLK_KP4		KEY88_KP_4				#
+SDLK_KP5		KEY88_KP_5				#
+SDLK_KP6		KEY88_KP_6				#
+
+SDLK_LSHIFT		KEY88_SHIFTL				#
+SDLK_z			KEY88_z					#
+SDLK_x			KEY88_x					#
+SDLK_c			KEY88_c					#
+SDLK_v			KEY88_v					#
+SDLK_b			KEY88_b					#
+SDLK_n			KEY88_n					#
+SDLK_m			KEY88_m			KEY88_KP_0	#
+SDLK_COMMA		KEY88_COMMA		KEY88_KP_COMMA	#
+SDLK_PERIOD		KEY88_PERIOD		KEY88_KP_PERIOD	#
+SDLK_SLASH		KEY88_SLASH		KEY88_RETURNR	#
+<123>			KEY88_UNDERSCORE			# \ _ キー
+SDLK_RSHIFT		KEY88_SHIFTR				#
+SDLK_UP			KEY88_UP				#
+SDLK_KP1		KEY88_KP_1				#
+SDLK_KP2		KEY88_KP_2				#
+SDLK_KP3		KEY88_KP_3				#
+SDLK_KP_ENTER		KEY88_RETURNR				#
+
+SDLK_LCTRL		KEY88_CTRL				#
+SDLK_LSUPER		KEY88_KANA				# Windows キー
+SDLK_LALT		KEY88_GRAPH				#
+<131>			KEY88_KETTEI				# 無変換 キー
+SDLK_SPACE		KEY88_SPACE				#
+<129>			KEY88_HENKAN				# 変換 キー
+<120>			KEY88_KANA				# ひらがな キー
+SDLK_RALT		KEY88_ZENKAKU				#
+SDLK_RSUPER		0					# Windows キー
+SDLK_MENU		KEY88_SYS_MENU				# Menu キー
+SDLK_RCTRL		KEY88_CTRL				#
+SDLK_LEFT		KEY88_LEFT				#
+SDLK_DOWN		KEY88_DOWN				#
+SDLK_RIGHT		KEY88_RIGHT				#
+SDLK_KP0		KEY88_KP_0				#
+SDLK_KP_PERIOD		KEY88_KP_PERIOD				#

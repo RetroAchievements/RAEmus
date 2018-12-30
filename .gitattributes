@@ -1,0 +1,7 @@
+* text=auto !eol
+*.vcxproj text eol=crlf
+*.vcproj text eol=crlf
+*.dsp text eol=crlf
+*.sln text eol=crlf
+*.dsw text eol=crlf
+*.ini text eol=crlf

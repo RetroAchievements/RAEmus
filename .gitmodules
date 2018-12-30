@@ -1,0 +1,9 @@
+[submodule "dependencies/SDL"]
+	path = dependencies/SDL
+	url = https://github.com/spurious/SDL-mirror.git
+	branch = release-1.2.15
+	ignore = dirty
+
+[submodule "dependencies/RAIntegration"]
+	path = dependencies/RAIntegration
+	url = https://github.com/RetroAchievements/RAIntegration.git

@@ -1,0 +1,190 @@
+#include "resource.h"
+
+QUASI88 MENU {
+	POPUP "System" {
+		MENUITEM "Reset",			M_SYS_RESET
+
+		POPUP "Mode" {
+			MENUITEM "V2",			M_SYS_MODE_V2
+			MENUITEM "V1H",			M_SYS_MODE_V1H
+			MENUITEM "V1S",			M_SYS_MODE_V1S
+			MENUITEM "N",			M_SYS_MODE_N
+			MENUITEM SEPARATOR
+			MENUITEM "4MHz",		M_SYS_MODE_4MH
+			MENUITEM "8MHz",		M_SYS_MODE_8MH
+			MENUITEM SEPARATOR
+			MENUITEM "Sound Board",		M_SYS_MODE_SB
+			MENUITEM "Sound Board II",	M_SYS_MODE_SB2
+		}
+
+		MENUITEM SEPARATOR
+
+		MENUITEM "V2  mode",			M_SYS_RESET_V2
+		MENUITEM "V1H mode",			M_SYS_RESET_V1H
+		MENUITEM "V1S mode",			M_SYS_RESET_V1S
+
+		MENUITEM SEPARATOR
+
+		MENUITEM "Menu",			M_SYS_MENU
+
+		MENUITEM SEPARATOR
+
+		MENUITEM "Save Config",			M_SYS_SAVE
+		MENUITEM "Exit",			M_SYS_EXIT
+	}
+
+	POPUP "Setting" {
+		POPUP "Speed" {
+			MENUITEM " 25%",		M_SET_SPD_25
+			MENUITEM " 50%",		M_SET_SPD_50
+			MENUITEM "100%",		M_SET_SPD_100
+			MENUITEM "200%",		M_SET_SPD_200
+			MENUITEM "400%",		M_SET_SPD_400
+			MENUITEM SEPARATOR
+			MENUITEM "No wait",		M_SET_SPD_MAX
+		}
+
+		POPUP "Sub-CPU" {
+			MENUITEM "Run sometimes",	M_SET_SUB_SOME
+			MENUITEM "Run often",		M_SET_SUB_OFT
+			MENUITEM "Run always",		M_SET_SUB_ALL
+		}
+
+		MENUITEM "Use FDC-Wait",		M_SET_FDCWAIT
+
+		MENUITEM SEPARATOR
+
+		POPUP "Refresh Rate" {
+			MENUITEM "60fps",		M_SET_REF_60
+			MENUITEM "30fps",		M_SET_REF_30
+			MENUITEM "20fps",		M_SET_REF_20
+			MENUITEM "15fps",		M_SET_REF_15
+		}
+
+		POPUP "Interlace" {
+			MENUITEM "No Interlace",	M_SET_INT_NO
+			MENUITEM "Skip Line",		M_SET_INT_SKIP
+			MENUITEM "Interlace",		M_SET_INT_YES
+		}
+
+		POPUP "Screen Size" {
+			MENUITEM "Normal size",		M_SET_SIZ_FULL
+			MENUITEM "Half size",		M_SET_SIZ_HALF
+#ifdef	SUPPORT_DOUBLE
+			MENUITEM "Double size",		M_SET_SIZ_DOUBLE
+#endif
+		}
+
+		MENUITEM "Use PCG-8100",		M_SET_PCG
+
+		MENUITEM SEPARATOR
+
+		POPUP "Mouse" {
+			MENUITEM "Nothing",		M_SET_MO_NO
+			MENUITEM "Mouse",		M_SET_MO_MOUSE
+			MENUITEM "Mouse as joy",	M_SET_MO_JOYMO
+		/*	MENUITEM "Joystick",		M_SET_MO_JOY	*/
+		}
+
+		POPUP "Cursor Key" {
+			MENUITEM "Default",		M_SET_CUR_DEF
+			MENUITEM "as Ten-key",		M_SET_CUR_TEN
+		}
+
+		MENUITEM "Software Numlock",		M_SET_NUMLOCK
+		MENUITEM "Kana (Romaji)",		M_SET_ROMAJI
+
+		MENUITEM SEPARATOR
+#ifdef	USE_SOUND
+#ifdef	USE_FMGEN
+		POPUP "FM Generator" {
+			MENUITEM "MAME embedded",	M_SET_FM_MAME
+			MENUITEM "fmgen",		M_SET_FM_FMGEN
+		}
+#endif
+		POPUP "Sample Frequency" {
+			MENUITEM "48000Hz",		M_SET_FRQ_48
+			MENUITEM "44100Hz",		M_SET_FRQ_44
+			MENUITEM "22050Hz",		M_SET_FRQ_22
+			MENUITEM "11025Hz",		M_SET_FRQ_11
+		}
+
+		POPUP "Sound Buffer" {
+			MENUITEM "800ms",		M_SET_BUF_800
+			MENUITEM "400ms",		M_SET_BUF_400
+			MENUITEM "200ms",		M_SET_BUF_200
+			MENUITEM "100ms",		M_SET_BUF_100
+		}
+#endif
+	}
+
+	POPUP "Disk" {
+		POPUP "Drive 1:" {
+			MENUITEM "<No Disk>",		M_DRV_DRV1_NO
+
+			MENUITEM SEPARATOR
+
+			MENUITEM "Change ...",		M_DRV_DRV1_CHG
+		}
+
+		POPUP "Drive 2:" {
+			MENUITEM "<No Disk>",		M_DRV_DRV2_NO
+
+			MENUITEM SEPARATOR
+
+			MENUITEM "Change ...",		M_DRV_DRV2_CHG
+		}
+
+		MENUITEM SEPARATOR
+
+		MENUITEM "Set ...",			M_DRV_CHG
+		MENUITEM "Unset",			M_DRV_UNSET
+	}
+
+	POPUP "Misc" {
+		MENUITEM "Screen Capture",		M_MISC_CAPTURE
+		MENUITEM "Sound Record",		M_MISC_RECORD
+		
+		POPUP "Tape-Image [Load]" {
+			MENUITEM "Set ...",		M_MISC_CLOAD_S
+			MENUITEM "Unset",		M_MISC_CLOAD_U
+		}
+		POPUP "Tape-Image [Save]" {
+			MENUITEM "Set ...",		M_MISC_CSAVE_S
+			MENUITEM "Unset",		M_MISC_CSAVE_U
+		}
+		
+		MENUITEM SEPARATOR
+
+		POPUP "State-Load" {
+			MENUITEM "1",			M_MISC_SLOAD_1
+			MENUITEM "2",			M_MISC_SLOAD_2
+			MENUITEM "3",			M_MISC_SLOAD_3
+			MENUITEM "4",			M_MISC_SLOAD_4
+			MENUITEM "5",			M_MISC_SLOAD_5
+			MENUITEM "6",			M_MISC_SLOAD_6
+			MENUITEM "7",			M_MISC_SLOAD_7
+			MENUITEM "8",			M_MISC_SLOAD_8
+			MENUITEM "9",			M_MISC_SLOAD_9
+		}
+		POPUP "State-Save" {
+			MENUITEM "1",			M_MISC_SSAVE_1
+			MENUITEM "2",			M_MISC_SSAVE_2
+			MENUITEM "3",			M_MISC_SSAVE_3
+			MENUITEM "4",			M_MISC_SSAVE_4
+			MENUITEM "5",			M_MISC_SSAVE_5
+			MENUITEM "6",			M_MISC_SSAVE_6
+			MENUITEM "7",			M_MISC_SSAVE_7
+			MENUITEM "8",			M_MISC_SSAVE_8
+			MENUITEM "9",			M_MISC_SSAVE_9
+		}
+
+		MENUITEM SEPARATOR
+
+		MENUITEM "Show Status",			M_MISC_STATUS
+	}	
+
+	POPUP "Help" {
+		MENUITEM "About",			M_HELP_ABOUT
+	}
+}
