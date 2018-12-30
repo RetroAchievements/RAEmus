@@ -25,7 +25,12 @@
 
 /* メニューのタイトル／バージョン表示にて追加で表示する言葉 (任意の文字列) */
 
+#if USE_RETROACHIEVEMENTS
+#define RAQ_COMMENT BASE_TITLE " ver " BASE_VERSION
+#define Q_COMMENT RAQ_COMMENT
+#else
 #define	Q_COMMENT	"WIN32 port"
+#endif
 
 
 

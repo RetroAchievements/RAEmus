@@ -234,7 +234,11 @@ void	keyboard_switch(void)
     int swap;
     const int *p;
 
+#if USE_RETROACHIEVEMENTS
+    if (quasi88_is_exec() || quasi88_is_pause()) {	/* エミュ中もオーバーレイ表示中もキーバインディング変更 */
+#else
     if (quasi88_is_exec()) {	/* エミュ中は、キーバインディング変更 */
+#endif
 
 	clr_key_function();
 
@@ -958,7 +962,11 @@ void	quasi88_key(int code, int on)
 
     } else
     if (quasi88_is_pause()) {		/*===================================*/
-
+#if USE_RETROACHIEVEMENTS
+        /* オーバーレイ表示中はキー押下をIOポートに反映 */
+        if (on) KEY88_PRESS(code);
+        else    KEY88_RELEASE(code);
+#endif
 	if (on) {
 	    if (key_func[ code ]) {
 		if (key_func[ code ] == FN_MENU) {
