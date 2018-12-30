@@ -1,6 +1,8 @@
 #if USE_RETROACHIEVEMENTS
 #include "retroachievements.h"
 
+#include "BuildVer.h"
+
 extern "C"
 {
     #include <windows.h>
@@ -146,7 +148,7 @@ void RA_InitShared()
 static HDC main_hdc;
 void RA_InitUI()
 {
-    RA_Init(g_hWnd, /* RA_Quasi88 */ 9, Q_VERSION);
+    RA_Init(g_hWnd, /* RA_Quasi88 */ 9, RAQUASI88_VERSION);
     RA_InitShared();
     RebuildMenu();
     RA_AttemptLogin(true);

@@ -1,3 +1,4 @@
 # Build artifacts
 obj/
 quasi88
+src/WIN32/BuildVer.h

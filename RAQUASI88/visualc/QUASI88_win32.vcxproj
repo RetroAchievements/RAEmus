@@ -191,6 +191,9 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>$(IntDir)RAQUASI88.bsc</OutputFile>
     </Bscmake>
+    <PreBuildEvent>
+      <Command>MakeBuildVer.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -285,6 +288,9 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>$(IntDir)RAQUASI88.bsc</OutputFile>
     </Bscmake>
+    <PreBuildEvent>
+      <Command>MakeBuildVer.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\basic.c" />
