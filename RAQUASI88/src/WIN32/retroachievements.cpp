@@ -120,9 +120,16 @@ void RebuildMenu()
 
 void GetEstimatedGameTitle(char* sNameOut)
 {
+    const int BUF_SIZE = 64;
+
     if (loaded_title[0] != NULL)
     {
-        sNameOut = (char*)loaded_title;
+        memcpy(sNameOut, loaded_title, BUF_SIZE);
+        sNameOut[BUF_SIZE - 1] = '\0';
+    }
+    else
+    {
+        memset(sNameOut, 0, BUF_SIZE);
     }
 }
 
@@ -146,7 +153,7 @@ void RA_InitShared()
 static HDC main_hdc;
 void RA_InitUI()
 {
-    RA_Init(g_hWnd, /* RA_Quasi88 */ 9, Q_VERSION);
+    RA_Init(g_hWnd, RA_QUASI88, Q_VERSION);
     RA_InitShared();
     RebuildMenu();
     RA_AttemptLogin(true);
