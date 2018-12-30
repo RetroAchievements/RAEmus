@@ -19,16 +19,14 @@
 #define RAQ_TITLE "RAQUASI88"
 #endif
 
-#ifndef RAQ_VERSION
-#define RAQ_VERSION "1.0.0"
-#endif
+#include "WIN32\BuildVer.h"
 
 #ifndef Q_TITLE
 #define Q_TITLE RAQ_TITLE
 #endif
 
 #ifndef Q_VERSION
-#define Q_VERSION RAQ_VERSION
+#define Q_VERSION RAQUASI88_VERSION_SHORT
 #endif
 
 #else
