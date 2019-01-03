@@ -154,3 +154,10 @@ void FCEUD_SetEmulationSpeed(int cmd)
 	RefreshThrottleFPS();
 	FCEU_DispMessage("Emulation speed %d%%", 0, (fps_scale_unpaused * 100) >> 8);
 }
+
+void FCEUD_ResetEmulationSpeed()
+{
+	// mimic FCEUD_SetEmulationSpeed(EMUSPEED_NORMAL), but bypass Hardcore check
+	fps_scale = fps_scale_unpaused = 256;
+	RefreshThrottleFPS();
+}
