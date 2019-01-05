@@ -1259,8 +1259,6 @@ bool systemCanChangeSoundQuality()
 bool systemPauseOnFrame()
 {
   if(theApp.winPauseNextFrame) {
-
-	  RA_SetPaused( true );
     theApp.paused = true;
     theApp.winPauseNextFrame = false;
     return true;
