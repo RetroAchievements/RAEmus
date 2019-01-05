@@ -61,8 +61,8 @@ void RAMeka_RA_SetPaused(bool bIsPaused);
 void RAMeka_RA_OnSaveStateLoad(char* filename);
 void RAMeka_RA_OnSaveStateSave(char* filename);
 
-void RAMeka_RA_MountROM( ConsoleID consoleID );
-
+void RAMeka_RA_MountROM(ConsoleID consoleID);
+void RAMeka_RA_UnmountROM();
 
 void RAMeka_MakePlaceholderRAMenu();
 void RAMeka_InstallRA();

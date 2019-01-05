@@ -1079,6 +1079,9 @@ void CN64System::CpuStopped()
     {
         m_SyncCPU->CpuStopped();
     }
+
+    RA_OnLoadNewRom(NULL, 0);
+
     WriteTrace(TraceN64System, TraceDebug, "Done");
 }
 
