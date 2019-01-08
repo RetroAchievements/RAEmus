@@ -544,7 +544,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	fprintf(debugfp, "Close\n");
 */
 	/*return 0;*/
-	break;
+    quasi88_quit();
+    return 0;
 
     case WM_DESTROY:
 /*
@@ -603,7 +604,7 @@ void	event_update(void)
 	    DispatchMessage(&msg);		/* プロシージャに送る */
 
 	} else {				/* 取得失敗 */
-	    quasi88_quit();
+        quasi88_exit(-1);
 	    break;
 	}
     }
@@ -636,7 +637,7 @@ void	event_update(void)
 	    }
 
 	} else {	/* エラー！ */
-	    quasi88_quit();
+        quasi88_exit(-1);
 	    break;
 	}
     }

@@ -178,8 +178,8 @@ void	quasi88_cfg_set_no_wait(int enable);
 int	quasi88_disk_insert_all(const char *filename, int ro);
 int	quasi88_disk_insert(int drv, const char *filename, int image, int ro);
 int	quasi88_disk_insert_A_to_B(int src_drv, int dst_drv, int dst_img);
-void	quasi88_disk_eject_all(void);
-void	quasi88_disk_eject(int drv);
+int quasi88_disk_eject_all(void);
+int quasi88_disk_eject(int drv);
 
 void	quasi88_disk_image_select(int drv, int img);
 void	quasi88_disk_image_empty(int drv);
@@ -188,9 +188,9 @@ void	quasi88_disk_image_prev(int drv);
 
 int	quasi88_load_tape_insert( const char *filename );
 int	quasi88_load_tape_rewind( void );
-void	quasi88_load_tape_eject( void );
+int quasi88_load_tape_eject( void );
 int	quasi88_save_tape_insert( const char *filename );
-void	quasi88_save_tape_eject( void );
+int	quasi88_save_tape_eject( void );
 
 int	quasi88_serial_in_connect( const char *filename );
 void	quasi88_serial_in_remove( void );

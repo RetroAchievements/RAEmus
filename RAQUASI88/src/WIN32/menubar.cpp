@@ -9,13 +9,13 @@ extern "C"
     #include "event.h"
 
     #include "initval.h"
-    #include "pc88main.h"		/* boot_basic, ...		*/
+    #include "pc88main.h"	/* boot_basic, ...		*/
     #include "memory.h"		/* use_pcg			*/
-    #include "soundbd.h"		/* sound_board			*/
+    #include "soundbd.h"	/* sound_board			*/
     #include "intr.h"		/* cpu_clock_mhz		*/
-    #include "keyboard.h"		/* mouse_mode			*/
+    #include "keyboard.h"	/* mouse_mode			*/
     #include "fdc.h"		/* fdc_wait			*/
-    #include "getconf.h"		/* config_save			*/
+    #include "getconf.h"	/* config_save			*/
     #include "screen.h"		/* SCREEN_INTERLACE_NO ...	*/
     #include "emu.h"		/* cpu_timing, emu_reset()	*/
     #include "menu.h"		/* menu_sound_restart()		*/
@@ -595,7 +595,7 @@ static void menubar_item_setup(void)
  *	  ------	6
  *	   Menu		7	*
  *	  ------	8
- *         Save		9	*
+ *	   Save		9	*
  *	   Exit		10
  *
  *		* が、不可にする対象

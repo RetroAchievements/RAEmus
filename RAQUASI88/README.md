@@ -1,55 +1,56 @@
-### ***★QUASI88とは?***
+## QUASI88改 / QUASI88kai
 ---
-&nbsp;&nbsp;QUASI88 は、UNIX + X Window System ないし UNIX + SDL の環境で動作する PC-8801 エミュレータです。<br />
-現在 FreeBSD、Linux、IRIX、AIX、Solalis で動作報告があります。
-MacOS X + X11  や MS-Windows + Cygwin + XFree86  といった環境でも動作するそうです。
+QUASI88改は、福永省三氏の [QUASI88](http://www.eonet.ne.jp/~showtime/quasi88/) の改良版です。  
+ソースやビルドシステムを無駄に変えずに、バグを修正し新機能を実施する方針です。
 
-その他にも、SDLライブラリがサポートしている環境、 すなわち Windows  や、 Macintosh  などでも動作すると思われます。
-（SDLについての詳しくは、 http://www.libsdl.org/ を参照ください。）
-<br />
+QUASI88kai is an improved version of Showzoh Fukunaga's [QUASI88](http://www.eonet.ne.jp/~showtime/quasi88/).
+The aim is to fix bugs and implement new features with minimal changes to the source and build system.
 
-- QUASI88 は、[fMSX](http://www.komkon.org/fms/)  のソースコードを参考にして、作成されました。
-- QUASI88 のサウンドドライバは、[MAME](http://mamedev.org/)・ xmame から移植しました。
-- QUASI88 のFM音源ジェネレータには、[fmgen](http://retropc.net/cisc/m88/) も組み込まれています。
-<br />
-<br />
+主な更新内容 / Main changes:
+* ビルドシステムの一般更新・修正（現在のコンパイラをサポートするように） / General updates to the build system (to support modern compilers)
+* 全ファイルをUTF-8に変換 / All files converted to UTF-8
+* Win32版に -double を実施 / Support -double in the Win32 version
+* Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実施 / Support drag-and-drop of tape image files in the Win32 version
+* RetroAchievements対応版　「RAQUASI88」を追加 / Add a RetroAchievements-compatible version "RAQUASI88"
 
-▼ 最新バージョンは、 0.6.4  (2013/3/29 リリース) です。
-<br />
-<br />
+この先の予定についてはイッシューページの enhancement タグを参照してください。
 
-### ***★使い方***
----
-&nbsp;&nbsp;QUASI88を動かすにあたっては、以下のものが必要なです
+Please refer to issues with the "enhancement" tag for future plans.
 
-- 処理速度の速いマシン        
+最新バージョンは、 0.6.6　(2018/01/07 リリース) です。
 
-    &nbsp;&nbsp;&nbsp;&nbsp;といっても、最近の Windows マシンレベルなら十分と思われます。<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;Pentium III 1GHz あたりもあれば、十分かと。
-
-- [ROMイメージファイル](https://www.eonet.ne.jp/~showtime/quasi88/memo/rom.html)
-
-- ディスクイメージファイル  
-
-    &nbsp;&nbsp;&nbsp;&nbsp;現状、QUASI88 の配布物には、イメージ吸いだしソフトは同梱されていません。QUASI88 は [ぶるー氏作の P88SR.EXE](http://www1.plala.or.jp/aoto/pc88emu.htm) のイメージで作動可能ですので、自力でイメージを入手してください。<br />
-    &nbsp;&nbsp;&nbsp;&nbsp;（幸い、インターネット上にはいろんなイメージ吸いだしソフトがあります。 これらツール類は、AKATTA氏の 88Break http://www.cug.net/~akatta/ が非常に充実しており、お勧めです。） 
-<br />
-
-詳しい使い方については、 [こちらのページ](https://www.eonet.ne.jp/~showtime/quasi88/howto/index.html) を参照してください。
-<br />
-<br />
+The latest version is 0.6.6 (released 2018/01/07).
 
 ---
 
-#### 著作権／免責
+### 使い方 - Usage
 
-<font size="2">
-&nbsp;QUASI88 （サウンド出力処理部を除く） はフリーソフトウェアであり、著作権は作者が保有しています。このソフトは無保証であり、このソフトを使用した事によるいかなる損害も作者は一切の責任を 負いません。ライセンスに関しては、修正BSDライセンスに準ずるものとします。
+QUASI88改を動かすにあたっては、以下のものが必要です。
 
-&nbsp;QUASI88 のサウンド出力処理部は、MAME および、XMAME のソースコードを使用しています。このソースは、各著作者が著作権を有します。ライセンスに関しては、MAME および、XMAME のドキュメントを参照下さい。
+The following items are required to run QUASI88kai.
 
-&nbsp;QUASI88 のサウンド出力処理部のうち、FM音源ジェネレータには fmgen のソースコードを使用しています。このソースは cisc氏が著作権を有します。ライセンスに関しては、fmgen のドキュメントを参照ください。
-</font>
+- ROMイメージファイル / ROM image file(s)
+- ディスクかテープのイメージファイル / Disk or tape images
+
+詳しくは、 document/QUASI88.TXT と document/MANUAL.TXT を参照してください。
+
+For more details, please refer to document/QUASI88.TXT and document/MANUAL.TXT (in Japanese).
+
+---
+
+### 著作権／免責 - Copyright/Disclaimer
+
+QUASI88改（サウンド出力処理部を除く） はフリーソフトウェアであり、著作権は作者が保有しています。このソフトは無保証であり、このソフトを使用した事によるいかなる損害も作者は一切の責任を 負いません。ライセンスに関しては、QUASI88と同様に修正BSDライセンスに準じます。
+
+QUASI88kai (excluding the sound processing portion) is free software, and copyright remains with the associated authors. This software is provided without any guarantee, and the authors do not take any responsibility for any damage incurred by its use. It is licensed under the Revised BSD license, as is QUASI88.
+
+QUASI88改のサウンド出力処理部は、MAME および、XMAME のソースコードを使用しています。このソースは、各著作者が著作権を有します。ライセンスに関しては、 license/MAME.TXT (英語のみ)を参照下さい。
+
+The sound processing portion of QUASI88kai uses source code from MAME and XMAME. The copyright to this source code belongs to its corresponding authors. Please refer to license/MAME.TXT for licensing information.
+
+QUASI88改のサウンド出力処理部のうち、FM音源ジェネレータには fmgen のソースコードを使用しています。このソースは cisc氏が著作権を有します。ライセンスに関しては、 license/FMGEN.TXT を参照ください。
+
+The sound processing portion of QUASI88kai also uses source code from the FM audio generator "fmgen". The copyright to this source code belongs to cisc. Please refer to license/FMGEN.TXT (in Japanese) for licensing information.
 
 ---
 (c) 1998-2018 S.Fukunaga, R.Zumer

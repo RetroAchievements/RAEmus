@@ -32,7 +32,7 @@
 		FreeBSD, Linux, Mac OS X
 
 	・Windows + SDL
-		Windows98SE/2000/XP/7
+		Windows98SE/2000/XP/7/8/10
 
 	・Classic Mac OS + SDL
 		Mac OS 9.2.2
@@ -510,7 +510,7 @@
 10) 作者／連絡先
 -------------------------------------------------------------------------------
 
-    作者：福永省三
-    連絡先：ｕｓｒ０１０６０＠ｇｍａｉｌ。ｃｏｍ
-            (半角文字に変換してください／。はピリオドです)
-    ウェブサイト：http://www.eonet.ne.jp/~showtime/quasi88/
+    原作者：福永省三
+	現メンテナ:Raphaël Zumer
+    元ウェブサイト：http://www.eonet.ne.jp/~showtime/quasi88/
+	現ウェブサイト:https://github.com/rzumer/quasi88/

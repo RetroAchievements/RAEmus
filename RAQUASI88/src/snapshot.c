@@ -206,7 +206,7 @@ static int	save_snapshot_ppm( OSD_FILE *fp )
 
   strcpy( (char *)buf, 
 	  "P6\n"
-	  "# QUASI88\n"
+	  "# QUASI88kai\n"
 	  "640 400\n"
 	  "255\n" );
   osd_fwrite( buf, sizeof(char), strlen((char *)buf), fp );
@@ -241,7 +241,7 @@ static int	save_snapshot_ppm_ascii( OSD_FILE *fp )
 
   strcpy( buf, 
 	  "P3\n"
-	  "# QUASI88\n"
+	  "# QUASI88kai\n"
 	  "640 400\n"
 	  "255\n" );
   osd_fwrite( buf, sizeof(char), strlen(buf), fp );

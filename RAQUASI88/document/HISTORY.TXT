@@ -3,6 +3,15 @@
 			QUASI88の履歴
 
 
+2018/12/24 ver 0.6.5
+	New (新機能):
+		Double window size support in win32 (win32版に倍のウィンドウサイズをサポート)
+		UTF-8 support on Windows (Windows版にUTF-8をサポート)
+	Other changes (他更新点):
+		All files converted to UTF-8 (全ファイルをUTF-8に変換)
+		Update build configurations and project files for modern compilers (現在のコンパイラに対応してビルド設定、プロジェクトファイル等を更新)
+
+
 2013/03/29 ver 0.6.4
 	MAME 0.112/XMAME 0.106 のサウンドドライバを移植
 		サウンド出力 (WAV形式) のファイル保存に対応

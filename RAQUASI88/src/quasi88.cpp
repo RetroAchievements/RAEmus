@@ -71,14 +71,6 @@ static	void	imagefile_all_open(int stateload);
 static	void	imagefile_all_close(void);
 static	void	status_override(void);
 
-#if USE_RETROACHIEVEMENTS
-BYTE *disk_data[2] = { 0 };
-unsigned long disk_len[2] = { 0 };
-
-BYTE *tape_data[2] = { 0 };
-unsigned long tape_len[2] = { 0 };
-#endif
-
 /***********************************************************************
  *
  *			QUASI88 メイン関数
@@ -161,7 +153,7 @@ void	quasi88_start(void)
 
     emu_breakpoint_init();
 
-    if (verbose_proc) printf("Running QUASI88...\n");
+    if (verbose_proc) printf("Running QUASI88kai...\n");
 }
 
 /* ======================== メイン処理のメインループ ======================= */
@@ -483,6 +475,7 @@ void	quasi88_exec(void)
 {
     set_mode(EXEC);
     set_emu_exec_mode(GO);
+
 #if USE_RETROACHIEVEMENTS
     RA_SetPaused(false);
 #endif
@@ -540,6 +533,11 @@ void	quasi88_debug(void)
 
 void	quasi88_quit(void)
 {
+#if USE_RETROACHIEVEMENTS
+    if (mode == QUIT || !RA_ConfirmLoadNewRom(true))
+        return;
+#endif
+
     set_mode(QUIT);
     quasi88_event_flags |= EVENT_QUIT;
 }
@@ -667,7 +665,7 @@ void	quasi88_reset(const T_RESET_CFG *cfg)
     int sb_changed = FALSE;
     int empty[2];
 
-    if (verbose_proc) printf("Reset QUASI88...start\n");
+    if (verbose_proc) printf("Reset QUASI88kai...start\n");
 
     pc88main_term();
     pc88sub_term();
@@ -716,10 +714,23 @@ void	quasi88_reset(const T_RESET_CFG *cfg)
 #if USE_RETROACHIEVEMENTS
     if (RA_HardcoreModeIsActive())
     {
-        if (disk_image_exist(DRIVE_1) && tape_len[CLOAD] > 0)
+        if (loaded_disk.data_len > 0 && loaded_tape.data_len > 0)
         {
-            /* ディスクイメージを優先して、テープを取り外す */
-            quasi88_load_tape_eject();
+            if (loaded_title != NULL)
+            {
+                switch (loaded_title->file_type)
+                {
+                case FTYPE_DISK:
+                    quasi88_load_tape_eject();
+                    break;
+                case FTYPE_TAPE_LOAD:
+                    quasi88_disk_eject(DRIVE_1);
+                    break;
+                default:
+                    /* ディスクイメージを優先して、テープを取り外す */
+                    quasi88_load_tape_eject();
+                }
+            }
         }
 
         if (quasi88_cfg_now_wait_rate() < 100)
@@ -730,12 +741,26 @@ void	quasi88_reset(const T_RESET_CFG *cfg)
         event_switch();
     }
 
+    if (loaded_title == NULL)
+    {
+        if (loaded_disk.data_len > 0)
+            loaded_title = &loaded_disk;
+        else if (loaded_tape.data_len > 0)
+            loaded_title = &loaded_tape;
+
+        if (loaded_title != NULL)
+        {
+            RA_UpdateAppTitle(loaded_title->name);
+            RA_ActivateGame(loaded_title->title_id);
+        }
+    }
+
     RA_OnReset();
 #endif
 
     emu_reset();
 
-    if (verbose_proc) printf("Reset QUASI88...done\n");
+    if (verbose_proc) printf("Reset QUASI88kai...done\n");
 }
 
 
@@ -925,31 +950,36 @@ int	quasi88_waveout(int start)
 
 /***********************************************************************
  * ドラッグアンドドロップ
- *	TODO 戻り値をもう一工夫
  ************************************************************************/
 int	quasi88_drag_and_drop(const char *filename)
 {
-    if (quasi88_is_exec() ||
-	quasi88_is_pause()) {
-
-	if (quasi88_disk_insert_all(filename, FALSE)) {
-
-	    status_message(1, STATUS_INFO_TIME, "Disk Image Set and Reset");
-	    quasi88_reset(NULL);
-
-	    if (quasi88_is_pause()) {
-		quasi88_exec();
-	    }
-
-	} else {
-
-	    status_message(1, STATUS_WARN_TIME, "D&D Failed !  Disk Unloaded ...");
-	}
-
-	return TRUE;
+    if (!quasi88_is_exec() && !quasi88_is_pause()) {
+        return FALSE;
     }
 
-    return FALSE;
+    int success;
+
+    if (quasi88_disk_insert_all(filename, FALSE)) {
+        status_message(1, STATUS_INFO_TIME, "Disk Image Set and Reset");
+        success = TRUE;
+    } else if (quasi88_load_tape_insert(filename)) {
+        status_message(1, STATUS_INFO_TIME, "Tape Image Set and Reset");
+        success = TRUE;
+    } else {
+        status_message(1, STATUS_WARN_TIME, "D&D Failed !  Disk Unloaded ...");
+        success = FALSE;
+    }
+
+    if (success)
+    {
+        quasi88_reset(NULL);
+
+        if (quasi88_is_pause()) {
+            quasi88_exec();
+        }
+    }
+
+    return success;
 }
 
 
@@ -1034,7 +1064,8 @@ int	quasi88_disk_insert_all(const char *filename, int ro)
 {
     int success = FALSE;
 
-    quasi88_disk_eject_all();
+    if (!quasi88_disk_eject_all())
+        return FALSE;
 
     success = quasi88_disk_insert(DRIVE_1, filename, 0, ro);
 
@@ -1055,27 +1086,15 @@ int	quasi88_disk_insert(int drv, const char *filename, int image, int ro)
     int success = FALSE;
 
 #if USE_RETROACHIEVEMENTS
-    /* 先にセットされたテープイメージを優先して、ディスクを無視する */
     if (drv == DRIVE_1)
     {
-        if (tape_len[CLOAD] > 0)
-        {
-            if (!RA_WarnDisableHardcore("load a disk while a load tape is present"))
-            {
-                return FALSE;
-            }
-        }
-
-        if (disk_image_exist(drv))
-        {
-            if (!RA_ConfirmLoadNewRom(false))
-            {
-                return FALSE;
-            }
-        }
+        if (!RA_PrepareLoadNewRom(filename, FTYPE_DISK))
+            return FALSE;
     }
 #endif
-    quasi88_disk_eject(drv);
+
+    if (!quasi88_disk_eject(drv))
+        return FALSE;
 
     if (strlen(filename) < QUASI88_MAX_FILENAME) {
 
@@ -1096,28 +1115,9 @@ int	quasi88_disk_insert(int drv, const char *filename, int image, int ro)
 	    }
 
 #if USE_RETROACHIEVEMENTS
-        FILE *f = fopen(filename, "rb");
-        fseek(f, 0, SEEK_END);
-        unsigned long disk_size = (unsigned long)ftell(f);
-        disk_data[drv] = (BYTE *)malloc(disk_size * sizeof(BYTE));
-        disk_len[drv] = disk_size;
-
-        fseek(f, 0, SEEK_SET);
-        fread(disk_data[drv], sizeof(BYTE), disk_size, f);
-        fflush(f);
-        fclose(f);
-
-        /* 実績システムのイメージデータを初期化する */
-        if (drv == DRIVE_1)
-        {
-            char basename[_MAX_FNAME];
-            _splitpath(filename, NULL, NULL, basename, NULL);
-            RA_SetGameTitle(basename);
-            RA_InitMemory();
-            RA_OnLoadNewRom(disk_data[drv], disk_len[drv]);
-        }
+        RA_CommitLoadNewRom();
 #endif
-	}
+    }
     }
 
     if (quasi88_is_exec()) {
@@ -1129,7 +1129,8 @@ int	quasi88_disk_insert_A_to_B(int src, int dst, int img)
 {
     int success;
 
-    quasi88_disk_eject(dst);
+    if (!quasi88_disk_eject(dst))
+        return FALSE;
 
     if (disk_insert_A_to_B(src, dst, img) == 0) success = TRUE;
     else                                        success = FALSE;
@@ -1150,12 +1151,13 @@ int	quasi88_disk_insert_A_to_B(int src, int dst, int img)
     }
     return success;
 }
-void	quasi88_disk_eject_all(void)
+int quasi88_disk_eject_all(void)
 {
     int drv;
 
     for (drv = 0; drv<2; drv++) {
-	quasi88_disk_eject(drv);
+    if (!quasi88_disk_eject(drv))
+        return FALSE;
     }
 
     boot_from_rom = TRUE;
@@ -1163,14 +1165,18 @@ void	quasi88_disk_eject_all(void)
     if (quasi88_is_exec()) {
 	status_message_default(1, NULL);
     }
+
+    return TRUE;
 }
-void	quasi88_disk_eject(int drv)
+int quasi88_disk_eject(int drv)
 {
     if (disk_image_exist(drv)) {
 #if USE_RETROACHIEVEMENTS
-    if (drv == DRIVE_1)
+    if (drv == DRIVE_1 && loaded_title != NULL &&
+        loaded_title->file_type == FTYPE_DISK)
     {
-        RA_ConfirmLoadNewRom(false);
+        if (!RA_ConfirmLoadNewRom(false))
+            return FALSE;
     }
 #endif
 	disk_eject(drv);
@@ -1183,12 +1189,12 @@ void	quasi88_disk_eject(int drv)
 	}
 
 #if USE_RETROACHIEVEMENTS
-    free(disk_data[drv]);
-    disk_len[drv] = 0;
-
     if (drv == DRIVE_1)
     {
-        RA_OnGameClose();
+#if !RA_RELOAD_MULTI_DISK
+        if (loaded_title != NULL && loaded_title->title_id != loading_file.title_id)
+#endif
+        RA_OnGameClose(FTYPE_DISK);
     }
 #endif
     }
@@ -1196,6 +1202,8 @@ void	quasi88_disk_eject(int drv)
     if (quasi88_is_exec()) {
 	status_message_default(1, NULL);
     }
+
+    return TRUE;
 }
 
 /***********************************************************************
@@ -1284,23 +1292,12 @@ void	quasi88_disk_image_prev(int drv)
 int	quasi88_load_tape_insert(const char *filename)
 {
 #if USE_RETROACHIEVEMENTS
-    if (disk_image_exist(DRIVE_1))
-    {
-        if (!RA_WarnDisableHardcore("load a tape while a disk is present"))
-        {
-            return FALSE;
-        }
-    }
-    if (tape_data[CLOAD])
-    {
-        if (!RA_ConfirmLoadNewRom(false))
-        {
-            return FALSE;
-        }
-    }
+    if (!RA_PrepareLoadNewRom(filename, FTYPE_TAPE_LOAD))
+        return FALSE;
 #endif
 
-    quasi88_load_tape_eject();
+    if (!quasi88_load_tape_eject())
+        return FALSE;
 
     if (strlen(filename) < QUASI88_MAX_FILENAME &&
 	sio_open_tapeload(filename)) {
@@ -1308,26 +1305,7 @@ int	quasi88_load_tape_insert(const char *filename)
 	strcpy(file_tape[ CLOAD ], filename);
 
 #if USE_RETROACHIEVEMENTS
-    if (!disk_image_exist(DRIVE_1))
-    {
-        FILE *f = fopen(filename, "rb");
-        fseek(f, 0, SEEK_END);
-        unsigned long tape_size = (unsigned long)ftell(f);
-        tape_data[CLOAD] = (BYTE *)malloc(tape_size * sizeof(BYTE));
-        tape_len[CLOAD] = tape_size;
-
-        fseek(f, 0, SEEK_SET);
-        fread(tape_data[CLOAD], sizeof(BYTE), tape_size, f);
-        fflush(f);
-        fclose(f);
-
-        /* 実績システムのイメージデータを初期化する */
-        char basename[_MAX_FNAME];
-        _splitpath(filename, NULL, NULL, basename, NULL);
-        RA_SetGameTitle(basename);
-        RA_InitMemory();
-        RA_OnLoadNewRom(tape_data[CLOAD], tape_len[CLOAD]);
-    }
+    RA_CommitLoadNewRom();
 #endif
 
 	return TRUE;
@@ -1345,15 +1323,14 @@ int	quasi88_load_tape_rewind(void)
     quasi88_load_tape_eject();
     return FALSE;
 }
-void	quasi88_load_tape_eject(void)
+int quasi88_load_tape_eject(void)
 {
 #if USE_RETROACHIEVEMENTS
-    if (!disk_image_exist(DRIVE_1))
+    if (loaded_title != NULL && loaded_title->file_type == FTYPE_TAPE_LOAD &&
+        loaded_title->data_len > 0)
     {
         if (!RA_ConfirmLoadNewRom(false))
-        {
-            return;
-        }
+            return FALSE;
     }
 #endif
 
@@ -1361,17 +1338,16 @@ void	quasi88_load_tape_eject(void)
     memset(file_tape[ CLOAD ], 0, QUASI88_MAX_FILENAME);
 
 #if USE_RETROACHIEVEMENTS
-    if (tape_len[CLOAD] > 0)
+    if (loaded_tape.data_len > 0)
     {
-        free(tape_data[CLOAD]);
-        tape_len[CLOAD] = 0;
-
-        if (!disk_image_exist(DRIVE_1))
-        {
-            RA_OnGameClose();
-        }
+#if !RA_RELOAD_MULTI_DISK
+        if (loaded_title != NULL && loaded_title->title_id != loading_file.title_id)
+#endif
+        RA_OnGameClose(FTYPE_TAPE_LOAD);
     }
 #endif
+
+    return TRUE;
 }
 
 int	quasi88_save_tape_insert(const char *filename)
@@ -1387,10 +1363,12 @@ int	quasi88_save_tape_insert(const char *filename)
     }
     return FALSE;
 }
-void	quasi88_save_tape_eject(void)
+int quasi88_save_tape_eject(void)
 {
     sio_close_tapesave();
     memset(file_tape[ CSAVE ], 0, QUASI88_MAX_FILENAME);
+
+    return TRUE;
 }
 
 /*======================================================================

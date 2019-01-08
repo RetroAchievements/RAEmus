@@ -6,31 +6,24 @@
 ●ここでは Windows 環境の人向けに、QUASI88 を Visual C++ を使ってビルドする
   方法を説明します。
 
-  Visual C++ のバージョンは、 2008 Express Edition を想定しています。
+  Visual C++ のバージョンは、 2008 Express Edition 又は
+  Visual Studio 2017 を想定しています。
 
 
 ●前準備
 
-	1) QUASI88のソースを、展開 (unzip) してください。
-	   ソースファイルの入っている src というフォルダ、および、
-	   Visual C++用の作業フォルダ visualc などが展開されます。
+	1) QUASI88のソースを、GitHubリポジトリから clone 又は
+		ダウンロードしてから展開 (unzip) してください。
+		ソースファイルの入っている src というフォルダ、および、
+		Visual C++用の作業フォルダ visualc などが展開されます。
 
 
 ●SDLバージョンの QUASI88 のビルド方法
 
-	2) SDL の ウェブサイト http://www.libsdl.org/ より、 
-	   Development Libraries をダウンロードしておきます。
-
-	   2013/01/01現在、SDLのバージョンは 1.2.15 です。
-	   Win32 Visual C++ 用は、以下の URL より入手できます。
-
-		http://www.libsdl.org/release/SDL-devel-1.2.15-VC.zip
-
-	   これを展開すると、 SDL-1.2.15 という名前のフォルダができる
-	   ので、このフォルダの名前を、 sdl-devel に変更してください。
-		 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	   変更したら、 sdl-devel のフォルダをまるごと、 1) にて展開した
-	   フォルダの中にコピーしてください。
+	2) SDL はサブモデュール (submodule) として git で直接ダウンロード
+		することができます。 git がインストールされていないならGitHubリポジトリ
+		にある dependencies/SDL フォルダをアクセスしダウンロードして、
+		また QUASI88のソースにある dependencies フォルダに展開してください。
 
 
 	3) visualc フォルダに移動します。ここで、VC++ のファイル QUASI88.sln
@@ -39,9 +32,10 @@
 	   この時に、「変換してこのプロジェクトを開きますか？」というような
 	   ダイアログが表示された場合は、「はい」を選択してください。
 
-	   プロジェクト QUASI88_sdl をビルドして、実行ファイルを生成して
-	   ください。このプロジェクトには、「Release」「Monitor」「Debug」の
-	   三種類の構成が含まれます。これらの違いは以下の通りです。
+	   プロジェクト SDL をビルドし、成功したら同じく QUASI88_sdl を
+	   ビルドして、実行ファイルを生成してください。このプロジェクトには、
+	   「Release」「Monitor」「Debug」の三種類の構成が含まれます。
+	   これらの違いは以下の通りです。
 
 	   ・Release … ウインドウアプリケーションとして実行ファイルが生成
 			されます。QUASI88のモニタモードは使用できません。
@@ -82,33 +76,6 @@
 
 	   なお、生成された実行ファイルには、MAME/XMAMEベースのサウンド出力
 	   と fmgen が組み込まれています。
-
-
-●Visual C++ 6.0 を使ってビルドするには
-
-	Visual C++ 6.0 を使った場合、上記の方法では SDLバージョンの QUASI88
-	は、ビルド出来ません。
-	どうやら、SDL 1.2.15 の Development Libraries は、そのままでは
-	Visual C++ 6.0 で使用できないようです。
-
-	以下のいずれかの方法で対処してください。
-
-	i)  SDLライブラリをソースから作り直す方法
-
-	    SDL のウェブサイトより  Source Code をダウンロードし、
-	    Visual C++ 6.0 にて、 SDL ライブラリをビルドします。
-	    ( ビルド方法は、ダウンロードしたファイルに記載されています )
-
-	    出来あがったファイル SDL.lib と SDLmain.lib は、
-	    sdl-devel\lib\x86 フォルダ内のファイルと差し替えておきます。
-
-	ii) 古いバージョンの SDL を使用する方法
-
-	    古いバージョンの SDL Development Libraries は、 SDL のサイトより
-	    入手可能なようです。 → http://www.libsdl.org/release/
-
-	    この場合、sdl-devel\lib フォルダの下に x86 フォルダを作成
-	    し、そこに SDL.lib と SDLmain.lib を移動させておきます。
 
 
 ●注意事項

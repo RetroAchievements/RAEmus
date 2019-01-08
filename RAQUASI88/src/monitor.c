@@ -192,7 +192,7 @@ static	void	help_quit(void)
   printf
   (
    "  quit\n"
-   "    quit QUASI88.\n"
+   "    quit QUASI88kai.\n"
    );
 }
 static	void	help_go(void)
@@ -495,7 +495,7 @@ static	void	help_redraw(void)
   printf
   (
    "  redraw\n"
-   "    redraw QUASI88 screen.\n"
+   "    redraw QUASI88kai screen.\n"
    );
 }
 static	void	help_resize(void)
@@ -566,7 +566,7 @@ static	void	help_statesave(void)
   printf
   (
    "  statesave [<filename>]\n"
-   "    statesave QUASI88\n"
+   "    statesave QUASI88kai\n"
    "    <filename> ... specify state-file filename.\n"
    "                   omit, default filename\n"
    );
@@ -577,7 +577,7 @@ static	void	help_stateload(void)
   printf
   (
    "  stateload [<filename>]\n"
-   "    stateload QUASI88\n"
+   "    stateload QUASI88kai\n"
    "    <filename> ... specify state-file filename.\n"
    "                   omit, default filename\n"
    );
@@ -775,7 +775,7 @@ static struct {
 { MONITOR_HELP,     "?",       	help_help,     "     ''   ",               },
 { MONITOR_MENU,     "menu",    	help_menu,     "enter menu-mode",          },
 { MONITOR_MENU,     "m",       	help_menu,     "     ''        ",          },
-{ MONITOR_QUIT,     "quit",    	help_quit,     "quit quasi88",             },
+{ MONITOR_QUIT,     "quit",    	help_quit,     "quit quasi88kai",          },
 { MONITOR_QUIT,     "q",       	help_quit,     "     ''     ",             },
 { MONITOR_GO,       "go",      	help_go,       "exec emu",                 },
 { MONITOR_GO,       "g",       	help_go,       "    ''  ",                 },
@@ -805,8 +805,8 @@ static struct {
 { MONITOR_RESIZE,   "resize",  	help_resize,   "resize screen",            },
 { MONITOR_DRIVE,    "drive",   	help_drive,    "operate disk drive",       },
 { MONITOR_FILE,     "file",    	help_file,     "disk image file utility",  },
-{ MONITOR_STATESAVE,"statesave",help_statesave,"state-save QUASI88",       },
-{ MONITOR_STATELOAD,"stateload",help_stateload,"state-load QUASI88",       },
+{ MONITOR_STATESAVE,"statesave",help_statesave,"state-save QUASI88kai",    },
+{ MONITOR_STATELOAD,"stateload",help_stateload,"state-load QUASI88kai",    },
 { MONITOR_SNAPSHOT, "snapshot",	help_snapshot, "save screen snapshot",     },
 { MONITOR_LOADFONT, "loadfont",	help_loadfont, "load text-font file",      },
 { MONITOR_SAVEFONT, "savefont",	help_savefont, "save text-font file",      },
@@ -4816,7 +4816,7 @@ char **fileman_completion( char *text, int start, int end );
 
 static void initialize_readline( void )
 {
-  rl_readline_name = "QUASI88";	 /*よくわからんが ~/.inputrc に関係あるらしい*/
+  rl_readline_name = "QUASI88kai";	 /*よくわからんが ~/.inputrc に関係あるらしい*/
   rl_attempted_completion_function = (CPPFunction *)fileman_completion;
 }
 
@@ -4934,11 +4934,11 @@ void	monitor_init( void )
     if( enter_monitor_mode_first ){
       printf("\n"
 	     "*******************************************************************************\n"
-	     "* QUASI88   - monitor mode -                                                  *\n"
+	     "* QUASI88kai   - monitor mode -                                               *\n"
 	     "*                                                                             *\n"
 	     "*    Enter  go   or g  : Return to emulator                                   *\n"
 	     "*    Enter  menu or m  : Enter menu mode                                      *\n"
-	     "*    Enter  quit or q  : Quit QUASI88                                         *\n"
+	     "*    Enter  quit or q  : Quit QUASI88kai                                      *\n"
 	     "*                                                                             *\n"
 	     "*    Enter  help or ?  : Display help                                         *\n"
 	     "*******************************************************************************\n"
@@ -4999,7 +4999,7 @@ void	monitor_main( void )
 
 #ifndef USE_GNU_READLINE
 
-      printf("QUASI88> ");
+      printf("QUASI88kai> ");
       if( fgets( buf, MAX_CHRS, stdin ) == NULL ){	/* ^D が入力されたら */
 #ifndef IGNORE_CTRL_D					/* 強制的に終了。    */
 	quasi88_quit();					/* 回避方法がわからん*/
@@ -5013,7 +5013,7 @@ void	monitor_main( void )
       {
 	char *p, *chk;
 	HIST_ENTRY *ph;
-	p = readline( "QUASI88> " );			/* GNU readline の  */
+	p = readline( "QUASI88kai> " );			/* GNU readline の  */
 	if( p==NULL ){					/* 仕様がいまいち   */
 	  printf( "\n" );				/* わからん。       */
 	  break;					/* man で斜め読み   */
