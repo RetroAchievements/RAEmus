@@ -8,12 +8,12 @@ RetroAchievements Emulator Requirements:
 [ ] Game Identification
   [ ] Hash method documented and approved
   [ ] If emulator supports dynamic patching [i.e. ips], hash is calculated after applying patch
-  [ ] Hash ignores any persistant save data [SRAM]
-  [ ] Game can be properly identified (RA_OnLoadNewRom)
+  [ ] Hash ignores any persistent save data [SRAM]
+  [ ] Game can be properly identified (RA_OnLoadNewRom and/or RA_IdentifyROM + RA_ActivateGame)
   [ ] Unidentified game provides some descriptor [typically filename] to unknown game dialog (RA_InstallSharedFunctions>RA_GetEstimatedGameTitle)
-  [ ] Unidentified game provides list of known games for console (RA_SetConsoleID)
+  [ ] Unidentified game provides list of known games for console (RA_SetConsoleID - which is usually called by RAIntegration in the emulator registration)
 [ ] Emulator
-  [ ] DLL is downloaded if not available (RA_Init - new enum may be needed)
+  [ ] DLL is downloaded if not available (RA_Init - new EmulatorID enum value may be needed in RA_Interface.h)
   [ ] RetroAchievements menu is visible (RA_CreatePopupMenu) and functional (RA_InvokeDialog)
   [ ] RetroAchievements menu updates when logging in/out (RA_InstallSharedFunctions>RA_RebuildMenu)
   [ ] Login dialog displayed on first run or auto-login on future runs (RA_AttemptLogin)
@@ -24,14 +24,14 @@ RetroAchievements Emulator Requirements:
   [ ] Full-window overlay navigation uses player's custom controller bindings, not hard-coded inputs.
   [ ] Closing the full-window overlay unpauses the emulator (RA_InstallSharedFunctions>RA_CauseUnpause)
   [ ] Resetting the emulator disables any active popups/leaderboards (RA_OnReset)
-  [ ] Performance of emulator (without any debugging windows open) should not be noticably different than the source emulator
-  [ ] Emulator must perform at intended framerate on an "average" machine.
+  [ ] Performance of emulator (without any debugging windows open) should not be noticeably different than the source emulator at 100% speed
+  [ ] Emulator must perform at intended framerate on a PC that could have been purchased at a retail store within the last four years.
 [ ] Achievements/Leaderboards/Rich Presence
   [ ] Achievements can be created (RA_InstallSharedFunctions>RA_GameIsActive)
   [ ] Achievements trigger (RA_InstallMemoryBank>pReader, RA_DoAchievementsFrame, RA_HandleHTTPResults)
   [ ] Achievement trigger displays notification (RA_UpdateRenderOverlay)
   [ ] Achievement can pause emulator [Pause on Reset, Pause on Trigger] (RA_InstallSharedFunctions>RA_CausePause)
-  [ ] Achievements are not processed when emulator is paused [HitCount for true condition does not increment]
+  [ ] Achievements are not processed when emulator is paused [HitCount for true condition does not increment] (RA_DoAchievementsFrame not called when paused)
   [ ] When using frame advance, achievements are only processed when the frame is advanced.
   [ ] Changing the current game prompts the user to save modifications (RA_ConfirmLoadNewRom)
     [ ] Choosing not to save modifications aborts changing the current game.
@@ -42,7 +42,7 @@ RetroAchievements Emulator Requirements:
   [ ] Closing the current game clears the list of achievements for the game (RA_OnLoadNewRom(NULL,0))
 [ ] Softcore
   [ ] Save states can be created
-  [ ] Save States can be loaded
+  [ ] Save states can be loaded
   [ ] HitCounts persist with save state (RA_OnSaveState, RA_OnLoadState)
   [ ] Fast-forward is allowed
   [ ] Rewind is allowed
