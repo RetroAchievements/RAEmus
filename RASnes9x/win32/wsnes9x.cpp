@@ -1989,8 +1989,11 @@ LRESULT CALLBACK WinProc(
 			break;
 
 		case ID_FILE_EXIT:
-            S9xSetPause (PAUSE_EXIT);
-            PostMessage (hWnd, WM_DESTROY, 0, 0);
+            if (RA_ConfirmLoadNewRom(true))
+            {
+                S9xSetPause (PAUSE_EXIT);
+                PostMessage (hWnd, WM_DESTROY, 0, 0);
+            }
             break;
 
 		case ID_WINDOW_HIDEMENUBAR:
@@ -2475,6 +2478,9 @@ LRESULT CALLBACK WinProc(
 		break;
 
 	case WM_CLOSE:
+        if (!RA_ConfirmLoadNewRom(true))
+            return (0);
+
 		SaveMainWinPos();
 		break;
 
@@ -4149,6 +4155,9 @@ static bool LoadROMPlain(const TCHAR *filename)
 }
 
 static bool LoadROM(const TCHAR *filename) {
+
+    if (!RA_ConfirmLoadNewRom(false))
+        return false;
 
 #ifdef NETPLAY_SUPPORT
 	if (Settings.NetPlay && !Settings.NetPlayServer)
