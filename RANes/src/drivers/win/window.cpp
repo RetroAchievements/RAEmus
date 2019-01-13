@@ -1681,6 +1681,9 @@ LRESULT FAR PASCAL AppWndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			// A menu item for the recent movie files menu was clicked.
 			if(wParam >= MOVIE_FIRST_RECENT_FILE && wParam < MOVIE_FIRST_RECENT_FILE + MAX_NUMBER_OF_MOVIE_RECENT_FILES)
 			{
+				if (!RA_WarnDisableHardcore("playback a recording"))
+					break;
+
 				char*& fname = recent_movie[wParam - MOVIE_FIRST_RECENT_FILE];
 				if(fname)
 				{
