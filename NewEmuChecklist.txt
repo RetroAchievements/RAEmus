@@ -70,10 +70,6 @@ RetroAchievements Emulator Requirements:
 [ ] After approval
   [ ] Version generated from git tag
   [ ] Zip file needs to be built - should contain emulator, default Overlay directory, and any supplemental files needed by the emulator
-  [ ] LatestXXX.html page needs to be generated
-  [ ] dorequest.php>latestclient needs to map enum to LatestXXX.html file
-  [ ] Zip file needs to be uploaded to server
-  [ ] download.php needs to reference emulator/zip file
   [ ] Backend (to be done by the RAWeb team)
     [ ] Add the emulator's console ID as a "valid" console, so new achievements can be promoted to the Core set (RAWeb:lib/database/game.php>isValidConsoleId).
     [ ] Add the emulator's enum (get the number from RAInterface.h and add it in RAWeb:src/Emulators.php)
