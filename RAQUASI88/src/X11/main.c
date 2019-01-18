@@ -1,29 +1,29 @@
 /************************************************************************/
-/*									*/
-/*				QUASI88					*/
-/*									*/
+/*                                  */
+/*              QUASI88                 */
+/*                                  */
 /************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <unistd.h>	/* setuid, getuid */
+#include <unistd.h> /* setuid, getuid */
 
 #include "quasi88.h"
 #include "device.h"
 
-#include "getconf.h"	/* config_init */
-#include "suspend.h"	/* stateload_system */
-#include "menu.h"	/* menu_about_osd_msg */
+#include "getconf.h"    /* config_init */
+#include "suspend.h"    /* stateload_system */
+#include "menu.h"   /* menu_about_osd_msg */
 
-#include "snapshot.h"	/* snapshot_cmd_enable */
+#include "snapshot.h"   /* snapshot_cmd_enable */
 
 
 /***********************************************************************
  * オプション
  ************************************************************************/
-static	int	invalid_arg;
-static	const	T_CONFIG_TABLE x11_options[] =
+static  int invalid_arg;
+static  const   T_CONFIG_TABLE x11_options[] =
 {
   /* 300〜349: システム依存オプション */
 
@@ -72,20 +72,20 @@ static	const	T_CONFIG_TABLE x11_options[] =
   {   0, NULL,           X_INV,                                       0,0,0,0, 0        },
 };
 
-static	void	help_msg_x11(void)
+static  void    help_msg_x11(void)
 {
   fprintf
   (
    stdout,
    "  ** GRAPHIC (X11 depend) **\n"
    "    -cmap <0/1/2>           Colormap type 0(shared)/1(private)/2(static)\n"
-#ifdef	MITSHM
+#ifdef  MITSHM
    "    -shm/-noshm             Use/Not use MIT SHM extensions [-shm]\n"
 #endif
-#ifdef	USE_DGA
+#ifdef  USE_DGA
    "    -dga/-nodga             Use/Not use XFree86-DGA (-fullscreen) [-nodga]\n"
 #endif
-#ifdef	USE_XV
+#ifdef  USE_XV
    "    -xv/-noxv               Use/Not use XV Extension [-noxv]\n"
 #endif
    "    -xdnd/-noxdnd           Enable/Disable X-Drag-And-Drop Protcol [-xdnd]\n"
@@ -104,67 +104,67 @@ static	void	help_msg_x11(void)
 /***********************************************************************
  * メイン処理
  ************************************************************************/
-static	void	finish(void);
+static  void    finish(void);
 
-int	main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     int x = 1;
 
-	/* root権限の必要な処理 (X11関連) を真っ先に行う */
+    /* root権限の必要な処理 (X11関連) を真っ先に行う */
 
-    x11_init();	/* ここでエラーが出てもオプション解析するので先に進む */
+    x11_init(); /* ここでエラーが出てもオプション解析するので先に進む */
 
 
-	/* で、それが終われば、 root 権限を手放す */
+    /* で、それが終われば、 root 権限を手放す */
 
     if (setuid( getuid() ) != 0) {
-	fprintf(stderr, "%s : setuid error\n", argv[0]);
-	x11_exit();
-	return -1;
+    fprintf(stderr, "%s : setuid error\n", argv[0]);
+    x11_exit();
+    return -1;
     }
 
-	/* root で exec() できるのは危険なので、やめとく */
+    /* root で exec() できるのは危険なので、やめとく */
 
     if (getuid() == 0) snapshot_cmd_enable = FALSE;
 
 
-	/* エンディアンネスチェック */
+    /* エンディアンネスチェック */
 
 #ifdef LSB_FIRST
     if (*(char *)&x != 1) {
-	fprintf(stderr,
-		"%s CAN'T EXCUTE !\n"
-		"This machine is Big-Endian.\n"
-		"Compile again comment-out 'LSB_FIRST = 1' in Makefile.\n",
-		argv[0]);
-	x11_exit();
-	return -1;
+    fprintf(stderr,
+        "%s CAN'T EXCUTE !\n"
+        "This machine is Big-Endian.\n"
+        "Compile again comment-out 'LSB_FIRST = 1' in Makefile.\n",
+        argv[0]);
+    x11_exit();
+    return -1;
     }
 #else
     if (*(char *)&x == 1) {
-	fprintf(stderr,
-		"%s CAN'T EXCUTE !\n"
-		"This machine is Little-Endian.\n"
-		"Compile again comment-in 'LSB_FIRST = 1' in Makefile.\n",
-		argv[0]);
-	x11_exit();
-	return -1;
+    fprintf(stderr,
+        "%s CAN'T EXCUTE !\n"
+        "This machine is Little-Endian.\n"
+        "Compile again comment-in 'LSB_FIRST = 1' in Makefile.\n",
+        argv[0]);
+    x11_exit();
+    return -1;
     }
 #endif
 
 
-    if (config_init(argc, argv,		/* 環境初期化 & 引数処理 */
-		    x11_options,
-		    help_msg_x11)) {
+    if (config_init(argc, argv,     /* 環境初期化 & 引数処理 */
+            x11_options,
+            help_msg_x11)) {
 
-	quasi88_atexit(finish);		/* quasi88() 実行中に強制終了した際の
-					   コールバック関数を登録する */
-	quasi88();			/* PC-8801 エミュレーション */
+    quasi88_atexit(finish);     /* quasi88() 実行中に強制終了した際の
+                       コールバック関数を登録する */
+    quasi88();          /* PC-8801 エミュレーション */
 
-	config_exit();			/* 引数処理後始末 */
+    config_exit();          /* 引数処理後始末 */
     }
 
-    x11_exit();				/* X11関連後始末 */
+    x11_exit();             /* X11関連後始末 */
 
     return 0;
 }
@@ -174,10 +174,10 @@ int	main(int argc, char *argv[])
 /*
  * 強制終了時のコールバック関数 (quasi88_exit()呼出時に、処理される)
  */
-static	void	finish(void)
+static  void    finish(void)
 {
-    config_exit();			/* 引数処理後始末 */
-    x11_exit();				/* X11関連後始末 */
+    config_exit();          /* 引数処理後始末 */
+    x11_exit();             /* X11関連後始末 */
 }
 
 
@@ -186,15 +186,15 @@ static	void	finish(void)
  * ステートロード／ステートセーブ
  ************************************************************************/
 
-/*	他の情報すべてがロード or セーブされた後に呼び出される。
- *	必要に応じて、システム固有の情報を付加してもいいかと。
+/*  他の情報すべてがロード or セーブされた後に呼び出される。
+ *  必要に応じて、システム固有の情報を付加してもいいかと。
  */
 
-int	stateload_system( void )
+int stateload_system( void )
 {
   return TRUE;
 }
-int	statesave_system( void )
+int statesave_system( void )
 {
   return TRUE;
 }
@@ -205,67 +205,67 @@ int	statesave_system( void )
  * メニュー画面に表示する、システム固有メッセージ
  ************************************************************************/
 
-int	menu_about_osd_msg(int        req_japanese,
-			   int        *result_code,
-			   const char *message[])
+int menu_about_osd_msg(int        req_japanese,
+               int        *result_code,
+               const char *message[])
 {
     static const char *about_en =
     {
-#ifdef	MITSHM
-	"MIT-SHM ... Supported\n"
+#ifdef  MITSHM
+    "MIT-SHM ... Supported\n"
 #endif
 
-#ifdef	USE_DGA
-	"XFree86-DGA ... Supported\n"
+#ifdef  USE_DGA
+    "XFree86-DGA ... Supported\n"
 #endif
 
-#ifdef	USE_XV
-	"XVideo ... Supported\n"
+#ifdef  USE_XV
+    "XVideo ... Supported\n"
 #endif
 
-#if	defined (JOY_SDL)
-	"JOYSTICK (SDL) ... Supported\n"
-#elif	defined (JOY_LINUX_USB)
-	"JOYSTICK (Linux USB-joystick) ... Supported\n"
-#elif	defined (JOY_BSD_USB)
-	"JOYSTICK (BSD USB-joystick) ... Supported\n"
+#if defined (JOY_SDL)
+    "JOYSTICK (SDL) ... Supported\n"
+#elif   defined (JOY_LINUX_USB)
+    "JOYSTICK (Linux USB-joystick) ... Supported\n"
+#elif   defined (JOY_BSD_USB)
+    "JOYSTICK (BSD USB-joystick) ... Supported\n"
 #else
-	"JOYSTICK ... Not supported\n"
+    "JOYSTICK ... Not supported\n"
 #endif  
     };
 
     static const char *about_jp =
     {
-#ifdef	MITSHM
-	"MIT-SHM がサポートされています\n"
+#ifdef  MITSHM
+    "MIT-SHM がサポートされています\n"
 #endif
 
-#ifdef	USE_DGA
-	"XFree86-DGA がサポートされています\n"
+#ifdef  USE_DGA
+    "XFree86-DGA がサポートされています\n"
 #endif
 
-#ifdef	USE_XV
-	"XVideo がサポートされています\n"
+#ifdef  USE_XV
+    "XVideo がサポートされています\n"
 #endif
 
-#if	defined (JOY_SDL)
-	"ジョイスティック (SDL) がサポートされています\n"
-#elif	defined (JOY_LINUX_USB)
-	"ジョイスティック (Linux USB-joystick) がサポートされています\n"
-#elif	defined (JOY_BSD_USB)
-	"ジョイスティック (BSD USB-joystick) がサポートされています\n"
+#if defined (JOY_SDL)
+    "ジョイスティック (SDL) がサポートされています\n"
+#elif   defined (JOY_LINUX_USB)
+    "ジョイスティック (Linux USB-joystick) がサポートされています\n"
+#elif   defined (JOY_BSD_USB)
+    "ジョイスティック (BSD USB-joystick) がサポートされています\n"
 #else
-	"ジョイスティック はサポートされていません\n"
+    "ジョイスティック はサポートされていません\n"
 #endif  
     };
 
 
-    *result_code = -1;				/* 文字コード指定なし */
+    *result_code = -1;              /* 文字コード指定なし */
 
     if (req_japanese == FALSE) {
-	*message = about_en;
+    *message = about_en;
     } else {
-	*message = about_jp;
+    *message = about_jp;
     }
 
     return TRUE;

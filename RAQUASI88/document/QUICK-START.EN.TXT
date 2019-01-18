@@ -14,11 +14,11 @@ of the executable). The following sub-directories are
 configured by default.
 
 DISK        Stores runtime disk copies
-As disk images are writable by default, any disk image
-loaded externally is copied in this directory, in order
-to avoid overwriting original file data.
-It is recommended to load disk images externally, but
-loading from the DISK directory is also supported.
+This is the default directory from where disk images
+are loaded via the F12 menu. In the Win32 build, it
+is easy to load disk images from any external
+directory, but SDL users may find it useful to store
+their disk images in this location.
 
 INI         Stores user configuration files
 It is possible to override global settings by adding
@@ -32,6 +32,12 @@ ROM files are required for the emulator to function.
 For information on obtaining and naming ROM files,
 please consult the section "Obtain ROM images".
 
+SAVE        Stores runtime writable disk copies
+As disk images are writable by default, any image
+loaded externally will be copied to and loaded from
+this directory. This allows loaded images to remain
+untouched while preserving any save data.
+
 SNAP        Stores snapshots
 Snapshots (or screenshots) may be taken during
 execution, and are saved in Bitmap format in this
@@ -43,9 +49,9 @@ time, and restored from this folder. Matching is
 based on the loaded image file name.
 
 TAPE        Stores tape data
-Tape images may be stored in this directory. It is
-recommended to use it only for save tapes, and load
-all application images externally.
+This is the default directory from where tape images
+are loaded via the F12 menu. For more information,
+see the "DISK" paragraph.
 
 [Getting Started]
 
@@ -60,7 +66,7 @@ legitimate PC-8801 ROM files.
 
 ROM files may be named in QUASI88 or M88 formats:
 
-QUASI88 Name	 M88 Name		 Contents
+QUASI88 Name     M88 Name        Contents
 
 N88.ROM          N88.ROM         N88 BASIC ROM
 N88EXT0.ROM      N88_0.ROM       N88 BASIC Exp. ROM Bank 0

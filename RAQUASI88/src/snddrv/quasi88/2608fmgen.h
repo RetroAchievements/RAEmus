@@ -9,7 +9,7 @@ extern "C" {
 
 
 /************************************************/
-/* Chip 0 functions				*/
+/* Chip 0 functions             */
 /************************************************/
 READ8_HANDLER( FMGEN2608_status_port_0_A_r );
 READ8_HANDLER( FMGEN2608_status_port_0_B_r );
@@ -21,7 +21,7 @@ WRITE8_HANDLER( FMGEN2608_data_port_0_B_w );
 extern void FMGEN2608_set_volume_0(float volume);
 
 /************************************************/
-/* Chip 1 functions				*/
+/* Chip 1 functions             */
 /************************************************/
 READ8_HANDLER( FMGEN2608_status_port_1_A_r );
 READ8_HANDLER( FMGEN2608_status_port_1_B_r );

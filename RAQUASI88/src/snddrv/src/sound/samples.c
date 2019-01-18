@@ -5,30 +5,30 @@
 
 struct sample_channel
 {
-	sound_stream *stream;
-	INT16 *		source;
-	INT32		source_length;
-	INT32		source_num;
-	UINT32		pos;
-	UINT32		frac;
-	UINT32		step;
-	UINT32		basefreq;
-	UINT8		loop;
-	UINT8		paused;
+    sound_stream *stream;
+    INT16 *     source;
+    INT32       source_length;
+    INT32       source_num;
+    UINT32      pos;
+    UINT32      frac;
+    UINT32      step;
+    UINT32      basefreq;
+    UINT8       loop;
+    UINT8       paused;
 };
 
 struct samples_info
 {
-	int			numchannels;	/* how many channels */
-	struct sample_channel *channel;/* array of channels */
-	struct loaded_samples *samples;/* array of samples */
+    int         numchannels;    /* how many channels */
+    struct sample_channel *channel;/* array of channels */
+    struct loaded_samples *samples;/* array of samples */
 };
 
 
 
-#define FRAC_BITS		24
-#define FRAC_ONE		(1 << FRAC_BITS)
-#define FRAC_MASK		(FRAC_ONE - 1)
+#define FRAC_BITS       24
+#define FRAC_ONE        (1 << FRAC_BITS)
+#define FRAC_MASK       (FRAC_ONE - 1)
 #define MAX_CHANNELS    100
 
 
@@ -44,129 +44,129 @@ struct samples_info
 
 static int read_wav_sample(mame_file *f, struct loaded_sample *sample)
 {
-	unsigned long offset = 0;
-	UINT32 length, rate, filesize;
-	UINT16 bits, temp16;
-	char buf[32];
-	#ifndef LSB_FIRST
-	UINT32 sindex;
-	#endif
+    unsigned long offset = 0;
+    UINT32 length, rate, filesize;
+    UINT16 bits, temp16;
+    char buf[32];
+    #ifndef LSB_FIRST
+    UINT32 sindex;
+    #endif
 
-	/* read the core header and make sure it's a WAVE file */
-	offset += mame_fread(f, buf, 4);
-	if (offset < 4)
-		return 0;
-	if (memcmp(&buf[0], "RIFF", 4) != 0)
-		return 0;
+    /* read the core header and make sure it's a WAVE file */
+    offset += mame_fread(f, buf, 4);
+    if (offset < 4)
+        return 0;
+    if (memcmp(&buf[0], "RIFF", 4) != 0)
+        return 0;
 
-	/* get the total size */
-	offset += mame_fread(f, &filesize, 4);
-	if (offset < 8)
-		return 0;
-	filesize = intelLong(filesize);
+    /* get the total size */
+    offset += mame_fread(f, &filesize, 4);
+    if (offset < 8)
+        return 0;
+    filesize = intelLong(filesize);
 
-	/* read the RIFF file type and make sure it's a WAVE file */
-	offset += mame_fread(f, buf, 4);
-	if (offset < 12)
-		return 0;
-	if (memcmp(&buf[0], "WAVE", 4) != 0)
-		return 0;
+    /* read the RIFF file type and make sure it's a WAVE file */
+    offset += mame_fread(f, buf, 4);
+    if (offset < 12)
+        return 0;
+    if (memcmp(&buf[0], "WAVE", 4) != 0)
+        return 0;
 
-	/* seek until we find a format tag */
-	while (1)
-	{
-		offset += mame_fread(f, buf, 4);
-		offset += mame_fread(f, &length, 4);
-		length = intelLong(length);
-		if (memcmp(&buf[0], "fmt ", 4) == 0)
-			break;
+    /* seek until we find a format tag */
+    while (1)
+    {
+        offset += mame_fread(f, buf, 4);
+        offset += mame_fread(f, &length, 4);
+        length = intelLong(length);
+        if (memcmp(&buf[0], "fmt ", 4) == 0)
+            break;
 
-		/* seek to the next block */
-		mame_fseek(f, length, SEEK_CUR);
-		offset += length;
-		if (offset >= filesize)
-			return 0;
-	}
+        /* seek to the next block */
+        mame_fseek(f, length, SEEK_CUR);
+        offset += length;
+        if (offset >= filesize)
+            return 0;
+    }
 
-	/* read the format -- make sure it is PCM */
-	offset += mame_fread(f, &temp16, 2);
-	temp16 = LITTLE_ENDIANIZE_INT16(temp16);
-	if (temp16 != 1)
-		return 0;
+    /* read the format -- make sure it is PCM */
+    offset += mame_fread(f, &temp16, 2);
+    temp16 = LITTLE_ENDIANIZE_INT16(temp16);
+    if (temp16 != 1)
+        return 0;
 
-	/* number of channels -- only mono is supported */
-	offset += mame_fread(f, &temp16, 2);
-	temp16 = LITTLE_ENDIANIZE_INT16(temp16);
-	if (temp16 != 1)
-		return 0;
+    /* number of channels -- only mono is supported */
+    offset += mame_fread(f, &temp16, 2);
+    temp16 = LITTLE_ENDIANIZE_INT16(temp16);
+    if (temp16 != 1)
+        return 0;
 
-	/* sample rate */
-	offset += mame_fread(f, &rate, 4);
-	rate = intelLong(rate);
+    /* sample rate */
+    offset += mame_fread(f, &rate, 4);
+    rate = intelLong(rate);
 
-	/* bytes/second and block alignment are ignored */
-	offset += mame_fread(f, buf, 6);
+    /* bytes/second and block alignment are ignored */
+    offset += mame_fread(f, buf, 6);
 
-	/* bits/sample */
-	offset += mame_fread(f, &bits, 2);
-	bits = LITTLE_ENDIANIZE_INT16(bits);
-	if (bits != 8 && bits != 16)
-		return 0;
+    /* bits/sample */
+    offset += mame_fread(f, &bits, 2);
+    bits = LITTLE_ENDIANIZE_INT16(bits);
+    if (bits != 8 && bits != 16)
+        return 0;
 
-	/* seek past any extra data */
-	mame_fseek(f, length - 16, SEEK_CUR);
-	offset += length - 16;
+    /* seek past any extra data */
+    mame_fseek(f, length - 16, SEEK_CUR);
+    offset += length - 16;
 
-	/* seek until we find a data tag */
-	while (1)
-	{
-		offset += mame_fread(f, buf, 4);
-		offset += mame_fread(f, &length, 4);
-		length = intelLong(length);
-		if (memcmp(&buf[0], "data", 4) == 0)
-			break;
+    /* seek until we find a data tag */
+    while (1)
+    {
+        offset += mame_fread(f, buf, 4);
+        offset += mame_fread(f, &length, 4);
+        length = intelLong(length);
+        if (memcmp(&buf[0], "data", 4) == 0)
+            break;
 
-		/* seek to the next block */
-		mame_fseek(f, length, SEEK_CUR);
-		offset += length;
-		if (offset >= filesize)
-			return 0;
-	}
+        /* seek to the next block */
+        mame_fseek(f, length, SEEK_CUR);
+        offset += length;
+        if (offset >= filesize)
+            return 0;
+    }
 
-	/* if there was a 0 length data block, we're done */
-	if (length == 0)
-		return 0;
+    /* if there was a 0 length data block, we're done */
+    if (length == 0)
+        return 0;
 
-	/* fill in the sample data */
-	sample->length = length;
-	sample->frequency = rate;
+    /* fill in the sample data */
+    sample->length = length;
+    sample->frequency = rate;
 
-	/* read the data in */
-	if (bits == 8)
-	{
-		unsigned char *tempptr;
-		int sindex;
+    /* read the data in */
+    if (bits == 8)
+    {
+        unsigned char *tempptr;
+        int sindex;
 
-		sample->data = auto_malloc(sizeof(*sample->data) * length);
-		mame_fread(f, sample->data, length);
+        sample->data = auto_malloc(sizeof(*sample->data) * length);
+        mame_fread(f, sample->data, length);
 
-		/* convert 8-bit data to signed samples */
-		tempptr = (unsigned char *)sample->data;
-		for (sindex = length - 1; sindex >= 0; sindex--)
-			sample->data[sindex] = (INT8)(tempptr[sindex] ^ 0x80) * 256;
-	}
-	else
-	{
-		/* 16-bit data is fine as-is */
-		sample->data = auto_malloc(sizeof(*sample->data) * (length/2));
-		mame_fread(f, sample->data, length);
-		sample->length /= 2;
+        /* convert 8-bit data to signed samples */
+        tempptr = (unsigned char *)sample->data;
+        for (sindex = length - 1; sindex >= 0; sindex--)
+            sample->data[sindex] = (INT8)(tempptr[sindex] ^ 0x80) * 256;
+    }
+    else
+    {
+        /* 16-bit data is fine as-is */
+        sample->data = auto_malloc(sizeof(*sample->data) * (length/2));
+        mame_fread(f, sample->data, length);
+        sample->length /= 2;
 #ifndef LSB_FIRST
-		for (sindex = 0; sindex < sample->length; sindex++)
-			sample->data[sindex] = LITTLE_ENDIANIZE_INT16(sample->data[sindex]);
+        for (sindex = 0; sindex < sample->length; sindex++)
+            sample->data[sindex] = LITTLE_ENDIANIZE_INT16(sample->data[sindex]);
 #endif
-	}
-	return 1;
+    }
+    return 1;
 }
 
 
@@ -176,70 +176,70 @@ static int read_wav_sample(mame_file *f, struct loaded_sample *sample)
 
 struct loaded_samples *readsamples(const char **samplenames, const char *basename)
 {
-	struct loaded_samples *samples;
-	int skipfirst = 0;
-	int i;
+    struct loaded_samples *samples;
+    int skipfirst = 0;
+    int i;
 
-	/* if the user doesn't want to use samples, bail */
-	if (!options.use_samples)
-		return NULL;
-	if (samplenames == 0 || samplenames[0] == 0)
-		return NULL;
+    /* if the user doesn't want to use samples, bail */
+    if (!options.use_samples)
+        return NULL;
+    if (samplenames == 0 || samplenames[0] == 0)
+        return NULL;
 
-	/* if a name begins with '*', we will also look under that as an alternate basename */
-	if (samplenames[0][0] == '*')
-		skipfirst = 1;
+    /* if a name begins with '*', we will also look under that as an alternate basename */
+    if (samplenames[0][0] == '*')
+        skipfirst = 1;
 
-	/* count the samples */
-	for (i = 0; samplenames[i+skipfirst] != 0; i++) ;
-	if (i == 0)
-		return NULL;
+    /* count the samples */
+    for (i = 0; samplenames[i+skipfirst] != 0; i++) ;
+    if (i == 0)
+        return NULL;
 
-	/* allocate the array */
-	samples = auto_malloc(sizeof(struct loaded_samples) + (i-1) * sizeof(struct loaded_sample));
-	memset(samples, 0, sizeof(struct loaded_samples) + (i-1) * sizeof(struct loaded_sample));
-	samples->total = i;
+    /* allocate the array */
+    samples = auto_malloc(sizeof(struct loaded_samples) + (i-1) * sizeof(struct loaded_sample));
+    memset(samples, 0, sizeof(struct loaded_samples) + (i-1) * sizeof(struct loaded_sample));
+    samples->total = i;
 
-	/* load the samples */
-	for (i = 0; i < samples->total; i++)
-		if (samplenames[i+skipfirst][0])
-		{
-			mame_file_error filerr;
-			mame_file *f;
-			char *fname;
+    /* load the samples */
+    for (i = 0; i < samples->total; i++)
+        if (samplenames[i+skipfirst][0])
+        {
+            mame_file_error filerr;
+            mame_file *f;
+            char *fname;
 
-			fname = assemble_3_strings(basename, PATH_SEPARATOR, samplenames[i+skipfirst]);
-			filerr = mame_fopen(SEARCHPATH_SAMPLE, fname, OPEN_FLAG_READ, &f);
-			free(fname);
+            fname = assemble_3_strings(basename, PATH_SEPARATOR, samplenames[i+skipfirst]);
+            filerr = mame_fopen(SEARCHPATH_SAMPLE, fname, OPEN_FLAG_READ, &f);
+            free(fname);
 
-			if (filerr != FILERR_NONE && skipfirst)
-			{
-				fname = assemble_3_strings(samplenames[0] + 1, PATH_SEPARATOR, samplenames[i+skipfirst]);
-				filerr = mame_fopen(SEARCHPATH_SAMPLE, fname, OPEN_FLAG_READ, &f);
-				free(fname);
-			}
-			if (filerr == FILERR_NONE)
-			{
-#if 1		/* QUASI88 */
-				filerr =
-#endif		/* QUASI88 */
-				read_wav_sample(f, &samples->sample[i]);
-				mame_fclose(f);
-			}
-#if 1		/* QUASI88 */
-			if (verbose_proc) {
-				if (f == NULL) {
-					printf( "  %-12s ... Not Found\n",samplenames[i+skipfirst]);
-				} else {
-					printf( "  Found %-12s : Load...", samplenames[i+skipfirst]);
-					if (filerr == 0) printf("FAILED\n");
-					else             printf("OK\n");
-				}
-			}
-#endif		/* QUASI88 */
-		}
+            if (filerr != FILERR_NONE && skipfirst)
+            {
+                fname = assemble_3_strings(samplenames[0] + 1, PATH_SEPARATOR, samplenames[i+skipfirst]);
+                filerr = mame_fopen(SEARCHPATH_SAMPLE, fname, OPEN_FLAG_READ, &f);
+                free(fname);
+            }
+            if (filerr == FILERR_NONE)
+            {
+#if 1       /* QUASI88 */
+                filerr =
+#endif      /* QUASI88 */
+                read_wav_sample(f, &samples->sample[i]);
+                mame_fclose(f);
+            }
+#if 1       /* QUASI88 */
+            if (verbose_proc) {
+                if (f == NULL) {
+                    printf( "  %-12s ... Not Found\n",samplenames[i+skipfirst]);
+                } else {
+                    printf( "  Found %-12s : Load...", samplenames[i+skipfirst]);
+                    if (filerr == 0) printf("FAILED\n");
+                    else             printf("OK\n");
+                }
+            }
+#endif      /* QUASI88 */
+        }
 
-	return samples;
+    return samples;
 }
 
 
@@ -260,23 +260,23 @@ void sample_start_n(int num,int channel,int samplenum,int loop)
 
     chan = &info->channel[channel];
 
-	/* force an update before we start */
-	stream_update(chan->stream);
+    /* force an update before we start */
+    stream_update(chan->stream);
 
-	/* update the parameters */
-	sample = &info->samples->sample[samplenum];
-	chan->source = sample->data;
-	chan->source_length = sample->length;
-	chan->source_num = sample->data ? samplenum : -1;
-	chan->pos = 0;
-	chan->frac = 0;
-	chan->basefreq = sample->frequency;
-#if		defined(DENY_LONG_LONG)	/* QUASI88 */
-	chan->step = (UINT32)((double)chan->basefreq * (double)(1 << FRAC_BITS) / Machine->sample_rate);
-#else							/* QUASI88 */
-	chan->step = ((INT64)chan->basefreq << FRAC_BITS) / Machine->sample_rate;
-#endif							/* QUASI88 */
-	chan->loop = loop;
+    /* update the parameters */
+    sample = &info->samples->sample[samplenum];
+    chan->source = sample->data;
+    chan->source_length = sample->length;
+    chan->source_num = sample->data ? samplenum : -1;
+    chan->pos = 0;
+    chan->frac = 0;
+    chan->basefreq = sample->frequency;
+#if     defined(DENY_LONG_LONG) /* QUASI88 */
+    chan->step = (UINT32)((double)chan->basefreq * (double)(1 << FRAC_BITS) / Machine->sample_rate);
+#else                           /* QUASI88 */
+    chan->step = ((INT64)chan->basefreq << FRAC_BITS) / Machine->sample_rate;
+#endif                          /* QUASI88 */
+    chan->loop = loop;
 }
 
 void sample_start(int channel,int samplenum,int loop)
@@ -294,22 +294,22 @@ void sample_start_raw_n(int num,int channel,INT16 *sampledata,int samples,int fr
 
     chan = &info->channel[channel];
 
-	/* force an update before we start */
-	stream_update(chan->stream);
+    /* force an update before we start */
+    stream_update(chan->stream);
 
-	/* update the parameters */
-	chan->source = sampledata;
-	chan->source_length = samples;
-	chan->source_num = -1;
-	chan->pos = 0;
-	chan->frac = 0;
-	chan->basefreq = frequency;
-#if		defined(DENY_LONG_LONG)	/* QUASI88 */
-	chan->step = (UINT32)((double)chan->basefreq * (double)(1 << FRAC_BITS) / Machine->sample_rate);
-#else							/* QUASI88 */
-	chan->step = ((INT64)chan->basefreq << FRAC_BITS) / Machine->sample_rate;
-#endif							/* QUASI88 */
-	chan->loop = loop;
+    /* update the parameters */
+    chan->source = sampledata;
+    chan->source_length = samples;
+    chan->source_num = -1;
+    chan->pos = 0;
+    chan->frac = 0;
+    chan->basefreq = frequency;
+#if     defined(DENY_LONG_LONG) /* QUASI88 */
+    chan->step = (UINT32)((double)chan->basefreq * (double)(1 << FRAC_BITS) / Machine->sample_rate);
+#else                           /* QUASI88 */
+    chan->step = ((INT64)chan->basefreq << FRAC_BITS) / Machine->sample_rate;
+#endif                          /* QUASI88 */
+    chan->loop = loop;
 }
 
 void sample_start_raw(int channel,INT16 *sampledata,int samples,int frequency,int loop)
@@ -327,14 +327,14 @@ void sample_set_freq_n(int num,int channel,int freq)
 
     chan = &info->channel[channel];
 
-	/* force an update before we start */
-	stream_update(chan->stream);
+    /* force an update before we start */
+    stream_update(chan->stream);
 
-#if		defined(DENY_LONG_LONG)	/* QUASI88 */
-	chan->step = (UINT32)((double)freq * (double)(1 << FRAC_BITS) / Machine->sample_rate);
-#else							/* QUASI88 */
-	chan->step = ((INT64)freq << FRAC_BITS) / Machine->sample_rate;
-#endif							/* QUASI88 */
+#if     defined(DENY_LONG_LONG) /* QUASI88 */
+    chan->step = (UINT32)((double)freq * (double)(1 << FRAC_BITS) / Machine->sample_rate);
+#else                           /* QUASI88 */
+    chan->step = ((INT64)freq << FRAC_BITS) / Machine->sample_rate;
+#endif                          /* QUASI88 */
 }
 
 void sample_set_freq(int channel,int freq)
@@ -352,7 +352,7 @@ void sample_set_volume_n(int num,int channel,float volume)
 
     chan = &info->channel[channel];
 
-	stream_set_output_gain(chan->stream, 0, volume);
+    stream_set_output_gain(chan->stream, 0, volume);
 }
 
 void sample_set_volume(int channel,float volume)
@@ -370,10 +370,10 @@ void sample_set_pause_n(int num,int channel,int pause)
 
     chan = &info->channel[channel];
 
-	/* force an update before we start */
-	stream_update(chan->stream);
+    /* force an update before we start */
+    stream_update(chan->stream);
 
-	chan->paused = pause;
+    chan->paused = pause;
 }
 
 void sample_set_pause(int channel,int pause)
@@ -412,9 +412,9 @@ int sample_get_base_freq_n(int num,int channel)
 
     chan = &info->channel[channel];
 
-	/* force an update before we start */
-	stream_update(chan->stream);
-	return chan->basefreq;
+    /* force an update before we start */
+    stream_update(chan->stream);
+    return chan->basefreq;
 }
 
 int sample_get_base_freq(int channel)
@@ -432,9 +432,9 @@ int sample_playing_n(int num,int channel)
 
     chan = &info->channel[channel];
 
-	/* force an update before we start */
-	stream_update(chan->stream);
-	return (chan->source != NULL);
+    /* force an update before we start */
+    stream_update(chan->stream);
+    return (chan->source != NULL);
 }
 
 int sample_playing(int channel)
@@ -466,127 +466,127 @@ int sample_loaded(int samplenum)
 
 static void sample_update_sound(void *param, stream_sample_t **inputs, stream_sample_t **_buffer, int length)
 {
-	struct sample_channel *chan = param;
-	stream_sample_t *buffer = _buffer[0];
+    struct sample_channel *chan = param;
+    stream_sample_t *buffer = _buffer[0];
 
-	if (chan->source && !chan->paused)
-	{
-		/* load some info locally */
-		UINT32 pos = chan->pos;
-		UINT32 frac = chan->frac;
-		UINT32 step = chan->step;
-		INT16 *sample = chan->source;
-		UINT32 sample_length = chan->source_length;
+    if (chan->source && !chan->paused)
+    {
+        /* load some info locally */
+        UINT32 pos = chan->pos;
+        UINT32 frac = chan->frac;
+        UINT32 step = chan->step;
+        INT16 *sample = chan->source;
+        UINT32 sample_length = chan->source_length;
 
-		while (length--)
-		{
-			/* do a linear interp on the sample */
-			INT32 sample1 = sample[pos];
-			INT32 sample2 = sample[(pos + 1) % sample_length];
-			INT32 fracmult = frac >> (FRAC_BITS - 14);
-			*buffer++ = ((0x4000 - fracmult) * sample1 + fracmult * sample2) >> 14;
+        while (length--)
+        {
+            /* do a linear interp on the sample */
+            INT32 sample1 = sample[pos];
+            INT32 sample2 = sample[(pos + 1) % sample_length];
+            INT32 fracmult = frac >> (FRAC_BITS - 14);
+            *buffer++ = ((0x4000 - fracmult) * sample1 + fracmult * sample2) >> 14;
 
-			/* advance */
-			frac += step;
-			pos += frac >> FRAC_BITS;
-			frac = frac & ((1 << FRAC_BITS) - 1);
+            /* advance */
+            frac += step;
+            pos += frac >> FRAC_BITS;
+            frac = frac & ((1 << FRAC_BITS) - 1);
 
-			/* handle looping/ending */
-			if (pos >= sample_length)
-			{
-				if (chan->loop)
-					pos %= sample_length;
-				else
-				{
-					chan->source = NULL;
-					chan->source_num = -1;
-					if (length > 0)
-						memset(buffer, 0, length * sizeof(*buffer));
-					break;
-				}
-			}
-		}
+            /* handle looping/ending */
+            if (pos >= sample_length)
+            {
+                if (chan->loop)
+                    pos %= sample_length;
+                else
+                {
+                    chan->source = NULL;
+                    chan->source_num = -1;
+                    if (length > 0)
+                        memset(buffer, 0, length * sizeof(*buffer));
+                    break;
+                }
+            }
+        }
 
-		/* push position back out */
-		chan->pos = pos;
-		chan->frac = frac;
-	}
-	else
-		memset(buffer, 0, length * sizeof(*buffer));
+        /* push position back out */
+        chan->pos = pos;
+        chan->frac = frac;
+    }
+    else
+        memset(buffer, 0, length * sizeof(*buffer));
 }
 
 
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 static void samples_postload(void *param)
 {
-	struct samples_info *info = param;
-	int i;
+    struct samples_info *info = param;
+    int i;
 
-	/* loop over channels */
-	for (i = 0; i < info->numchannels; i++)
-	{
-		struct sample_channel *chan = &info->channel[i];
+    /* loop over channels */
+    for (i = 0; i < info->numchannels; i++)
+    {
+        struct sample_channel *chan = &info->channel[i];
 
-		/* attach any samples that were loaded and playing */
-		if (chan->source_num >= 0 && chan->source_num < info->samples->total)
-		{
-			struct loaded_sample *sample = &info->samples->sample[chan->source_num];
-			chan->source = sample->data;
-			chan->source_length = sample->length;
-			if (!sample->data)
-				chan->source_num = -1;
-		}
+        /* attach any samples that were loaded and playing */
+        if (chan->source_num >= 0 && chan->source_num < info->samples->total)
+        {
+            struct loaded_sample *sample = &info->samples->sample[chan->source_num];
+            chan->source = sample->data;
+            chan->source_length = sample->length;
+            if (!sample->data)
+                chan->source_num = -1;
+        }
 
-		/* validate the position against the length in case the sample is smaller */
-		if (chan->source && chan->pos >= chan->source_length)
-		{
-			if (chan->loop)
-				chan->pos %= chan->source_length;
-			else
-			{
-				chan->source = NULL;
-				chan->source_num = -1;
-			}
-		}
-	}
+        /* validate the position against the length in case the sample is smaller */
+        if (chan->source && chan->pos >= chan->source_length)
+        {
+            if (chan->loop)
+                chan->pos %= chan->source_length;
+            else
+            {
+                chan->source = NULL;
+                chan->source_num = -1;
+            }
+        }
+    }
 }
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
 
 static void *samples_start(int sndindex, int clock, const void *config)
 {
-	int i;
-	const struct Samplesinterface *intf = config;
-	struct samples_info *info;
+    int i;
+    const struct Samplesinterface *intf = config;
+    struct samples_info *info;
 
-	info = auto_malloc(sizeof(*info));
-	memset(info, 0, sizeof(*info));
-	sndintrf_register_token(info);
+    info = auto_malloc(sizeof(*info));
+    memset(info, 0, sizeof(*info));
+    sndintrf_register_token(info);
 
-	/* read audio samples */
-#if 0		/* QUASI88 */
-	if (intf->samplenames)
-		info->samples = readsamples(intf->samplenames,Machine->gamedrv->name);
-#else		/* QUASI88 */
-	if (intf->samplenames)
-		info->samples = readsamples(intf->samplenames,NULL);
-#endif		/* QUASI88 */
+    /* read audio samples */
+#if 0       /* QUASI88 */
+    if (intf->samplenames)
+        info->samples = readsamples(intf->samplenames,Machine->gamedrv->name);
+#else       /* QUASI88 */
+    if (intf->samplenames)
+        info->samples = readsamples(intf->samplenames,NULL);
+#endif      /* QUASI88 */
 
-	/* allocate channels */
-	info->numchannels = intf->channels;
+    /* allocate channels */
+    info->numchannels = intf->channels;
     assert(info->numchannels < MAX_CHANNELS);
-	info->channel = auto_malloc(sizeof(*info->channel) * info->numchannels);
-	for (i = 0; i < info->numchannels; i++)
-	{
-	    info->channel[i].stream = stream_create(0, 1, Machine->sample_rate, &info->channel[i], sample_update_sound);
+    info->channel = auto_malloc(sizeof(*info->channel) * info->numchannels);
+    for (i = 0; i < info->numchannels; i++)
+    {
+        info->channel[i].stream = stream_create(0, 1, Machine->sample_rate, &info->channel[i], sample_update_sound);
 
-		info->channel[i].source = NULL;
-		info->channel[i].source_num = -1;
-		info->channel[i].step = 0;
-		info->channel[i].loop = 0;
-		info->channel[i].paused = 0;
+        info->channel[i].source = NULL;
+        info->channel[i].source_num = -1;
+        info->channel[i].step = 0;
+        info->channel[i].loop = 0;
+        info->channel[i].paused = 0;
 
-		/* register with the save state system */
+        /* register with the save state system */
         state_save_register_item("samples", sndindex * MAX_CHANNELS + i, info->channel[i].source_length);
         state_save_register_item("samples", sndindex * MAX_CHANNELS + i, info->channel[i].source_num);
         state_save_register_item("samples", sndindex * MAX_CHANNELS + i, info->channel[i].pos);
@@ -594,14 +594,14 @@ static void *samples_start(int sndindex, int clock, const void *config)
         state_save_register_item("samples", sndindex * MAX_CHANNELS + i, info->channel[i].step);
         state_save_register_item("samples", sndindex * MAX_CHANNELS + i, info->channel[i].loop);
         state_save_register_item("samples", sndindex * MAX_CHANNELS + i, info->channel[i].paused);
-	}
-	state_save_register_func_postload_ptr(samples_postload, info);
+    }
+    state_save_register_func_postload_ptr(samples_postload, info);
 
-	/* initialize any custom handlers */
-	if (intf->start)
-		(*intf->start)();
+    /* initialize any custom handlers */
+    if (intf->start)
+        (*intf->start)();
 
-	return info;
+    return info;
 }
 
 
@@ -612,31 +612,31 @@ static void *samples_start(int sndindex, int clock, const void *config)
 
 static void samples_set_info(void *token, UINT32 state, sndinfo *info)
 {
-	switch (state)
-	{
-		/* no parameters to set */
-	}
+    switch (state)
+    {
+        /* no parameters to set */
+    }
 }
 
 
 void samples_get_info(void *token, UINT32 state, sndinfo *info)
 {
-	switch (state)
-	{
-		/* --- the following bits of info are returned as 64-bit signed integers --- */
+    switch (state)
+    {
+        /* --- the following bits of info are returned as 64-bit signed integers --- */
 
-		/* --- the following bits of info are returned as pointers to data or functions --- */
+        /* --- the following bits of info are returned as pointers to data or functions --- */
         case SNDINFO_PTR_SET_INFO:                      info->set_info = samples_set_info;      break;
         case SNDINFO_PTR_START:                         info->start = samples_start;            break;
         case SNDINFO_PTR_STOP:                          /* Nothing */                           break;
         case SNDINFO_PTR_RESET:                         /* Nothing */                           break;
 
-		/* --- the following bits of info are returned as NULL-terminated strings --- */
+        /* --- the following bits of info are returned as NULL-terminated strings --- */
         case SNDINFO_STR_NAME:                          info->s = "Samples";                    break;
         case SNDINFO_STR_CORE_FAMILY:                   info->s = "Big Hack";                   break;
         case SNDINFO_STR_CORE_VERSION:                  info->s = "1.1";                        break;
         case SNDINFO_STR_CORE_FILE:                     info->s = __FILE__;                     break;
         case SNDINFO_STR_CORE_CREDITS:                  info->s = "Copyright (c) 2007, The MAME Team"; break;
-	}
+    }
 }
 

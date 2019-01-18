@@ -354,7 +354,7 @@ void RA_RenderOverlayFrame(HDC hdc)
         width >>= 1;
         height >>= 1;
         break;
-#ifdef	SUPPORT_DOUBLE
+#ifdef  SUPPORT_DOUBLE
     case SCREEN_SIZE_DOUBLE:
         /* どうやらWIDTH×HEIGHTのままでいい */
         break;

@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/* 起動直後の引数の処理と、ワークの初期化				*/
-/*									*/
+/*                                  */
+/* 起動直後の引数の処理と、ワークの初期化                */
+/*                                  */
 /************************************************************************/
 
 #include <stdio.h>
@@ -38,9 +38,9 @@
 /*----------------------------------------------------------------------*/
 
 /* -f6 .. -f10 オプションの引数と、機能の対応一覧 */
-static const struct {	
-    int		num;
-    char	*str;
+static const struct {   
+    int     num;
+    char    *str;
 } fn_index[] =
 {
     { FN_FUNC,        NULL,          },
@@ -54,7 +54,7 @@ static const struct {
     { FN_SPEED_UP,    "SPEED-UP",    },
     { FN_SPEED_DOWN,  "SPEED-DOWN",  },
     { FN_FULLSCREEN,  "FULLSCREEN",  },
-    { FN_FULLSCREEN,  "DGA",         },	/* 互換のため */
+    { FN_FULLSCREEN,  "DGA",         }, /* 互換のため */
     { FN_SNAPSHOT,    "SNAPSHOT",    },
     { FN_IMAGE_NEXT1, "IMAGE-NEXT1", },
     { FN_IMAGE_PREV1, "IMAGE-PREV1", },
@@ -76,36 +76,36 @@ static const struct {
 /*----------------------------------------------------------------------*/
 
 /* オプションをいくつかのグループに分けて、優先度を設定する。*/
-#define	OPT_GROUPS	(400)
-static	signed char	opt_prioroty[ OPT_GROUPS ];
+#define OPT_GROUPS  (400)
+static  signed char opt_prioroty[ OPT_GROUPS ];
 
 /*----------------------------------------------------------------------*/
 
-	T_CONFIG_IMAGE	config_image;	/* 引数で指定されたイメージファイル */
+    T_CONFIG_IMAGE  config_image;   /* 引数で指定されたイメージファイル */
 
-static	int	load_config = TRUE;	/* 真で、起動時に設定読み込む */
-	int	save_config = FALSE;	/* 真で、終了時に設定保存する */
+static  int load_config = TRUE; /* 真で、起動時に設定読み込む */
+    int save_config = FALSE;    /* 真で、終了時に設定保存する */
 
 /* ヘルプ表示用の、コマンド (argv[0]) */
-static	char	*command = "QUASI88";
+static  char    *command = "QUASI88";
 
 /* システム依存のヘルプ表示関数 */
-static	void	(*help_msg_osd)(void) = NULL;
+static  void    (*help_msg_osd)(void) = NULL;
 
 /* システム依存のオプションテーブル */
-static	const	T_CONFIG_TABLE *option_table_osd;
+static  const   T_CONFIG_TABLE *option_table_osd;
 
 /* サウンド系のオプションテーブル */
-static	const	T_CONFIG_TABLE *option_table_sound;
+static  const   T_CONFIG_TABLE *option_table_sound;
 
 /*----------------------------------------------------------------------*/
 
 /* コールバック関数の引数 (char *) が未使用の場合、
  * ワーニングが出て鬱陶しいので、 gcc に頼んで許してもらう。 */
 #if defined(__GNUC__)
-#define	UNUSED_ARG	__attribute__((__unused__)) char *dummy
+#define UNUSED_ARG  __attribute__((__unused__)) char *dummy
 #else
-#define	UNUSED_ARG	char *dummy
+#define UNUSED_ARG  char *dummy
 #endif
 
 #include "help.h"
@@ -114,7 +114,7 @@ static int o_help(UNUSED_ARG)
 {
     help_msg_common();
     if (help_msg_osd) {
-	(help_msg_osd)();
+    (help_msg_osd)();
     }
     help_msg_config();
     xmame_config_show_option();
@@ -122,7 +122,7 @@ static int o_help(UNUSED_ARG)
     return 0;
 }
 
-static	int	arg_baudrate;
+static  int arg_baudrate;
 static const int baudrate_table[] = {
     75, 150, 300, 600, 1200, 2400, 4800, 9600, 19200,
 };
@@ -130,10 +130,10 @@ static int o_baudrate(UNUSED_ARG)
 {
     int i;
     for (i=0; i<COUNTOF(baudrate_table); i++) {
-	if (arg_baudrate == baudrate_table[i]) {
-	    baudrate_sw = i;
-	    return 0;
-	}
+    if (arg_baudrate == baudrate_table[i]) {
+        baudrate_sw = i;
+        return 0;
+    }
     }
     return 1;
 }
@@ -161,16 +161,16 @@ static int oo_setfn(int key, char *str)
     int i, fn = FN_FUNC;
 
     for (i=1; i<COUNTOF(fn_index); i++) {
-	if (my_strcmp(str, fn_index[i].str) == 0) {
-	    fn = fn_index[i].num;
-	    break;
-	}
+    if (my_strcmp(str, fn_index[i].str) == 0) {
+        fn = fn_index[i].num;
+        break;
+    }
     }
     if (fn == FN_FUNC) {
-	fn = keyboard_str2key88(str);
-	if (fn < 0) {
-	    return 1;
-	}
+    fn = keyboard_str2key88(str);
+    if (fn < 0) {
+        return 1;
+    }
     }
     function_f[ key ] = fn;
     return 0;
@@ -192,21 +192,21 @@ static int oo_setinput(int type, int key, char *keysym)
 {
     int code = keyboard_str2key88(keysym);
     if (code < 0) {
-	return 1;
+    return 1;
     } else {
-	if (type == 0) {		/* カーソルキー */
-	    cursor_key_mode = 2;
-	    cursor_key_assign[ key ] = code;
-	}
-	else if (type == 1) {		/* マウス */
-	    mouse_key_mode = 2;
-	    mouse_key_assign[ key ] = code;
-	}
-	else if (type == 2) {		/* ジョイスティック */
-	    joy_key_mode = 2;
-	    joy_key_assign[ key ] = code;
-	}
-	return 0;
+    if (type == 0) {        /* カーソルキー */
+        cursor_key_mode = 2;
+        cursor_key_assign[ key ] = code;
+    }
+    else if (type == 1) {       /* マウス */
+        mouse_key_mode = 2;
+        mouse_key_assign[ key ] = code;
+    }
+    else if (type == 2) {       /* ジョイスティック */
+        joy_key_mode = 2;
+        joy_key_assign[ key ] = code;
+    }
+    return 0;
     }
 }
 static int o_setkey_up   (char *keysym) { return oo_setinput(0, 0, keysym); }
@@ -242,16 +242,16 @@ static int o_monitor(UNUSED_ARG){ quasi88_monitor(); return 0; }
 static int oo_resumefilename(char *filename, int force)
 {
     if (filename && (strlen(filename) >= QUASI88_MAX_FILENAME)) {
-	fprintf(stderr, "filename %s too long, ignored\n", filename);
-	resume_flag  = FALSE;
-	resume_force = FALSE;
-	resume_file  = FALSE;
-	filename_set_state(NULL);
+    fprintf(stderr, "filename %s too long, ignored\n", filename);
+    resume_flag  = FALSE;
+    resume_force = FALSE;
+    resume_file  = FALSE;
+    filename_set_state(NULL);
     } else {
-	resume_flag  = TRUE;
-	resume_force = force;
-	resume_file  = (filename) ? TRUE : FALSE;
-	filename_set_state(filename);
+    resume_flag  = TRUE;
+    resume_force = force;
+    resume_file  = (filename) ? TRUE : FALSE;
+    filename_set_state(filename);
     }
     return 0;
 }
@@ -264,17 +264,18 @@ static int oo_setdir(int type, char *dir)
 {
     const char *opt = "";
     int result = FALSE;
-	
+    
     switch (type) {
-    case 0:  opt = "romdir";   result = osd_set_dir_rom(dir);	break;
-    case 1:  opt = "diskdir";  result = osd_set_dir_disk(dir);	break;
-    case 2:  opt = "tapedir";  result = osd_set_dir_tape(dir);	break;
-    case 3:  opt = "snapdir";  result = osd_set_dir_snap(dir);	break;
-    case 4:  opt = "statedir"; result = osd_set_dir_state(dir);	break;
+    case 0:  opt = "romdir";   result = osd_set_dir_rom(dir);   break;
+    case 1:  opt = "diskdir";  result = osd_set_dir_disk(dir);  break;
+    case 2:  opt = "tapedir";  result = osd_set_dir_tape(dir);  break;
+    case 3:  opt = "snapdir";  result = osd_set_dir_snap(dir);  break;
+    case 4:  opt = "statedir"; result = osd_set_dir_state(dir); break;
+    case 5:  opt = "savedir";  result = osd_set_dir_save(dir);  break;
     }
 
     if (result == FALSE) {
-	fprintf(stderr, "-%s %s failed, ignored\n", opt, dir);
+    fprintf(stderr, "-%s %s failed, ignored\n", opt, dir);
     }
     return 0;
 }
@@ -287,9 +288,9 @@ static int o_statedir(char *dir) { return oo_setdir(4, dir); }
 static int oo_image(char **filename)
 {
     if (strlen(*filename) >= QUASI88_MAX_FILENAME) {
-	fprintf(stderr, "filename %s too long, ignored\n", *filename);
-	free(*filename);
-	*filename = NULL;
+    fprintf(stderr, "filename %s too long, ignored\n", *filename);
+    free(*filename);
+    *filename = NULL;
     }
     return 0;
 }
@@ -314,7 +315,7 @@ static int o_diskimage(UNUSED_ARG)
 /*----------------------------------------------------------------------*/
 
 /* 無効なオプションで、引数を伴う場合、ダミーの int型変数を用意しておく */
-static	int	invalid_arg;
+static  int invalid_arg;
 
 /* 設定保存の際に、特別な処理をする関数 */
 static int save_bau(const struct T_CONFIG_TABLE *op, char opt_arg[255]);
@@ -389,7 +390,7 @@ static const T_CONFIG_TABLE option_table[] =
   {  62, "noautoskip",   X_FIX,  &use_auto_skip,   FALSE,                 0,0, OPT_SAVE },
   {  63, "half",         X_FIX,  &screen_size,     SCREEN_SIZE_HALF,      0,0, OPT_SAVE },
   {  63, "full",         X_FIX,  &screen_size,     SCREEN_SIZE_FULL,      0,0, OPT_SAVE },
-#ifdef	SUPPORT_DOUBLE
+#ifdef  SUPPORT_DOUBLE
   {  63, "double",       X_FIX,  &screen_size,     SCREEN_SIZE_DOUBLE,    0,0, OPT_SAVE },
 #else
   {  63, "double",       X_INV,                                       0,0,0,0, 0        },
@@ -577,7 +578,7 @@ static const T_CONFIG_TABLE option_table[] =
   /* 350〜399: サウンド依存オプション */
   /* この範囲のグループは、サウンド依存オプションのテーブル用に予約 */
 
-#ifndef	USE_SOUND		/* サウンドなし時のオプション (無視) */
+#ifndef USE_SOUND       /* サウンドなし時のオプション (無視) */
 
   /* src/snddrv/src/unix/sound.c */
   {   0, "samples",            X_INV,                                 0,0,0,0, 0        },
@@ -683,19 +684,19 @@ static const T_CONFIG_TABLE option_table[] =
  * まだ合致しなければ、 xmame_config_check_option() を呼び出す。
  * 合致した場合でも、優先度 priority によっては、処理がスキップされる。
  *
- *	戻り値	1  … 処理した引数が1個 (opt1 のみ処理。 opt2 は未処理)
- *		2  … 処理した引数が2個 (opt1 と opt2 を処理)
- *		0  … opt1 が未知の引数のため、 opt1 opt2 ともに未処理
- *		-1 … 内部で致命的な異常が発生
+ *  戻り値   1  … 処理した引数が1個 (opt1 のみ処理。 opt2 は未処理)
+ *      2  … 処理した引数が2個 (opt1 と opt2 を処理)
+ *      0  … opt1 が未知の引数のため、 opt1 opt2 ともに未処理
+ *      -1 … 内部で致命的な異常が発生
  *
- *	処理途中の異常 (引数で指定した値が範囲外など) や、
- *	優先度により処理がスキップされたような場合は、
- *	正しく処理できた場合と同様に、 1 か 2 を返す。
+ *  処理途中の異常 (引数で指定した値が範囲外など) や、
+ *  優先度により処理がスキップされたような場合は、
+ *  正しく処理できた場合と同様に、 1 か 2 を返す。
  *--------------------------------------------------------------------------*/
 
-static	int	check_option(char *opt1, char *opt2, int priority,
-			     const T_CONFIG_TABLE *osd_options,
-			     const T_CONFIG_TABLE *sound_options)
+static  int check_option(char *opt1, char *opt2, int priority,
+                 const T_CONFIG_TABLE *osd_options,
+                 const T_CONFIG_TABLE *sound_options)
 {
     const T_CONFIG_TABLE *op;
     int  ret_val = 1;
@@ -710,187 +711,187 @@ static	int	check_option(char *opt1, char *opt2, int priority,
     /* オプション文字列にに合致するものを探しましょう */
 
     for (op = &option_table[0]; op->name; op++) {
-	if (strcmp(&opt1[1], op->name) == 0) break;
+    if (strcmp(&opt1[1], op->name) == 0) break;
     }
 
     if (op->name == NULL) {
 
-	/* 見つからなければ、 osd_options のオプションから探します */
+    /* 見つからなければ、 osd_options のオプションから探します */
 
-	if (osd_options) {
-	    for (op = &osd_options[0]; op->name; op++) {
-		if (strcmp(&opt1[1], op->name) == 0) break;
-	    }
-	}
-
-	if (op->name == NULL) {
-
-	    /* 見つからなければ、 sound_options のオプションから探します */
-
-	    if (sound_options) {
-		for (op = &sound_options[0]; op->name; op++) {
-		    if (strcmp(&opt1[1], op->name) == 0) break;
-		}
-	    }
-
-	    if (op->name == NULL) {
-
-		/* それでも見つからなければ、MAME のオプションから探します */
-
-		ret_val = xmame_config_check_option(opt1, opt2, priority);
-		return ret_val;
-	    }
-	}
+    if (osd_options) {
+        for (op = &osd_options[0]; op->name; op++) {
+        if (strcmp(&opt1[1], op->name) == 0) break;
+        }
     }
 
-	/* 見つかれば処理。ただし、反映は '優先度が高い' か '同じ' 場合のみ */
+    if (op->name == NULL) {
+
+        /* 見つからなければ、 sound_options のオプションから探します */
+
+        if (sound_options) {
+        for (op = &sound_options[0]; op->name; op++) {
+            if (strcmp(&opt1[1], op->name) == 0) break;
+        }
+        }
+
+        if (op->name == NULL) {
+
+        /* それでも見つからなければ、MAME のオプションから探します */
+
+        ret_val = xmame_config_check_option(opt1, opt2, priority);
+        return ret_val;
+        }
+    }
+    }
+
+    /* 見つかれば処理。ただし、反映は '優先度が高い' か '同じ' 場合のみ */
 
     if (priority < opt_prioroty[ op->group ]) {
-	ignore = TRUE;
+    ignore = TRUE;
     } else {
-	ignore = FALSE;
+    ignore = FALSE;
     }
     applied = FALSE;
 
 
-	/* オプションのタイプ別に処理します */
+    /* オプションのタイプ別に処理します */
 
     switch (op->type) {
 
-    case X_FIX:		/* なし:   *var = (int)val1 [定数]           */
-	{
-	    if (ignore == FALSE) {
-		*((int*)op->var) = (int)op->val1;
-		applied = TRUE;
-	    }
-	}
-	break;
+    case X_FIX:     /* なし:   *var = (int)val1 [定数]           */
+    {
+        if (ignore == FALSE) {
+        *((int*)op->var) = (int)op->val1;
+        applied = TRUE;
+        }
+    }
+    break;
 
-    case X_INT:		/* int:    *var = argv  [範囲 var1〜val2]    */
-	{
-	    int low, high, work;
+    case X_INT:     /* int:    *var = argv  [範囲 var1〜val2]    */
+    {
+        int low, high, work;
 
-	    if (opt2) {
-		ret_val ++;
-		if (ignore == FALSE) {
-		    low  = (int)op->val1;
-		    high = (int)op->val2;
-		    work = strtol(opt2, &end, 0);
+        if (opt2) {
+        ret_val ++;
+        if (ignore == FALSE) {
+            low  = (int)op->val1;
+            high = (int)op->val2;
+            work = strtol(opt2, &end, 0);
 
-		    if ((*end == '\0') && (low <= work) && (work <= high)) {
-			*((int*)op->var) = work;
-			applied = TRUE;
-		    } else {
-			fprintf(stderr,
-				"error: invalid value %s %s\n", opt1, opt2);
-		    }
-		}
-	    } else {
-		fprintf(stderr, "error: %s requires an argument\n", opt1);
-	    }
-	}
-	break;
+            if ((*end == '\0') && (low <= work) && (work <= high)) {
+            *((int*)op->var) = work;
+            applied = TRUE;
+            } else {
+            fprintf(stderr,
+                "error: invalid value %s %s\n", opt1, opt2);
+            }
+        }
+        } else {
+        fprintf(stderr, "error: %s requires an argument\n", opt1);
+        }
+    }
+    break;
 
-    case X_DBL:		/* double: *var = argv  [範囲 var1〜val2]    */
-	{
-	    double low, high, work;
+    case X_DBL:     /* double: *var = argv  [範囲 var1〜val2]    */
+    {
+        double low, high, work;
 
-	    if (opt2) {
-		ret_val ++;
-		if (ignore == FALSE) {
-		    low  = (double)op->val1;
-		    high = (double)op->val2;
-		    work = strtod(opt2, &end);
+        if (opt2) {
+        ret_val ++;
+        if (ignore == FALSE) {
+            low  = (double)op->val1;
+            high = (double)op->val2;
+            work = strtod(opt2, &end);
 
-		    if ((*end == '\0') && (low <= work) && (work <= high)) {
-			*((double*)op->var) = work;
-			applied = TRUE;
-		    } else {
-			fprintf(stderr,
-				"error: invalid value %s %s\n", opt1, opt2);
-		    }
-		}
-	    } else {
-		fprintf(stderr, "error: %s requires an argument\n", opt1);
-	    }
-	}
-	break;
+            if ((*end == '\0') && (low <= work) && (work <= high)) {
+            *((double*)op->var) = work;
+            applied = TRUE;
+            } else {
+            fprintf(stderr,
+                "error: invalid value %s %s\n", opt1, opt2);
+            }
+        }
+        } else {
+        fprintf(stderr, "error: %s requires an argument\n", opt1);
+        }
+    }
+    break;
 
-    case X_STR:		/* 文字列: strcpy(var, argv);                */
-	{
-	    char *work;
+    case X_STR:     /* 文字列: strcpy(var, argv);                */
+    {
+        char *work;
 
-	    if (opt2) {
-		ret_val ++;
-		if (ignore == FALSE) {
-		    if (op->var) {
-			work = (char*)malloc(strlen(opt2) + 1);
-			if (work == NULL) {
-			    fprintf(stderr,
-				    "error: malloc failed for %s\n", opt1);
-			    return -1;
-			} else {
-			    strcpy(work, opt2);
-			    if (*(char **)op->var) {
-				free(*(char **)op->var);
-			    }
-			    *(char **)op->var = work;
-			    applied = TRUE;
-			}
-		    } else {
-			applied = TRUE;
-		    }
-		}
-	    } else {
-		fprintf(stderr, "error: %s requires an argument\n", opt1);
-	    }
-	}
-	break;
+        if (opt2) {
+        ret_val ++;
+        if (ignore == FALSE) {
+            if (op->var) {
+            work = (char*)malloc(strlen(opt2) + 1);
+            if (work == NULL) {
+                fprintf(stderr,
+                    "error: malloc failed for %s\n", opt1);
+                return -1;
+            } else {
+                strcpy(work, opt2);
+                if (*(char **)op->var) {
+                free(*(char **)op->var);
+                }
+                *(char **)op->var = work;
+                applied = TRUE;
+            }
+            } else {
+            applied = TRUE;
+            }
+        }
+        } else {
+        fprintf(stderr, "error: %s requires an argument\n", opt1);
+        }
+    }
+    break;
 
-    case X_NOP:		/* 無処理:                                   */
-	if (op->var) {
-	    if (opt2) {
-		ret_val ++;
-		if (ignore == FALSE) {
-		    applied = TRUE;
-		}
-	    } else {
-		fprintf(stderr, "error: %s requires an argument\n", opt1);
-	    }
-	} else {
-	    if (ignore == FALSE) {
-		applied = TRUE;
-	    }
-	}
-	break;
+    case X_NOP:     /* 無処理:                                   */
+    if (op->var) {
+        if (opt2) {
+        ret_val ++;
+        if (ignore == FALSE) {
+            applied = TRUE;
+        }
+        } else {
+        fprintf(stderr, "error: %s requires an argument\n", opt1);
+        }
+    } else {
+        if (ignore == FALSE) {
+        applied = TRUE;
+        }
+    }
+    break;
 
-    case X_INV:		/* 無効:                                     */
-	if (op->var && opt2) {
-	    ret_val ++;
-	    fprintf(stderr, "error: invalid option %s %s\n", opt1, opt2);
-	} else {
-	    fprintf(stderr, "error: invalid option %s\n", opt1);
-	}
-	break;
+    case X_INV:     /* 無効:                                     */
+    if (op->var && opt2) {
+        ret_val ++;
+        fprintf(stderr, "error: invalid option %s %s\n", opt1, opt2);
+    } else {
+        fprintf(stderr, "error: invalid option %s\n", opt1);
+    }
+    break;
 
     default:
-	break;
+    break;
     }
 
 
     /* 処理後の呼び出し関数があれば、それを呼びます */
 
     if (op->func && applied) {
-	if ((op->func)(opt2) != 0) {
-	    fprintf(stderr, "error: invalid option %s %s\n", opt1, opt2);
-	}
+    if ((op->func)(opt2) != 0) {
+        fprintf(stderr, "error: invalid option %s %s\n", opt1, opt2);
+    }
     }
 
 
     /* 優先度を書き換えておわり */
 
     if (applied) {
-	opt_prioroty[ op->group ] = priority;
+    opt_prioroty[ op->group ] = priority;
     }
 
     /*if (ret_val==1) printf("done:%s\n",opt1);*/
@@ -905,13 +906,13 @@ static	int	check_option(char *opt1, char *opt2, int priority,
 
 /*--------------------------------------------------------------------------
  * 起動時のオプションを解析する。
- *	戻り値は、継続不能な異常が発生した時は偽、それ以外は真。
+ *  戻り値は、継続不能な異常が発生した時は偽、それ以外は真。
  *
- *	-help オプションをつけると、強制的に終了する。
+ *  -help オプションをつけると、強制的に終了する。
  *--------------------------------------------------------------------------*/
-static	int	get_option(int argc, char *argv[], int priority,
-			   const T_CONFIG_TABLE *osd_options,
-			   const T_CONFIG_TABLE *sound_options)
+static  int get_option(int argc, char *argv[], int priority,
+               const T_CONFIG_TABLE *osd_options,
+               const T_CONFIG_TABLE *sound_options)
 {
     int  i, j;
     int  drive = DRIVE_1;
@@ -921,88 +922,88 @@ static	int	get_option(int argc, char *argv[], int priority,
 
     for (i=1; i<argc; ) {
 
-	/* '-' 以外で始まるオプションは、ディスクイメージのファイル名 */
-	if (*argv[i] != '-') {
-	    char *fname = NULL;
+    /* '-' 以外で始まるオプションは、ディスクイメージのファイル名 */
+    if (*argv[i] != '-') {
+        char *fname = NULL;
 
-	    /* イメージファイルが指定可能かどうかをチェック (不可でも継続) */
-	    if (strlen(argv[i]) >= QUASI88_MAX_FILENAME) {
-		fprintf(stderr,
-			"error: image file name \"%s\" is too long\n",
-			argv[i]);
-	    } else {
-		if (drive >= NR_DRIVE) {
-		    fprintf(stderr, "warning: too many image file\n");
-		} else {
-		    fname = argv[i];
+        /* イメージファイルが指定可能かどうかをチェック (不可でも継続) */
+        if (strlen(argv[i]) >= QUASI88_MAX_FILENAME) {
+        fprintf(stderr,
+            "error: image file name \"%s\" is too long\n",
+            argv[i]);
+        } else {
+        if (drive >= NR_DRIVE) {
+            fprintf(stderr, "warning: too many image file\n");
+        } else {
+            fname = argv[i];
 
-		    p = (char*)malloc(strlen(fname) + 1);
-		    if (p == NULL) {
-			fprintf(stderr, "error: malloc failed for arg\n");
-			return FALSE;
-		    }
-		    strcpy(p, fname);
+            p = (char*)malloc(strlen(fname) + 1);
+            if (p == NULL) {
+            fprintf(stderr, "error: malloc failed for arg\n");
+            return FALSE;
+            }
+            strcpy(p, fname);
 
-		    free(config_image.d[ drive ]);
-		    config_image.d[ drive ] = p;
-		    config_image.n[ drive ] = 0;
-		    drive ++;
-		}
-	    }
+            free(config_image.d[ drive ]);
+            config_image.d[ drive ] = p;
+            config_image.n[ drive ] = 0;
+            drive ++;
+        }
+        }
 
-	    /* 以降の引数で、数値が続けば、それはイメージ番号を示す */
-	    for (j=0; i+j+1 < argc; j++) {	/* 引数が続く限り処理 */
+        /* 以降の引数で、数値が続けば、それはイメージ番号を示す */
+        for (j=0; i+j+1 < argc; j++) {  /* 引数が続く限り処理 */
 
-		char *end;
-		int   img = strtol(argv[i+j+1], &end, 0);
+        char *end;
+        int   img = strtol(argv[i+j+1], &end, 0);
 
-		if (*end != '\0') break;	/* 引数が数値でなければ中断 */
+        if (*end != '\0') break;    /* 引数が数値でなければ中断 */
 
-		if (fname) {
-		    if (j == 0) drive --;
+        if (fname) {
+            if (j == 0) drive --;
 
-		    if (drive >= NR_DRIVE) {
-			fprintf(stderr, "error: too many image-number\n");
-		    } else {
-			p = (char*)malloc(strlen(fname) + 1);
-			if (p == NULL) {
-			    fprintf(stderr, "error: malloc failed for arg\n");
-			    return FALSE;
-			}
-			strcpy(p, fname);
+            if (drive >= NR_DRIVE) {
+            fprintf(stderr, "error: too many image-number\n");
+            } else {
+            p = (char*)malloc(strlen(fname) + 1);
+            if (p == NULL) {
+                fprintf(stderr, "error: malloc failed for arg\n");
+                return FALSE;
+            }
+            strcpy(p, fname);
 
-			if ((img < 1) || (img > MAX_NR_IMAGE)) {
-			    fprintf(stderr, "error: invalid image-number %d."
-				    " (change image-no to 1)\n", img);
-			    img = 1;	/* イメージ番号が範囲外なら、1 にする*/
-			}
+            if ((img < 1) || (img > MAX_NR_IMAGE)) {
+                fprintf(stderr, "error: invalid image-number %d."
+                    " (change image-no to 1)\n", img);
+                img = 1;    /* イメージ番号が範囲外なら、1 にする*/
+            }
 
-			free(config_image.d[ drive ]);
-			config_image.d[ drive ] = p;
-			config_image.n[ drive ] = img;
-			drive ++;
-		    }
-		} else {
-		    fprintf(stderr, "error: ignored image-number %d\n", img);
-		}
-	    }
+            free(config_image.d[ drive ]);
+            config_image.d[ drive ] = p;
+            config_image.n[ drive ] = img;
+            drive ++;
+            }
+        } else {
+            fprintf(stderr, "error: ignored image-number %d\n", img);
+        }
+        }
 
-	    i += j + 1;			/* 処理した引数の個数を加算 */
+        i += j + 1;         /* 処理した引数の個数を加算 */
 
-	} else {		/* '-' で始まる引数は、オプション */
+    } else {        /* '-' で始まる引数は、オプション */
 
-	    j = check_option(argv[i], (i+1 < argc) ? argv[i+1] : NULL,
-			     priority, osd_options, sound_options);
-	    if (j < 0) {		/* 致命的エラーなら、解析失敗 */
-		return FALSE;
-	    }
-	    if (j == 0) {		/* 未知のオプションは、スキップ */
-		fprintf(stderr, "error: unknown option %s\n", argv[i]);
-		j = 1;
-	    }
+        j = check_option(argv[i], (i+1 < argc) ? argv[i+1] : NULL,
+                 priority, osd_options, sound_options);
+        if (j < 0) {        /* 致命的エラーなら、解析失敗 */
+        return FALSE;
+        }
+        if (j == 0) {       /* 未知のオプションは、スキップ */
+        fprintf(stderr, "error: unknown option %s\n", argv[i]);
+        j = 1;
+        }
 
-	    i += j;			/* 処理した引数の個数を加算 */
-	}
+        i += j;         /* 処理した引数の個数を加算 */
+    }
     }
 
     return TRUE;
@@ -1015,18 +1016,18 @@ static	int	get_option(int argc, char *argv[], int priority,
 
 /*--------------------------------------------------------------------------
  * 環境ファイルのオプションを解析する。
- *	戻り値は、継続不能な異常が発生した時は偽、それ以外は真。
+ *  戻り値は、継続不能な異常が発生した時は偽、それ以外は真。
  *
- *	-help オプションをつけると、強制的に終了する。
+ *  -help オプションをつけると、強制的に終了する。
  *--------------------------------------------------------------------------*/
 
 /* 環境ファイル1行あたりの最大文字数 */
-#define	MAX_RCFILE_LINE	(256)
+#define MAX_RCFILE_LINE (256)
 
 
-static	int	get_config_file(OSD_FILE *fp, int priority,
-				const T_CONFIG_TABLE *osd_options,
-				const T_CONFIG_TABLE *sound_options)
+static  int get_config_file(OSD_FILE *fp, int priority,
+                const T_CONFIG_TABLE *osd_options,
+                const T_CONFIG_TABLE *sound_options)
 {
     int  result;
     char line[ MAX_RCFILE_LINE ];
@@ -1036,43 +1037,43 @@ static	int	get_config_file(OSD_FILE *fp, int priority,
     int  line_cnt = 0;
 
 
-		/* 設定ファイルを1行づつ解析 */
+        /* 設定ファイルを1行づつ解析 */
 
     while (osd_fgets(line, MAX_RCFILE_LINE, fp)) {
 
-	line_cnt ++;
-	parm1 = parm2 = parm3 = NULL;
-	str = line;
+    line_cnt ++;
+    parm1 = parm2 = parm3 = NULL;
+    str = line;
 
-		/* パラメータを parm1〜parm3 にセット */
+        /* パラメータを parm1〜parm3 にセット */
 
-	{                      b = &buffer[0];    str = my_strtok(b, str); }
-	if (str) { parm1 = b;  b += strlen(b)+1;  str = my_strtok(b, str); }
-	if (str) { parm2 = b;  b += strlen(b)+1;  str = my_strtok(b, str); }
-	if (str) { parm3 = b;  }
+    {                      b = &buffer[0];    str = my_strtok(b, str); }
+    if (str) { parm1 = b;  b += strlen(b)+1;  str = my_strtok(b, str); }
+    if (str) { parm2 = b;  b += strlen(b)+1;  str = my_strtok(b, str); }
+    if (str) { parm3 = b;  }
 
 
-		/* パラメータがなければ次の行へ、あれば解析処理 */
+        /* パラメータがなければ次の行へ、あれば解析処理 */
 
-	if      (parm1 == NULL) {		/* パラメータなし    */
-	    ;
+    if      (parm1 == NULL) {       /* パラメータなし    */
+        ;
 
-	} else if (parm3) {			/* パラメータ3個以上 */
-	    fprintf(stderr,
-		    "warning: too many argument in line %d\n", line_cnt);
+    } else if (parm3) {         /* パラメータ3個以上 */
+        fprintf(stderr,
+            "warning: too many argument in line %d\n", line_cnt);
 
-	} else {				/* パラメータ1〜2個  */
-	    result = check_option(parm1, parm2, priority,
-				  osd_options, sound_options);
+    } else {                /* パラメータ1〜2個  */
+        result = check_option(parm1, parm2, priority,
+                  osd_options, sound_options);
 
-	    if ((result == 1 && parm2 == NULL) || (result == 2 && parm2)) {
-		;
-	    } else if (result < 0) {	/* 致命的エラーなら、解析失敗 */
-		return FALSE;
-	    } else {			/* エラー時は エラー行を表示 */
-		fprintf(stderr, "warning: error in line %d\n", line_cnt);
-	    }
-	}
+        if ((result == 1 && parm2 == NULL) || (result == 2 && parm2)) {
+        ;
+        } else if (result < 0) {    /* 致命的エラーなら、解析失敗 */
+        return FALSE;
+        } else {            /* エラー時は エラー行を表示 */
+        fprintf(stderr, "warning: error in line %d\n", line_cnt);
+        }
+    }
 
     }
 
@@ -1095,7 +1096,7 @@ static	int	get_config_file(OSD_FILE *fp, int priority,
 
 /***********************************************************************
  * 引数の処理
- *	エラー発生などで処理を続行できない場合、偽を返す。
+ *  エラー発生などで処理を続行できない場合、偽を返す。
  ************************************************************************/
 
 static void set_verbose(void)
@@ -1111,25 +1112,25 @@ static void set_verbose(void)
 }
 
 
-int	config_init(int argc,
-		    char *argv[],
-		    const T_CONFIG_TABLE *osd_options,
-		    void	(*osd_help)(void))
+int config_init(int argc,
+            char *argv[],
+            const T_CONFIG_TABLE *osd_options,
+            void    (*osd_help)(void))
 {
     int  i, step;
     char *fname;
 
     if (argv && argv[0]) {
-	command = argv[0];
+    command = argv[0];
     }
     help_msg_osd = osd_help;
     option_table_osd = osd_options;
 
 
     for (i=0; i<NR_DRIVE; i++) {
-	config_image.d[i]  = NULL;
-	config_image.n[i]  = 0;
-	config_image.ro[i] = FALSE;
+    config_image.d[i]  = NULL;
+    config_image.n[i]  = 0;
+    config_image.ro[i] = FALSE;
     }
     config_image.t[CLOAD] = NULL;
     config_image.t[CSAVE] = NULL;
@@ -1138,160 +1139,161 @@ int	config_init(int argc,
     config_image.sout     = NULL;
 
 
-	/* XMAMEサウンド関連の設定を初期化 */
+    /* XMAMEサウンド関連の設定を初期化 */
 
     xmame_config_init();
 
     option_table_sound = xmame_config_get_opt_tbl();
 
 
-	/* 設定ファイルのディレクトリ名などを初期化 */
+    /* 設定ファイルのディレクトリ名などを初期化 */
 
     if (osd_file_config_init() == FALSE) {
-	return FALSE;
+    return FALSE;
     }
 
 
-	/* 起動時のオプションを解析 */
+    /* 起動時のオプションを解析 */
 
     if (get_option(argc, argv, 2,
-		   option_table_osd, option_table_sound) == FALSE) {
-	return FALSE;
+           option_table_osd, option_table_sound) == FALSE) {
+    return FALSE;
     }
 
 
-	/* ディスクイメージ指定ありなら、そのファイル名(パス名)を補完する */
+    /* ディスクイメージ指定ありなら、そのファイル名(パス名)を補完する */
 
     if (resume_flag == FALSE) {
-	int same = FALSE;
+    int same = FALSE;
 
-		/* 同じファイル(名)を指定しているかを、チェック */
-	if (config_image.d[DRIVE_1] &&
-	    config_image.d[DRIVE_2] &&
-	    strcmp(config_image.d[DRIVE_1], config_image.d[DRIVE_2]) == 0) {
-	    same = TRUE;
-	}
+        /* 同じファイル(名)を指定しているかを、チェック */
+    if (config_image.d[DRIVE_1] &&
+        config_image.d[DRIVE_2] &&
+        strcmp(config_image.d[DRIVE_1], config_image.d[DRIVE_2]) == 0) {
+        same = TRUE;
+    }
 
-	for (i=0; i<NR_DRIVE; i++) {
+    for (i=0; i<NR_DRIVE; i++) {
 
-	    if (config_image.d[i]) {
-		fname = filename_alloc_diskname(config_image.d[i]);
-		if (fname == NULL) {
-		    printf("\n");
-		    printf("[[[ %-26s ]]]\n", "Open failed");
-		    printf("[[[   drive %d: %-15s ]]]\n" "\n",
-			   i+1, config_image.d[i]);
-		}
-		free(config_image.d[i]);
-		config_image.d[i] = fname;
+        if (config_image.d[i]) {
+        fname = filename_alloc_diskname(config_image.d[i]);
+        if (fname == NULL) {
+            printf("\n");
+            printf("[[[ %-26s ]]]\n", "Open failed");
+            printf("[[[   drive %d: %-15s ]]]\n" "\n",
+               i+1, config_image.d[i]);
+        }
+        free(config_image.d[i]);
+        config_image.d[i] = fname;
 
-		/* 同じファイルを指定している場合、1回目の処理で抜ける */
-		if (i == DRIVE_1 && same) {
-		    free(config_image.d[DRIVE_2]);
-		    config_image.d[DRIVE_2] = fname;
-		    break;
-		}
-	    }
-	}
+        /* 同じファイルを指定している場合、1回目の処理で抜ける */
+        if (i == DRIVE_1 && same) {
+            free(config_image.d[DRIVE_2]);
+            config_image.d[DRIVE_2] = fname;
+            break;
+        }
+        }
+    }
     }
 
 
-	/* 設定ファイル処理			*/
-	/*	step 0 : 共通設定ファイルを解析	*/
-	/*	step 1 : 個別設定ファイルを解析	*/
+    /* 設定ファイル処理         */
+    /*  step 0 : 共通設定ファイルを解析  */
+    /*  step 1 : 個別設定ファイルを解析  */
 
     for (step=0; step<2; step ++) {
 
-	OSD_FILE *fp;
-	char *alias;
+    OSD_FILE *fp;
+    char *alias;
 
-	set_verbose();
+    set_verbose();
 
-	if (step == 0) {
+    if (step == 0) {
 
-	    if (load_config == FALSE) continue;
+        if (load_config == FALSE) continue;
 
-	    /* 共通設定ファイルのファイル名 */
-	    fname = filename_alloc_global_cfgname();
-	    alias = "Global Config File";
+        /* 共通設定ファイルのファイル名 */
+        fname = filename_alloc_global_cfgname();
+        alias = "Global Config File";
 
-	} else { /* step == 1 */
+    } else { /* step == 1 */
 
-	    if (resume_flag) continue;
+        if (resume_flag) continue;
 
-	    if (load_config == FALSE) continue;
+        if (load_config == FALSE) continue;
 
-	    /* 個別設定ファイルのファイル名 (ディスク or テープ名) */
-	    if      (config_image.d[DRIVE_1]) fname = config_image.d[DRIVE_1];
-	    else if (config_image.d[DRIVE_2]) fname = config_image.d[DRIVE_2];
-	    else if (config_image.t[CLOAD])   fname = config_image.t[CLOAD];
-	    else break;
+        /* 個別設定ファイルのファイル名 (ディスク or テープ名) */
+        if      (config_image.d[DRIVE_1]) fname = config_image.d[DRIVE_1];
+        else if (config_image.d[DRIVE_2]) fname = config_image.d[DRIVE_2];
+        else if (config_image.t[CLOAD])   fname = config_image.t[CLOAD];
+        else break;
 
-	    fname = filename_alloc_local_cfgname(fname);
-	    alias = "Local Config File";
-	}
+        fname = filename_alloc_local_cfgname(fname);
+        alias = "Local Config File";
+    }
 
-	if (fname) fp = osd_fopen(FTYPE_CFG, fname, "r");
-	else       fp = NULL;
+    if (fname) fp = osd_fopen(FTYPE_CFG, fname, "r");
+    else       fp = NULL;
 
-	if (verbose_proc) {
-	    if (fp) { printf("\"%s\" read and initialize\n", fname); }
-	    else    { printf("\"%s\" open failed\n", (fname) ? fname : alias); }
-	}
-	if (fname) free(fname);
+    if (verbose_proc) {
+        if (fp) { printf("\"%s\" read and initialize\n", fname); }
+        else    { printf("\"%s\" open failed\n", (fname) ? fname : alias); }
+    }
+    if (fname) free(fname);
 
-	if (fp) {
-	    int result = get_config_file(fp, 1,
-					 option_table_osd, option_table_sound);
-	    osd_fclose(fp);
-	    if (result == FALSE) return FALSE;
-	}
+    if (fp) {
+        int result = get_config_file(fp, 1,
+                     option_table_osd, option_table_sound);
+        osd_fclose(fp);
+        if (result == FALSE) return FALSE;
+    }
 
     }
 
     set_verbose();
 
 
-	/* ディスクイメージのその他の情報をセット */
+    /* ディスクイメージのその他の情報をセット */
 
     for (i=0; i<NR_DRIVE; i++) {
-	config_image.n[i] --;		/* イメージ番号は 1減ずる(0〜にする) */
-	config_image.ro[i] = menu_readonly;
+    config_image.n[i] --;       /* イメージ番号は 1減ずる(0〜にする) */
+    config_image.ro[i] = menu_readonly;
     }
 
 
-	/* 互換ROM指定時に、ファイルがあるかチェック */
+    /* 互換ROM指定時に、ファイルがあるかチェック */
 
     if (file_compatrom) {
-	fname = filename_alloc_romname(file_compatrom);
-	if (fname) {
-	    file_compatrom = fname;
-	}
+    fname = filename_alloc_romname(file_compatrom);
+    if (fname) {
+        file_compatrom = fname;
+    }
     }
 
 
-	/* 各種ディレクトリの表示 (デバッグ用) */
+    /* 各種ディレクトリの表示 (デバッグ用) */
 
     if (verbose_proc) {
-	const char *d;
-	d = osd_dir_cwd();  printf("cwd  directory = %s\n", d ? d : "(undef)");
-	d = osd_dir_rom();  printf("rom  directory = %s\n", d ? d : "(undef)");
-	d = osd_dir_disk(); printf("disk directory = %s\n", d ? d : "(undef)");
-	d = osd_dir_tape(); printf("tape directory = %s\n", d ? d : "(undef)");
-	d = osd_dir_snap(); printf("snap directory = %s\n", d ? d : "(undef)");
-	d = osd_dir_state();printf("stat directory = %s\n", d ? d : "(undef)");
-	d = osd_dir_gcfg(); printf("gcfg directory = %s\n", d ? d : "(undef)");
-	d = osd_dir_lcfg(); printf("lcfg directory = %s\n", d ? d : "(undef)");
+    const char *d;
+    d = osd_dir_cwd();  printf("cwd  directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_rom();  printf("rom  directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_disk(); printf("disk directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_tape(); printf("tape directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_snap(); printf("snap directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_state();printf("stat directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_save(); printf("save directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_gcfg(); printf("gcfg directory = %s\n", d ? d : "(undef)");
+    d = osd_dir_lcfg(); printf("lcfg directory = %s\n", d ? d : "(undef)");
     }
 
     return TRUE;
 }
 
 
-void	config_exit(void)
+void    config_exit(void)
 {
     if (save_config) {
-	config_save(NULL);
+    config_save(NULL);
     }
 
     /* 設定ファイルのディレクトリ名などを後片づけ */
@@ -1316,31 +1318,31 @@ static int save_normal(const struct T_CONFIG_TABLE *op, char opt_arg[255])
 {
     switch (op->type) {
     case X_FIX:
-	if (*((int*)op->var) == (int)op->val1) {
-	    return TRUE;
-	}
-	break;
+    if (*((int*)op->var) == (int)op->val1) {
+        return TRUE;
+    }
+    break;
 
     case X_INT:
-	sprintf(opt_arg, "%d", *((int*)op->var));
-	return TRUE;
-	
+    sprintf(opt_arg, "%d", *((int*)op->var));
+    return TRUE;
+    
     case X_DBL:
-	sprintf(opt_arg, "%f", *((double*)op->var));
-	return TRUE;
-	
+    sprintf(opt_arg, "%f", *((double*)op->var));
+    return TRUE;
+    
     case X_STR:
-	if (op->var) {
-	    strcat(opt_arg, op->var);
-	    return TRUE;
-	}
-	break;
+    if (op->var) {
+        strcat(opt_arg, op->var);
+        return TRUE;
+    }
+    break;
 
     case X_NOP:
-	return FALSE;
+    return FALSE;
 
     case X_INV:
-	return FALSE;
+    return FALSE;
     }
 
     return FALSE;
@@ -1351,8 +1353,8 @@ static int save_normal(const struct T_CONFIG_TABLE *op, char opt_arg[255])
 static int save_bau(const struct T_CONFIG_TABLE *op, char opt_arg[255])
 {
     if (baudrate_sw < COUNTOF(baudrate_table)) {
-	sprintf(opt_arg, "%d", baudrate_table[ baudrate_sw ]);
-	return TRUE;
+    sprintf(opt_arg, "%d", baudrate_table[ baudrate_sw ]);
+    return TRUE;
     }
     return FALSE;
 }
@@ -1361,9 +1363,9 @@ static int save_ver(const struct T_CONFIG_TABLE *op, char opt_arg[255])
 {
     /* 変更時のみ保存すべきだが、ステートセーブ・ロード時も保存されてしまう…*/
     if ('0' <= set_version && set_version <= '9') {
-	opt_arg[0] = set_version;
-	opt_arg[1] = '\0';
-	return TRUE;
+    opt_arg[0] = set_version;
+    opt_arg[1] = '\0';
+    return TRUE;
     }
     return FALSE;
 }
@@ -1376,57 +1378,57 @@ typedef struct {
 } T_SAVEKEY_TABLE;
 
 static int save_key_sub(int type,
-			const struct T_CONFIG_TABLE *op, char opt_arg[255])
+            const struct T_CONFIG_TABLE *op, char opt_arg[255])
 {
     T_SAVEKEY_TABLE table_func[] =
     {
-	{ "",    &function_f[0],  },	/* ダミー */
-	{ "f1",  &function_f[1],  },
-	{ "f2",  &function_f[2],  },
-	{ "f3",  &function_f[3],  },
-	{ "f4",  &function_f[4],  },
-	{ "f5",  &function_f[5],  },
-	{ "f6",  &function_f[6],  },
-	{ "f7",  &function_f[7],  },
-	{ "f8",  &function_f[8],  },
-	{ "f9",  &function_f[9],  },
-	{ "f10", &function_f[10], },
-	{ "f11", &function_f[11], },
-	{ "f12", &function_f[12], },
+    { "",    &function_f[0],  },    /* ダミー */
+    { "f1",  &function_f[1],  },
+    { "f2",  &function_f[2],  },
+    { "f3",  &function_f[3],  },
+    { "f4",  &function_f[4],  },
+    { "f5",  &function_f[5],  },
+    { "f6",  &function_f[6],  },
+    { "f7",  &function_f[7],  },
+    { "f8",  &function_f[8],  },
+    { "f9",  &function_f[9],  },
+    { "f10", &function_f[10], },
+    { "f11", &function_f[11], },
+    { "f12", &function_f[12], },
     };
 
     T_SAVEKEY_TABLE table_cursor[] =
     {
-	{ "cursor_up",    &cursor_key_assign[0], },
-	{ "cursor_down",  &cursor_key_assign[1], },
-	{ "cursor_left",  &cursor_key_assign[2], },
-	{ "cursor_right", &cursor_key_assign[3], },
+    { "cursor_up",    &cursor_key_assign[0], },
+    { "cursor_down",  &cursor_key_assign[1], },
+    { "cursor_left",  &cursor_key_assign[2], },
+    { "cursor_right", &cursor_key_assign[3], },
     };
 
     T_SAVEKEY_TABLE table_mouse[] =
     {
-	{ "mouse_up",    &mouse_key_assign[0], },
-	{ "mouse_down",  &mouse_key_assign[1], },
-	{ "mouse_left",  &mouse_key_assign[2], },
-	{ "mouse_right", &mouse_key_assign[3], },
-	{ "mouse_l",     &mouse_key_assign[4], },
-	{ "mouse_r",     &mouse_key_assign[5], },
+    { "mouse_up",    &mouse_key_assign[0], },
+    { "mouse_down",  &mouse_key_assign[1], },
+    { "mouse_left",  &mouse_key_assign[2], },
+    { "mouse_right", &mouse_key_assign[3], },
+    { "mouse_l",     &mouse_key_assign[4], },
+    { "mouse_r",     &mouse_key_assign[5], },
     };
 
     T_SAVEKEY_TABLE table_joy[] =
     {
-	{ "joy_up",      &joy_key_assign[0],  },
-	{ "joy_down",    &joy_key_assign[1],  },
-	{ "joy_left",    &joy_key_assign[2],  },
-	{ "joy_right",   &joy_key_assign[3],  },
-	{ "joy_a",       &joy_key_assign[4],  },
-	{ "joy_b",       &joy_key_assign[5],  },
-	{ "joy_c",       &joy_key_assign[6],  },
-	{ "joy_d",       &joy_key_assign[7],  },
-	{ "joy_e",       &joy_key_assign[8],  },
-	{ "joy_f",       &joy_key_assign[9],  },
-	{ "joy_g",       &joy_key_assign[10], },
-	{ "joy_h",       &joy_key_assign[11], },
+    { "joy_up",      &joy_key_assign[0],  },
+    { "joy_down",    &joy_key_assign[1],  },
+    { "joy_left",    &joy_key_assign[2],  },
+    { "joy_right",   &joy_key_assign[3],  },
+    { "joy_a",       &joy_key_assign[4],  },
+    { "joy_b",       &joy_key_assign[5],  },
+    { "joy_c",       &joy_key_assign[6],  },
+    { "joy_d",       &joy_key_assign[7],  },
+    { "joy_e",       &joy_key_assign[8],  },
+    { "joy_f",       &joy_key_assign[9],  },
+    { "joy_g",       &joy_key_assign[10], },
+    { "joy_h",       &joy_key_assign[11], },
     };
 
     T_SAVEKEY_TABLE *table;
@@ -1435,35 +1437,35 @@ static int save_key_sub(int type,
     const char *s;
 
     switch (type) {
-    case 0:  table = table_func;      nr_table =COUNTOF(table_func);	break;
-    case 1:  table = table_cursor;    nr_table =COUNTOF(table_cursor);	break;
-    case 2:  table = table_mouse;     nr_table =COUNTOF(table_mouse);	break;
-    case 3:  table = table_joy;       nr_table =COUNTOF(table_joy);	break;
+    case 0:  table = table_func;      nr_table =COUNTOF(table_func);    break;
+    case 1:  table = table_cursor;    nr_table =COUNTOF(table_cursor);  break;
+    case 2:  table = table_mouse;     nr_table =COUNTOF(table_mouse);   break;
+    case 3:  table = table_joy;       nr_table =COUNTOF(table_joy); break;
     default: return FALSE;
     }
 
     for (key=0; key<nr_table; key++) {
-	if (strcmp(op->name, table[key].name) == 0) {
+    if (strcmp(op->name, table[key].name) == 0) {
 
-	    if (*table[key].work) {
+        if (*table[key].work) {
 
-		if (type == 0) {	/* ファンクションキーのみ */
-		    for (j=0; j<COUNTOF(fn_index); j++) {
-			if (*table[key].work == fn_index[j].num) {
-			    strcpy(opt_arg, fn_index[j].str);
-			    return TRUE;
-			}
-		    }
-		}
+        if (type == 0) {    /* ファンクションキーのみ */
+            for (j=0; j<COUNTOF(fn_index); j++) {
+            if (*table[key].work == fn_index[j].num) {
+                strcpy(opt_arg, fn_index[j].str);
+                return TRUE;
+            }
+            }
+        }
 
-		s = keyboard_key882str(*table[key].work);
-		if (s) {
-		    strcpy(opt_arg, s);
-		    return TRUE;
-		}
-	    }
-	    break;
-	}
+        s = keyboard_key882str(*table[key].work);
+        if (s) {
+            strcpy(opt_arg, s);
+            return TRUE;
+        }
+        }
+        break;
+    }
     }
 
     return FALSE;
@@ -1488,7 +1490,7 @@ static int save_joy(const struct T_CONFIG_TABLE *op, char opt_arg[255])
 
 
 
-#define	AUTO_SAVE_COMMENT	"# AUTO"
+#define AUTO_SAVE_COMMENT   "# AUTO"
 
 
 
@@ -1499,10 +1501,10 @@ static void config_write(const char *opt_name, const char *opt_arg)
     char buf[ MAX_RCFILE_LINE ];
 
     if (opt_name) {
-	sprintf(buf, "-%s %s", opt_name, (opt_arg ? opt_arg : ""));
+    sprintf(buf, "-%s %s", opt_name, (opt_arg ? opt_arg : ""));
     } else {
-	if (opt_arg == NULL) return;
-	sprintf(buf, "# -%s", opt_arg);
+    if (opt_arg == NULL) return;
+    sprintf(buf, "# -%s", opt_arg);
     }
     sprintf(line, "%-70s %s\n", buf, AUTO_SAVE_COMMENT);
     osd_fputs(line, fp_config_write);
@@ -1510,10 +1512,10 @@ static void config_write(const char *opt_name, const char *opt_arg)
 
 
 
-int	config_save(const char *fname)
+int config_save(const char *fname)
 {
     int i;
-    signed char saved_option[ OPT_GROUPS ];	/* 設定出力済のグループ一覧 */
+    signed char saved_option[ OPT_GROUPS ]; /* 設定出力済のグループ一覧 */
 
     const T_CONFIG_TABLE *op;
     int (*func)(const struct T_CONFIG_TABLE *, char *opt_arg);
@@ -1533,111 +1535,111 @@ int	config_save(const char *fname)
     /*** 引数 fname が NULL なら、共通設定ファイルのファイル名を使用 ***/
 
     if (fname == NULL) {
-	fname = filename_alloc_global_cfgname();
-	if (fname == NULL) {
-	    return FALSE;
-	}
-	malloc_fname = TRUE;
+    fname = filename_alloc_global_cfgname();
+    if (fname == NULL) {
+        return FALSE;
+    }
+    malloc_fname = TRUE;
     }
 
     /*** 設定ファイルをバックアップする ***/
 
     backup_ok = FALSE;
 
-    fp = osd_fopen(FTYPE_CFG, fname, "rb");	/* 設定ファイルを開く */
+    fp = osd_fopen(FTYPE_CFG, fname, "rb"); /* 設定ファイルを開く */
     if (fp) {
-						/* バックアップファイル名生成*/
-	int flen = strlen(fname);
-	int slen = strlen(CONFIG_SUFFIX);
+                        /* バックアップファイル名生成*/
+    int flen = strlen(fname);
+    int slen = strlen(CONFIG_SUFFIX);
 
-	fname_bak = malloc(flen + 10);			/* +10 は余分に */
-	if (fname_bak) {
+    fname_bak = malloc(flen + 10);          /* +10 は余分に */
+    if (fname_bak) {
 
-	    strcpy(fname_bak, fname);
+        strcpy(fname_bak, fname);
 
-	    /* fname_bak の末尾が、 CONFIG_SUFFIX なら、それを削除 */
-	    if ((flen > slen) &&
-		my_strcmp(&fname_bak[flen - slen], CONFIG_SUFFIX) == 0) {
+        /* fname_bak の末尾が、 CONFIG_SUFFIX なら、それを削除 */
+        if ((flen > slen) &&
+        my_strcmp(&fname_bak[flen - slen], CONFIG_SUFFIX) == 0) {
 
-		fname_bak[flen - slen] = '\0';
-	    }
+        fname_bak[flen - slen] = '\0';
+        }
 
-	    /* fname_bak の末尾は、 .bak */
-	    strcat(fname_bak, ".bak");
+        /* fname_bak の末尾は、 .bak */
+        strcat(fname_bak, ".bak");
 
-						/* バックアップファイル開く */
-	    fp_bak = osd_fopen(FTYPE_CFG, fname_bak, "wb");
-	    if (fp_bak) {
-		backup_ok = TRUE;
-						/* コピーする */
-		while ((i = osd_fgetc(fp)) != EOF) {
-		    if (osd_fputc(i, fp_bak) == EOF) {
-			backup_ok = FALSE;
-			break;
-		    }
-		}
+                        /* バックアップファイル開く */
+        fp_bak = osd_fopen(FTYPE_CFG, fname_bak, "wb");
+        if (fp_bak) {
+        backup_ok = TRUE;
+                        /* コピーする */
+        while ((i = osd_fgetc(fp)) != EOF) {
+            if (osd_fputc(i, fp_bak) == EOF) {
+            backup_ok = FALSE;
+            break;
+            }
+        }
 
-		osd_fclose(fp_bak);
-		fp_bak = NULL;
-	    }
+        osd_fclose(fp_bak);
+        fp_bak = NULL;
+        }
 
-	    if (backup_ok == FALSE) { free(fname_bak); }
+        if (backup_ok == FALSE) { free(fname_bak); }
 
-	    /* ・・・ rename() を使うほうがいいのか？
-	       と思ったけど、リネーム先のファイルが存在する場合の挙動が
-	       処理系依存らしいので、やめといたほうがいいか・・・ */
-	}
-	osd_fclose(fp);
-	fp = NULL;
+        /* ・・・ rename() を使うほうがいいのか？
+           と思ったけど、リネーム先のファイルが存在する場合の挙動が
+           処理系依存らしいので、やめといたほうがいいか・・・ */
+    }
+    osd_fclose(fp);
+    fp = NULL;
     }
 
 
     /*** バックアップ成功時は、設定ファイルを新規作成し、設定を一部コピー ***/
     /*** バックアップ失敗時は、設定ファイルは既存のまま、追記             ***/
 
-    if (backup_ok) {				/* バックアップファイル開く */
-	fp_bak = osd_fopen(FTYPE_CFG, fname_bak, "r");
-	if (fp_bak == NULL) {
-	    backup_ok = FALSE;
-	}
-	free(fname_bak);
+    if (backup_ok) {                /* バックアップファイル開く */
+    fp_bak = osd_fopen(FTYPE_CFG, fname_bak, "r");
+    if (fp_bak == NULL) {
+        backup_ok = FALSE;
+    }
+    free(fname_bak);
     }
 
-    if (backup_ok) {				/* OKなら設定ファイル新規作成*/
-	fp = osd_fopen(FTYPE_CFG, fname, "w");
-	if (fp == NULL) {
-	    osd_fclose(fp_bak);
-	    if (malloc_fname) { free((void*)fname); }
-	    return FALSE;
-	}
+    if (backup_ok) {                /* OKなら設定ファイル新規作成*/
+    fp = osd_fopen(FTYPE_CFG, fname, "w");
+    if (fp == NULL) {
+        osd_fclose(fp_bak);
+        if (malloc_fname) { free((void*)fname); }
+        return FALSE;
+    }
 
-	/* バックアップファイルから設定ファイルにコピーする。
-	   この時、行末が # AUTO で終る行はコピーしない */
+    /* バックアップファイルから設定ファイルにコピーする。
+       この時、行末が # AUTO で終る行はコピーしない */
 
-	while (osd_fgets(line, MAX_RCFILE_LINE, fp_bak)) {
-	    int flen = strlen(line);
-	    int slen = strlen(AUTO_SAVE_COMMENT);
+    while (osd_fgets(line, MAX_RCFILE_LINE, fp_bak)) {
+        int flen = strlen(line);
+        int slen = strlen(AUTO_SAVE_COMMENT);
 
-	    if ((flen - 1> slen) &&
-		strncmp(&line[flen - 1 - slen], AUTO_SAVE_COMMENT, slen) == 0){
-		/* skip */
-	    } else {
-		osd_fputs(line, fp);
+        if ((flen - 1> slen) &&
+        strncmp(&line[flen - 1 - slen], AUTO_SAVE_COMMENT, slen) == 0){
+        /* skip */
+        } else {
+        osd_fputs(line, fp);
 
-		if (line[flen-1] == '\n') { need_lf = FALSE; }
-		else                      { need_lf = TRUE; }
-	    }
-	    /* このへん、エラーをチェックしてないぞ… */
-	}
+        if (line[flen-1] == '\n') { need_lf = FALSE; }
+        else                      { need_lf = TRUE; }
+        }
+        /* このへん、エラーをチェックしてないぞ… */
+    }
 
-	osd_fclose(fp_bak);
+    osd_fclose(fp_bak);
 
-    } else {					/* NGなら設定ファイルは既存で*/
-	fp = osd_fopen(FTYPE_CFG, fname, "a");
-	if (fp == NULL) {
-	    if (malloc_fname) { free((void*)fname); }
-	    return FALSE;
-	}
+    } else {                    /* NGなら設定ファイルは既存で*/
+    fp = osd_fopen(FTYPE_CFG, fname, "a");
+    if (fp == NULL) {
+        if (malloc_fname) { free((void*)fname); }
+        return FALSE;
+    }
     }
 
 
@@ -1647,45 +1649,45 @@ int	config_save(const char *fname)
 
     /* 最後が改行でない場合は、 \n を追加 (append時はチェックできない…) */
     if (need_lf) {
-	osd_fputs("\n", fp);
+    osd_fputs("\n", fp);
     }
 
     /* ここから追記開始 */
     sprintf(buf, "# The following settings are written by %s",
-						    Q_TITLE " ver " Q_VERSION);
+                            Q_TITLE " ver " Q_VERSION);
     sprintf(line, "%-70s %s\n", buf, AUTO_SAVE_COMMENT);
     osd_fputs(line, fp);
 
     for (i=0; i<3; i++) {
 
-	if      (i==0) op = &option_table[0];
-	else if (i==1) op = option_table_osd;
-	else           op = option_table_sound;
+    if      (i==0) op = &option_table[0];
+    else if (i==1) op = option_table_osd;
+    else           op = option_table_sound;
 
-	if (op == NULL) continue;
+    if (op == NULL) continue;
 
-	for (; op->name; op++) {
+    for (; op->name; op++) {
 
-	    if (saved_option[ op->group ] == FALSE) {
+        if (saved_option[ op->group ] == FALSE) {
 
-		if (op->save_func != NULL) {
+        if (op->save_func != NULL) {
 
-		    memset(opt_arg, 0, sizeof(opt_arg));
+            memset(opt_arg, 0, sizeof(opt_arg));
 
-		    if (op->save_func == OPT_SAVE) func = save_normal;
-		    else                           func = op->save_func;
+            if (op->save_func == OPT_SAVE) func = save_normal;
+            else                           func = op->save_func;
 
-		    if ((func)(op, opt_arg)) {
+            if ((func)(op, opt_arg)) {
 
-			saved_option[ op->group ] = TRUE;
+            saved_option[ op->group ] = TRUE;
 
-			sprintf(buf, "-%s %s", op->name, opt_arg);
-			sprintf(line, "%-70s %s\n", buf, AUTO_SAVE_COMMENT);
-			osd_fputs(line, fp);
-		    }
-		}
-	    }
-	}
+            sprintf(buf, "-%s %s", op->name, opt_arg);
+            sprintf(line, "%-70s %s\n", buf, AUTO_SAVE_COMMENT);
+            osd_fputs(line, fp);
+            }
+        }
+        }
+    }
     }
 
     /* とりあえずひと区切り… */
@@ -1706,7 +1708,7 @@ int	config_save(const char *fname)
 
     /* ステータスに表示 */
     if (quasi88_is_exec()) {
-	status_message(1, STATUS_INFO_TIME, "Config-file saved");
+    status_message(1, STATUS_INFO_TIME, "Config-file saved");
     }
     return TRUE;
 }

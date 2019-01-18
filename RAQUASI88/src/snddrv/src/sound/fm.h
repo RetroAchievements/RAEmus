@@ -6,11 +6,11 @@
 #define _H_FM_FM_
 
 /* --- select emulation chips --- */
-#define BUILD_YM2203  (HAS_YM2203)		/* build YM2203(OPN)   emulator */
-#define BUILD_YM2608  (HAS_YM2608)		/* build YM2608(OPNA)  emulator */
-#define BUILD_YM2610  (HAS_YM2610)		/* build YM2610(OPNB)  emulator */
-#define BUILD_YM2610B (HAS_YM2610B)		/* build YM2610B(OPNB?)emulator */
-#define BUILD_YM2612  (HAS_YM2612 || HAS_YM3438)		/* build YM2612(OPN2)  emulator */
+#define BUILD_YM2203  (HAS_YM2203)      /* build YM2203(OPN)   emulator */
+#define BUILD_YM2608  (HAS_YM2608)      /* build YM2608(OPNA)  emulator */
+#define BUILD_YM2610  (HAS_YM2610)      /* build YM2610(OPNB)  emulator */
+#define BUILD_YM2610B (HAS_YM2610B)     /* build YM2610B(OPNB?)emulator */
+#define BUILD_YM2612  (HAS_YM2612 || HAS_YM3438)        /* build YM2612(OPN2)  emulator */
 
 /* select bit size of output : 8 or 16 */
 #define FM_SAMPLE_BITS 16
@@ -20,20 +20,20 @@
 
 /* --- speedup optimize --- */
 /* busy flag enulation , The definition of FM_GET_TIME_NOW() is necessary. */
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 #define FM_BUSY_FLAG_SUPPORT 1
-#else		/* QUASI88 */
+#else       /* QUASI88 */
 #define FM_BUSY_FLAG_SUPPORT 0
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
 /* --- external SSG(YM2149/AY-3-8910)emulator interface port */
 /* used by YM2203,YM2608,and YM2610 */
 struct ssg_callbacks
 {
-	void (*set_clock)(void *param, int clock);
-	void (*write)(void *param, int address, int data);
-	int (*read)(void *param);
-	void (*reset)(void *param);
+    void (*set_clock)(void *param, int clock);
+    void (*write)(void *param, int address, int data);
+    int (*read)(void *param);
+    void (*reset)(void *param);
 };
 
 /* --- external callback funstions for realtime update --- */
@@ -68,12 +68,12 @@ struct ssg_callbacks
 #if 0
 #ifndef OSD_CPU_H
 #define OSD_CPU_H
-typedef unsigned char	UINT8;   /* unsigned  8bit */
-typedef unsigned short	UINT16;  /* unsigned 16bit */
-typedef unsigned int	UINT32;  /* unsigned 32bit */
-typedef signed char		INT8;    /* signed  8bit   */
-typedef signed short	INT16;   /* signed 16bit   */
-typedef signed int		INT32;   /* signed 32bit   */
+typedef unsigned char   UINT8;   /* unsigned  8bit */
+typedef unsigned short  UINT16;  /* unsigned 16bit */
+typedef unsigned int    UINT32;  /* unsigned 32bit */
+typedef signed char     INT8;    /* signed  8bit   */
+typedef signed short    INT16;   /* signed 16bit   */
+typedef signed int      INT32;   /* signed 32bit   */
 #endif
 #endif
 

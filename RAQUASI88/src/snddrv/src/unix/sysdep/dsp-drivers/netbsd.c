@@ -45,7 +45,7 @@ static void *netbsd_dsp_create(const void *flags);
 static void netbsd_dsp_destroy(struct sysdep_dsp_struct *dsp);
 static int netbsd_dsp_get_freespace(struct sysdep_dsp_struct *dsp);
 static int netbsd_dsp_write(struct sysdep_dsp_struct *dsp, unsigned char *data,
-			    int count);
+                int count);
 
 /* Public variables. */
 const struct plugin_struct sysdep_dsp_netbsd = {
@@ -78,7 +78,7 @@ static void *netbsd_dsp_create(const void *flags)
   if (!(dsp = calloc(1, sizeof(struct sysdep_dsp_struct))))
     {
       fprintf(stderr,
-	      "error malloc failed for struct sysdep_dsp_struct\n");
+          "error malloc failed for struct sysdep_dsp_struct\n");
       return NULL;
     }
 
@@ -86,7 +86,7 @@ static void *netbsd_dsp_create(const void *flags)
   if (!(priv = calloc(1, sizeof(struct netbsd_dsp_priv_data))))
     {
       fprintf(stderr,
-	      "error malloc failed for struct netbsd_dsp_priv_data\n");
+          "error malloc failed for struct netbsd_dsp_priv_data\n");
       netbsd_dsp_destroy(dsp);
       return NULL;
     }
@@ -140,33 +140,33 @@ static void *netbsd_dsp_create(const void *flags)
     {
 #endif
       if (desired_precision == 8)
-	{
-	  fprintf(stderr, "error: couldn't set sound to 8 bits,\n");
-	  netbsd_dsp_destroy(dsp);
-	  return NULL;
-	}
+    {
+      fprintf(stderr, "error: couldn't set sound to 8 bits,\n");
+      netbsd_dsp_destroy(dsp);
+      return NULL;
+    }
 
       fprintf(stderr,
-	      "warning: couldn't set sound to 16 bits,\n"
-	      "   trying again with 8 bits: ");
+          "warning: couldn't set sound to 16 bits,\n"
+          "   trying again with 8 bits: ");
 
       AUDIO_INITINFO(&a_info);
       a_info.play.encoding = AUDIO_ENCODING_ULINEAR;
       a_info.play.precision = 8;
       if (ioctl(priv->fd, AUDIO_SETINFO, &a_info) < 0)
-	{
-	  perror("error: AUDIO_SETINFO");
-	  netbsd_dsp_destroy(dsp);
-	  return NULL;
-	}
+    {
+      perror("error: AUDIO_SETINFO");
+      netbsd_dsp_destroy(dsp);
+      return NULL;
+    }
 
       if (a_info.play.encoding != AUDIO_ENCODING_ULINEAR
-	  || a_info.play.precision != 8)
-	{
-	  fprintf(stderr, "failed\n");
-	  netbsd_dsp_destroy(dsp);
-	  return NULL;
-	}
+      || a_info.play.precision != 8)
+    {
+      fprintf(stderr, "failed\n");
+      netbsd_dsp_destroy(dsp);
+      return NULL;
+    }
       fprintf(stderr, "success\n");
 
       dsp->hw_info.type &= ~SYSDEP_DSP_16BIT;
@@ -209,8 +209,8 @@ static void *netbsd_dsp_create(const void *flags)
   if (dsp->hw_info.type & SYSDEP_DSP_STEREO) block_size<<=1;
 
   blocks = ((dsp->hw_info.samplerate
-	     * netbsd_dsp_bytes_per_sample[dsp->hw_info.type] *
-	     params->bufsize) / block_size) + 1;
+         * netbsd_dsp_bytes_per_sample[dsp->hw_info.type] *
+         params->bufsize) / block_size) + 1;
   blocks = (blocks < 4) ? 4 : blocks;
 
   AUDIO_INITINFO(&a_info);
@@ -223,17 +223,17 @@ static void *netbsd_dsp_create(const void *flags)
       return NULL;
     }
   fprintf(stderr, "info: setting blocksize to %d, buffer_size to %d\n",
-	  a_info.blocksize, a_info.play.buffer_size);
+      a_info.blocksize, a_info.play.buffer_size);
 
   dsp->hw_info.bufsize =
     block_size * blocks / netbsd_dsp_bytes_per_sample[dsp->hw_info.type];
 
   fprintf(stderr,
-	  "info: audiodevice %s set to %dbit linear %s %dHz\n",
-	  device,
-	  (dsp->hw_info.type & SYSDEP_DSP_16BIT) ? 16 : 8,
-	  (dsp->hw_info.type & SYSDEP_DSP_STEREO) ? "stereo" : "mono",
-	  dsp->hw_info.samplerate);
+      "info: audiodevice %s set to %dbit linear %s %dHz\n",
+      device,
+      (dsp->hw_info.type & SYSDEP_DSP_16BIT) ? 16 : 8,
+      (dsp->hw_info.type & SYSDEP_DSP_STEREO) ? "stereo" : "mono",
+      dsp->hw_info.samplerate);
 
   return dsp;
 }
@@ -245,7 +245,7 @@ static void netbsd_dsp_destroy(struct sysdep_dsp_struct *dsp)
   if (priv)
     {
       if (priv->fd >= 0)
-	close(priv->fd);
+    close(priv->fd);
 
       free(priv);
     }
@@ -269,7 +269,7 @@ static int netbsd_dsp_get_freespace(struct sysdep_dsp_struct *dsp)
 }
 
 static int netbsd_dsp_write(struct sysdep_dsp_struct *dsp, unsigned char *data,
-			    int count)
+                int count)
 {
   int result;
   int bytes_per_sample;

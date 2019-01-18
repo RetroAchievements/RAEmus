@@ -19,10 +19,10 @@
 #include "sysdep/sysdep_dsp_priv.h"
 #include "sysdep/plugin_manager.h"
 
-#if 1		/* QUASI88 */
+#if 1       /* QUASI88 */
 extern int verbose_proc;
 #define fprintf     if (verbose_proc) fprintf
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
 struct waveout_dsp_priv_data {
    const char *name;
@@ -37,29 +37,29 @@ const struct plugin_struct sysdep_dsp_waveout = {
    "waveout",
    "sysdep_dsp",
    "Wave File Output DSP plugin",
-   NULL,				/* no options */
-   NULL,				/* no init */
-   NULL,				/* no exit */
+   NULL,                /* no options */
+   NULL,                /* no init */
+   NULL,                /* no exit */
    waveout_dsp_create,
-   0					/* very low priority */
+   0                    /* very low priority */
 };
 
 static int waveout_dsp_bytes_per_sample[4] = SYSDEP_DSP_BYTES_PER_SAMPLE;
 
 static const unsigned char wave_template[44] = {
-  'R', 'I', 'F', 'F',	/*  0: 'RIFF' magic */
-    0,   0,   0,   0,	/*  4: 'RIFF' length */
-  'W', 'A', 'V', 'E',	/*  8: 'RIFF' type */
-  'f', 'm', 't', ' ',	/* 12: 'fmt ' chunk-type */
-   16,   0,   0,   0,	/* 16: 'fmt ' chunk-length */
-    1,   0,		/* 20: WAVE_FORMAT_PCM */
-    1,   0,		/* 22: Channels */
-    0,   0,   0,   0,	/* 24: Samples per second */
-    0,   0,   0,   0,	/* 28: Bytes per second */
-    1,   0,		/* 32: Aligned bytes per sample group */
-    8,   0,		/* 34: Bits per sample */
-  'd', 'a', 't', 'a',	/* 36: 'data' chunk-type */
-    0,   0,   0,   0,	/* 40: 'data' chunk-length */
+  'R', 'I', 'F', 'F',   /*  0: 'RIFF' magic */
+    0,   0,   0,   0,   /*  4: 'RIFF' length */
+  'W', 'A', 'V', 'E',   /*  8: 'RIFF' type */
+  'f', 'm', 't', ' ',   /* 12: 'fmt ' chunk-type */
+   16,   0,   0,   0,   /* 16: 'fmt ' chunk-length */
+    1,   0,     /* 20: WAVE_FORMAT_PCM */
+    1,   0,     /* 22: Channels */
+    0,   0,   0,   0,   /* 24: Samples per second */
+    0,   0,   0,   0,   /* 28: Bytes per second */
+    1,   0,     /* 32: Aligned bytes per sample group */
+    8,   0,     /* 34: Bits per sample */
+  'd', 'a', 't', 'a',   /* 36: 'data' chunk-type */
+    0,   0,   0,   0,   /* 40: 'data' chunk-length */
 };
 
 static void *waveout_dsp_create(const void *flags)
@@ -150,10 +150,10 @@ static void *waveout_dsp_create(const void *flags)
   free(header);
 
   fprintf(stderr, "info: Writing sound output to file \"%s\" in %dHz/%d/%c PCM format\n",
-  	priv->name,
-  	dsp->hw_info.samplerate,
-  	(dsp->hw_info.type & SYSDEP_DSP_16BIT) ? 16 : 8,
-  	(dsp->hw_info.type & SYSDEP_DSP_STEREO) ? 'S' : 'M'
+    priv->name,
+    dsp->hw_info.samplerate,
+    (dsp->hw_info.type & SYSDEP_DSP_16BIT) ? 16 : 8,
+    (dsp->hw_info.type & SYSDEP_DSP_STEREO) ? 'S' : 'M'
   );
 
   return dsp;

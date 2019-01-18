@@ -4,12 +4,12 @@
 -------------------------------------------------------------------------------
 [Contents]
 
-    1)	What is RAQUASI88?
-    2)	What is RetroAchievements?
-    3)	Changes from QUASI88
-    4)	Compilation/Installation
-    5)	Usage
-    6)	Copyright/Disclaimer
+    1)  What is RAQUASI88?
+    2)  What is RetroAchievements?
+    3)  Changes from QUASI88
+    4)  Compilation/Installation
+    5)  Usage
+    6)  Copyright/Disclaimer
     7)  Authors/Contact
 
 -------------------------------------------------------------------------------
@@ -105,11 +105,10 @@
     3. Insert an image file
 
       Loading an image file as normal will automatically detect
-      compatible game titles and achievements. However, unlike previous
-      versions of QUASI88 (0.6.5 and below), it is not recommended to
-      load disk images from the DISK folder. As disk images are
-      overwritten on save, loaded images will be copied to the DISK
-      folder and used for saving, leaving the original image intact.
+      compatible game titles and achievements. As disk images are
+      overwritten on save, loaded images will be copied to the SAVE
+      folder and used for reading and writing, leaving the original image
+      intact.
 
       In addition, when Hardcore Mode is turned on, it is required to
       eject all images and reset the system before loading a different

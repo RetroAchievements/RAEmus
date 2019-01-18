@@ -6,8 +6,8 @@
 #define SNDDRV_X11_H_INCLUDED
 
 
-#undef	EXTERN
-#ifdef	SNDDRV_WORK_DEFINE
+#undef  EXTERN
+#ifdef  SNDDRV_WORK_DEFINE
 #define EXTERN
 #else
 #define EXTERN extern
@@ -34,8 +34,8 @@
 #include "sysdep/sysdep_sound_stream.h"
 
 
-#define OSD_OK			(0)
-#define OSD_NOT_OK		(1)
+#define OSD_OK          (0)
+#define OSD_NOT_OK      (1)
 
 
 /* Used for the rc handling. */
@@ -46,7 +46,7 @@ EXTERN struct sysdep_sound_stream_struct *sysdep_sound_stream;
 
 /* File descripters for stdout / stderr redirection, without svgalib inter
    fering */
-#ifndef	stderr_file
+#ifndef stderr_file
 #define stderr_file stderr
 #endif
 
@@ -57,10 +57,10 @@ extern struct rc_option sound_opts[];
 
 /* QUASI88 ***************************************************************** */
 
-extern	int	osd_has_sound_mixer(void);			/* 1:Volume adjustable / 0:not */
-extern	int	osd_has_audio_device(void);			/* 1:Use audio device / 0:not */
+extern  int osd_has_sound_mixer(void);          /* 1:Volume adjustable / 0:not */
+extern  int osd_has_audio_device(void);         /* 1:Use audio device / 0:not */
 
 
 
 #undef EXTERN
-#endif		/* SNDDRV_X11_H_INCLUDED */
+#endif      /* SNDDRV_X11_H_INCLUDED */

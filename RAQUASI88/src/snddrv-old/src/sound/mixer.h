@@ -27,13 +27,13 @@
   normal volume control
   input--+-| volume |----- left out
          +-| volume |----- right out
-	      | same volume data
+          | same volume data
 
 
   extension volume control
   input--+-| left volume  |----- left out
          +-| right volume |----- right out
-	     | different volume data
+         | different volume data
 
 
   ex. use darius / ninja warriors / warrior blade hard ware

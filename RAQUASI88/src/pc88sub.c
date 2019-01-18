@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/* PC8801 サブシステム(FDD側)						*/
-/*									*/
+/*                                  */
+/* PC8801 サブシステム(FDD側)                        */
+/*                                  */
 /************************************************************************/
 
 #include <stdio.h>
@@ -11,8 +11,8 @@
 
 #include "pc88cpu.h"
 #include "fdc.h"
-#include "screen.h"	/* state_of_vsync */
-#include "intr.h"	/* state_of_vsync */
+#include "screen.h" /* state_of_vsync */
+#include "intr.h"   /* state_of_vsync */
 #include "event.h"
 #include "memory.h"
 #include "pio.h"
@@ -22,24 +22,24 @@
 
 
 
-z80arch	z80sub_cpu;			/* Z80 CPU ( sub system )	*/
+z80arch z80sub_cpu;         /* Z80 CPU ( sub system )   */
 
-int	sub_load_rate = 6;		/*				*/
+int sub_load_rate = 6;      /*              */
 
 /************************************************************************/
-/* メモリアクセス							*/
-/*			メモリアクセス処理の方法は、笠松健一さんの	*/
-/*			助言により、改良。				*/
-/*				Copyright (c) kenichi kasamatsu		*/
+/* メモリアクセス                            */
+/*          メモリアクセス処理の方法は、笠松健一さんの */
+/*          助言により、改良。             */
+/*              Copyright (c) kenichi kasamatsu     */
 /************************************************************************/
 /*----------------------*/
-/*    メモリ・フェッチ	*/
+/*    メモリ・フェッチ  */
 /*----------------------*/
-byte	sub_fetch( word addr )
+byte    sub_fetch( word addr )
 {
   if( memory_wait ){
     if( addr < 0x4000 )
-      z80sub_cpu.state0 += 1;		/* M1サイクルウェイト */
+      z80sub_cpu.state0 += 1;       /* M1サイクルウェイト */
   }
 
 #if 0
@@ -54,9 +54,9 @@ byte	sub_fetch( word addr )
 
 
 /*----------------------*/
-/*    メモリ・リード	*/
+/*    メモリ・リード */
 /*----------------------*/
-byte	sub_mem_read( word addr )
+byte    sub_mem_read( word addr )
 {
 #if 0
   if( verbose_io ){
@@ -70,9 +70,9 @@ byte	sub_mem_read( word addr )
 
 
 /*----------------------*/
-/*     メモリライト	*/
+/*     メモリライト   */
 /*----------------------*/
-void	sub_mem_write( word addr, byte data )
+void    sub_mem_write( word addr, byte data )
 {
   if( (addr & 0xc000) == 0x4000 ){
 
@@ -92,30 +92,30 @@ void	sub_mem_write( word addr, byte data )
 
 
 /************************************************************************/
-/* Ｉ／Ｏポートアクセス							*/
+/* Ｉ／Ｏポートアクセス                           */
 /************************************************************************/
 
 /*----------------------*/
-/*    ポート・ライト	*/
+/*    ポート・ライト */
 /*----------------------*/
 
-void	sub_io_out( byte port, byte data )
+void    sub_io_out( byte port, byte data )
 {
   switch( port ){
 
-  case 0xf4:				/* ドライブモード？ 2D/2DD/2HD ? */
+  case 0xf4:                /* ドライブモード？ 2D/2DD/2HD ? */
     return;
-  case 0xf7:				/* プリンタポート出力		*/
+  case 0xf7:                /* プリンタポート出力      */
     return;
-  case 0xf8:				/* ドライブモータ制御出力	*/
+  case 0xf8:                /* ドライブモータ制御出力    */
     return;
 
-  case 0xfb:				/* FDC データ WRITE */
+  case 0xfb:                /* FDC データ WRITE */
     fdc_write( data );
     CPU_REFRESH_INTERRUPT();
     return;
 
-	/* ＰＩＯ */
+    /* ＰＩＯ */
 
   case 0xfc:
     logpio("   <==%02x\n",data);
@@ -142,26 +142,26 @@ void	sub_io_out( byte port, byte data )
 }
 
 /*----------------------*/
-/*    ポート・リード	*/
+/*    ポート・リード */
 /*----------------------*/
 
-byte	sub_io_in( byte port )
+byte    sub_io_in( byte port )
 {
   switch( port ){
 
-  case 0xf8:				/* FDC に TC を出力	*/
+  case 0xf8:                /* FDC に TC を出力 */
     CPU_REFRESH_INTERRUPT();
     fdc_TC();
     return 0xff;
 
-  case 0xfa:				/* FDC ステータス 入力 */
+  case 0xfa:                /* FDC ステータス 入力 */
     CPU_REFRESH_INTERRUPT();
-    return	fdc_status();
-  case 0xfb:				/* FDC データ READ */
+    return  fdc_status();
+  case 0xfb:                /* FDC データ READ */
     CPU_REFRESH_INTERRUPT();
-    return	fdc_read();
+    return  fdc_read();
 
-	/* ＰＩＯ */
+    /* ＰＩＯ */
 
   case 0xfc:
     {
@@ -191,28 +191,28 @@ byte	sub_io_in( byte port )
 
 
 /************************************************************************/
-/* Peripheral エミュレーション						*/
+/* Peripheral エミュレーション                      */
 /************************************************************************/
 
 /************************************************************************/
-/* マスカブル割り込みエミュレート					*/
+/* マスカブル割り込みエミュレート                    */
 /************************************************************************/
 
 /*------------------------------*/
-/* 初期化(Z80リセット時に呼ぶ)	*/
+/* 初期化(Z80リセット時に呼ぶ)   */
 /*------------------------------*/
-void	sub_INT_init( void )
+void    sub_INT_init( void )
 {
   FDC_flag = FALSE;
 }
 
 /*----------------------------------------------------------------------*/
-/* 割り込みを生成する。と同時に、次の割り込みまでの、最小 state も計算	*/
-/*	帰り値は、Z80処理強制終了のフラグ(TRUE/FALSE)			*/
+/* 割り込みを生成する。と同時に、次の割り込みまでの、最小 state も計算    */
+/*  帰り値は、Z80処理強制終了のフラグ(TRUE/FALSE)            */
 /*----------------------------------------------------------------------*/
-void	sub_INT_update( void )
+void    sub_INT_update( void )
 {
-  static int sub_total_state = 0;	/* サブCPUが処理した命令数      */
+  static int sub_total_state = 0;   /* サブCPUが処理した命令数      */
   int icount;
 
   icount = fdc_ctrl( z80sub_cpu.state0 );
@@ -221,18 +221,18 @@ void	sub_INT_update( void )
   else          { z80sub_cpu.INT_active = FALSE; }
 
 
-	/* キースキャンや画面表示の処理は、メインCPU処理で	*/
-	/* 行なっているため、-cpu 0 指定時に、サブCPUに制御が	*/
-	/* 移ったまま戻ってこなくなると、メニュー画面への移行	*/
-	/* などができなくなる。					*/
-	/* そこで、サブCPUでも一定時間処理を行なうたびに、	*/
-	/* キースキャンと画面表示を行なうことにする。		*/
-	/* しかし、今度はディスクアクセスなどのサブCPUの処理が	*/
-	/* 増えた時に、サウンドが止まるなどの弊害が出てきた。	*/
-	/* なので、この「サブCPUでもキースキャン」処理を行なう	*/
-	/* 頻度を変更できるようにしておこう。			*/
+    /* キースキャンや画面表示の処理は、メインCPU処理で    */
+    /* 行なっているため、-cpu 0 指定時に、サブCPUに制御が   */
+    /* 移ったまま戻ってこなくなると、メニュー画面への移行  */
+    /* などができなくなる。                   */
+    /* そこで、サブCPUでも一定時間処理を行なうたびに、    */
+    /* キースキャンと画面表示を行なうことにする。      */
+    /* しかし、今度はディスクアクセスなどのサブCPUの処理が  */
+    /* 増えた時に、サウンドが止まるなどの弊害が出てきた。  */
+    /* なので、この「サブCPUでもキースキャン」処理を行なう  */
+    /* 頻度を変更できるようにしておこう。          */
 
-	/* D.C.コネクションとか… */
+    /* D.C.コネクションとか… */
 
   if( sub_load_rate && cpu_timing < 2 ){
     sub_total_state += z80sub_cpu.state0;
@@ -247,7 +247,7 @@ void	sub_INT_update( void )
   z80sub_cpu.icount = (icount<0) ? 999999 : icount;
 
 
-	/* メニューへの遷移などは、ここで確認 */
+    /* メニューへの遷移などは、ここで確認 */
 
   if (quasi88_event_flags & EVENT_MODE_CHANGED) {
     CPU_BREAKOFF();
@@ -256,9 +256,9 @@ void	sub_INT_update( void )
 
 
 /*----------------------------------------------*/
-/* チェック (割込許可時 1ステップ毎に呼ばれる)	*/
+/* チェック (割込許可時 1ステップ毎に呼ばれる)   */
 /*----------------------------------------------*/
-int	sub_INT_chk( void )
+int sub_INT_chk( void )
 {
   z80sub_cpu.INT_active = FALSE;
 
@@ -276,12 +276,12 @@ int	sub_INT_chk( void )
 
 
 /************************************************************************/
-/* PC88 サブシステム 初期化						*/
+/* PC88 サブシステム 初期化                        */
 /************************************************************************/
-void	pc88sub_init( int init )
+void    pc88sub_init( int init )
 {
 
-	/* Z80 エミュレータワーク初期化 */
+    /* Z80 エミュレータワーク初期化 */
 
   if( init == INIT_POWERON  ||  init == INIT_RESET ){
 
@@ -294,12 +294,12 @@ void	pc88sub_init( int init )
   z80sub_cpu.intr_ack    = sub_INT_chk;
 
   z80sub_cpu.break_if_halt = TRUE;
-  z80sub_cpu.PC_prev   = z80sub_cpu.PC;		/* dummy for monitor */
+  z80sub_cpu.PC_prev   = z80sub_cpu.PC;     /* dummy for monitor */
 
-#ifdef	DEBUGLOG
-  z80sub_cpu.log	= TRUE;
+#ifdef  DEBUGLOG
+  z80sub_cpu.log    = TRUE;
 #else
-  z80sub_cpu.log	= FALSE;
+  z80sub_cpu.log    = FALSE;
 #endif
 
 
@@ -314,9 +314,9 @@ void	pc88sub_init( int init )
 
 
 /************************************************************************/
-/* PC88 サブシステム 終了						*/
+/* PC88 サブシステム 終了                       */
 /************************************************************************/
-void	pc88sub_term( void )
+void    pc88sub_term( void )
 {
 }
 
@@ -335,49 +335,49 @@ void	pc88sub_term( void )
 
 
 /************************************************************************/
-/* ブレークポイント関連							*/
+/* ブレークポイント関連                           */
 /************************************************************************/
-INLINE	void	check_break_point( int type, word addr, char *str )
+INLINE  void    check_break_point( int type, word addr, char *str )
 {
-  int	i;
+  int   i;
 
   if (quasi88_is_monitor()) return; /* モニターモード時はスルー */
   for( i=0; i<NR_BP; i++ ){
     if( break_point[BP_SUB][i].type == type &&
         break_point[BP_SUB][i].addr == addr ){
       printf( "*** Break at %04x *** ( SUB[#%d] : %s %04x )\n",
-	      z80sub_cpu.PC.W, i+1, str, addr );
+          z80sub_cpu.PC.W, i+1, str, addr );
       quasi88_debug();
       break;
     }
   }
 }
 
-byte	sub_fetch_with_BP( word addr )
+byte    sub_fetch_with_BP( word addr )
 {
   check_break_point( BP_READ, addr, "FETCH from" );
   return sub_fetch( addr );
 }
 
-byte	sub_mem_read_with_BP( word addr )
+byte    sub_mem_read_with_BP( word addr )
 {
   check_break_point( BP_READ, addr, "READ from" );
   return sub_mem_read( addr );
 }
 
-void	sub_mem_write_with_BP( word addr, byte data )
+void    sub_mem_write_with_BP( word addr, byte data )
 {
   check_break_point( BP_WRITE, addr, "WRITE to" );
   sub_mem_write( addr, data );
 }
 
-byte	sub_io_in_with_BP( byte port )
+byte    sub_io_in_with_BP( byte port )
 {
   check_break_point( BP_IN, port, "IN from" );
   return sub_io_in( port );
 }
 
-void	sub_io_out_with_BP( byte port, byte data )
+void    sub_io_out_with_BP( byte port, byte data )
 {
   check_break_point( BP_OUT, port, "OUT to" );
   sub_io_out( port, data );
@@ -389,20 +389,20 @@ void	sub_io_out_with_BP( byte port, byte data )
 
 
 /************************************************************************/
-/*									*/
+/*                                  */
 /************************************************************************/
-void	pc88sub_bus_setup( void )
+void    pc88sub_bus_setup( void )
 {
-#ifdef	USE_MONITOR
+#ifdef  USE_MONITOR
 
-  int	i, buf[4];
+  int   i, buf[4];
   for( i=0; i<4; i++ ) buf[i]=0;
   for( i=0; i<NR_BP; i++ ){
     switch( break_point[BP_SUB][i].type ){
-    case BP_READ:	buf[0]++;	break;
-    case BP_WRITE:	buf[1]++;	break;
-    case BP_IN:		buf[2]++;	break;
-    case BP_OUT:	buf[3]++;	break;
+    case BP_READ:   buf[0]++;   break;
+    case BP_WRITE:  buf[1]++;   break;
+    case BP_IN:     buf[2]++;   break;
+    case BP_OUT:    buf[3]++;   break;
     }
   }
    
@@ -448,49 +448,49 @@ void	pc88sub_bus_setup( void )
  * ステートロード／ステートセーブ
  ************************************************************************/
 
-#define	SID	"SUB "
+#define SID "SUB "
 
-static	T_SUSPEND_W	suspend_pc88sub_work[]=
+static  T_SUSPEND_W suspend_pc88sub_work[]=
 {
-  { TYPE_PAIR,	&z80sub_cpu.AF,		},
-  { TYPE_PAIR,	&z80sub_cpu.BC,		},
-  { TYPE_PAIR,	&z80sub_cpu.DE,		},
-  { TYPE_PAIR,	&z80sub_cpu.HL,		},
-  { TYPE_PAIR,	&z80sub_cpu.IX,		},
-  { TYPE_PAIR,	&z80sub_cpu.IY,		},
-  { TYPE_PAIR,	&z80sub_cpu.PC,		},
-  { TYPE_PAIR,	&z80sub_cpu.SP,		},
-  { TYPE_PAIR,	&z80sub_cpu.AF1,	},
-  { TYPE_PAIR,	&z80sub_cpu.BC1,	},
-  { TYPE_PAIR,	&z80sub_cpu.DE1,	},
-  { TYPE_PAIR,	&z80sub_cpu.HL1,	},
-  { TYPE_BYTE,	&z80sub_cpu.I,		},
-  { TYPE_BYTE,	&z80sub_cpu.R,		},
-  { TYPE_BYTE,	&z80sub_cpu.R_saved,	},
-  { TYPE_CHAR,	&z80sub_cpu.IFF,	},
-  { TYPE_CHAR,	&z80sub_cpu.IFF2,	},
-  { TYPE_CHAR,	&z80sub_cpu.IM,		},
-  { TYPE_CHAR,	&z80sub_cpu.HALT,	},
-  { TYPE_INT,	&z80sub_cpu.INT_active,	},
-  { TYPE_INT,	&z80sub_cpu.icount,	},
-  { TYPE_INT,	&z80sub_cpu.state0,	},
-  { TYPE_INT,	&z80sub_cpu.skip_intr_chk,	},
-  { TYPE_CHAR,	&z80sub_cpu.log,		},
-  { TYPE_CHAR,	&z80sub_cpu.break_if_halt,	},
+  { TYPE_PAIR,  &z80sub_cpu.AF,     },
+  { TYPE_PAIR,  &z80sub_cpu.BC,     },
+  { TYPE_PAIR,  &z80sub_cpu.DE,     },
+  { TYPE_PAIR,  &z80sub_cpu.HL,     },
+  { TYPE_PAIR,  &z80sub_cpu.IX,     },
+  { TYPE_PAIR,  &z80sub_cpu.IY,     },
+  { TYPE_PAIR,  &z80sub_cpu.PC,     },
+  { TYPE_PAIR,  &z80sub_cpu.SP,     },
+  { TYPE_PAIR,  &z80sub_cpu.AF1,    },
+  { TYPE_PAIR,  &z80sub_cpu.BC1,    },
+  { TYPE_PAIR,  &z80sub_cpu.DE1,    },
+  { TYPE_PAIR,  &z80sub_cpu.HL1,    },
+  { TYPE_BYTE,  &z80sub_cpu.I,      },
+  { TYPE_BYTE,  &z80sub_cpu.R,      },
+  { TYPE_BYTE,  &z80sub_cpu.R_saved,    },
+  { TYPE_CHAR,  &z80sub_cpu.IFF,    },
+  { TYPE_CHAR,  &z80sub_cpu.IFF2,   },
+  { TYPE_CHAR,  &z80sub_cpu.IM,     },
+  { TYPE_CHAR,  &z80sub_cpu.HALT,   },
+  { TYPE_INT,   &z80sub_cpu.INT_active, },
+  { TYPE_INT,   &z80sub_cpu.icount, },
+  { TYPE_INT,   &z80sub_cpu.state0, },
+  { TYPE_INT,   &z80sub_cpu.skip_intr_chk,  },
+  { TYPE_CHAR,  &z80sub_cpu.log,        },
+  { TYPE_CHAR,  &z80sub_cpu.break_if_halt,  },
 
-  { TYPE_INT,	&sub_load_rate,		},
+  { TYPE_INT,   &sub_load_rate,     },
 
-  { TYPE_END,	0			},
+  { TYPE_END,   0           },
 };
 
 
-int	statesave_pc88sub( void )
+int statesave_pc88sub( void )
 {
   if( statesave_table( SID, suspend_pc88sub_work ) == STATE_OK ) return TRUE;
   else                                                           return FALSE;
 }
 
-int	stateload_pc88sub( void )
+int stateload_pc88sub( void )
 {
   if( stateload_table( SID, suspend_pc88sub_work ) == STATE_OK ) return TRUE;
   else                                                           return FALSE;

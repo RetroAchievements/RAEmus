@@ -417,7 +417,7 @@ static void rc_real_print_help(struct rc_option *option, FILE *f)
             rc_real_print_help(option[i].dest, f);
             break;
          default:
-#if 0	/* QUASI88 */
+#if 0   /* QUASI88 */
             snprintf(buf, BUF_SIZE, "-%s%s%s%s%s%s",
                (option[i].type == rc_bool)? "[no]":"",
                option[i].name,
@@ -425,13 +425,13 @@ static void rc_real_print_help(struct rc_option *option, FILE *f)
                (option[i].shortname && (option[i].type == rc_bool))? "[no]":"",
                (option[i].shortname)? option[i].shortname:"",
                type_name[option[i].type]);
-#else	/* QUASI88 */
+#else   /* QUASI88 */
             {
                const char *s1 = (option[i].type == rc_bool)? "[no]":"";
                const char *s2 = option[i].name;
                const char *s3 = (option[i].shortname)? " / -":"";
                const char *s4 = (option[i].shortname && 
-				 (option[i].type == rc_bool)) ? "[no]":"";
+                 (option[i].type == rc_bool)) ? "[no]":"";
                const char *s5 = (option[i].shortname)? option[i].shortname:"";
                const char *s6 = type_name[option[i].type];
 
@@ -444,7 +444,7 @@ static void rc_real_print_help(struct rc_option *option, FILE *f)
                    sprintf(buf,"-%s%s%s%s%s%s",s1,s2,s3,s4,s5,s6);
                }
             }
-#endif	/* QUASI88 */
+#endif  /* QUASI88 */
             fprint_columns(f, buf,
                (option[i].help)? option[i].help:"no help available");
       }
@@ -735,7 +735,7 @@ int rc_check_and_create_dir(const char *name)
       {
          /* doesn't exist letts create it ;) */
 #ifdef BSD43
-	 if (mkdir(name, 0775))
+     if (mkdir(name, 0775))
 #else
          if (mkdir(name, S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH))
 #endif
@@ -770,7 +770,7 @@ int rc_check_and_create_dir(const char *name)
 }
 
 
-#if 1	/* QUASI88 */
+#if 1   /* QUASI88 */
 /* Based on rc_parse_commandline() */
 int rc_quasi88( struct rc_struct *rc, char *arg1, char *arg2, int priority )
 {
@@ -823,17 +823,17 @@ int rc_quasi88( struct rc_struct *rc, char *arg1, char *arg2, int priority )
          if(rc_set_option3(option, arg, priority))
             return -1;
 
-	 return num;
+     return num;
       }
       else
       {
-	 return 0;
+     return 0;
       }
 }
 
 /* Based on rc_real_write() */
 int rc_quasi88_save(struct rc_option *option,
-		void (*real_write)(const char *opt_name, const char *opt_arg))
+        void (*real_write)(const char *opt_name, const char *opt_arg))
 {
    const char *opt_name;
    char buf[ 256 ];

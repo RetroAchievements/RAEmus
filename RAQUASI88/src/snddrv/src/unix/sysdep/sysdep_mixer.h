@@ -24,17 +24,17 @@
 #include "begin_code.h"
 
 /* channel defines */
-#define SYSDEP_MIXER_VOLUME	0
-#define SYSDEP_MIXER_PCM1	1
-#define SYSDEP_MIXER_PCM2	2
-#define SYSDEP_MIXER_SYNTH	3
-#define SYSDEP_MIXER_CD		4
-#define SYSDEP_MIXER_LINE1	5
-#define SYSDEP_MIXER_LINE2	6
-#define SYSDEP_MIXER_LINE3	7
-#define SYSDEP_MIXER_BASS	8
-#define SYSDEP_MIXER_TREBLE	9
-#define SYSDEP_MIXER_CHANNELS	10
+#define SYSDEP_MIXER_VOLUME 0
+#define SYSDEP_MIXER_PCM1   1
+#define SYSDEP_MIXER_PCM2   2
+#define SYSDEP_MIXER_SYNTH  3
+#define SYSDEP_MIXER_CD     4
+#define SYSDEP_MIXER_LINE1  5
+#define SYSDEP_MIXER_LINE2  6
+#define SYSDEP_MIXER_LINE3  7
+#define SYSDEP_MIXER_BASS   8
+#define SYSDEP_MIXER_TREBLE 9
+#define SYSDEP_MIXER_CHANNELS   10
 #define SYSDEP_MIXER_NAMES { "Volume", "PCM 1", "PCM 2", "Synth", \
    "CD", "Line 1", "Line 2", "Line 3", "Bass", "Treble" }
 

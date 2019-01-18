@@ -20,13 +20,13 @@ typedef signed short int16;
 typedef signed int int32;
 
 // forQUASI88
-#define	__stdcall
+#define __stdcall
 
 // forQUASI88 ... MPW not support bool ???
-#if	defined(macintosh)
-#if	  defined(__SC__) || defined(__MRC__)
+#if defined(macintosh)
+#if   defined(__SC__) || defined(__MRC__)
 
-typedef	int	bool;
+typedef int bool;
 //enum{ false, true };
 
 #endif

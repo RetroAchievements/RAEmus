@@ -48,20 +48,20 @@ static struct rc_struct *sysdep_dsp_rc = NULL;
 static struct plugin_manager_struct *sysdep_dsp_plugin_manager = NULL;
 static struct rc_option sysdep_dsp_opts[] = {
    /* name, shortname, type, dest, deflt, min, max, func, help */
-   { "Digital sound related", NULL,		rc_seperator,	NULL,
-     NULL,		0,			0,		NULL,
+   { "Digital sound related", NULL,     rc_seperator,   NULL,
+     NULL,      0,          0,      NULL,
      NULL },
-   { "dsp-plugin", 	"dp",			rc_string,	&sysdep_dsp_plugin,
-     NULL,		0,			0,		NULL,
+   { "dsp-plugin",  "dp",           rc_string,  &sysdep_dsp_plugin,
+     NULL,      0,          0,      NULL,
      "Select which plugin to use for digital sound" },
-   { "list-dsp-plugins", "ldp",			rc_use_function_no_arg, NULL,
-     NULL,		0,			0,		sysdep_dsp_list_plugins,
+   { "list-dsp-plugins", "ldp",         rc_use_function_no_arg, NULL,
+     NULL,      0,          0,      sysdep_dsp_list_plugins,
      "List available sound-dsp plugins" },
-   { "timer",		"ti",			rc_bool,	&sysdep_dsp_use_timer,
-     "0",		0,			0,		NULL,
+   { "timer",       "ti",           rc_bool,    &sysdep_dsp_use_timer,
+     "0",       0,          0,      NULL,
      "Use / don't use timer based audio (normally it will be used automagically when nescesarry)" },
-   { NULL,		NULL,			rc_end,		NULL,
-     NULL,		0,			0,		NULL,
+   { NULL,      NULL,           rc_end,     NULL,
+     NULL,      0,          0,      NULL,
      NULL }
 };
 static const struct plugin_struct *sysdep_dsp_plugins[] = {

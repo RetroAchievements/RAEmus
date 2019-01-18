@@ -17,13 +17,13 @@ typedef double filter_real;
 #endif
 
 typedef struct filter_struct {
-	filter_real xcoeffs[(FILTER_ORDER_MAX+1)/2];
-	unsigned order;
+    filter_real xcoeffs[(FILTER_ORDER_MAX+1)/2];
+    unsigned order;
 } filter;
 
 typedef struct filter_state_struct {
-	unsigned prev_mac;
-	filter_real xprev[FILTER_ORDER_MAX];
+    unsigned prev_mac;
+    filter_real xprev[FILTER_ORDER_MAX];
 } filter_state;
 
 /* Allocate a FIR Low Pass filter */
@@ -41,13 +41,13 @@ void filter_state_reset(filter* f, filter_state* s);
 
 /* Insert a value in the filter state */
 INLINE void filter_insert(filter* f, filter_state* s, filter_real x) {
-	/* next state */
-	++s->prev_mac;
-	if (s->prev_mac >= f->order)
-		s->prev_mac = 0;
+    /* next state */
+    ++s->prev_mac;
+    if (s->prev_mac >= f->order)
+        s->prev_mac = 0;
 
-	/* set x[0] */
-	s->xprev[s->prev_mac] = x;
+    /* set x[0] */
+    s->xprev[s->prev_mac] = x;
 }
 
 /* Compute the filter output */

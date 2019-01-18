@@ -41,17 +41,17 @@ static struct rc_struct *sysdep_mixer_rc = NULL;
 static struct plugin_manager_struct *sysdep_mixer_plugin_manager = NULL;
 static struct rc_option sysdep_mixer_opts[] = {
    /* name, shortname, type, dest, deflt, min, max, func, help */
-   { "Sound mixer related", NULL,		rc_seperator,	NULL,
-     NULL,		0,			0,		NULL,
+   { "Sound mixer related", NULL,       rc_seperator,   NULL,
+     NULL,      0,          0,      NULL,
      NULL },
-   { "sound-mixer-plugin", "smp",		rc_string,	&sysdep_mixer_plugin,
-     NULL,		0,			0,		NULL,
+   { "sound-mixer-plugin", "smp",       rc_string,  &sysdep_mixer_plugin,
+     NULL,      0,          0,      NULL,
      "Select which plugin to use for the sound mixer" },
-   { "list-mixer-plugins", "lmp",		rc_use_function_no_arg, NULL,
-     NULL,		0,			0,		sysdep_mixer_list_plugins,
+   { "list-mixer-plugins", "lmp",       rc_use_function_no_arg, NULL,
+     NULL,      0,          0,      sysdep_mixer_list_plugins,
      "List available sound-mixer plugins" },
-   { NULL,		NULL,			rc_end,		NULL,
-     NULL,		0,			0,		NULL,
+   { NULL,      NULL,           rc_end,     NULL,
+     NULL,      0,          0,      NULL,
      NULL }
 };
 static const struct plugin_struct *sysdep_mixer_plugins[] = {
@@ -157,8 +157,8 @@ struct sysdep_mixer_struct *sysdep_mixer_create(const char *plugin,
       if(mixer->channel_available[i])
       {
 #ifdef SYSDEP_MIXER_DEBUG
-	 fprintf(stderr, "debug: mixer got channel %s\n",
-	    sysdep_mixer_names[i]);
+     fprintf(stderr, "debug: mixer got channel %s\n",
+        sysdep_mixer_names[i]);
 #endif
          if(mixer->get(mixer, i, &mixer->cache_left[i],
             &mixer->cache_right[i]))
@@ -190,7 +190,7 @@ void sysdep_mixer_destroy(struct sysdep_mixer_struct *mixer)
       {
 #ifdef SYSDEP_MIXER_DEBUG
          fprintf(stderr, "debug: sysdep_mixer: restoring channel %s\n",
-	    sysdep_mixer_names[i]);
+        sysdep_mixer_names[i]);
 #endif
          sysdep_mixer_set(mixer, i, mixer->orig_left[i],
             mixer->orig_right[i]);

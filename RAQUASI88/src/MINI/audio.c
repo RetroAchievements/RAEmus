@@ -9,7 +9,7 @@
 
 #include "snddrv.h"
 
-#ifdef	USE_SOUND
+#ifdef  USE_SOUND
 
 #include "mame-quasi88.h"
 
@@ -29,11 +29,11 @@
  *      xmame_config_init() の処理の後片付けが必要なら、ここで行う。
  *
  *****************************************************************************/
-int	xmame_config_init(void)
+int xmame_config_init(void)
 {
-    return 0;		/*OSD_OK;*/
+    return 0;       /*OSD_OK;*/
 }
-void	xmame_config_exit(void)
+void    xmame_config_exit(void)
 {
 }
 
@@ -51,7 +51,7 @@ void	xmame_config_exit(void)
 
 /* 以下は、標準的なオプションのテーブル例 */
 
-static	const	T_CONFIG_TABLE xmame_options[] =
+static  const   T_CONFIG_TABLE xmame_options[] =
 {
   /* 350〜399: サウンド依存オプション */
 
@@ -93,13 +93,13 @@ const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
  *      config_init() より、オプション -help の処理の際に呼び出される。
  *      標準出力にヘルプメッセージを表示する。
  *****************************************************************************/
-#ifdef	XMAME_SNDDRV_071
-#define	XMAME_VER "0.71.1"
-#else	/* ver 0.106 */
-#define	XMAME_VER " 0.106"
+#ifdef  XMAME_SNDDRV_071
+#define XMAME_VER "0.71.1"
+#else   /* ver 0.106 */
+#define XMAME_VER " 0.106"
 #endif
 
-void	xmame_config_show_option(void)
+void    xmame_config_show_option(void)
 {
   fprintf(stdout,
   "\n"
@@ -147,7 +147,7 @@ void	xmame_config_show_option(void)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int	xmame_config_check_option(char *opt1, char *opt2, int priority)
+int xmame_config_check_option(char *opt1, char *opt2, int priority)
 {
     return 0;
 }
@@ -174,8 +174,8 @@ int	xmame_config_check_option(char *opt1, char *opt2, int priority)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int	xmame_config_save_option(void (*real_write)
-				   (const char *opt_name, const char *opt_arg))
+int xmame_config_save_option(void (*real_write)
+                   (const char *opt_name, const char *opt_arg))
 {
     return 0;
 }
@@ -211,12 +211,12 @@ T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
  *      真なら変更可能。偽なら不可。
  *
  *****************************************************************************/
-int	xmame_has_audiodevice(void)
+int xmame_has_audiodevice(void)
 {
     return FALSE;
 }
 
-int	xmame_has_mastervolume(void)
+int xmame_has_mastervolume(void)
 {
     return FALSE;
 }
@@ -279,25 +279,25 @@ int	xmame_has_mastervolume(void)
  *      などの関数は呼び出される。
  *
  *****************************************************************************/
-int	osd_start_audio_stream(int stereo)
+int osd_start_audio_stream(int stereo)
 {
     return 44100 / DEFAULT_VSYNC_FREQ_HZ;
 }
 
-int	osd_update_audio_stream(INT16 *buffer)
+int osd_update_audio_stream(INT16 *buffer)
 {
     return 44100 / DEFAULT_VSYNC_FREQ_HZ;
 }
 
-void	osd_stop_audio_stream(void)
+void    osd_stop_audio_stream(void)
 {
 }
 
-void	osd_update_video_and_audio(void)
+void    osd_update_video_and_audio(void)
 {
 }
 
-void	osd_sound_enable(int enable)
+void    osd_sound_enable(int enable)
 {
 }
 
@@ -314,13 +314,13 @@ void	osd_sound_enable(int enable)
  *      音量変更のできないデバイスであれば、ダミーでよい。
  *
  *****************************************************************************/
-void	osd_set_mastervolume(int attenuation)
+void    osd_set_mastervolume(int attenuation)
 {
 }
 
-int	osd_get_mastervolume(void)
+int osd_get_mastervolume(void)
 {
     return VOL_MIN;
 }
 
-#endif	/* USE_SOUND */
+#endif  /* USE_SOUND */

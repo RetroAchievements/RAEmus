@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/* ローマ字→カナ変換処理						*/
-/*									*/
+/*                                  */
+/* ローマ字→カナ変換処理                        */
+/*                                  */
 /************************************************************************/
 
 #include <stdlib.h>
@@ -13,38 +13,38 @@
 #include "romaji.h"
 
 
-#define Bt7	0x80
-#define Bt6	0x40
-#define Bt5	0x20
-#define Bt4	0x10
-#define Bt3	0x08
-#define Bt2	0x04
-#define Bt1	0x02
-#define Bt0	0x01
+#define Bt7 0x80
+#define Bt6 0x40
+#define Bt5 0x20
+#define Bt4 0x10
+#define Bt3 0x08
+#define Bt2 0x04
+#define Bt1 0x02
+#define Bt0 0x01
 
-#define P0	0
-#define P1	1
-#define P2	2
-#define P3	3
-#define P4	4
-#define P5	5
-#define P6	6
-#define P7	7
-#define P8	8
-#define P9	9
-#define Pa	10
-#define Pb	11
-#define Pc	12
-#define Pd	13
-#define Pe	14
+#define P0  0
+#define P1  1
+#define P2  2
+#define P3  3
+#define P4  4
+#define P5  5
+#define P6  6
+#define P7  7
+#define P8  8
+#define P9  9
+#define Pa  10
+#define Pb  11
+#define Pc  12
+#define Pd  13
+#define Pe  14
 
 /* キューに蓄える値。ポート情報がパックしてある */
-#define	RJ( port, bit, shift )	((Uchar)( (port<<4) | (shift<<3) | bit ))
+#define RJ( port, bit, shift )  ((Uchar)( (port<<4) | (shift<<3) | bit ))
 
 /*----------------------------------------------------------------------
  *
  *----------------------------------------------------------------------*/
-/*	ローマ字 → カナ 変換テーブル	*/
+/*  ローマ字 → カナ 変換テーブル  */
 typedef struct {
   const char *s;
   Uchar      list[4];
@@ -68,21 +68,21 @@ static const romaji_list list_egg[];
  * ワーク (サスペンド情報には残す必要なし)
  *----------------------------------------------------------------------*/
 
-/*	ローマ字変換前のバッファ	*/
+/*  ローマ字変換前のバッファ    */
 
-static	char	input_buf[4];			/* 入力済みの文字のバッファ  */
-static	int	input_size;			/* 入力済みの文字の数	     */
+static  char    input_buf[4];           /* 入力済みの文字のバッファ  */
+static  int input_size;         /* 入力済みの文字の数       */
 
 
-/*	ローマ字変換後のバッファ(キュー) */
+/*  ローマ字変換後のバッファ(キュー) */
 
-#define	ROMAJI_QUE_SIZE	(64)
-static	int	romaji_set;			/* ローマ字入力されたカナは */
-static	int	romaji_ptr;			/* キューに蓄えられ、順次   */
-static	Uchar	romaji_que[ ROMAJI_QUE_SIZE ];	/* I/O ポートに送られていく */
+#define ROMAJI_QUE_SIZE (64)
+static  int romaji_set;         /* ローマ字入力されたカナは */
+static  int romaji_ptr;         /* キューに蓄えられ、順次   */
+static  Uchar   romaji_que[ ROMAJI_QUE_SIZE ];  /* I/O ポートに送られていく */
 
-static	int	press_timer;			/* キーオン・オフのタイマー */
-#define	KEY_ON_OFF_INTERVAL	(4)		/* キーオン・オフの時間	    */
+static  int press_timer;            /* キーオン・オフのタイマー */
+#define KEY_ON_OFF_INTERVAL (4)     /* キーオン・オフの時間       */
 
 
 
@@ -90,7 +90,7 @@ static	int	press_timer;			/* キーオン・オフのタイマー */
 
 /*----------------------------------------------------------------------
  *
- *	ローマ字カナ変換テーブルの作成 (1回だけ呼び出しておく)
+ *  ローマ字カナ変換テーブルの作成 (1回だけ呼び出しておく)
  *
  *----------------------------------------------------------------------*/
 
@@ -102,7 +102,7 @@ static int romajicmp( const void *p1, const void *p2 )
   return strcmp( ((const romaji_list *)p1)->s, ((const romaji_list *)p2)->s );
 }
 
-void	romaji_init( void )
+void    romaji_init( void )
 {
   int i,            nr_p;
   const romaji_list *p;
@@ -139,10 +139,10 @@ void	romaji_init( void )
 
 /*----------------------------------------------------------------------
  *
- *	ローマ字変換のワーク初期化 (ローマ字変換モード開始時に呼び出す)
+ *  ローマ字変換のワーク初期化 (ローマ字変換モード開始時に呼び出す)
  *
  *----------------------------------------------------------------------*/
-void	romaji_clear( void )
+void    romaji_clear( void )
 {
   /* 変換後のカナをオン出力中だったら、オフ出力する */
 
@@ -163,11 +163,11 @@ void	romaji_clear( void )
 
 /*----------------------------------------------------------------------
  *
- *	入力をローマ字に変換し、キューに蓄える処理関数
+ *  入力をローマ字に変換し、キューに蓄える処理関数
  *
  *----------------------------------------------------------------------*/
 
-static	void	set_romaji_que( const Uchar *p )
+static  void    set_romaji_que( const Uchar *p )
 {
   Uchar c;
   while( (c = *p++ ) ){
@@ -177,11 +177,11 @@ static	void	set_romaji_que( const Uchar *p )
 }
 
 
-int	romaji_input( int key )
+int romaji_input( int key )
 {
   int i, j;
 
-  if( key == ' ' ||		/* これらのキーは特殊変換に使う */
+  if( key == ' ' ||     /* これらのキーは特殊変換に使う */
       key == '@' ||
       key == '[' ||
       key == '/' ||
@@ -193,24 +193,24 @@ int	romaji_input( int key )
       key == '\'' ){
     ;
   }
-  else if( islower(key) ){	/* 小文字は大文字に変換して使う */
+  else if( islower(key) ){  /* 小文字は大文字に変換して使う */
     key = toupper( key );
   }
-  else if( isupper(key) ){	/* 大文字はそのまま使う */
+  else if( isupper(key) ){  /* 大文字はそのまま使う */
     ;
   }
-  else {			/* それ以外は使わない */
+  else {            /* それ以外は使わない */
 
     if( key == KEY88_ESC && input_size != 0 ){
       romaji_clear();
       return 0;
     }
     if( key == KEY88_SHIFT  ||
-	key == KEY88_SHIFTL ||
-	key == KEY88_SHIFTR ||
-	key == KEY88_CAPS   ||
-	key == KEY88_KANA   ||
-	key == KEY88_GRAPH  ){
+    key == KEY88_SHIFTL ||
+    key == KEY88_SHIFTR ||
+    key == KEY88_CAPS   ||
+    key == KEY88_KANA   ||
+    key == KEY88_GRAPH  ){
       ;
     }else{
       romaji_clear();
@@ -237,40 +237,40 @@ int	romaji_input( int key )
       const char *s2 = list_p->s;
 
       for( j=0; j<input_size; j++, s1++, s2++ ){
-	if( *s1 != *s2 ){ j=0; break; }
+    if( *s1 != *s2 ){ j=0; break; }
       }
 
-      if( j==0 ){			/* 不一致 */
-	if( nearly ) break;			/* 途中まで一致してたのに */
-	/* list->s のソート済みが前提 */	/* 一致しなくなったら中断 */
+      if( j==0 ){           /* 不一致 */
+    if( nearly ) break;         /* 途中まで一致してたのに */
+    /* list->s のソート済みが前提 */   /* 一致しなくなったら中断 */
       }else{
-	if( *s2 == '\0' ){		/* 完全に一致 */
-	  same   = TRUE;	break;
-	}else{				/* 途中まで一致 */
-	  nearly = TRUE;
-	}
+    if( *s2 == '\0' ){      /* 完全に一致 */
+      same   = TRUE;    break;
+    }else{              /* 途中まで一致 */
+      nearly = TRUE;
+    }
       }
     }
 
-    if( same ){					/*** 完全一致の場合 */
-      set_romaji_que( list_p->list );			/* キューにセット */
-      input_size = 0;					/* 入力を捨てる   */
+    if( same ){                 /*** 完全一致の場合 */
+      set_romaji_que( list_p->list );           /* キューにセット */
+      input_size = 0;                   /* 入力を捨てる   */
       break;
 
-    }else if( nearly ){				/*** 途中まで一致の場合 */
-      break;						/* 入力はそのまま */
+    }else if( nearly ){             /*** 途中まで一致の場合 */
+      break;                        /* 入力はそのまま */
 
-    }else{					/*** 不一致の場合 */
+    }else{                  /*** 不一致の場合 */
 
       if( input_buf[0] == 'N' ){
-	set_romaji_que( list_NN.list );			/* んをキューにセット*/
+    set_romaji_que( list_NN.list );         /* んをキューにセット*/
 
       }else if( input_size >= 2 &&
-		input_buf[0]==input_buf[1] ){
-	set_romaji_que( list_tu.list );			/* っをキューにセット*/
+        input_buf[0]==input_buf[1] ){
+    set_romaji_que( list_tu.list );         /* っをキューにセット*/
       }
 
-      input_size --;					/* 入力をずらす */
+      input_size --;                    /* 入力をずらす */
       memmove( &input_buf[0], &input_buf[1],input_size );
 
       /* 一致するまでチェックしなおす */
@@ -278,7 +278,7 @@ int	romaji_input( int key )
   }
 
 
-  if( input_size >= (int)sizeof(input_buf) )	/* バッファオーバー防止 */
+  if( input_size >= (int)sizeof(input_buf) )    /* バッファオーバー防止 */
     input_size = 0;
 
   return 0;
@@ -288,13 +288,13 @@ int	romaji_input( int key )
 
 /*----------------------------------------------------------------------
  *
- *	変換後のカナをポートに出力していく関数 (1/60s毎に呼び出す)
+ *  変換後のカナをポートに出力していく関数 (1/60s毎に呼び出す)
  *
  *----------------------------------------------------------------------*/
 /*
- *	キューからポートに出力していく関数
+ *  キューからポートに出力していく関数
  */
-void	romaji_output( void )
+void    romaji_output( void )
 {
   Uint c;
 

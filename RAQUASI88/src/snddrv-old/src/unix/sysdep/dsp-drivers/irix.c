@@ -28,7 +28,7 @@ Version 0.1, April 15, 2001
 
 /* Notes/Future
 1) I've only compiled this with MIPSPro, although I assume it works with gcc as well.
-		If someone could test that and email me, I'd appreciate it.
+        If someone could test that and email me, I'd appreciate it.
 2) Will add mixer support for the next version
 3) Use IRIX_DEBUG and IRIX_DEBUG_VERBOSE for Extra Info
 4) Use FORCEMONO to force MONO output
@@ -54,12 +54,12 @@ Email: brandon@blackboxcentral.com
 
 /* our per instance private data struct */
 struct irix_dsp_priv_data {
-	ALport devAudio;
-	ALconfig devAudioConfig;	
-	unsigned int buffer_samples;
-	int sampwidth;
-	int sampchan;
-	int port_status;
+    ALport devAudio;
+    ALconfig devAudioConfig;    
+    unsigned int buffer_samples;
+    int sampwidth;
+    int sampchan;
+    int port_status;
 };
 
 /* public methods prototypes (static but exported through the sysdep_dsp or
@@ -120,70 +120,70 @@ static void *irix_dsp_create(const void *flags)
    dsp->hw_info.samplerate = params->samplerate;
 
    /* open the sound device */
-	parambuf[0] = AL_INPUT_COUNT;
-	parambuf[2] = AL_OUTPUT_COUNT;
-	ALgetparams(AL_DEFAULT_DEVICE,parambuf,4);
-	if (parambuf[1] || parambuf[3]) {
-		fprintf(stderr, "ALgetparams failed: %d.\n", oserror());
-		irix_dsp_destroy(dsp);
-		return NULL;
-	}  
+    parambuf[0] = AL_INPUT_COUNT;
+    parambuf[2] = AL_OUTPUT_COUNT;
+    ALgetparams(AL_DEFAULT_DEVICE,parambuf,4);
+    if (parambuf[1] || parambuf[3]) {
+        fprintf(stderr, "ALgetparams failed: %d.\n", oserror());
+        irix_dsp_destroy(dsp);
+        return NULL;
+    }  
 
-	/* create a clean config descriptor */
-	if ( (priv->devAudioConfig = ALnewconfig() ) == (ALconfig) NULL ) {
-		fprintf(stderr, "Cannot create a config Descriptor. Exiting.\n");
-		irix_dsp_destroy(dsp);
-		return NULL;
-	}
+    /* create a clean config descriptor */
+    if ( (priv->devAudioConfig = ALnewconfig() ) == (ALconfig) NULL ) {
+        fprintf(stderr, "Cannot create a config Descriptor. Exiting.\n");
+        irix_dsp_destroy(dsp);
+        return NULL;
+    }
 
 #ifdef FORCE8BIT
-	dsp->hw_info.type &= ~SYSDEP_DSP_16BIT;
+    dsp->hw_info.type &= ~SYSDEP_DSP_16BIT;
 #endif
 #ifdef FORCEMONO
-	dsp->hw_info.type &= ~SYSDEP_DSP_STEREO;
+    dsp->hw_info.type &= ~SYSDEP_DSP_STEREO;
 #endif
 
-	priv->buffer_samples = dsp->hw_info.samplerate * params->bufsize;
+    priv->buffer_samples = dsp->hw_info.samplerate * params->bufsize;
 
-	tempchan = (dsp->hw_info.type & SYSDEP_DSP_STEREO)? 2:1;
-	tempbits = (dsp->hw_info.type & SYSDEP_DSP_16BIT)? 2:1;
-	
-	priv->buffer_samples = priv->buffer_samples * tempchan;
+    tempchan = (dsp->hw_info.type & SYSDEP_DSP_STEREO)? 2:1;
+    tempbits = (dsp->hw_info.type & SYSDEP_DSP_16BIT)? 2:1;
+    
+    priv->buffer_samples = priv->buffer_samples * tempchan;
 
-	priv->sampwidth = tempbits;
-	priv->sampchan = tempchan;
+    priv->sampwidth = tempbits;
+    priv->sampchan = tempchan;
 
 #ifdef IRIX_DEBUG
-	fprintf(stderr, "Sample Rate Requested: %d\n", dsp->hw_info.samplerate);
-	fprintf(stderr, "Buffer Size Requested: %d\n", priv->buffer_samples);
+    fprintf(stderr, "Sample Rate Requested: %d\n", dsp->hw_info.samplerate);
+    fprintf(stderr, "Buffer Size Requested: %d\n", priv->buffer_samples);
 #endif
 
-	fprintf(stderr, "Setting sound to %dHz, %d bit, %s\n",dsp->hw_info.samplerate,
-		tempbits * 8, (tempchan == 2) ? "stereo" : "mono");
+    fprintf(stderr, "Setting sound to %dHz, %d bit, %s\n",dsp->hw_info.samplerate,
+        tempbits * 8, (tempchan == 2) ? "stereo" : "mono");
 
-	/* channel specific parameters */
-	ALsetchannels(priv->devAudioConfig, tempchan);						/* channels */
-	ALsetqueuesize(priv->devAudioConfig,(long) priv->buffer_samples);	/* buffer size */
-	ALsetsampfmt(priv->devAudioConfig, AL_SAMPFMT_TWOSCOMP);			/* BTC */
-	ALsetwidth(priv->devAudioConfig, tempbits);							/* bitrate */
+    /* channel specific parameters */
+    ALsetchannels(priv->devAudioConfig, tempchan);                      /* channels */
+    ALsetqueuesize(priv->devAudioConfig,(long) priv->buffer_samples);   /* buffer size */
+    ALsetsampfmt(priv->devAudioConfig, AL_SAMPFMT_TWOSCOMP);            /* BTC */
+    ALsetwidth(priv->devAudioConfig, tempbits);                         /* bitrate */
 
-	/* global audio parameters */
-	parambuf[0] = AL_OUTPUT_RATE;
-	parambuf[1] = dsp->hw_info.samplerate;
-	parambuf[2] = AL_INPUT_RATE;
-	parambuf[3] = dsp->hw_info.samplerate;
-	if (ALsetparams (AL_DEFAULT_DEVICE, parambuf, 4) < 0) {
-		fprintf(stderr, "Error: Cannot configure the sound system.\n");
-		irix_dsp_destroy(dsp);
-		return NULL;
-	} 
+    /* global audio parameters */
+    parambuf[0] = AL_OUTPUT_RATE;
+    parambuf[1] = dsp->hw_info.samplerate;
+    parambuf[2] = AL_INPUT_RATE;
+    parambuf[3] = dsp->hw_info.samplerate;
+    if (ALsetparams (AL_DEFAULT_DEVICE, parambuf, 4) < 0) {
+        fprintf(stderr, "Error: Cannot configure the sound system.\n");
+        irix_dsp_destroy(dsp);
+        return NULL;
+    } 
 
-	/* Open the audio port with the parameters we setup */
-	if ( (priv->devAudio=ALopenport("audio_fd","w",priv->devAudioConfig) ) == (ALport) NULL ) {
-		fprintf(stderr, "Error: Cannot get an audio channel descriptor.\n");
-		irix_dsp_destroy(dsp);
-		return NULL;
-	}
+    /* Open the audio port with the parameters we setup */
+    if ( (priv->devAudio=ALopenport("audio_fd","w",priv->devAudioConfig) ) == (ALport) NULL ) {
+        fprintf(stderr, "Error: Cannot get an audio channel descriptor.\n");
+        irix_dsp_destroy(dsp);
+        return NULL;
+    }
 
    priv->port_status = 0;
 
@@ -195,13 +195,13 @@ static void irix_dsp_destroy(struct sysdep_dsp_struct *dsp)
    struct irix_dsp_priv_data *priv = dsp->_priv;
  
 #ifdef IRIX_DEBUG 
-	fprintf(stderr, "Destroying sound channel.\n");
+    fprintf(stderr, "Destroying sound channel.\n");
 #endif
  
    if(priv)
    {
-	  if(priv->port_status >= 0) ALcloseport(priv->devAudio);
-	  ALfreeconfig(priv->devAudioConfig);
+      if(priv->port_status >= 0) ALcloseport(priv->devAudio);
+      ALfreeconfig(priv->devAudioConfig);
       
       free(priv);
    }
@@ -211,9 +211,9 @@ static void irix_dsp_destroy(struct sysdep_dsp_struct *dsp)
 
 static int irix_dsp_get_freespace(struct sysdep_dsp_struct *dsp)
 {
-	struct irix_dsp_priv_data *priv = dsp->_priv;
+    struct irix_dsp_priv_data *priv = dsp->_priv;
 
-	return (int) ALgetfillable(priv->devAudio);
+    return (int) ALgetfillable(priv->devAudio);
 }
 
    
@@ -226,30 +226,30 @@ static int irix_dsp_write(struct sysdep_dsp_struct *dsp, unsigned char *data,
    int playcnt;
    long maxsize;
 
-	maxsize = ALgetfillable(priv->devAudio);
+    maxsize = ALgetfillable(priv->devAudio);
 
-	count = count * priv->sampchan;
+    count = count * priv->sampchan;
 
-	if (count <= maxsize) playcnt = count;
-		else playcnt = (int) maxsize;
+    if (count <= maxsize) playcnt = count;
+        else playcnt = (int) maxsize;
 
-	pt += (priv->sampwidth - 1);	
+    pt += (priv->sampwidth - 1);    
 
-	for (;pt<(data+count);pt+=priv->sampwidth) *pt ^=0x80;
+    for (;pt<(data+count);pt+=priv->sampwidth) *pt ^=0x80;
 
-	result = ALwritesamps(priv->devAudio, (void *)data, playcnt);
+    result = ALwritesamps(priv->devAudio, (void *)data, playcnt);
 
-	if (result < 0) {
-		fprintf(stderr, "Error %d: failure writing to dmedia stream\n",oserror());
-		return -1;
-	}
+    if (result < 0) {
+        fprintf(stderr, "Error %d: failure writing to dmedia stream\n",oserror());
+        return -1;
+    }
 
 
 #ifdef IRIX_DEBUG_VERBOSE
-	fprintf(stderr, "Wrote %d samples OK.\n",playcnt);
+    fprintf(stderr, "Wrote %d samples OK.\n",playcnt);
 #endif
 
-	return playcnt / priv->sampchan;
+    return playcnt / priv->sampchan;
 }
 
 #endif /* ifdef SYSDEP_DSP_IRIX */

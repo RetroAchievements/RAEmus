@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/* オペコード別処理 ( ED XX )						*/
-/*									*/
+/*                                  */
+/* オペコード別処理 ( ED XX )                       */
+/*                                  */
 /************************************************************************/
 
 
@@ -172,8 +172,8 @@
       z80->BC.B.h--;
       z80->FLAG = (z80->BC.B.h? 0:Z_FLAG)|N_FLAG|(z80->FLAG&C_FLAG);
       if( z80->BC.B.h ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;
     case IND:
@@ -188,8 +188,8 @@
       z80->BC.B.h--;
       z80->FLAG = (z80->BC.B.h? 0:Z_FLAG)|N_FLAG|(z80->FLAG&C_FLAG);
       if( z80->BC.B.h ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;
 
@@ -205,8 +205,8 @@
       z80->BC.B.h--;
       z80->FLAG = (z80->BC.B.h? 0:Z_FLAG)|N_FLAG|(z80->FLAG&C_FLAG);
       if( z80->BC.B.h ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;
     case OUTD:
@@ -221,8 +221,8 @@
       z80->BC.B.h--;
       z80->FLAG = (z80->BC.B.h? 0:Z_FLAG)|N_FLAG|(z80->FLAG&C_FLAG);
       if( z80->BC.B.h ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;
 
@@ -230,38 +230,38 @@
 
     case LDI:
       {
-	M_WRMEM(z80->DE.W++,M_RDMEM(z80->HL.W++));
-	z80->BC.W--;
-	z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
+    M_WRMEM(z80->DE.W++,M_RDMEM(z80->HL.W++));
+    z80->BC.W--;
+    z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
       }
       break;
     case LDIR:
       {
-	M_WRMEM(z80->DE.W++,M_RDMEM(z80->HL.W++));
-	z80->BC.W--;
-	z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
+    M_WRMEM(z80->DE.W++,M_RDMEM(z80->HL.W++));
+    z80->BC.W--;
+    z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
       }
       if( z80->BC.W ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;
     case LDD:
       {
-	M_WRMEM(z80->DE.W--,M_RDMEM(z80->HL.W--));
-	z80->BC.W--;
-	z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
+    M_WRMEM(z80->DE.W--,M_RDMEM(z80->HL.W--));
+    z80->BC.W--;
+    z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
       }
       break;
     case LDDR:
       {
-	M_WRMEM(z80->DE.W--,M_RDMEM(z80->HL.W--));
-	z80->BC.W--;
-	z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
+    M_WRMEM(z80->DE.W--,M_RDMEM(z80->HL.W--));
+    z80->BC.W--;
+    z80->FLAG = (z80->FLAG&~(N_FLAG|H_FLAG|P_FLAG))|(z80->BC.W? P_FLAG:0);
       }
       if( z80->BC.W ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;
 
@@ -269,45 +269,45 @@
 
     case CPI:
       {
-	I = M_RDMEM(z80->HL.W++);
-	J.B.l = z80->ACC-I;
-	z80->BC.W--;
-	z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
+    I = M_RDMEM(z80->HL.W++);
+    J.B.l = z80->ACC-I;
+    z80->BC.W--;
+    z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
                     (z80->BC.W? P_FLAG:0) | N_FLAG | (z80->FLAG&C_FLAG);
       }
       break;
     case CPIR:
       {
-	I = M_RDMEM(z80->HL.W++);
-	J.B.l = z80->ACC-I;
-	z80->BC.W--;
-	z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
+    I = M_RDMEM(z80->HL.W++);
+    J.B.l = z80->ACC-I;
+    z80->BC.W--;
+    z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
                     (z80->BC.W? P_FLAG:0) | N_FLAG | (z80->FLAG&C_FLAG);
       }
       if( z80->BC.W && J.B.l ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;  
     case CPD:
       {
-	I = M_RDMEM(z80->HL.W--);
-	J.B.l = z80->ACC-I;
-	z80->BC.W--;
-	z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
+    I = M_RDMEM(z80->HL.W--);
+    J.B.l = z80->ACC-I;
+    z80->BC.W--;
+    z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
                     (z80->BC.W? P_FLAG:0) | N_FLAG | (z80->FLAG&C_FLAG);
       }
       break;
     case CPDR:
       {
-	I = M_RDMEM(z80->HL.W--);
-	J.B.l = z80->ACC-I;
-	z80->BC.W--;
-	z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
+    I = M_RDMEM(z80->HL.W--);
+    J.B.l = z80->ACC-I;
+    z80->BC.W--;
+    z80->FLAG = SZ_table[J.B.l] | ((z80->ACC^I^J.B.l)&H_FLAG) |
                     (z80->BC.W? P_FLAG:0) | N_FLAG | (z80->FLAG&C_FLAG);
       }
       if( z80->BC.W && J.B.l ){
-	z80->state0 += 5;
-	z80->PC.W -= 2;
+    z80->state0 += 5;
+    z80->PC.W -= 2;
       }
       break;
