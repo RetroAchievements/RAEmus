@@ -1,9 +1,9 @@
 /************************************************************************/
-/*									*/
-/* サスペンド、レジューム処理						*/
-/*									*/
-/*									*/
-/*									*/
+/*                                  */
+/* サスペンド、レジューム処理                      */
+/*                                  */
+/*                                  */
+/*                                  */
 /************************************************************************/
 
 #include <stdio.h>
@@ -16,39 +16,39 @@
 #include "initval.h"
 #include "file-op.h"
 
-int	resume_flag  = FALSE;			/* 起動時のレジューム	*/
-int	resume_force = FALSE;			/* 強制レジューム	*/
-int	resume_file  = FALSE;			/* ファイル名指定あり	*/
+int resume_flag  = FALSE;           /* 起動時のレジューム  */
+int resume_force = FALSE;           /* 強制レジューム    */
+int resume_file  = FALSE;           /* ファイル名指定あり  */
 
-char	file_state[QUASI88_MAX_FILENAME];	/* ステートファイル名   */
+char    file_state[QUASI88_MAX_FILENAME];   /* ステートファイル名   */
 
 
 
 /*======================================================================
   ステートファイルの構成
 
-	ヘッダ部	32バイト
-	データ部	不定バイト
-	データ部	不定バイト
-	  ：
-	  ：
-	終端部
+    ヘッダ部    32バイト
+    データ部    不定バイト
+    データ部    不定バイト
+      ：
+      ：
+    終端部
 
 
-  ヘッダ部	32バイト	とりあえず、内容は以下のとおり。_ は NUL文字
-				QUASI88_0.6.0_1_________________
-					識別ID		QUASI88
-					バージョン	0.6.0
-					互換番号	1
+  ヘッダ部  32バイト とりあえず、内容は以下のとおり。_ は NUL文字
+                QUASI88_0.6.0_1_________________
+                    識別ID        QUASI88
+                    バージョン 0.6.0
+                    互換番号    1
 
-  データ部	ID		ASCII4バイト
-		データ長	4バイト整数 (リトルエンディアン)
-		データ		不定バイト数
+  データ部  ID      ASCII4バイト
+        データ長    4バイト整数 (リトルエンディアン)
+        データ       不定バイト数
 
-		データ長には、 ID と 自身のデータ長 の 8バイトは含まない
+        データ長には、 ID と 自身のデータ長 の 8バイトは含まない
 
-  終端部	ID		0x00 4バイト
-		データ長	0x00 4バイト
+  終端部 ID      0x00 4バイト
+        データ長    0x00 4バイト
 
 
   整数値はすべてリトルエンディアンにでもしておこう。
@@ -56,17 +56,17 @@ char	file_state[QUASI88_MAX_FILENAME];	/* ステートファイル名   */
   データ部の詳細は、その都度考えることにします・・・
   ======================================================================*/
 
-#define	SZ_HEADER	(32)
+#define SZ_HEADER   (32)
 
 
 /*----------------------------------------------------------------------
  * ステートファイルにデータを記録する関数
  * ステートファイルに記録されたデータを取り出す関数
- *		整数データはリトルエンディアンで記録
- *		int 型、 short 型、char 型、pair 型、256バイトブロック、
- *		文字列(1023文字まで)、double型 (1000000倍してintに変換)
+ *      整数データはリトルエンディアンで記録
+ *      int 型、 short 型、char 型、pair 型、256バイトブロック、
+ *      文字列(1023文字まで)、double型 (1000000倍してintに変換)
  *----------------------------------------------------------------------*/
-INLINE	int	statesave_int( OSD_FILE *fp, int *val )
+INLINE  int statesave_int( OSD_FILE *fp, int *val )
 {
   unsigned char c[4];
   c[0] = ( *val       ) & 0xff;
@@ -76,17 +76,17 @@ INLINE	int	statesave_int( OSD_FILE *fp, int *val )
   if( osd_fwrite( c, sizeof(char), 4, fp )==4 ) return TRUE;
   return FALSE;
 }
-INLINE	int	stateload_int( OSD_FILE *fp, int *val )
+INLINE  int stateload_int( OSD_FILE *fp, int *val )
 {
   unsigned char c[4];
   if( osd_fread( c, sizeof(char), 4, fp )!=4 ) return FALSE;
   *val = ( ((unsigned int)c[3] << 24) | 
-	   ((unsigned int)c[2] << 16) |
-	   ((unsigned int)c[1] <<  8) |
-	    (unsigned int)c[0]       );
+       ((unsigned int)c[2] << 16) |
+       ((unsigned int)c[1] <<  8) |
+        (unsigned int)c[0]       );
   return TRUE;
 }
-INLINE	int	statesave_short( OSD_FILE *fp, short *val )
+INLINE  int statesave_short( OSD_FILE *fp, short *val )
 {
   unsigned char c[2];
   c[0] = ( *val       ) & 0xff;
@@ -94,27 +94,27 @@ INLINE	int	statesave_short( OSD_FILE *fp, short *val )
   if( osd_fwrite( c, sizeof(char), 2, fp )==2 ) return TRUE;
   return FALSE;
 }
-INLINE	int	stateload_short( OSD_FILE *fp, short *val )
+INLINE  int stateload_short( OSD_FILE *fp, short *val )
 {
   unsigned char c[2];
   if( osd_fread( c, sizeof(Uchar), 2, fp )!=2 ) return FALSE;
   *val = ( ((unsigned short)c[1] << 8) | 
-	    (unsigned short)c[0]       );
+        (unsigned short)c[0]       );
   return TRUE;
 }
-INLINE	int	statesave_char( OSD_FILE *fp, char *val )
+INLINE  int statesave_char( OSD_FILE *fp, char *val )
 {
   if( osd_fwrite( val, sizeof(char), 1, fp )==1 ) return TRUE;
   return FALSE;
 }
-INLINE	int	stateload_char( OSD_FILE *fp, char *val )
+INLINE  int stateload_char( OSD_FILE *fp, char *val )
 {
   if( osd_fread( val, sizeof(char), 1, fp )!=1 ) return FALSE;
   return TRUE;
 }
 
 
-INLINE	int	statesave_pair( OSD_FILE *fp, pair *val )
+INLINE  int statesave_pair( OSD_FILE *fp, pair *val )
 {
   unsigned char c[2];
   c[0] = ( (*val).W      ) & 0xff;
@@ -122,28 +122,28 @@ INLINE	int	statesave_pair( OSD_FILE *fp, pair *val )
   if( osd_fwrite( c, sizeof(char), 2, fp )==2 ) return TRUE;
   return FALSE;
 }
-INLINE	int	stateload_pair( OSD_FILE *fp, pair *val )
+INLINE  int stateload_pair( OSD_FILE *fp, pair *val )
 {
   unsigned char c[2];
   if( osd_fread( c, sizeof(char), 2, fp )!=2 ) return FALSE;
   (*val).W = ( ((unsigned short)c[1] << 8) | 
-	        (unsigned short)c[0]       );
+            (unsigned short)c[0]       );
   return TRUE;
 }
 
-INLINE	int	statesave_256( OSD_FILE *fp, char *array )
+INLINE  int statesave_256( OSD_FILE *fp, char *array )
 {
   if( osd_fwrite( array, sizeof(char), 256, fp )==256 ) return TRUE;
   return FALSE;
 }
-INLINE	int	stateload_256( OSD_FILE *fp, char *array )
+INLINE  int stateload_256( OSD_FILE *fp, char *array )
 {
   if( osd_fread( array, sizeof(char), 256, fp )!=256 ) return FALSE;
   return TRUE;
 }
 
 
-INLINE	int	statesave_str( OSD_FILE *fp, char *str )
+INLINE  int statesave_str( OSD_FILE *fp, char *str )
 {
   char wk[1024];
 
@@ -155,16 +155,16 @@ INLINE	int	statesave_str( OSD_FILE *fp, char *str )
   if( osd_fwrite( wk, sizeof(char), 1024, fp )==1024 ) return TRUE;
   return FALSE;
 }
-INLINE	int	stateload_str( OSD_FILE *fp, char *str )
+INLINE  int stateload_str( OSD_FILE *fp, char *str )
 {
   if( osd_fread( str, sizeof(char), 1024, fp )!=1024 ) return FALSE;
   return TRUE;
 }
 
-INLINE	int	statesave_double( OSD_FILE *fp, double *val )
+INLINE  int statesave_double( OSD_FILE *fp, double *val )
 {
   unsigned char c[4];
-  int	wk;
+  int   wk;
 
   wk = (int) ((*val) * 1000000.0);
   c[0] = ( wk       ) & 0xff;
@@ -174,17 +174,17 @@ INLINE	int	statesave_double( OSD_FILE *fp, double *val )
   if( osd_fwrite( c, sizeof(char), 4, fp )==4 ) return TRUE;
   return FALSE;
 }
-INLINE	int	stateload_double( OSD_FILE *fp, double *val )
+INLINE  int stateload_double( OSD_FILE *fp, double *val )
 {
   unsigned char c[4];
-  int	wk;
+  int   wk;
 
   if( osd_fread( c, sizeof(char), 4, fp )!=4 ) return FALSE;
 
   wk = ( ((unsigned int)c[3] << 24) |
-	 ((unsigned int)c[2] << 16) |
-	 ((unsigned int)c[1] <<  8) |
-	  (unsigned int)c[0]        );
+     ((unsigned int)c[2] << 16) |
+     ((unsigned int)c[1] <<  8) |
+      (unsigned int)c[0]        );
   *val = (double)wk / 1000000.0;
   return TRUE;
 }
@@ -193,11 +193,11 @@ INLINE	int	stateload_double( OSD_FILE *fp, double *val )
 
 
 /*----------------------------------------------------------------------
- * IDを検索する関数	戻り値：データサイズ (-1でエラー、-2でデータなし)
- * IDを書き込む関数	戻り値：データサイズ (-1でエラー)
+ * IDを検索する関数  戻り値：データサイズ (-1でエラー、-2でデータなし)
+ * IDを書き込む関数  戻り値：データサイズ (-1でエラー)
  *----------------------------------------------------------------------*/
 
-static	int	read_id( OSD_FILE *fp, const char id[4] )
+static  int read_id( OSD_FILE *fp, const char id[4] )
 {
   char c[4];
   int  size;
@@ -211,18 +211,18 @@ static	int	read_id( OSD_FILE *fp, const char id[4] )
     if( osd_fread( c, sizeof(char), 4, fp ) != 4 ) return -1;
     if( stateload_int( fp, &size ) == FALSE )      return -1;
 
-    if( memcmp( c, id, 4 ) == 0 ){			/* ID合致した */
+    if( memcmp( c, id, 4 ) == 0 ){          /* ID合致した */
       return size;
     }
 
-    if( memcmp( c, "\0\0\0\0", 4 ) == 0 ) return -2;	/* データ終端 */
+    if( memcmp( c, "\0\0\0\0", 4 ) == 0 ) return -2;    /* データ終端 */
 
     if( osd_fseek( fp, size, SEEK_CUR ) != 0 ) return -1;
   }
 }
 
 
-static	int	write_id( OSD_FILE *fp, const char id[4], int size )
+static  int write_id( OSD_FILE *fp, const char id[4], int size )
 {
   /* ファイル現在位置に、書き込む */
 
@@ -240,13 +240,13 @@ static	int	write_id( OSD_FILE *fp, const char id[4], int size )
  * ステートファイルにデータを記録
  *
  *======================================================================*/
-static	OSD_FILE	*statesave_fp;
+static  OSD_FILE    *statesave_fp;
 
 /* ヘッダ情報を書き込む */
 static int statesave_header( void )
 {
   size_t off;
-  char	header[ SZ_HEADER ];
+  char  header[ SZ_HEADER ];
   OSD_FILE *fp = statesave_fp;
 
   memset( header, 0, SZ_HEADER );
@@ -267,7 +267,7 @@ static int statesave_header( void )
 }
 
 /* メモリブロックを書き込む */
-int	statesave_block( const char id[4], void *top, int size )
+int statesave_block( const char id[4], void *top, int size )
 {
   OSD_FILE *fp = statesave_fp;
 
@@ -281,26 +281,26 @@ int	statesave_block( const char id[4], void *top, int size )
 }
 
 /* テーブル情報に従い、書き込む */
-int	statesave_table( const char id[4], T_SUSPEND_W *tbl )
+int statesave_table( const char id[4], T_SUSPEND_W *tbl )
 {
   OSD_FILE *fp = statesave_fp;
   T_SUSPEND_W *p = tbl;
-  int	size = 0;
-  int	loop = TRUE;
+  int   size = 0;
+  int   loop = TRUE;
 
-  while( loop ){		/* 書き込むサイズの総計を計算 */
+  while( loop ){        /* 書き込むサイズの総計を計算 */
     switch( p->type ){
-    case TYPE_END:	loop = FALSE;	break;
+    case TYPE_END:  loop = FALSE;   break;
     case TYPE_DOUBLE:
-    case TYPE_INT:	
-    case TYPE_LONG:	size += 4;	break;
+    case TYPE_INT:  
+    case TYPE_LONG: size += 4;  break;
     case TYPE_PAIR:
     case TYPE_SHORT:
-    case TYPE_WORD:	size += 2;	break;
+    case TYPE_WORD: size += 2;  break;
     case TYPE_CHAR:
-    case TYPE_BYTE:	size += 1;	break;
-    case TYPE_STR:	size += 1024;	break;
-    case TYPE_256:	size += 256;	break;
+    case TYPE_BYTE: size += 1;  break;
+    case TYPE_STR:  size += 1024;   break;
+    case TYPE_256:  size += 256;    break;
     }
     p ++;
   }
@@ -344,7 +344,7 @@ int	statesave_table( const char id[4], T_SUSPEND_W *tbl )
       if( statesave_256( fp, (char *)tbl->work )==FALSE ) return STATE_ERR;
       break;
 
-    default:	return STATE_ERR;
+    default:    return STATE_ERR;
     }
 
     tbl ++;
@@ -357,14 +357,14 @@ int	statesave_table( const char id[4], T_SUSPEND_W *tbl )
  * ステートファイルからデータを取り出す
  *
  *======================================================================*/
-static	OSD_FILE	*stateload_fp;
-static	int		statefile_rev = 0;
+static  OSD_FILE    *stateload_fp;
+static  int     statefile_rev = 0;
 
 /* ヘッダ情報を取り出す */
 static int stateload_header( void )
 {
-  char	header[ SZ_HEADER + 1 ];
-  char	*title, *ver, *rev;
+  char  header[ SZ_HEADER + 1 ];
+  char  *title, *ver, *rev;
   OSD_FILE *fp = stateload_fp;
 
   if( osd_fseek( fp, 0, SEEK_SET ) == 0 &&
@@ -377,28 +377,28 @@ static int stateload_header( void )
     rev   = ver   + strlen(ver)   + 1;
     if( verbose_suspend ){
       printf( "stateload: file header is \"%s\", \"%s\", \"%s\".\n",
-	      						title, ver, rev );
+                                title, ver, rev );
     }
 
     if( memcmp( title, STATE_ID, sizeof(STATE_ID) ) != 0 ){
 
       printf( "stateload: ID mismatch ('%s' != '%s')\n",
-							STATE_ID, title );
+                            STATE_ID, title );
     }else{
       if( memcmp( ver, STATE_VER, sizeof(STATE_VER) ) != 0 ){
 
-	printf( "stateload: version mismatch ('%s' != '%s')\n",
-							STATE_VER, ver );
-	if( resume_force == FALSE ) return STATE_ERR;
+    printf( "stateload: version mismatch ('%s' != '%s')\n",
+                            STATE_VER, ver );
+    if( resume_force == FALSE ) return STATE_ERR;
 
       }else{
 
-	if( verbose_suspend ){
-	  if( memcmp( rev, STATE_REV, sizeof(STATE_REV) ) != 0 ){
-	    printf( "stateload: older revision ('%s' != '%s')\n",
-							STATE_REV, rev );
-	  }
-	}
+    if( verbose_suspend ){
+      if( memcmp( rev, STATE_REV, sizeof(STATE_REV) ) != 0 ){
+        printf( "stateload: older revision ('%s' != '%s')\n",
+                            STATE_REV, rev );
+      }
+    }
       }
 
       if( rev[0] == '1' ) statefile_rev = 1;
@@ -412,7 +412,7 @@ static int stateload_header( void )
 }
 
 /* メモリブロックを取り出す */
-int	stateload_block( const char id[4], void *top, int size )
+int stateload_block( const char id[4], void *top, int size )
 {
   OSD_FILE *fp = stateload_fp;
 
@@ -431,11 +431,11 @@ int	stateload_block( const char id[4], void *top, int size )
 }
 
 /* テーブル情報に従い、取り出す */
-int	stateload_table( const char id[4], T_SUSPEND_W *tbl )
+int stateload_table( const char id[4], T_SUSPEND_W *tbl )
 {
   OSD_FILE *fp = stateload_fp;
-  int	size = 0;
-  int	s = read_id( fp, id );
+  int   size = 0;
+  int   s = read_id( fp, id );
 
   if( s == -1 )   return STATE_ERR;
   if( s == -2 )   return STATE_ERR_ID;
@@ -485,7 +485,7 @@ int	stateload_table( const char id[4], T_SUSPEND_W *tbl )
       size += 256;
       break;
 
-    default:	return STATE_ERR;
+    default:    return STATE_ERR;
     }
 
     tbl ++;
@@ -493,7 +493,7 @@ int	stateload_table( const char id[4], T_SUSPEND_W *tbl )
 }
 
 /* リビジョン取得 */
-int	statefile_revision( void )
+int statefile_revision( void )
 {
   return statefile_rev;
 }
@@ -513,87 +513,87 @@ int	statefile_revision( void )
 
   でも、これだと1種類しかロード/セーブできずに不便なので、
   filename_set_state_serial(int serial) で連番を指定できる。
-	
-			ステートファイル名
-	引数 '5'	/my/state/dir/file-5.sta
-	引数 'z'	/my/state/dir/file-z.sta
-	引数 0		/my/state/dir/file.sta
+    
+            ステートファイル名
+    引数 '5'  /my/state/dir/file-5.sta
+    引数 'z'  /my/state/dir/file-z.sta
+    引数 0        /my/state/dir/file.sta
 
   よって、連番指定でステートセーブする場合は、
-	  filename_set_state_serial('1');
-	  statesave();
+      filename_set_state_serial('1');
+      statesave();
   のように呼び出す。
 
   ----------------------------------------------------------------------
   ファイル名を変更したい場合は、以下の関数を使う。
 
   ファイル名の取得 … filename_get_state()
-	現在設定されているステートファイル名が取得できる。
-	/my/state/dir/file-a.sta のような文字列が返る。
+    現在設定されているステートファイル名が取得できる。
+    /my/state/dir/file-a.sta のような文字列が返る。
 
   ファイル連番の取得 … filename_get_state_serial()
-	現在設定されているステートファイル名の連番が取得できる。
-	/my/state/dir/file-Z.sta ならば、 'Z' が返る。
-	/my/state/dir/file.sta ならば、   0 が返る。
-	拡張子が .sta でないなら、        -1 が返る。
+    現在設定されているステートファイル名の連番が取得できる。
+    /my/state/dir/file-Z.sta ならば、 'Z' が返る。
+    /my/state/dir/file.sta ならば、   0 が返る。
+    拡張子が .sta でないなら、        -1 が返る。
 
   ファイル名の設定 … filename_set_state(name)
-	ステートファイル名を name に設定する。
-	連番つきのファイル名でも、連番なしでもよい。
-	なお、NULL を指定すると、初期値がセットされる。
+    ステートファイル名を name に設定する。
+    連番つきのファイル名でも、連番なしでもよい。
+    なお、NULL を指定すると、初期値がセットされる。
 
   ファイル連番の設定 … filename_set_state_serial(num)
-	連番を num に設定する。  ファイル名の拡張子が .sta でないなら付加する。
-	num が 0 なら、連番無し。ファイル名の拡張子が .sta でないなら付加する。
-	num が負 なら、連番無し。ファイル名の拡張子はそのままとする。
+    連番を num に設定する。  ファイル名の拡張子が .sta でないなら付加する。
+    num が 0 なら、連番無し。ファイル名の拡張子が .sta でないなら付加する。
+    num が負 なら、連番無し。ファイル名の拡張子はそのままとする。
 */
 
 
 
 
-const char	*filename_get_state(void)
+const char  *filename_get_state(void)
 {
     return file_state;
 }
 
-int		filename_get_state_serial(void)
+int     filename_get_state_serial(void)
 {
-    const char  *str_sfx = STATE_SUFFIX;		/* ".sta" */
-    const size_t len_sfx = strlen(STATE_SUFFIX);	/* 4      */
+    const char  *str_sfx = STATE_SUFFIX;        /* ".sta" */
+    const size_t len_sfx = strlen(STATE_SUFFIX);    /* 4      */
     size_t len = strlen(file_state);
 
     if (len > len_sfx &&
-	my_strcmp(&file_state[ len - len_sfx ], str_sfx) == 0) {
+    my_strcmp(&file_state[ len - len_sfx ], str_sfx) == 0) {
 
-	if (len > len_sfx + 2 &&	/* ファイル名が xxx-N.sta */
-	    '-' ==  file_state[ len - len_sfx -2 ]   &&
-	    isalnum(file_state[ len - len_sfx -1 ])) {
-						/* '0'-'9','a'-'z' を返す */
-	    return file_state[ len - len_sfx -1 ];    
+    if (len > len_sfx + 2 &&    /* ファイル名が xxx-N.sta */
+        '-' ==  file_state[ len - len_sfx -2 ]   &&
+        isalnum(file_state[ len - len_sfx -1 ])) {
+                        /* '0'-'9','a'-'z' を返す */
+        return file_state[ len - len_sfx -1 ];    
 
-	} else {			/* ファイル名が xxx.sta */
-	    return 0;
-	}
-    } else {				/* ファイル名が その他 */
-	return -1;
+    } else {            /* ファイル名が xxx.sta */
+        return 0;
+    }
+    } else {                /* ファイル名が その他 */
+    return -1;
     }
 }
 
-void		filename_set_state(const char *filename)
+void        filename_set_state(const char *filename)
 {
     if (filename) {
-	strncpy(file_state, filename, QUASI88_MAX_FILENAME - 1);
-	file_state[ QUASI88_MAX_FILENAME - 1 ] = '\0';
+    strncpy(file_state, filename, QUASI88_MAX_FILENAME - 1);
+    file_state[ QUASI88_MAX_FILENAME - 1 ] = '\0';
     } else {
-	filename_init_state(FALSE);
+    filename_init_state(FALSE);
     }
 }
 
-void		filename_set_state_serial(int serial)
+void        filename_set_state_serial(int serial)
 {
-    const char  *str_sfx = STATE_SUFFIX;		/* ".sta"   */
-    const size_t len_sfx = strlen(STATE_SUFFIX);	/* 4        */
-    char         add_sfx[] = "-N" STATE_SUFFIX;		/* "-N.sta" */
+    const char  *str_sfx = STATE_SUFFIX;        /* ".sta"   */
+    const size_t len_sfx = strlen(STATE_SUFFIX);    /* 4        */
+    char         add_sfx[] = "-N" STATE_SUFFIX;     /* "-N.sta" */
     size_t len;
     int now_serial;
 
@@ -603,40 +603,40 @@ void		filename_set_state_serial(int serial)
 
     now_serial = filename_get_state_serial();
 
-    if (now_serial > 0) {		/* 元のファイル名が xxx-N.sta */
+    if (now_serial > 0) {       /* 元のファイル名が xxx-N.sta */
 
-	file_state[ len - len_sfx -2 ] = '\0';	/* -N.sta を削除 */
+    file_state[ len - len_sfx -2 ] = '\0';  /* -N.sta を削除 */
 
-	if (serial <= 0) {			/* xxx → xxx.sta */
-	    strcat(file_state, str_sfx);
-	} else {				/* xxx → xxx-M.sta */
-	    strcat(file_state, add_sfx);
-	}
+    if (serial <= 0) {          /* xxx → xxx.sta */
+        strcat(file_state, str_sfx);
+    } else {                /* xxx → xxx-M.sta */
+        strcat(file_state, add_sfx);
+    }
 
-    } else if (now_serial == 0) {	/* 元のファイル名が xxx.sta */
+    } else if (now_serial == 0) {   /* 元のファイル名が xxx.sta */
 
-	if (serial <= 0) {			/* xxx.sta のまま */
-	    ;
-	} else {
-	    if (len + 2 < QUASI88_MAX_FILENAME) {
-		file_state[ len - len_sfx ] = '\0';  /* .sta を削除 */
-		strcat(file_state, add_sfx);	/* xxx → xxx-M.sta */
-	    }
-	}
+    if (serial <= 0) {          /* xxx.sta のまま */
+        ;
+    } else {
+        if (len + 2 < QUASI88_MAX_FILENAME) {
+        file_state[ len - len_sfx ] = '\0';  /* .sta を削除 */
+        strcat(file_state, add_sfx);    /* xxx → xxx-M.sta */
+        }
+    }
 
-    } else {				/* 元のファイル名が その他 xxx */
+    } else {                /* 元のファイル名が その他 xxx */
 
-	if (serial < 0) {			/* xxx のまま */
-	    ;
-	} else if (serial == 0) {		/* xxx → xxx.sta */
-	    if (len + len_sfx < QUASI88_MAX_FILENAME) {
-		strcat(file_state, str_sfx);
-	    }
-	} else {				/* xxx → xxx-M.sta */
-	    if (len + len_sfx + 2 < QUASI88_MAX_FILENAME) {
-		strcat(file_state, add_sfx);
-	    }
-	}
+    if (serial < 0) {           /* xxx のまま */
+        ;
+    } else if (serial == 0) {       /* xxx → xxx.sta */
+        if (len + len_sfx < QUASI88_MAX_FILENAME) {
+        strcat(file_state, str_sfx);
+        }
+    } else {                /* xxx → xxx-M.sta */
+        if (len + len_sfx + 2 < QUASI88_MAX_FILENAME) {
+        strcat(file_state, add_sfx);
+        }
+    }
     }
 }
 
@@ -645,20 +645,20 @@ void		filename_set_state_serial(int serial)
 
 
 
-int	statesave_check_file_exist(void)
+int statesave_check_file_exist(void)
 {
     OSD_FILE *fp;
 
     if (file_state[0] &&
-	(fp = osd_fopen(FTYPE_STATE_LOAD, file_state, "rb"))) {
-	osd_fclose(fp);
-	return TRUE;
+    (fp = osd_fopen(FTYPE_STATE_LOAD, file_state, "rb"))) {
+    osd_fclose(fp);
+    return TRUE;
     }
     return FALSE;
 }
 
 
-int	statesave( void )
+int statesave( void )
 {
   int success = FALSE;
 
@@ -675,20 +675,20 @@ int	statesave( void )
     if( statesave_header() == STATE_OK ){
 
       do{
-	if( statesave_emu()      == FALSE ) break;
-	if( statesave_memory()   == FALSE ) break;
-	if( statesave_pc88main() == FALSE ) break;
-	if( statesave_crtcdmac() == FALSE ) break;
-	if( statesave_sound()    == FALSE ) break;
-	if( statesave_pio()      == FALSE ) break;
-	if( statesave_screen()   == FALSE ) break;
-	if( statesave_intr()     == FALSE ) break;
-	if( statesave_keyboard() == FALSE ) break;
-	if( statesave_pc88sub()  == FALSE ) break;
-	if( statesave_fdc()      == FALSE ) break;
-	if( statesave_system()   == FALSE ) break;
+    if( statesave_emu()      == FALSE ) break;
+    if( statesave_memory()   == FALSE ) break;
+    if( statesave_pc88main() == FALSE ) break;
+    if( statesave_crtcdmac() == FALSE ) break;
+    if( statesave_sound()    == FALSE ) break;
+    if( statesave_pio()      == FALSE ) break;
+    if( statesave_screen()   == FALSE ) break;
+    if( statesave_intr()     == FALSE ) break;
+    if( statesave_keyboard() == FALSE ) break;
+    if( statesave_pc88sub()  == FALSE ) break;
+    if( statesave_fdc()      == FALSE ) break;
+    if( statesave_system()   == FALSE ) break;
 
-	success = TRUE;
+    success = TRUE;
       }while(0);
 
     }
@@ -702,27 +702,27 @@ int	statesave( void )
 
 
 
-int	stateload_check_file_exist(void)
+int stateload_check_file_exist(void)
 {
     int success = FALSE;
 
     if (file_state[0] &&
-	(stateload_fp = osd_fopen(FTYPE_STATE_LOAD, file_state, "rb"))) {
+    (stateload_fp = osd_fopen(FTYPE_STATE_LOAD, file_state, "rb"))) {
 
-	if (stateload_header() == STATE_OK) {	/* ヘッダだけチェック */
-	    success = TRUE;
-	}
-	osd_fclose(stateload_fp);
+    if (stateload_header() == STATE_OK) {   /* ヘッダだけチェック */
+        success = TRUE;
+    }
+    osd_fclose(stateload_fp);
     }
 
     if (verbose_suspend) {
-	printf("stateload: file check ... %s\n", (success) ? "OK" : "FAILED");
+    printf("stateload: file check ... %s\n", (success) ? "OK" : "FAILED");
     }
     return success;
 }
 
 
-int	stateload( void )
+int stateload( void )
 {
   int success = FALSE;
 
@@ -739,21 +739,21 @@ int	stateload( void )
     if( stateload_header() == STATE_OK ){
 
       do{
-	if( stateload_emu()      == FALSE ) break;
-	if( stateload_sound()    == FALSE ) break;
-	if( stateload_memory()   == FALSE ) break;
-	if( stateload_pc88main() == FALSE ) break;
-	if( stateload_crtcdmac() == FALSE ) break;
+    if( stateload_emu()      == FALSE ) break;
+    if( stateload_sound()    == FALSE ) break;
+    if( stateload_memory()   == FALSE ) break;
+    if( stateload_pc88main() == FALSE ) break;
+    if( stateload_crtcdmac() == FALSE ) break;
       /*if( stateload_sound()    == FALSE ) break; memoryの前に！ */
-	if( stateload_pio()      == FALSE ) break;
-	if( stateload_screen()   == FALSE ) break;
-	if( stateload_intr()     == FALSE ) break;
-	if( stateload_keyboard() == FALSE ) break;
-	if( stateload_pc88sub()  == FALSE ) break;
-	if( stateload_fdc()      == FALSE ) break;
-	if( stateload_system()   == FALSE ) break;
+    if( stateload_pio()      == FALSE ) break;
+    if( stateload_screen()   == FALSE ) break;
+    if( stateload_intr()     == FALSE ) break;
+    if( stateload_keyboard() == FALSE ) break;
+    if( stateload_pc88sub()  == FALSE ) break;
+    if( stateload_fdc()      == FALSE ) break;
+    if( stateload_system()   == FALSE ) break;
 
-	success = TRUE;
+    success = TRUE;
       }while(0);
 
     }
@@ -769,10 +769,10 @@ int	stateload( void )
 /***********************************************************************
  * ステートファイル名を初期化
  ************************************************************************/
-void	stateload_init(void)
+void    stateload_init(void)
 {
     if (file_state[0] == '\0') {
-	filename_init_state(FALSE);
+    filename_init_state(FALSE);
     }
 
     /* 起動時のオプションでステートロードが指示されている場合、

@@ -1,0 +1,125 @@
+QUASI88改 Quick-Start Guide
+
+This is a quick-start guide providing basic information
+on setting up and using QUASI88改.
+
+For detailed usage information,
+please consult MANUAL.TXT (in Japanese).
+
+[Directories]
+
+If a sub-directory is missing, QUASI88改 will default to
+the current working directory (usually, the location
+of the executable). The following sub-directories are
+configured by default.
+
+DISK        Stores runtime disk copies
+This is the default directory from where disk images
+are loaded via the F12 menu. In the Win32 build, it
+is easy to load disk images from any external
+directory, but SDL users may find it useful to store
+their disk images in this location.
+
+INI         Stores user configuration files
+It is possible to override global settings by adding
+configuration files in this folder. However, on
+Windows, this is rarely needed, as global
+configuration and the INI folder are both stored
+in the QUASI88改 directory.
+
+ROM         Stores ROM (BIOS) files
+ROM files are required for the emulator to function.
+For information on obtaining and naming ROM files,
+please consult the section "Obtain ROM images".
+
+SAVE        Stores runtime writable disk copies
+As disk images are writable by default, any image
+loaded externally will be copied to and loaded from
+this directory. This allows loaded images to remain
+untouched while preserving any save data.
+
+SNAP        Stores snapshots
+Snapshots (or screenshots) may be taken during
+execution, and are saved in Bitmap format in this
+folder.
+
+STATE       Stores save states
+RAM state may be saved during execution at any
+time, and restored from this folder. Matching is
+based on the loaded image file name.
+
+TAPE        Stores tape data
+This is the default directory from where tape images
+are loaded via the F12 menu. For more information,
+see the "DISK" paragraph.
+
+[Getting Started]
+
+1. Obtain ROM images
+Disk applications may run using the M88 pseudo BIOS:
+http://www.retropc.net/cisc/m88/download.html
+
+Some applications, however, must be started from
+N88-BASIC, or require functions that are not
+supported in this ROM. These applications require
+legitimate PC-8801 ROM files.
+
+ROM files may be named in QUASI88 or M88 formats:
+
+QUASI88 Name     M88 Name        Contents
+
+N88.ROM          N88.ROM         N88 BASIC ROM
+N88EXT0.ROM      N88_0.ROM       N88 BASIC Exp. ROM Bank 0
+N88EXT1.ROM      N88_1.ROM       N88 BASIC Exp. ROM Bank 1
+N88EXT2.ROM      N88_2.ROM       N88 BASIC Exp. ROM Bank 2
+N88EXT3.ROM      N88_3.ROM       N88 BASIC Exp. ROM Bank 3
+N88N.ROM         N80.ROM         N BASIC ROM
+N88SUB.ROM       DISK.ROM        Sub-CPU ROM
+N88KNJ1.ROM      KANJI1.ROM      Kanji ROM V1
+N88KNJ2.ROM      KANJI2.ROM      Kanji ROM V2
+N88JISHO.ROM     JISHO.ROM       Dictionary ROM
+FONT.ROM         FONT.ROM        Font image
+
+2. Obtain application (disk or tape) images
+
+QUASI88改 supports disk images in D88 format, and tape
+images in CMT or T88 formats. These images must be
+extracted from physical disks or cassette tapes.
+
+3. Run an application
+
+Loading may also be performed via a menu (the menu bar
+with the Win32 version, or the QUASI88改 F12 menu in all
+versions). In this case, the system may need to be
+reset manually in order to boot from a new disk.
+
+As a general rule, program disks must be loaded into
+Drive 1:, while Drive 2: is reserved for any extra
+data used by the loaded program.
+
+In the Win32 version, inserting images may be performed
+via drag & drop. The system will first attempt to read
+a disk image. If this fails, then it will attempt to read
+the same file as a tape image. Only one file may be
+loaded at a time with this method.
+Warning: when loading via drag & drop, the system
+will automatically be reset.
+
+Most disks may be loaded directly on reset. However,
+there are exceptions where a special load process is
+required.
+
+To load tape images, the following process is usually
+needed:
+
+- Boot in N88-BASIC
+- Enter: LOAD"CAS:
+- Enter: RUN
+
+Some images may not be compatible with every system.
+Some images may not be compatible with every system mode.
+If an image fails to boot, please try the following steps:
+
+- Rewind the tape via the F12 menu
+- Set the -cpu 2 and -fdc_wait options
+- Boot in a different system mode (V1S, V1H, or V2)

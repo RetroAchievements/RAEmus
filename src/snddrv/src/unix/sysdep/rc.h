@@ -124,11 +124,11 @@ struct rc_option *rc_get_option2(struct rc_option *option, const char *name);
 /* gimmi the entire tree, I want todo all the parsing myself */
 struct rc_option *rc_get_options(struct rc_struct *rc);
 
-#if 1	/* QUASI88 */
+#if 1   /* QUASI88 */
 int rc_quasi88(struct rc_struct *rc, char *arg1, char *arg2, int priority);
 int rc_quasi88_save(struct rc_option *option,
-		void (*real_write)(const char *opt_name, const char *opt_arg));
-#endif	/* QUASI88 */
+        void (*real_write)(const char *opt_name, const char *opt_arg));
+#endif  /* QUASI88 */
 
 #include "end_code.h"
 #endif /* ifndef __RC_H */

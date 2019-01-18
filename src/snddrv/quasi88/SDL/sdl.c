@@ -1,6 +1,6 @@
-#ifndef	SYSDEP_DSP_SDL	/* QUASI88 */
-#define	SYSDEP_DSP_SDL
-#endif					/* QUASI88 */
+#ifndef SYSDEP_DSP_SDL  /* QUASI88 */
+#define SYSDEP_DSP_SDL
+#endif                  /* QUASI88 */
 
 #ifdef SYSDEP_DSP_SDL
 
@@ -37,23 +37,23 @@ Version 0.1, January 2002
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 #include <strings.h>
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 #include "SDL.h"
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 #include "sysdep/sysdep_dsp.h"
 #include "sysdep/sysdep_dsp_priv.h"
 #include "sysdep/plugin_manager.h"
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
-#if 1		/* QUASI88 */
+#if 1       /* QUASI88 */
 #include "audio.h"
 
-int	sdl_buffersize = 2048;
+int sdl_buffersize = 2048;
 
-#define	fprintf		if (verbose_proc) fprintf
-#endif		/* QUASI88 */
+#define fprintf     if (verbose_proc) fprintf
+#endif      /* QUASI88 */
 
 /* private variables */
 static struct {
@@ -75,17 +75,17 @@ static int sdl_dsp_bytes_per_sample[4] = SYSDEP_DSP_BYTES_PER_SAMPLE;
 static void sdl_fill_sound(void *unused, Uint8 *stream, int len);
 
 /* public methods prototypes */
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 static void *sdl_dsp_create(const void *flags);
-#else		/* QUASI88 */
+#else       /* QUASI88 */
 extern void *sdl_dsp_create(const void *flags);
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 static void sdl_dsp_destroy(struct sysdep_dsp_struct *dsp);
 static int sdl_dsp_write(struct sysdep_dsp_struct *dsp, unsigned char *data,
    int count);
 
 
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 /* public variables */
 const struct plugin_struct sysdep_dsp_sdl = {
    "sdl",
@@ -97,15 +97,15 @@ const struct plugin_struct sysdep_dsp_sdl = {
    sdl_dsp_create,
    3     /* high priority */
 };
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
 /* public methods (static but exported through the sysdep_dsp or plugin
    struct) */
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 static void *sdl_dsp_create(const void *flags)
-#else		/* QUASI88 */
+#else       /* QUASI88 */
 extern void *sdl_dsp_create(const void *flags)
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 {
    struct sdl_dsp_priv_data *priv = NULL;
    struct sysdep_dsp_struct *dsp = NULL;
@@ -124,9 +124,9 @@ extern void *sdl_dsp_create(const void *flags)
    
    if (!(audiospec = calloc(1, sizeof(SDL_AudioSpec))))
    {
-   		fprintf(stderr, "error malloc failed for SDL_AudioSpec\n");
-   		sdl_dsp_destroy(dsp);
-   		return NULL;
+        fprintf(stderr, "error malloc failed for SDL_AudioSpec\n");
+        sdl_dsp_destroy(dsp);
+        return NULL;
    }
 
    
@@ -140,7 +140,7 @@ extern void *sdl_dsp_create(const void *flags)
     
    /* set the number of bits */
    audiospec->format = (dsp->hw_info.type & SYSDEP_DSP_16BIT)?
-   							AUDIO_S16SYS : AUDIO_S8;
+                            AUDIO_S16SYS : AUDIO_S8;
    
    /* set the number of channels */
    audiospec->channels = (dsp->hw_info.type & SYSDEP_DSP_STEREO)? 2:1;
@@ -149,39 +149,39 @@ extern void *sdl_dsp_create(const void *flags)
    audiospec->freq = dsp->hw_info.samplerate;
    
    /* set samples size */
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
    audiospec->samples = 2048;
-#else		/* QUASI88 */
+#else       /* QUASI88 */
    audiospec->samples = sdl_buffersize;
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
    
    /* set callback funcion */
    audiospec->callback = sdl_fill_sound;
    
    audiospec->userdata = NULL;
    
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
    /* Open audio device */
    if(SDL_WasInit(SDL_INIT_VIDEO)!=0)   /* If sdl video system is already */
       SDL_InitSubSystem(SDL_INIT_AUDIO);/* initialized, we just initialize */
-   else									/* the audio subsystem */
-   	  SDL_Init(SDL_INIT_AUDIO);   		/* else we MUST use "SDL_Init" */
-   										/* (untested) */
-#else		/* QUASI88 */
+   else                                 /* the audio subsystem */
+      SDL_Init(SDL_INIT_AUDIO);         /* else we MUST use "SDL_Init" */
+                                        /* (untested) */
+#else       /* QUASI88 */
    if( ! SDL_WasInit( SDL_INIT_AUDIO ) ) SDL_InitSubSystem( SDL_INIT_AUDIO );
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
    if (SDL_OpenAudio(audiospec, NULL) != 0) { 
-   		fprintf(stderr, "failed opening audio device\n");
-   		return NULL;
+        fprintf(stderr, "failed opening audio device\n");
+        return NULL;
    }
 
    sample.dataSize = audiospec->size * 4;
    if (!(sample.data = calloc(sample.dataSize, sizeof(Uint8))))
    {
-   		fprintf(stderr, "error malloc failed for data\n");
-   		sdl_dsp_destroy(dsp);
-   		return NULL;
+        fprintf(stderr, "error malloc failed for data\n");
+        sdl_dsp_destroy(dsp);
+        return NULL;
    }
 
    SDL_PauseAudio(0);
@@ -191,9 +191,9 @@ extern void *sdl_dsp_create(const void *flags)
       (dsp->hw_info.type & SYSDEP_DSP_STEREO)? "stereo":"mono",
       dsp->hw_info.samplerate);
       
-#if 1		/* QUASI88 */
-   SDL_Delay( 500 );		/* Really Need? */
-#endif		/* QUASI88 */
+#if 1       /* QUASI88 */
+   SDL_Delay( 500 );        /* Really Need? */
+#endif      /* QUASI88 */
    return dsp;
 }
 
@@ -203,86 +203,86 @@ static void sdl_dsp_destroy(struct sysdep_dsp_struct *dsp)
     
    free(dsp);
 
-#if 1		/* QUASI88 */
+#if 1       /* QUASI88 */
    if (sample.data) {
-	   free(sample.data);
+       free(sample.data);
    }
    memset(&sample, 0, sizeof(sample));
    sample.data = NULL;
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 }
    
 
 static int sdl_dsp_write(struct sysdep_dsp_struct *dsp, unsigned char *data,
    int count)
 {
-	/* sound_n_pos = normal position
-	   sound_r_pos = read position
-	   and so on.					*/
-	Uint8 *src;
-	int bytes_written = 0;
-	SDL_LockAudio();
-	
-	sample.amountRemain = sample.dataSize - sample.sound_n_pos;
-	sample.amountWrite = count * sdl_dsp_bytes_per_sample[dsp->hw_info.type];
-	
-	if(sample.amountRemain <= 0) {
-		SDL_UnlockAudio();
-		return 0;
-	}
-	
-	if(sample.amountRemain < sample.amountWrite) sample.amountWrite = sample.amountRemain;
-		sample.sound_n_pos += sample.amountWrite;
-		
-		src = (Uint8 *)data;
-		sample.tmp = sample.dataSize - sample.sound_w_pos;
-		
-		if(sample.tmp < sample.amountWrite){
-			memcpy(sample.data + sample.sound_w_pos, src, sample.tmp);
-			bytes_written += sample.tmp;
-			sample.amountWrite -= sample.tmp;
-			src += sample.tmp;
-			memcpy(sample.data, src, sample.amountWrite);			
-			bytes_written += sample.amountWrite;
-			sample.sound_w_pos = sample.amountWrite;
-		}
-		else{
-			memcpy( sample.data + sample.sound_w_pos, src, sample.amountWrite);
-			bytes_written += sample.amountWrite;
-			sample.sound_w_pos += sample.amountWrite;
-		}
-		SDL_UnlockAudio();
-		
-	return bytes_written / sdl_dsp_bytes_per_sample[dsp->hw_info.type];
+    /* sound_n_pos = normal position
+       sound_r_pos = read position
+       and so on.                   */
+    Uint8 *src;
+    int bytes_written = 0;
+    SDL_LockAudio();
+    
+    sample.amountRemain = sample.dataSize - sample.sound_n_pos;
+    sample.amountWrite = count * sdl_dsp_bytes_per_sample[dsp->hw_info.type];
+    
+    if(sample.amountRemain <= 0) {
+        SDL_UnlockAudio();
+        return 0;
+    }
+    
+    if(sample.amountRemain < sample.amountWrite) sample.amountWrite = sample.amountRemain;
+        sample.sound_n_pos += sample.amountWrite;
+        
+        src = (Uint8 *)data;
+        sample.tmp = sample.dataSize - sample.sound_w_pos;
+        
+        if(sample.tmp < sample.amountWrite){
+            memcpy(sample.data + sample.sound_w_pos, src, sample.tmp);
+            bytes_written += sample.tmp;
+            sample.amountWrite -= sample.tmp;
+            src += sample.tmp;
+            memcpy(sample.data, src, sample.amountWrite);           
+            bytes_written += sample.amountWrite;
+            sample.sound_w_pos = sample.amountWrite;
+        }
+        else{
+            memcpy( sample.data + sample.sound_w_pos, src, sample.amountWrite);
+            bytes_written += sample.amountWrite;
+            sample.sound_w_pos += sample.amountWrite;
+        }
+        SDL_UnlockAudio();
+        
+    return bytes_written / sdl_dsp_bytes_per_sample[dsp->hw_info.type];
 }
 
 /* Private method */
 static void sdl_fill_sound(void *unused, Uint8 *stream, int len) 
 {
-	int result;
-	Uint8 *dst;
-	sample.amountRead = len;
-	if(sample.sound_n_pos <= 0)
-		return;
-		
-		if(sample.sound_n_pos<sample.amountRead) sample.amountRead = sample.sound_n_pos;
-		result = (int)sample.amountRead;
-		sample.sound_n_pos -= sample.amountRead;
-		
-		dst = (Uint8*)stream;
-		
-		sample.tmp = sample.dataSize - sample.sound_r_pos;
-		if(sample.tmp<sample.amountRead){
-			memcpy( dst, sample.data + sample.sound_r_pos, sample.tmp);
-			sample.amountRead -= sample.tmp;
-			dst += sample.tmp;
-			memcpy( dst, sample.data, sample.amountRead);	
-			sample.sound_r_pos = sample.amountRead;
-		}
-		else{
-			memcpy( dst, sample.data + sample.sound_r_pos, sample.amountRead);
-			sample.sound_r_pos += sample.amountRead;
-		}
+    int result;
+    Uint8 *dst;
+    sample.amountRead = len;
+    if(sample.sound_n_pos <= 0)
+        return;
+        
+        if(sample.sound_n_pos<sample.amountRead) sample.amountRead = sample.sound_n_pos;
+        result = (int)sample.amountRead;
+        sample.sound_n_pos -= sample.amountRead;
+        
+        dst = (Uint8*)stream;
+        
+        sample.tmp = sample.dataSize - sample.sound_r_pos;
+        if(sample.tmp<sample.amountRead){
+            memcpy( dst, sample.data + sample.sound_r_pos, sample.tmp);
+            sample.amountRead -= sample.tmp;
+            dst += sample.tmp;
+            memcpy( dst, sample.data, sample.amountRead);   
+            sample.sound_r_pos = sample.amountRead;
+        }
+        else{
+            memcpy( dst, sample.data + sample.sound_r_pos, sample.amountRead);
+            sample.sound_r_pos += sample.amountRead;
+        }
 }
 
 #endif /* ifdef SYSDEP_DSP_SDL */

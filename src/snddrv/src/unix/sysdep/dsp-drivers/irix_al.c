@@ -99,7 +99,7 @@ irix_dsp_create(const void *flags)
    struct irix_dsp_priv_data *priv = NULL;
    struct sysdep_dsp_struct *dsp = NULL;
    const struct sysdep_dsp_create_params *params = flags;
-   ALconfig devAudioConfig;	
+   ALconfig devAudioConfig; 
    
    /* allocate the dsp struct */
    if (!(dsp = calloc(1, sizeof(struct sysdep_dsp_struct))))

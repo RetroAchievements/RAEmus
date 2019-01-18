@@ -1,7 +1,7 @@
 #include "driver.h"
 #include "beep.h"
 
-static	int	stream[MAX_BEEP88];
+static  int stream[MAX_BEEP88];
 
 static const struct BEEP88interface *intf;
 
@@ -14,7 +14,7 @@ void BEEP88UpdateRequest( int chip )
 
 int BEEP88_sh_start(const struct MachineSound *msound)
 {
-  int	i;
+  int   i;
   intf = msound->sound_interface;
 
   /* stream system initialize */

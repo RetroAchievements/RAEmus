@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef	USE_SOUND
+#ifdef  USE_SOUND
 
 #include "mame-quasi88.h"
 
@@ -18,10 +18,10 @@
 
 
 /*---------------------------------------------------------------*/
-static int use_audiodevice = 1;		/* use audio-devide for audio output */
-/* static int attenuation = 0;		 * ボリューム -32〜0 [db] 現在未サポート */
+static int use_audiodevice = 1;     /* use audio-devide for audio output */
+/* static int attenuation = 0;       * ボリューム -32〜0 [db] 現在未サポート */
 
-static int sound_enabled;			/* オーディオデバイスを開いたら、真 */
+static int sound_enabled;           /* オーディオデバイスを開いたら、真 */
 
 /*===========================================================================*/
 /*              QUASI88 から呼び出される、MAME の処理関数                    */
@@ -39,11 +39,11 @@ static int sound_enabled;			/* オーディオデバイスを開いたら、真 
  *      xmame_config_init() の処理の後片付けが必要なら、ここで行う。
  *
  *****************************************************************************/
-int		xmame_config_init(void)
+int     xmame_config_init(void)
 {
-	return 0;		/*OSD_OK;*/
+    return 0;       /*OSD_OK;*/
 }
-void	xmame_config_exit(void)
+void    xmame_config_exit(void)
 {
 }
 
@@ -59,7 +59,7 @@ void	xmame_config_exit(void)
  *      独自方式で解析する場合は、 NULL を返す。
  *****************************************************************************/
 
-static	const	T_CONFIG_TABLE xmame_options[] =
+static  const   T_CONFIG_TABLE xmame_options[] =
 {
   /* 350〜399: サウンド依存オプション */
 
@@ -112,7 +112,7 @@ static	const	T_CONFIG_TABLE xmame_options[] =
 
 const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
 {
-	return xmame_options;
+    return xmame_options;
 }
 
 
@@ -123,7 +123,7 @@ const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
  *      config_init() より、オプション -help の処理の際に呼び出される。
  *      標準出力にヘルプメッセージを表示する。
  *****************************************************************************/
-void	xmame_config_show_option(void)
+void    xmame_config_show_option(void)
 {
   fprintf(stdout,
   "\n"
@@ -174,9 +174,9 @@ void	xmame_config_show_option(void)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int		xmame_config_check_option(char *opt1, char *opt2, int priority)
+int     xmame_config_check_option(char *opt1, char *opt2, int priority)
 {
-	return 0;
+    return 0;
 }
 
 
@@ -201,10 +201,10 @@ int		xmame_config_check_option(char *opt1, char *opt2, int priority)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int		xmame_config_save_option(void (*real_write)
-								   (const char *opt_name, const char *opt_arg))
+int     xmame_config_save_option(void (*real_write)
+                                   (const char *opt_name, const char *opt_arg))
 {
-	return 0;
+    return 0;
 }
 
 
@@ -222,23 +222,23 @@ int		xmame_config_save_option(void (*real_write)
  *****************************************************************************/
 T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
 {
-	static T_SNDDRV_CONFIG config[] =
-	{
-		{
-			SNDDRV_INT,
-			" Buffer size of sound (512 - 16384, power of 2) ",
-			&sdl_buffersize,  32, 65536,
-		},
-		{
-			SNDDRV_NULL, 0, 0, 0, 0,
-		},
-	};
+    static T_SNDDRV_CONFIG config[] =
+    {
+        {
+            SNDDRV_INT,
+            " Buffer size of sound (512 - 16384, power of 2) ",
+            &sdl_buffersize,  32, 65536,
+        },
+        {
+            SNDDRV_NULL, 0, 0, 0, 0,
+        },
+    };
 
-	if (use_audiodevice) {
-		return config;
-	} else {
-		return NULL;
-	}
+    if (use_audiodevice) {
+        return config;
+    } else {
+        return NULL;
+    }
 }
 
 
@@ -254,17 +254,17 @@ T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
  *      真なら変更可能。偽なら不可。
  *
  *****************************************************************************/
-int		xmame_has_audiodevice(void)
+int     xmame_has_audiodevice(void)
 {
-	if (use_sound) {
-		if (use_audiodevice) return TRUE;
-	}
-	return FALSE;
+    if (use_sound) {
+        if (use_audiodevice) return TRUE;
+    }
+    return FALSE;
 }
 
-int		xmame_has_mastervolume(void)
+int     xmame_has_mastervolume(void)
 {
-	return FALSE;
+    return FALSE;
 }
 
 
@@ -348,7 +348,7 @@ static struct sysdep_dsp_struct *sysdep_dsp_create(
    params.device = "SDL";
    params.samplerate = *samplerate;
    params.type = *type;
-   params.flags = 0;	/* SYSDEP_DSP_EMULATE_TYPE | SYSDEP_DSP_O_NONBLOCK */
+   params.flags = 0;    /* SYSDEP_DSP_EMULATE_TYPE | SYSDEP_DSP_O_NONBLOCK */
    
    /* create the instance */
    if (!(dsp = sdl_dsp_create(&params)))
@@ -387,7 +387,7 @@ int osd_start_audio_stream(int stereo)
    /* set initial value */
    Machine->sample_rate = options.samplerate;
    sound_samples_per_frame = (int)(Machine->sample_rate /
-      Machine->drv->frames_per_second);	      /* mean 22050Hz/55.4Hz */
+      Machine->drv->frames_per_second);       /* mean 22050Hz/55.4Hz */
 
    if (use_audiodevice == 0) {
       sound_enabled = 0;
@@ -415,7 +415,7 @@ int osd_start_audio_stream(int stereo)
       
       /* calculate samples_per_frame */
       sound_samples_per_frame = (int)(Machine->sample_rate /
-         Machine->drv->frames_per_second);	      /* mean 22050Hz/55.4Hz */
+         Machine->drv->frames_per_second);        /* mean 22050Hz/55.4Hz */
    }
 
    return sound_samples_per_frame;
@@ -452,19 +452,19 @@ void osd_sound_enable (int enable_it)
       sound_enabled = 1;
       if (!sound_dsp)
       {
-	 if (!(sound_dsp = sysdep_dsp_create(
-	    &options.samplerate,
-	    &type,
-	    sound_bufsize * (1 / Machine->drv->frames_per_second))))
-	    sound_enabled = 0;
+     if (!(sound_dsp = sysdep_dsp_create(
+        &options.samplerate,
+        &type,
+        sound_bufsize * (1 / Machine->drv->frames_per_second))))
+        sound_enabled = 0;
       }
    }
    else
    {
       if (sound_dsp)
       {
-	 sysdep_dsp_destroy(sound_dsp);
-	 sound_dsp = NULL;
+     sysdep_dsp_destroy(sound_dsp);
+     sound_dsp = NULL;
       }
       sound_enabled = 0;
    }
@@ -474,7 +474,7 @@ void osd_sound_enable (int enable_it)
 /*
  * xmame-0.71.1/src/unix/video.c
  */
-void	osd_update_video_and_audio(void)
+void    osd_update_video_and_audio(void)
 {
    /* nothing */
 }
@@ -501,4 +501,4 @@ int osd_get_mastervolume(void)
     return VOL_MIN;
 }
 
-#endif	/* USE_SOUND */
+#endif  /* USE_SOUND */

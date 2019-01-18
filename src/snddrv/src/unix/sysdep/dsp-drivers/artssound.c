@@ -107,9 +107,9 @@ static void *arts_dsp_create(const void *flags)
    /* open the sound device */
    arts_init();
    priv->stream=arts_play_stream(dsp->hw_info.samplerate,
-				 (dsp->hw_info.type&SYSDEP_DSP_16BIT)?16:8,
-				 (dsp->hw_info.type&SYSDEP_DSP_STEREO)?2:1,
-				 "xmame arts");
+                 (dsp->hw_info.type&SYSDEP_DSP_16BIT)?16:8,
+                 (dsp->hw_info.type&SYSDEP_DSP_STEREO)?2:1,
+                 "xmame arts");
    
    /* Set the buffering time */
    arts_stream_set(priv->stream,ARTS_P_BUFFER_TIME,btime);
@@ -117,7 +117,7 @@ static void *arts_dsp_create(const void *flags)
    /* set non-blocking mode if selected */
    if(params->flags & SYSDEP_DSP_O_NONBLOCK)
    {
-	   arts_stream_set(priv->stream,ARTS_P_BLOCKING,0);
+       arts_stream_set(priv->stream,ARTS_P_BLOCKING,0);
    }
    
    return dsp;
@@ -128,28 +128,28 @@ static void arts_dsp_destroy(struct sysdep_dsp_struct *dsp)
    struct arts_dsp_priv_data *priv = dsp->_priv;
    if(priv)
    {
-	   arts_close_stream(priv->stream);
-	   arts_free();
-	   free(priv);
+       arts_close_stream(priv->stream);
+       arts_free();
+       free(priv);
    }
    free(dsp);
 }
    
 static int arts_dsp_write(struct sysdep_dsp_struct *dsp,
-			  unsigned char *data,
-			  int count)
+              unsigned char *data,
+              int count)
 {
    int result;
    struct arts_dsp_priv_data *priv = dsp->_priv;
 
    result=arts_write(priv->stream,
-		     data,
-		     count * arts_dsp_bytes_per_sample[dsp->hw_info.type]);
+             data,
+             count * arts_dsp_bytes_per_sample[dsp->hw_info.type]);
       
    if (result<0)
    {
       fprintf(stderr, "error: arts_write error: %s\n",
-	      arts_error_text(result));
+          arts_error_text(result));
       return -1;
    }
    return result/arts_dsp_bytes_per_sample[dsp->hw_info.type];

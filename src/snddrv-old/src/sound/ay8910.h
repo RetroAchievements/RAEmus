@@ -6,14 +6,14 @@
 
 struct AY8910interface
 {
-	int num;	/* total number of 8910 in the machine */
-	int baseclock;
-	int mixing_level[MAX_8910];
-	mem_read_handler portAread[MAX_8910];
-	mem_read_handler portBread[MAX_8910];
-	mem_write_handler portAwrite[MAX_8910];
-	mem_write_handler portBwrite[MAX_8910];
-	void (*handler[MAX_8910])(int irq);	/* IRQ handler for the YM2203 */
+    int num;    /* total number of 8910 in the machine */
+    int baseclock;
+    int mixing_level[MAX_8910];
+    mem_read_handler portAread[MAX_8910];
+    mem_read_handler portBread[MAX_8910];
+    mem_write_handler portAwrite[MAX_8910];
+    mem_write_handler portBwrite[MAX_8910];
+    void (*handler[MAX_8910])(int irq); /* IRQ handler for the YM2203 */
 };
 
 void AY8910_reset(int chip);

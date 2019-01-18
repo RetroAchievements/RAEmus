@@ -1,7 +1,7 @@
 /***********************************************************************
  * イベント処理 (システム依存)
  *
- *	詳細は、 event.h 参照
+ *  詳細は、 event.h 参照
  ************************************************************************/
 
 #include "quasi88.h"
@@ -18,13 +18,13 @@
 /******************************************************************************
  * イベントハンドリング
  *
- *	1/60毎に呼び出される。
+ *  1/60毎に呼び出される。
  *****************************************************************************/
 
 /*
  * これは 起動時に1回だけ呼ばれる
  */
-void	event_init(void)
+void    event_init(void)
 {
 }
 
@@ -33,14 +33,14 @@ void	event_init(void)
 /*
  * 約 1/60 毎に呼ばれる
  */
-void	event_update(void)
+void    event_update(void)
 {
 }
 
 /*
  * これは 終了時に1回だけ呼ばれる
  */
-void	event_exit(void)
+void    event_exit(void)
 {
 }
 
@@ -52,7 +52,7 @@ void	event_exit(void)
  *
  ************************************************************************/
 
-void	event_get_mouse_pos(int *x, int *y)
+void    event_get_mouse_pos(int *x, int *y)
 {
     *x = 0;
     *y = 0;
@@ -64,11 +64,11 @@ void	event_get_mouse_pos(int *x, int *y)
  *
  *****************************************************************************/
 
-int	event_numlock_on (void)
+int event_numlock_on (void)
 {
     return FALSE;
 }
-void	event_numlock_off(void)
+void    event_numlock_off(void)
 {
 }
 
@@ -79,7 +79,7 @@ void	event_numlock_off(void)
  *
  *****************************************************************************/
 
-void	event_switch(void)
+void    event_switch(void)
 {
 }
 
@@ -90,7 +90,7 @@ void	event_switch(void)
  *
  *****************************************************************************/
 
-int	event_get_joystick_num(void)
+int event_get_joystick_num(void)
 {
     return 0;
 }

@@ -9,9 +9,9 @@
 
 ***************************************************************************/
 
-#if 0		/* QUASI88 (Compiler depend) */
+#if 0       /* QUASI88 (Compiler depend) */
 #pragma once
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
 #ifndef __SOUND_H__
 #define __SOUND_H__
@@ -21,8 +21,8 @@
     CONSTANTS
 ***************************************************************************/
 
-#define MAX_ROUTES		(16)			/* maximum number of streams of any chip */
-#define ALL_OUTPUTS 	(-1)			/* special value indicating all outputs for the current chip */
+#define MAX_ROUTES      (16)            /* maximum number of streams of any chip */
+#define ALL_OUTPUTS     (-1)            /* special value indicating all outputs for the current chip */
 
 
 
@@ -34,9 +34,9 @@
 typedef struct _sound_route sound_route;
 struct _sound_route
 {
-	int			output;					/* output ID */
-	const char *target;					/* tag of the target */
-	float		gain;					/* gain */
+    int         output;                 /* output ID */
+    const char *target;                 /* tag of the target */
+    float       gain;                   /* gain */
 };
 
 
@@ -44,12 +44,12 @@ struct _sound_route
 typedef struct _sound_config sound_config;
 struct _sound_config
 {
-	int			sound_type;				/* what type of sound chip? */
-	int			clock;					/* clock speed */
-	const void *config;					/* configuration for this chip */
-	const char *tag;					/* tag for this chip */
-	int			routes;					/* number of routes we have */
-	sound_route route[MAX_ROUTES];		/* routes for the various streams */
+    int         sound_type;             /* what type of sound chip? */
+    int         clock;                  /* clock speed */
+    const void *config;                 /* configuration for this chip */
+    const char *tag;                    /* tag for this chip */
+    int         routes;                 /* number of routes we have */
+    sound_route route[MAX_ROUTES];      /* routes for the various streams */
 };
 
 
@@ -57,8 +57,8 @@ struct _sound_config
 typedef struct _speaker_config speaker_config;
 struct _speaker_config
 {
-	const char *tag;					/* tag for this speaker */
-	float		x, y, z;				/* positioning vector */
+    const char *tag;                    /* tag for this speaker */
+    float       x, y, z;                /* positioning vector */
 };
 
 
@@ -68,9 +68,9 @@ struct _speaker_config
 ***************************************************************************/
 
 /* core interfaces */
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 int sound_init(running_machine *machine);
-#else		/* QUASI88 */
+#else       /* QUASI88 */
 int sound_init(void);
 void sound_reset(void);
 void sound_pause(int pause);
@@ -79,7 +79,7 @@ int sound_wavfile_open(const char *filename);
 int sound_wavfile_opened(void);
 void sound_wavfile_close(void);
 int sound_wavfile_damaged(void);
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 void sound_frame_update(void);
 int sound_scalebufferpos(int value);
 
@@ -97,4 +97,4 @@ const char *sound_get_user_gain_name(int index);
 void sndti_set_output_gain(int type, int index, int output, float gain);
 
 
-#endif	/* __SOUND_H__ */
+#endif  /* __SOUND_H__ */

@@ -1,14 +1,14 @@
 /************************************************************************/
-/*									*/
-/* ポーズ (一時停止) モード						*/
-/*									*/
+/*                                  */
+/* ポーズ (一時停止) モード                       */
+/*                                  */
 /************************************************************************/
 
-/*	変数 pause_by_focus_out により処理が変わる			*/
-/*	・pause_by_focus_out == 0 の時					*/
-/*		ESCが押されると解除。	画面中央に PAUSEと表示		*/
-/*	・pause_by_focus_out != 0 の時					*/
-/*		X のマウスが画面内に入ると解除				*/
+/*  変数 pause_by_focus_out により処理が変わる           */
+/*  ・pause_by_focus_out == 0 の時                   */
+/*      ESCが押されると解除。  画面中央に PAUSEと表示      */
+/*  ・pause_by_focus_out != 0 の時                   */
+/*      X のマウスが画面内に入ると解除                */
 
 #include <stdio.h>
 
@@ -23,36 +23,36 @@
 #include "event.h"
 
 
-int	need_focus = FALSE;			/* フォーカスアウト停止あり */
+int need_focus = FALSE;         /* フォーカスアウト停止あり */
 
 
-static	int	pause_by_focus_out = FALSE;
+static  int pause_by_focus_out = FALSE;
 
 /*
  * エミュ処理中に、フォーカスが無くなった (-focus指定時は、ポーズ開始)
  */
-void	pause_event_focus_out_when_exec(void)
+void    pause_event_focus_out_when_exec(void)
 {
-    if (need_focus) {				/* -focus 指定時は */
-	pause_by_focus_out = TRUE;
-	quasi88_pause();			/* ここで PAUSE する */
+    if (need_focus) {               /* -focus 指定時は */
+    pause_by_focus_out = TRUE;
+    quasi88_pause();            /* ここで PAUSE する */
     }
 }
 
 /*
  * ポーズ中に、フォーカスを得た
  */
-void	pause_event_focus_in_when_pause(void)
+void    pause_event_focus_in_when_pause(void)
 {
     if (pause_by_focus_out) {
-	quasi88_exec();
+    quasi88_exec();
     }
 }
 
 /*
  * ポーズ中に、ポーズ終了のキー(ESCキー)押下検知した
  */
-void	pause_event_key_on_esc(void)
+void    pause_event_key_on_esc(void)
 {
     quasi88_exec();
 }
@@ -60,7 +60,7 @@ void	pause_event_key_on_esc(void)
 /*
  * ポーズ中に、メニュー開始のキー押下検知した
  */
-void	pause_event_key_on_menu(void)
+void    pause_event_key_on_menu(void)
 {
     quasi88_menu();
 }
@@ -73,7 +73,7 @@ void	pause_event_key_on_menu(void)
 
 
 
-void	pause_init(void)
+void    pause_init(void)
 {
     status_message_default(0, " PAUSE ");
     status_message_default(1, "<ESC> key to return");
@@ -81,7 +81,7 @@ void	pause_init(void)
 }
 
 
-void	pause_main(void)
+void    pause_main(void)
 {
     /* 終了などを検知するために、イベント処理だけ実施 */
     event_update();
@@ -90,10 +90,10 @@ void	pause_main(void)
     /* 一時停止を抜けたら、ワーク再初期化 */
     if (quasi88_event_flags & EVENT_MODE_CHANGED) {
 
-	pause_by_focus_out = FALSE;
+    pause_by_focus_out = FALSE;
 
     } else {
 
-	quasi88_event_flags |= EVENT_FRAME_UPDATE;
+    quasi88_event_flags |= EVENT_FRAME_UPDATE;
     }
 }

@@ -13,7 +13,7 @@ void FMGEN2608_sh_stop(void);
 void FMGEN2608_sh_reset(void);
 
 /************************************************/
-/* Chip 0 functions				*/
+/* Chip 0 functions             */
 /************************************************/
 READ_HANDLER( FMGEN2608_status_port_0_A_r );
 READ_HANDLER( FMGEN2608_status_port_0_B_r );
@@ -24,7 +24,7 @@ WRITE_HANDLER( FMGEN2608_data_port_0_A_w );
 WRITE_HANDLER( FMGEN2608_data_port_0_B_w );
 
 /************************************************/
-/* Chip 1 functions				*/
+/* Chip 1 functions             */
 /************************************************/
 READ_HANDLER( FMGEN2608_status_port_1_A_r );
 READ_HANDLER( FMGEN2608_status_port_1_B_r );

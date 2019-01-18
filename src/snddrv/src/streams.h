@@ -36,7 +36,7 @@ void streams_frame_update(void);
 /* core stream configuration and operation */
 sound_stream *stream_create(int inputs, int outputs, int sample_rate, void *param, stream_callback callback);
 void stream_set_input(sound_stream *stream, int index, sound_stream *input_stream, int output_index, float gain);
-void stream_update(sound_stream *stream);	/* min_interval is in usec */
+void stream_update(sound_stream *stream);   /* min_interval is in usec */
 stream_sample_t *stream_consume_output(sound_stream *stream, int output, int samples);
 
 /* utilities for accessing a particular stream */

@@ -9,14 +9,14 @@
 
 #include "snddrv.h"
 
-#ifdef	USE_SOUND
+#ifdef  USE_SOUND
 
 #include "mame-quasi88.h"
 
-	int g_pcm_bufsize = 100;	/* PCM バッファサイズ [ms] */
-static	int use_audiodevice = 1;	/* use audio-devide for audio output */
+    int g_pcm_bufsize = 100;    /* PCM バッファサイズ [ms] */
+static  int use_audiodevice = 1;    /* use audio-devide for audio output */
 
-static int device_opened = FALSE;	/* デバイス初期化済みなら真 */
+static int device_opened = FALSE;   /* デバイス初期化済みなら真 */
 
 /*===========================================================================*/
 /*              QUASI88 から呼び出される、MAME の処理関数                    */
@@ -34,11 +34,11 @@ static int device_opened = FALSE;	/* デバイス初期化済みなら真 */
  *      xmame_config_init() の処理の後片付けが必要なら、ここで行う。
  *
  *****************************************************************************/
-int	xmame_config_init(void)
+int xmame_config_init(void)
 {
-    return 0;		/*OSD_OK;*/
+    return 0;       /*OSD_OK;*/
 }
-void	xmame_config_exit(void)
+void    xmame_config_exit(void)
 {
 }
 
@@ -53,8 +53,8 @@ void	xmame_config_exit(void)
  *      T_CONFIG_TABLE を使用する場合、そのポインタを返す。
  *      独自方式で解析する場合は、 NULL を返す。
  *****************************************************************************/
-static	int	invalid_arg;			/* 無効なオプション用のダミー変数 */
-static	const	T_CONFIG_TABLE xmame_options[] =
+static  int invalid_arg;            /* 無効なオプション用のダミー変数 */
+static  const   T_CONFIG_TABLE xmame_options[] =
 {
   /* 350〜399: サウンド依存オプション */
 
@@ -101,13 +101,13 @@ const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
  *      config_init() より、オプション -help の処理の際に呼び出される。
  *      標準出力にヘルプメッセージを表示する。
  *****************************************************************************/
-#ifdef	XMAME_SNDDRV_071
-#define	XMAME_VER "0.71.1"
-#else	/* ver 0.106 */
-#define	XMAME_VER " 0.106"
+#ifdef  XMAME_SNDDRV_071
+#define XMAME_VER "0.71.1"
+#else   /* ver 0.106 */
+#define XMAME_VER " 0.106"
 #endif
 
-void	xmame_config_show_option(void)
+void    xmame_config_show_option(void)
 {
   fprintf(stdout,
   "\n"
@@ -156,7 +156,7 @@ void	xmame_config_show_option(void)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int	xmame_config_check_option(char *opt1, char *opt2, int priority)
+int xmame_config_check_option(char *opt1, char *opt2, int priority)
 {
     return 0;
 }
@@ -183,8 +183,8 @@ int	xmame_config_check_option(char *opt1, char *opt2, int priority)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int	xmame_config_save_option(void (*real_write)
-				   (const char *opt_name, const char *opt_arg))
+int xmame_config_save_option(void (*real_write)
+                   (const char *opt_name, const char *opt_arg))
 {
     return 0;
 }
@@ -206,24 +206,24 @@ T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
 {
     static T_SNDDRV_CONFIG config[] =
     {
-	{
-	    SNDDRV_INT,
+    {
+        SNDDRV_INT,
 #if 0
-	    " Buffer size of PCM data (10 - 1000[ms])    ",
+        " Buffer size of PCM data (10 - 1000[ms])    ",
 #else
-	    " PCM バッファのサイズ  (10 - 1000[ms])      ",
+        " PCM バッファのサイズ  (10 - 1000[ms])      ",
 #endif
-	    &g_pcm_bufsize,  10, 1000,
-	},
-	{
-	    SNDDRV_NULL, 0, 0, 0, 0,
-	},
+        &g_pcm_bufsize,  10, 1000,
+    },
+    {
+        SNDDRV_NULL, 0, 0, 0, 0,
+    },
     };
 
     if (use_audiodevice) {
-	return config;
+    return config;
     } else {
-	return NULL;
+    return NULL;
     }
 }
 
@@ -240,15 +240,15 @@ T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
  *      真なら変更可能。偽なら不可。
  *
  *****************************************************************************/
-int	xmame_has_audiodevice(void)
+int xmame_has_audiodevice(void)
 {
     if (use_sound) {
-	if (device_opened) return TRUE;
+    if (device_opened) return TRUE;
     }
     return FALSE;
 }
 
-int	xmame_has_mastervolume(void)
+int xmame_has_mastervolume(void)
 {
     return FALSE;
 }
@@ -312,56 +312,56 @@ int	xmame_has_mastervolume(void)
  *
  *****************************************************************************/
 
-static	int	create_sound_device(int stereo);
-static	void	destroy_sound_device(void);
-static	void	write_sound_device(unsigned char *data, int count);
+static  int create_sound_device(int stereo);
+static  void    destroy_sound_device(void);
+static  void    write_sound_device(unsigned char *data, int count);
 
 static int samples_per_frame = 0;
 
 
-int	osd_start_audio_stream(int stereo)
+int osd_start_audio_stream(int stereo)
 {
     if (use_audiodevice) {
-	if (!(device_opened = create_sound_device(stereo))) {
-	    /* デバイスが開けなくても、気にせず続行 */
-	}
+    if (!(device_opened = create_sound_device(stereo))) {
+        /* デバイスが開けなくても、気にせず続行 */
+    }
     } else {
-	device_opened = FALSE;
+    device_opened = FALSE;
     }
 
     /* calculate samples_per_frame */
-#ifdef	XMAME_SNDDRV_071
+#ifdef  XMAME_SNDDRV_071
     samples_per_frame =(int)(Machine->sample_rate / Machine->drv->frames_per_second);
-#else	/* ver 0.106 */
+#else   /* ver 0.106 */
     samples_per_frame =(int)(Machine->sample_rate / Machine->refresh_rate);
 #endif
 
     return samples_per_frame;
 }
 
-int	osd_update_audio_stream(INT16 *buffer)
+int osd_update_audio_stream(INT16 *buffer)
 {
     if (device_opened) {
-	write_sound_device((unsigned char *)buffer, samples_per_frame);
+    write_sound_device((unsigned char *)buffer, samples_per_frame);
     }
 
     return samples_per_frame;
 }
 
-void	osd_stop_audio_stream(void)
+void    osd_stop_audio_stream(void)
 {
     if (device_opened) {
-	destroy_sound_device();
-	device_opened = FALSE;
+    destroy_sound_device();
+    device_opened = FALSE;
     }
 }
 
-void	osd_update_video_and_audio(void)
+void    osd_update_video_and_audio(void)
 {
     /* DO NOTHING */
 }
 
-void	osd_sound_enable(int enable)
+void    osd_sound_enable(int enable)
 {
     /* DO NOTHING */
 }
@@ -379,12 +379,12 @@ void	osd_sound_enable(int enable)
  *      音量変更のできないデバイスであれば、ダミーでよい。
  *
  *****************************************************************************/
-void	osd_set_mastervolume(int attenuation)
+void    osd_set_mastervolume(int attenuation)
 {
     /* waveOutSetVolume */
 }
 
-int	osd_get_mastervolume(void)
+int osd_get_mastervolume(void)
 {
     /* waveOutGetVolume */
 
@@ -393,25 +393,25 @@ int	osd_get_mastervolume(void)
 
 
 /*===========================================================================*/
-/*									     */
+/*                                       */
 /*===========================================================================*/
-/* #define	USE_WAVE_OUT_PROC */
+/* #define  USE_WAVE_OUT_PROC */
 
-#ifdef	USE_WAVE_OUT_PROC
+#ifdef  USE_WAVE_OUT_PROC
 static void CALLBACK waveOutProc(HWAVEOUT hwo , UINT msg,         
-				 DWORD dwInstance,  
-				 DWORD dwParam1, DWORD dwParam2);
+                 DWORD dwInstance,  
+                 DWORD dwParam1, DWORD dwParam2);
 #endif
 
-static HWAVEOUT hWaveOut;		/* デバイス識別用ハンドル */
+static HWAVEOUT hWaveOut;       /* デバイス識別用ハンドル */
 
-#define	BUFFER_NUM	(2)		/* ダブルバッファで十分らしい */
+#define BUFFER_NUM  (2)     /* ダブルバッファで十分らしい */
 static WAVEHDR whdr[BUFFER_NUM];
 
-static int byte_per_sample = 4;		/* 1サンプルあたりのバイト数	*/
-					/* (バッファサイズ計算時の係数)	*/
-					/* 4 = Stereo, 16bit		*/
-					/* 2 = Mono,   16bit		*/
+static int byte_per_sample = 4;     /* 1サンプルあたりのバイト数    */
+                    /* (バッファサイズ計算時の係数)    */
+                    /* 4 = Stereo, 16bit        */
+                    /* 2 = Mono,   16bit        */
 
 /*
   PCMデータのキュー処理は、 XMAME 0.106 を参考にしました。
@@ -421,21 +421,21 @@ static int byte_per_sample = 4;		/* 1サンプルあたりのバイト数	*/
 */
   
 static struct {
-    unsigned char	*data;
-    int			dataSize;
-    int			amountRemain;
-    int			amountWrite;
-    int			amountRead;
-    int			tmp;
-    unsigned long	soundlen;
-    int			sound_n_pos;
-    int			sound_w_pos;
-    int			sound_r_pos;
+    unsigned char   *data;
+    int         dataSize;
+    int         amountRemain;
+    int         amountWrite;
+    int         amountRead;
+    int         tmp;
+    unsigned long   soundlen;
+    int         sound_n_pos;
+    int         sound_w_pos;
+    int         sound_r_pos;
 } sample; 
 
 
 
-static	int	create_sound_device(int stereo)
+static  int create_sound_device(int stereo)
 {
     int i, err, bufsize;
     WAVEFORMATEX f;
@@ -446,35 +446,35 @@ static	int	create_sound_device(int stereo)
     /* PCMの形式を設定 */
     memset(&f, 0, sizeof(f));
 
-    f.wFormatTag	= WAVE_FORMAT_PCM;		/* PCM形式	*/
-    f.nChannels		= (stereo) ? 2 : 1;		/* stereo/mono	*/
-    f.wBitsPerSample	= 16;				/* 量子化 bit数	*/
-    f.nSamplesPerSec	= Machine->sample_rate;		/* 標本化周波数	*/
-    f.nBlockAlign	= f.nChannels * f.wBitsPerSample / 8;
-    f.nAvgBytesPerSec	= f.nSamplesPerSec * f.nBlockAlign;
-    f.cbSize		= 0;
+    f.wFormatTag    = WAVE_FORMAT_PCM;      /* PCM形式    */
+    f.nChannels     = (stereo) ? 2 : 1;     /* stereo/mono  */
+    f.wBitsPerSample    = 16;               /* 量子化 bit数 */
+    f.nSamplesPerSec    = Machine->sample_rate;     /* 標本化周波数   */
+    f.nBlockAlign   = f.nChannels * f.wBitsPerSample / 8;
+    f.nAvgBytesPerSec   = f.nSamplesPerSec * f.nBlockAlign;
+    f.cbSize        = 0;
 
     /* デバイスを開く */
     memset(&hWaveOut, 0, sizeof(hWaveOut));
 
-    if (waveOutOpen(&hWaveOut,		/* ここに、ハンドルが返される	     */
-		    WAVE_MAPPER,	/* デバイスは、ユーザ選択のものを使用*/
-		    &f,			/* PCMの形式			     */
-#ifdef	USE_WAVE_OUT_PROC
-		    (DWORD)waveOutProc,	/* コールバック関数		     */
-		    0,			/* コールバック関数の引数データ	     */
-		    CALLBACK_FUNCTION	/* コールバック関数を指定	     */
+    if (waveOutOpen(&hWaveOut,      /* ここに、ハンドルが返される       */
+            WAVE_MAPPER,    /* デバイスは、ユーザ選択のものを使用*/
+            &f,         /* PCMの形式              */
+#ifdef  USE_WAVE_OUT_PROC
+            (DWORD)waveOutProc, /* コールバック関数          */
+            0,          /* コールバック関数の引数データ        */
+            CALLBACK_FUNCTION   /* コールバック関数を指定         */
 #else
-		    (DWORD)g_hWnd,	/* ウインドウハンドル		     */
-		    0,			/* 未使用			     */
-		    CALLBACK_WINDOW	/* ウインドウハンドルを指定	     */
+            (DWORD)g_hWnd,  /* ウインドウハンドル           */
+            0,          /* 未使用                 */
+            CALLBACK_WINDOW /* ウインドウハンドルを指定      */
 #endif
-				) != MMSYSERR_NOERROR) {
+                ) != MMSYSERR_NOERROR) {
 
-	fprintf(stderr, "failed opening audio device\n");
-	return FALSE;
+    fprintf(stderr, "failed opening audio device\n");
+    return FALSE;
 
-	/* 成功時は、 MM_WOM_OPEN / WOM_OPEN が発生する */
+    /* 成功時は、 MM_WOM_OPEN / WOM_OPEN が発生する */
     }
 
     /* WAVバッファを生成 */
@@ -484,77 +484,77 @@ static	int	create_sound_device(int stereo)
     bufsize = Machine->sample_rate * byte_per_sample * g_pcm_bufsize / 1000;
     /* バッファサイズの指定に制約 (2のべき乗とか、上限値とか) は無いの？ */
     for (i=0; i<BUFFER_NUM; i++) {
-	whdr[i].lpData		= (LPSTR)calloc(1, bufsize);
-	whdr[i].dwBufferLength	= bufsize;
-	whdr[i].dwFlags		= WHDR_BEGINLOOP | WHDR_ENDLOOP;
-	whdr[i].dwLoops		= 1;
-	whdr[i].dwUser		= FALSE;    /* FALSE = Started, Need to Write*/
+    whdr[i].lpData      = (LPSTR)calloc(1, bufsize);
+    whdr[i].dwBufferLength  = bufsize;
+    whdr[i].dwFlags     = WHDR_BEGINLOOP | WHDR_ENDLOOP;
+    whdr[i].dwLoops     = 1;
+    whdr[i].dwUser      = FALSE;    /* FALSE = Started, Need to Write*/
 
-	if (whdr[i].lpData == NULL) { err = TRUE; }
+    if (whdr[i].lpData == NULL) { err = TRUE; }
     }
 
     /* WAVバッファにデータを送るための、中間バッファを生成する */
     /* 中間バッファは、WAVバッファよりも大きくないといけない   */
     if (err == FALSE) {
-	memset(&sample, 0, sizeof(sample));
+    memset(&sample, 0, sizeof(sample));
 
-	sample.dataSize = bufsize * 4;	/* バッファの4倍を確保。固定値でいい?*/
-	if (!(sample.data = calloc(1, sample.dataSize))) {
-	    err = TRUE;
-	}
+    sample.dataSize = bufsize * 4;  /* バッファの4倍を確保。固定値でいい?*/
+    if (!(sample.data = calloc(1, sample.dataSize))) {
+        err = TRUE;
+    }
     }
 
     /* ここまでにエラーが出てたら、終了 */
     if (err){
-	for (i=0; i<BUFFER_NUM; i++) {
-	    if (whdr[i].lpData) { free(whdr[i].lpData); }
-	}
-	waveOutClose(hWaveOut);
-	return FALSE;
+    for (i=0; i<BUFFER_NUM; i++) {
+        if (whdr[i].lpData) { free(whdr[i].lpData); }
+    }
+    waveOutClose(hWaveOut);
+    return FALSE;
     }
 
 
     if (verbose_proc)
-	printf("  waveOutOpen=16bit, %s, %dHz : buf-size=%d\n",
-	       (stereo) ? "stereo" : "mono",
-	       f.nSamplesPerSec, bufsize / byte_per_sample);
+    printf("  waveOutOpen=16bit, %s, %dHz : buf-size=%d\n",
+           (stereo) ? "stereo" : "mono",
+           f.nSamplesPerSec, bufsize / byte_per_sample);
 
     /* WAVバッファ (今は無音) を出力 */
     for (i=0; i<BUFFER_NUM; i++) {
-	if (waveOutPrepareHeader(hWaveOut, &whdr[i], sizeof(WAVEHDR))
-							== MMSYSERR_NOERROR) {
+    if (waveOutPrepareHeader(hWaveOut, &whdr[i], sizeof(WAVEHDR))
+                            == MMSYSERR_NOERROR) {
 
-	    waveOutWrite(hWaveOut, &whdr[i], sizeof(WAVEHDR));
-	    /* BUFFER_NUM 回、順に再生されるが、おのおの再生完了時に
-	       MM_WOM_DONE / WOM_DONE が発生する */
-	}
+        waveOutWrite(hWaveOut, &whdr[i], sizeof(WAVEHDR));
+        /* BUFFER_NUM 回、順に再生されるが、おのおの再生完了時に
+           MM_WOM_DONE / WOM_DONE が発生する */
+    }
     }
 
     return TRUE;
 }
 
-static	void	destroy_sound_device(void)
+static  void    destroy_sound_device(void)
 {
     int i;
 
     for (i=0; i<BUFFER_NUM; i++) {
-	whdr[i].dwUser = TRUE;		    /* TRUE = Stopped, Never Write */
+    whdr[i].dwUser = TRUE;          /* TRUE = Stopped, Never Write */
     }
     waveOutReset(hWaveOut);
     /* BUFFER_NUM 回、 MM_WOM_DONE / WOM_DONE が発生する */
 
     for (i=0; i<BUFFER_NUM; i++) {
-	waveOutUnprepareHeader(hWaveOut, &whdr[i], sizeof(WAVEHDR));
+    waveOutUnprepareHeader(hWaveOut, &whdr[i], sizeof(WAVEHDR));
     }
     waveOutClose(hWaveOut);
     /* MM_WOM_CLOSE / WOM_CLOSE が発生する */
 
     for (i=0; i<BUFFER_NUM; i++) {
-	free(whdr[i].lpData);
+    free(whdr[i].lpData);
     }
 
     if (sample.data) {
-	free(sample.data);
+    free(sample.data);
     }
     memset(&sample, 0, sizeof(sample));
     sample.data = NULL;
@@ -567,11 +567,11 @@ static	void	destroy_sound_device(void)
  *
  * 参考 sdl_dsp_write()
  */
-static	void	write_sound_device(unsigned char *data, int count)
+static  void    write_sound_device(unsigned char *data, int count)
 {
     /* sound_n_pos = normal position
        sound_r_pos = read position
-       and so on.			*/
+       and so on.           */
     unsigned char *src;
     int bytes_written = 0;
     /* Lock */
@@ -580,32 +580,32 @@ static	void	write_sound_device(unsigned char *data, int count)
     sample.amountWrite = count * byte_per_sample;
 
     if(sample.amountRemain <= 0) {
-	/* Unlock */
-	return;
+    /* Unlock */
+    return;
     }
 
     if(sample.amountRemain < sample.amountWrite) sample.amountWrite = sample.amountRemain;
     sample.sound_n_pos += sample.amountWrite;
-		
+        
     src = (unsigned char *)data;
     sample.tmp = sample.dataSize - sample.sound_w_pos;
-		
+        
     if(sample.tmp < sample.amountWrite){
-	memcpy(sample.data + sample.sound_w_pos, src, sample.tmp);
-	bytes_written += sample.tmp;
-	sample.amountWrite -= sample.tmp;
-	src += sample.tmp;
-	memcpy(sample.data, src, sample.amountWrite);			
-	bytes_written += sample.amountWrite;
-	sample.sound_w_pos = sample.amountWrite;
+    memcpy(sample.data + sample.sound_w_pos, src, sample.tmp);
+    bytes_written += sample.tmp;
+    sample.amountWrite -= sample.tmp;
+    src += sample.tmp;
+    memcpy(sample.data, src, sample.amountWrite);           
+    bytes_written += sample.amountWrite;
+    sample.sound_w_pos = sample.amountWrite;
     }
     else{
-	memcpy( sample.data + sample.sound_w_pos, src, sample.amountWrite);
-	bytes_written += sample.amountWrite;
-	sample.sound_w_pos += sample.amountWrite;
+    memcpy( sample.data + sample.sound_w_pos, src, sample.amountWrite);
+    bytes_written += sample.amountWrite;
+    sample.sound_w_pos += sample.amountWrite;
     }
     /* Unlock */
-		
+        
     return;
 }
 
@@ -615,29 +615,29 @@ static	void	write_sound_device(unsigned char *data, int count)
  *
  * 参考 sdl_fill_sound()
  */
-#ifdef	USE_WAVE_OUT_PROC
+#ifdef  USE_WAVE_OUT_PROC
 /* waveOutProc の内部で、 WaveOut系APIを呼び出すのはだめらしい。
    ということは、この関数は使えない?  WndProc から処理を呼び出す? */
 static void CALLBACK waveOutProc(HWAVEOUT hwo,
-				 UINT msg,
-				 DWORD dwInstance,
-				 DWORD dwParam1, DWORD dwParam2)
+                 UINT msg,
+                 DWORD dwInstance,
+                 DWORD dwParam1, DWORD dwParam2)
 {
     /* hwo      == hWaveOut                          */
     /* dwParam1 == whdr[n]  イベント発生元のバッファ */
 
     switch (msg) {
     case WOM_OPEN:
-	wave_event_open(hwo);
-	break;
+    wave_event_open(hwo);
+    break;
 
     case WOM_DONE:
-	wave_event_done(hwo, (LPWAVEHDR)dwParam1);
-	break;
+    wave_event_done(hwo, (LPWAVEHDR)dwParam1);
+    break;
 
     case WOM_CLOSE:
-	wave_event_close(hwo);
-	break;
+    wave_event_close(hwo);
+    break;
     }
 }
 #endif
@@ -645,7 +645,7 @@ static void CALLBACK waveOutProc(HWAVEOUT hwo,
 /*
  * MM_WOM_OPEN / WOM_OPEN 発生時に呼び出す関数
  */
-void	wave_event_open(HWAVEOUT hwo)
+void    wave_event_open(HWAVEOUT hwo)
 {
     /* printf("S:open\n"); */
 }
@@ -653,60 +653,60 @@ void	wave_event_open(HWAVEOUT hwo)
 /*
  * MM_WOM_DONE / WOM_DONW 発生時に呼び出す関数
  */
-void	wave_event_done(HWAVEOUT hwo, LPWAVEHDR lpwhdr)
+void    wave_event_done(HWAVEOUT hwo, LPWAVEHDR lpwhdr)
 {
-    if (lpwhdr->dwUser) {		    /* TRUE = Stopped, Never Write */
-	/* printf("S:break\n"); */
-	/* DO NOTHING */
-    } else {				    /* FALSE = Started, Need to Write*/
+    if (lpwhdr->dwUser) {           /* TRUE = Stopped, Never Write */
+    /* printf("S:break\n"); */
+    /* DO NOTHING */
+    } else {                    /* FALSE = Started, Need to Write*/
 
-	int result;
-	unsigned char *dst = (unsigned char *) (lpwhdr->lpData);
-	int len = lpwhdr->dwBufferLength;
+    int result;
+    unsigned char *dst = (unsigned char *) (lpwhdr->lpData);
+    int len = lpwhdr->dwBufferLength;
 
-	/* int i; for (i=0; i<BUFFER_NUM; i++) if (lpwhdr == &whdr[i]) break;*/
-	/* printf("S:done %d\n",i); */
+    /* int i; for (i=0; i<BUFFER_NUM; i++) if (lpwhdr == &whdr[i]) break;*/
+    /* printf("S:done %d\n",i); */
 
-	sample.amountRead = len;
-	if(sample.sound_n_pos <= 0) {
-	    /* 中間バッファが空なら、しようがないので無音を書き込む */
-	    memset(lpwhdr->lpData, 0, len);
+    sample.amountRead = len;
+    if(sample.sound_n_pos <= 0) {
+        /* 中間バッファが空なら、しようがないので無音を書き込む */
+        memset(lpwhdr->lpData, 0, len);
 /*
-	    fprintf(debugfp, "sound empty\n");
+        fprintf(debugfp, "sound empty\n");
 */
-	} else {
-	    if(sample.sound_n_pos<sample.amountRead) sample.amountRead = sample.sound_n_pos;
-	    result = (int)sample.amountRead;
-	    sample.sound_n_pos -= sample.amountRead;
+    } else {
+        if(sample.sound_n_pos<sample.amountRead) sample.amountRead = sample.sound_n_pos;
+        result = (int)sample.amountRead;
+        sample.sound_n_pos -= sample.amountRead;
 
-	    sample.tmp = sample.dataSize - sample.sound_r_pos;
-	    if(sample.tmp<sample.amountRead){
-		memcpy( dst, sample.data + sample.sound_r_pos, sample.tmp);
-		sample.amountRead -= sample.tmp;
-		dst += sample.tmp;
-		memcpy( dst, sample.data, sample.amountRead);	
-		sample.sound_r_pos = sample.amountRead;
-	    }
-	    else{
-		memcpy( dst, sample.data + sample.sound_r_pos, sample.amountRead);
-		sample.sound_r_pos += sample.amountRead;
-	    }
-	}
+        sample.tmp = sample.dataSize - sample.sound_r_pos;
+        if(sample.tmp<sample.amountRead){
+        memcpy( dst, sample.data + sample.sound_r_pos, sample.tmp);
+        sample.amountRead -= sample.tmp;
+        dst += sample.tmp;
+        memcpy( dst, sample.data, sample.amountRead);   
+        sample.sound_r_pos = sample.amountRead;
+        }
+        else{
+        memcpy( dst, sample.data + sample.sound_r_pos, sample.amountRead);
+        sample.sound_r_pos += sample.amountRead;
+        }
+    }
 
-	if (waveOutPrepareHeader(hWaveOut, lpwhdr, sizeof(WAVEHDR))
-							== MMSYSERR_NOERROR) {
-	    waveOutWrite(hWaveOut, lpwhdr, sizeof(WAVEHDR));
-	    /* ↑ 再生後に MM_WOM_DONE / WOM_DONE が発生する */
-	}
+    if (waveOutPrepareHeader(hWaveOut, lpwhdr, sizeof(WAVEHDR))
+                            == MMSYSERR_NOERROR) {
+        waveOutWrite(hWaveOut, lpwhdr, sizeof(WAVEHDR));
+        /* ↑ 再生後に MM_WOM_DONE / WOM_DONE が発生する */
+    }
     }
 }
 
 /*
  * MM_WOM_CLOSE / WOM_CLOSE 発生時に呼び出す関数
  */
-void	wave_event_close(HWAVEOUT hwo)
+void    wave_event_close(HWAVEOUT hwo)
 {
     /* printf("S:close\n"); */
 }
 
-#endif	/* USE_SOUND */
+#endif  /* USE_SOUND */
