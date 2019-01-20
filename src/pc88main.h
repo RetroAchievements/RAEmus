@@ -75,8 +75,6 @@ extern  byte    jisho_rom_ctrl;         /* OUT[F1] 辞書ROMバンク  */
 #define MEMORY_BANK_GRAM1   (1)     /*             R   */
 #define MEMORY_BANK_GRAM2   (2)     /*             G   */
 
-#define CPU_CLOCK_4HMZ      (0x80)      /* CPU CLOCK 4MHz / 8MHz   */
-
 #define EXT_ROM_NOT     (0x01)      /* 拡張 ROM 非セレクト      */
 
 #define INTERRUPT_MASK_RTC  (0x01)      /* 1/600 割り込み 許可     */

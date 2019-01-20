@@ -380,9 +380,7 @@ static  void    vsync( void )
 #endif
   }
 
-  SET_DMA_WAIT_COUNT();         /* DMA消費サイクル数セット */
-
-
+  dma_next_vline = 0;               /* 垂直帰線のステート数を初期化する */
   state_of_cpu -= state_of_vsync;   /* (== vsync_intr_base) */
 }
 

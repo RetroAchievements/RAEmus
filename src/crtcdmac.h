@@ -50,10 +50,13 @@ void    set_text_display(void);
 
 
 
-extern  int dma_wait_count;     /* DMAで消費するサイクル数    */
+extern  int dma_wait_count;     /* DMAウェイトの余った数    */
+extern  int dma_next_vline;     /* DMAウェイトを再計算する次のステート数（vsync で初期化） */
+
+#define DMA_WAIT    (9)         /* DMAで消費するサイクル数    */
 
 #define SET_DMA_WAIT_COUNT()    dma_wait_count =            \
-                    crtc_byte_per_line * crtc_sz_lines
+                    crtc_byte_per_line / crtc_font_height /* 1走査線分のDMAウェイト数 */
 
 #define RESET_DMA_WAIT_COUNT()  dma_wait_count = 0
 

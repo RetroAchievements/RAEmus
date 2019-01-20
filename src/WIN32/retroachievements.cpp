@@ -61,7 +61,6 @@ void MainRAMWriter(size_t nOffs, unsigned char nVal)
 }
 
 /* アドレス空間をできるだけ締めるため、有用性の低い高速RAM・VRAMを無効にする */
-#define RA_ENABLE_VRAM 0
 #if RA_ENABLE_VRAM
 unsigned char HighSpeedRAMReader(size_t nOffs)
 {
@@ -80,7 +79,20 @@ unsigned char MainVRAMReader(size_t nOffs)
 
 void MainVRAMWriter(size_t nOffs, unsigned char nVal)
 {
-    ByteWriter(main_vram[nOffs >> 14], nOffs % 0x4000 , nVal);
+    ByteWriter(main_vram[nOffs >> 14], nOffs % 0x4000, nVal);
+}
+#endif
+
+/* 拡張RAMの有無は期待できないため、とにかく無効にする */
+#if RA_ENABLE_EXTRAM
+unsigned char ExtRAMReader(size_t nOffs)
+{
+    return ByteReader((byte *)ext_ram, nOffs);
+}
+
+void ExtRAMWriter(size_t nOffs, unsigned char nVal)
+{
+    ByteWriter((byte *)ext_ram, nOffs, nVal);
 }
 #endif
 
@@ -200,12 +212,20 @@ void RA_InitUI()
 
 void RA_InitMemory()
 {
+    int bank_id = 0;
+
     RA_ClearMemoryBanks();
-    RA_InstallMemoryBank(0, MainRAMReader, MainRAMWriter, 0x10000);
+    RA_InstallMemoryBank(bank_id++, MainRAMReader, MainRAMWriter, 0x10000);
 
 #if RA_ENABLE_VRAM
-    RA_InstallMemoryBank(1, HighSpeedRAMReader, HighSpeedRAMWriter, 0x1000);
-    RA_InstallMemoryBank(2, MainVRAMReader, MainVRAMWriter, 0x4000 * 4);
+    RA_InstallMemoryBank(bank_id++, HighSpeedRAMReader, HighSpeedRAMWriter, 0x1000);
+    RA_InstallMemoryBank(bank_id++, MainVRAMReader, MainVRAMWriter, 0x4000 * 4);
+#endif
+
+    /* 注意：RA_ENABLE_EXTRAM をセットする場合は、
+    use_extram がいつでも変わることができるため、再初期化の管理が必要 */
+#if RA_ENABLE_EXTRAM
+    RA_InstallMemoryBank(bank_id++, ExtRAMReader, ExtRAMWriter, 0x8000 * 4 * use_extram);
 #endif
 }
 

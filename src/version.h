@@ -55,7 +55,7 @@
 
 
 #ifndef Q_COPYRIGHT
-#define Q_COPYRIGHT     "(c) 1998-2018 S.Fukunaga, R.Zumer"
+#define Q_COPYRIGHT     "(c) 1998-2019 S.Fukunaga, R.Zumer"
 #endif
 
 #ifdef  USE_SOUND

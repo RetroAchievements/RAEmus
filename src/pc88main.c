@@ -182,10 +182,10 @@ static  void    pcg_out_addr_high( byte addr )
  */
 
 static  word    ret_addr = 0xffff;
-static  int hs_icount = 0;
+static  int     hs_icount = 0;
 
-    int highspeed_flag = FALSE; /* 現在、高速BASIC 処理中   */
-static  int highspeed_n88rom = FALSE;   /* MAIN-ROM バンク選択時、真    */
+        int     highspeed_flag = FALSE; /* 現在、高速BASIC 処理中   */
+static  int     highspeed_n88rom = FALSE;   /* MAIN-ROM バンク選択時、真    */
                     /* (この時、高速BASIC 処理可能)   */
 
 /* 高速 BASIC モードに入るときのアドレス (BIOS依存かも?) */
@@ -202,33 +202,33 @@ word highspeed_routine[] = {
 
 
 /************************************************************************/
-/* メモリアクセス                            */
-/*                  special thanks  笠松健一さん  */
-/*                          peach さん    */
+/* メモリアクセス                                                       */
+/*                                  special thanks  笠松健一さん        */
+/*                                                  peach さん          */
 /************************************************************************/
 /*
    メインメモリはバンク切り替えによって、以下のようにマッピングされる。
 
-   0000 +------++------+                +------+ +------+
-    |      ||      |                |      | |      |+
-    |      ||      |                |      | |      ||
-    |      || MAIN |                |N-    | | EXT  ||
-    |      || ROM  |                | BASIC| | RAM  ||
-    |      ||      |                |  ROM | |      ||
+   0000 +------++------+                                +------+ +------+
+        |      ||      |                                |      | |      |+
+        |      ||      |                                |      | |      ||
+        |      || MAIN |                                |N-    | | EXT  ||
+        |      || ROM  |                                | BASIC| | RAM  ||
+        |      ||      |                                |  ROM | |      ||
    6000 +      ++      ++------++------++------++------++      + | (x4) ||
-    |      ||      ||Ext.0 ||Ext.1 ||Ext.2 ||Ext.3 ||      | |      ||
+        |      ||      ||Ext.0 ||Ext.1 ||Ext.2 ||Ext.3 ||      | |      ||
    8000 + MAIN ++------++------++------++------++------++------+ +------+|
-    | RAM  ||Window|                                          +------+
+        | RAM  ||Window|                                          +------+
    8400 +      ++------+
-    |      |
-    |      |
-   C000 +      +    +------++------++------+                 +------+
-    |      |    |      ||      ||      |         |      |+
-    |      |    | VRAM || VRAM || VRAM |         | 辞書 ||
-   F000 +      ++------+|   B  ||   R  ||   G  |         | ROM  ||
-    |      || High ||      ||      ||      |         | (x32)||
-   FFFF +------++------++------++------++------+         +------+|
-                                  +------+
+        |      |
+        |      |
+   C000 +      +        +------++------++------+                  +------+
+        |      |        |      ||      ||      |                  |      |+
+        |      |        | VRAM || VRAM || VRAM |                  | 辞書 ||
+   F000 +      ++------+|   B  ||   R  ||   G  |                  | ROM  ||
+        |      || High ||      ||      ||      |                  | (x32)||
+   FFFF +------++------++------++------++------+                  +------+|
+                                                                   +------+
    つまり、大きく分けると、以下の6つのエリアに分けられる。
 
     0000H〜5FFFH   MAIN RAM / MAIN ROM / N-BASIC ROM / 拡張RAM
@@ -604,13 +604,24 @@ byte    main_fetch( word addr )
 
   if( memory_wait ){
 
+      if (state_of_cpu + z80main_cpu.state0 >= dma_next_vline) {
+          /* vsync でDMAウェイトを一斉に計算するとBEEPの音出力に影響が出るため、
+             垂直帰線毎にDMAウェイトを初期化する */
+
+          SET_DMA_WAIT_COUNT();
+
+          /* 次の垂直帰線のステート数を計算する */
+
+          dma_next_vline += state_of_vsync / (crtc_sz_lines * crtc_font_height);
+      }
+
     if( high_mode == FALSE ){       /* 低速モードの場合 */
 
       z80main_cpu.state0 += 1;          /* M1サイクルウェイト */
 
-      if( dma_wait_count ){         /* DMAウェイトがあれば    */
-    dma_wait_count --;          /* すこしずつ加算していく */
-    z80main_cpu.state0 += DMA_WAIT;
+      if(dma_wait_count){         /* DMAウェイトがあれば    */
+        dma_wait_count--;          /* すこしずつ加算していく */
+        z80main_cpu.state0 += DMA_WAIT;
       }
 
     }else{              /* 高速モードの場合 */

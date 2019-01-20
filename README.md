@@ -53,4 +53,4 @@ QUASI88改のサウンド出力処理部のうち、FM音源ジェネレータ�
 The sound processing portion of QUASI88kai also uses source code from the FM audio generator "fmgen". The copyright to this source code belongs to cisc. Please refer to license/FMGEN.TXT (in Japanese) for licensing information.
 
 ---
-(c) 1998-2018 S.Fukunaga, R.Zumer
+(c) 1998-2019 S.Fukunaga, R.Zumer
