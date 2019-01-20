@@ -50,7 +50,7 @@ enum BaudRate  { BAUDRATE_75,   BAUDRATE_150,   BAUDRATE_300,  BAUDRATE_600,
 
 #define DEFAULT_VERBOSE     (0x00)
 #define DEFAULT_FRAMESKIP   (1)
-#define DEFAULT_CPU     (0)
+#define DEFAULT_CPU         (1)
 
 
 /*----------------------------------------------------------------------*/

@@ -51,7 +51,8 @@ int     text_display = TEXT_ENABLE; /* テキスト表示フラグ  */
 int     blink_cycle;        /* 点滅の周期  8/16/24/32  */
 int     blink_counter = 0;  /* 点滅制御カウンタ     */
 
-int     dma_wait_count = 0; /* DMAで消費するサイクル数    */
+int     dma_wait_count = 0;     /* DMAウェイトの余った数    */
+int     dma_next_vline = 0;     /* DMAウェイトを再計算する次のステート数（vsync で初期化） */
 
 
 static  int crtc_command;
@@ -766,6 +767,7 @@ static  T_SUSPEND_W suspend_crtcdmac_work[]=
   { TYPE_INT,   &blink_counter,     },
 
   { TYPE_INT,   &dma_wait_count,    },
+  { TYPE_INT,   &dma_next_vline,    },
 
   { TYPE_INT,   &crtc_command,      },
   { TYPE_INT,   &crtc_param_num,    },
