@@ -60,24 +60,26 @@ void MainRAMWriter(size_t nOffs, unsigned char nVal)
     ByteWriter(main_ram, nOffs, nVal);
 }
 
-/* アドレス空間をできるだけ締めるため、有用性の低い高速RAM・VRAMを無効にする */
-#if RA_ENABLE_VRAM
-unsigned char HighSpeedRAMReader(size_t nOffs)
+#if RA_ENABLE_TVRAM
+unsigned char TVRAMReader(size_t nOffs)
 {
     return ByteReader(main_high_ram, nOffs);
 }
 
-void HighSpeedRAMWriter(size_t nOffs, unsigned char nVal)
+void TVRAMWriter(size_t nOffs, unsigned char nVal)
 {
     ByteWriter(main_high_ram, nOffs, nVal);
 }
+#endif
 
-unsigned char MainVRAMReader(size_t nOffs)
+/* アドレス空間をできるだけ締めるため、有用性の低いグラフィックVRAMを無効にする */
+#if RA_ENABLE_GVRAM
+unsigned char GVRAMReader(size_t nOffs)
 {
     return ByteReader(main_vram[nOffs >> 14], nOffs % 0x4000);
 }
 
-void MainVRAMWriter(size_t nOffs, unsigned char nVal)
+void GVRAMWriter(size_t nOffs, unsigned char nVal)
 {
     ByteWriter(main_vram[nOffs >> 14], nOffs % 0x4000, nVal);
 }
@@ -217,9 +219,12 @@ void RA_InitMemory()
     RA_ClearMemoryBanks();
     RA_InstallMemoryBank(bank_id++, MainRAMReader, MainRAMWriter, 0x10000);
 
-#if RA_ENABLE_VRAM
-    RA_InstallMemoryBank(bank_id++, HighSpeedRAMReader, HighSpeedRAMWriter, 0x1000);
-    RA_InstallMemoryBank(bank_id++, MainVRAMReader, MainVRAMWriter, 0x4000 * 4);
+#if RA_ENABLE_TVRAM
+    RA_InstallMemoryBank(bank_id++, TVRAMReader, TVRAMWriter, 0x1000);
+#endif
+
+#if RA_ENABLE_GVRAM
+    RA_InstallMemoryBank(bank_id++, GVRAMReader, GVRAMWriter, 0x4000 * 4);
 #endif
 
     /* 注意：RA_ENABLE_EXTRAM をセットする場合は、
