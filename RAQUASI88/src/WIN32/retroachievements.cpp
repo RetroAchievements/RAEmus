@@ -42,6 +42,18 @@ void free_file_info(FileInfo *file)
 /****************************************************************************
  * 実績処理に使用するメモリの読み書き関数
  *****************************************************************************/
+#ifndef RA_ENABLE_TVRAM
+#define RA_ENABLE_TVRAM 1 /* プログラムデータは高速RAMに保存されることがあるため、有効にする */
+#endif
+
+#ifndef RA_ENABLE_GVRAM
+#define RA_ENABLE_GVRAM 0 /* アドレス空間をできるだけ締めるため、有用性の低いグラフィックVRAMを無効にする */
+#endif
+
+#ifndef RA_ENABLE_EXTRAM
+#define RA_ENABLE_EXTRAM 0 /* 拡張RAMの有無は期待できないため、とにかく無効にする */
+#endif
+
 unsigned char ByteReader(byte *buf, size_t nOffs)
 {
     return *(buf + nOffs);
@@ -50,6 +62,16 @@ unsigned char ByteReader(byte *buf, size_t nOffs)
 void ByteWriter(byte *buf, size_t nOffs, unsigned char nVal)
 {
     *(buf + nOffs) = nVal;
+}
+
+unsigned char DummyReader(size_t nOffs)
+{
+    return 0;
+}
+
+void DummyWriter(size_t nOffs, unsigned char nVal)
+{
+    return;
 }
 
 unsigned char MainRAMReader(size_t nOffs)
@@ -74,7 +96,6 @@ void TVRAMWriter(size_t nOffs, unsigned char nVal)
 }
 #endif
 
-/* アドレス空間をできるだけ締めるため、有用性の低いグラフィックVRAMを無効にする */
 #if RA_ENABLE_GVRAM
 unsigned char GVRAMReader(size_t nOffs)
 {
@@ -87,7 +108,6 @@ void GVRAMWriter(size_t nOffs, unsigned char nVal)
 }
 #endif
 
-/* 拡張RAMの有無は期待できないため、とにかく無効にする */
 #if RA_ENABLE_EXTRAM
 unsigned char ExtRAMReader(size_t nOffs)
 {
@@ -223,10 +243,14 @@ void RA_InitMemory()
 
 #if RA_ENABLE_TVRAM
     RA_InstallMemoryBank(bank_id++, TVRAMReader, TVRAMWriter, 0x1000);
+#elif RA_ENABLE_GVRAM || RA_ENABLE_EXTRAM
+    RA_InstallMemoryBank(bank_id++, DummyReader, DummyWriter, 0x1000);
 #endif
 
 #if RA_ENABLE_GVRAM
     RA_InstallMemoryBank(bank_id++, GVRAMReader, GVRAMWriter, 0x4000 * 4);
+#elif RA_ENABLE_EXTRAM
+    RA_InstallMemoryBank(bank_id++, DummyReader, DummyWriter, 0x4000 * 4);
 #endif
 
     /* 注意：RA_ENABLE_EXTRAM をセットする場合は、

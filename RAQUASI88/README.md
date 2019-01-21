@@ -1,7 +1,7 @@
 ## QUASI88改 / QUASI88kai
 ---
 QUASI88改は、福永省三氏の [QUASI88](http://www.eonet.ne.jp/~showtime/quasi88/) の改良版です。  
-ソースやビルドシステムを無駄に変えずに、バグを修正し新機能を実施する方針です。
+ソースやビルドシステムを必要以上に変えず、バグを修正し新機能を実装する方針です。
 
 QUASI88kai is an improved version of Showzoh Fukunaga's [QUASI88](http://www.eonet.ne.jp/~showtime/quasi88/).
 The aim is to fix bugs and implement new features with minimal changes to the source and build system.
@@ -9,17 +9,17 @@ The aim is to fix bugs and implement new features with minimal changes to the so
 主な更新内容 / Main changes:
 * ビルドシステムの一般更新・修正（現在のコンパイラをサポートするように） / General updates to the build system (to support modern compilers)
 * 全ファイルをUTF-8に変換 / All files converted to UTF-8
-* Win32版に -double を実施 / Support -double in the Win32 version
-* Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実施 / Support drag-and-drop of tape image files in the Win32 version
+* Win32版に -double を実装 / Support -double in the Win32 version
+* Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実装 / Support drag-and-drop of tape image files in the Win32 version
 * RetroAchievements対応版　「RAQUASI88」を追加 / Add a RetroAchievements-compatible version "RAQUASI88"
 
 この先の予定についてはイッシューページの enhancement タグを参照してください。
 
 Please refer to issues with the "enhancement" tag for future plans.
 
-最新バージョンは、 0.6.6　(2018/01/07 リリース) です。
+最新バージョンは、 0.6.6　(2019/01/07 リリース) です。
 
-The latest version is 0.6.6 (released 2018/01/07).
+The latest version is 0.6.6 (released 2019/01/07).
 
 ---
 
