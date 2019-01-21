@@ -1,15 +1,27 @@
 
 
-            QUASI88の履歴
+            QUASI88改の履歴
+
+
+2019/01/07 ver 0.6.6
+    New (新機能):
+        Tape image drag-and-drop support on Win32 (Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実装)
+    Other changes (他更新内容):
+        Rename the project to QUASI88改 (名称を「QUASI88改」へ変更)
+        Translate some documents into English (幾つかの文書の英語訳を追加)
 
 
 2018/12/24 ver 0.6.5
     New (新機能):
         Double window size support in win32 (win32版に倍のウィンドウサイズをサポート)
         UTF-8 support on Windows (Windows版にUTF-8をサポート)
-    Other changes (他更新点):
+    Other changes (他更新内容):
         All files converted to UTF-8 (全ファイルをUTF-8に変換)
         Update build configurations and project files for modern compilers (現在のコンパイラに対応してビルド設定、プロジェクトファイル等を更新)
+
+
+
+            QUASI88の履歴
 
 
 2013/03/29 ver 0.6.4
@@ -155,7 +167,7 @@
     M88 の ROMイメージファイルも使えるように改良
     FONT.ROM の セミグラフィック文字データを無視するように修正
     VSYNC割り込み信号の扱いのバグ修正
-    拡張RAMのアクセス処理のバグ修正   
+    拡張RAMのアクセス処理のバグ修正
     ALU処理のバグ修正
     FDC の READ DIAGNOSTIC で セクタ間を擬似的なデータで埋める
     2DD/2HDに仮対応 (トラックの上限を163に伸ばしただけ。ポート処理は未)
