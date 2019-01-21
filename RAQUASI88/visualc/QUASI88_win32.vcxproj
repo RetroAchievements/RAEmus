@@ -156,7 +156,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\RA_Integration\src;..\src;..\src\FWIN;..\src\WIN32;..\src\snddrv;..\src\snddrv\quasi88;..\src\snddrv\src;..\src\snddrv\src\sound;..\src\fmgen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;USE_SOUND;USE_FMGEN;DEBUGPRINTF;USE_RETROACHIEVEMENTS;SUPPORT_DOUBLE;SUPPORT_UTF8;LANG_EN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;USE_SOUND;USE_FMGEN;DEBUGPRINTF;USE_RETROACHIEVEMENTS;RA_ENABLE_TVRAM;SUPPORT_DOUBLE;SUPPORT_UTF8;LANG_EN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -255,7 +255,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\RA_Integration\src;..\src;..\src\FWIN;..\src\WIN32;..\src\snddrv;..\src\snddrv\quasi88;..\src\snddrv\src;..\src\snddrv\src\sound;..\src\fmgen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;USE_SOUND;USE_FMGEN;USE_RETROACHIEVEMENTS;SUPPORT_DOUBLE;SUPPORT_UTF8;LANG_EN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;USE_SOUND;USE_FMGEN;USE_RETROACHIEVEMENTS;RA_ENABLE_TVRAM;SUPPORT_DOUBLE;SUPPORT_UTF8;LANG_EN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
