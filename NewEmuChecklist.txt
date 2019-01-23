@@ -27,6 +27,7 @@ RetroAchievements Emulator Requirements:
   [ ] Performance of emulator (without any debugging windows open) should not be noticeably different than the source emulator at 100% speed
   [ ] Emulator must perform at intended framerate on a PC that could have been purchased at a retail store within the last four years.
 [ ] Achievements/Leaderboards/Rich Presence
+  [ ] Memory mapping method is documented and approved
   [ ] Achievements can be created (RA_InstallSharedFunctions>RA_GameIsActive)
   [ ] Achievements trigger (RA_InstallMemoryBank>pReader, RA_DoAchievementsFrame, RA_HandleHTTPResults)
   [ ] Achievement trigger displays notification (RA_UpdateRenderOverlay)
@@ -45,6 +46,7 @@ RetroAchievements Emulator Requirements:
   [ ] Save states can be loaded
   [ ] HitCounts persist with save state (RA_OnSaveState, RA_OnLoadState)
   [ ] Fast-forward is allowed
+  [ ] Slowdown is allowed
   [ ] Rewind is allowed
   [ ] Frame advance is allowed
   [ ] Recording playback is allowed
@@ -58,11 +60,10 @@ RetroAchievements Emulator Requirements:
   [ ] Save states can be created
   [ ] Save states cannot be loaded [prompt to switch to softcore (RA_WarnDisableHardcore)]
   [ ] Fast-forward is allowed
+  [ ] Slowdown is not allowed
   [ ] Rewind is not allowed
   [ ] Frame advance is not allowed
   [ ] Recording playback is not allowed
-  [ ] Speed may be adjusted above 100%
-  [ ] Speed cannot be adjusted below 100%
   [ ] Switching to Softcore does not reset the emulator
   [ ] Emulator specific tools for viewing/modifying memory are not allowed [prompt to switch to softcore optional]
   [ ] Emulator specific tools for supporting cheats are not allowed [prompt to switch to softcore optional]
