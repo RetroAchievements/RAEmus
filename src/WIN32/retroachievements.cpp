@@ -141,7 +141,7 @@ int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
 
 bool GameIsActive()
 {
-    return quasi88_is_exec();
+    return loaded_title != NULL;
 }
 
 void CauseUnpause()
@@ -181,7 +181,7 @@ void GetEstimatedGameTitle(char* sNameOut)
 
     if (loading_file.data_len > 0)
     {
-        // ロード中のファ入れ名を返す
+        // ロード中のファイル名を返す
         memcpy(sNameOut, loading_file.name, ra_buffer_size);
     }
     else if (loaded_title != NULL && loaded_title->name[0] != NULL)

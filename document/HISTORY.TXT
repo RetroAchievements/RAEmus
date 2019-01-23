@@ -6,6 +6,7 @@
 2019/01/07 ver 0.6.6
     New (新機能):
         Tape image drag-and-drop support on Win32 (Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実装)
+        Add a RetroAchievements-compatible version "RAQUASI88" ver 1.0.0 (RetroAchievements対応版「RAQUASI88」 ver 1.0.0 を追加)
     Other changes (他更新内容):
         Rename the project to QUASI88改 (名称を「QUASI88改」へ変更)
         Translate some documents into English (幾つかの文書の英語訳を追加)

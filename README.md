@@ -11,7 +11,7 @@ The aim is to fix bugs and implement new features with minimal changes to the so
 * 全ファイルをUTF-8に変換 / All files converted to UTF-8
 * Win32版に -double を実装 / Support -double in the Win32 version
 * Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実装 / Support drag-and-drop of tape image files in the Win32 version
-* RetroAchievements対応版　「RAQUASI88」を追加 / Add a RetroAchievements-compatible version "RAQUASI88"
+* RetroAchievements対応版「RAQUASI88」を追加 / Add a RetroAchievements-compatible version "RAQUASI88"
 
 この先の予定についてはイッシューページの enhancement タグを参照してください。
 
