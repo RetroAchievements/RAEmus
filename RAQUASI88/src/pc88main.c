@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/* PC8801 メインシステム(本体側)					*/
-/*									*/
+/*                                  */
+/* PC8801 メインシステム(本体側)                  */
+/*                                  */
 /************************************************************************/
 
 #include <stdio.h>
@@ -21,7 +21,7 @@
 #include "memory.h"
 #include "pio.h"
 #include "soundbd.h"
-#include "fdc.h"		/* disk_ex_drv */
+#include "fdc.h"        /* disk_ex_drv */
 
 #include "event.h"
 #include "emu.h"
@@ -32,141 +32,141 @@
 
 
 
-static	OSD_FILE *fp_so = NULL;		/* シリアル出力用fp		*/
-static	OSD_FILE *fp_si = NULL;		/*	   入力用fp		*/
-static	OSD_FILE *fp_to = NULL;		/* テープ出力用  fp		*/
-static	OSD_FILE *fp_ti = NULL;		/*       入力用  fp		*/
-static	OSD_FILE *fp_prn= NULL;		/* プリンタ出力用fp		*/
+static  OSD_FILE *fp_so = NULL;     /* シリアル出力用fp      */
+static  OSD_FILE *fp_si = NULL;     /*     入力用fp      */
+static  OSD_FILE *fp_to = NULL;     /* テープ出力用  fp       */
+static  OSD_FILE *fp_ti = NULL;     /*       入力用  fp      */
+static  OSD_FILE *fp_prn= NULL;     /* プリンタ出力用fp      */
 
 
 
 
-int	boot_basic     =DEFAULT_BASIC;	/* 起動時の BASICモード		*/
-int	boot_dipsw     =DEFAULT_DIPSW;	/* 起動時のディップ設定		*/
-int	boot_from_rom  =DEFAULT_BOOT;	/* 起動デバイスの設定		*/
-int	boot_clock_4mhz=DEFAULT_CLOCK;	/* 起動時の CPUクロック		*/
+int boot_basic     =DEFAULT_BASIC;  /* 起動時の BASICモード      */
+int boot_dipsw     =DEFAULT_DIPSW;  /* 起動時のディップ設定       */
+int boot_from_rom  =DEFAULT_BOOT;   /* 起動デバイスの設定      */
+int boot_clock_4mhz=DEFAULT_CLOCK;  /* 起動時の CPUクロック     */
 
-int	monitor_15k    =0x00;		/* 15k モニター 2:Yes 0:No	*/
+int monitor_15k    =0x00;       /* 15k モニター 2:Yes 0:No  */
 
-z80arch	z80main_cpu;			/* Z80 CPU ( main system )	*/
+z80arch z80main_cpu;            /* Z80 CPU ( main system )  */
 
-int	high_mode;			/* 高速モード 1:Yes 0:No	*/
-
-
-static	byte	dipsw_1;		/* IN[30] ディップスイッチ 1	*/
-static	byte	dipsw_2;		/* IN[31] ディップスイッチ 2	*/
-static	byte	ctrl_boot;		/* IN[40] ディスクブート情報	*/
-static	byte	cpu_clock;		/* IN[6E] CPU クロック		*/
-
-int	memory_bank;			/* OUT[5C-5F] IN[5C] メモリバンク*/
-
-static	byte	common_out_data;	/* OUT[10] PRT/時計		*/
-byte	misc_ctrl;			/* I/O[32] 各種Ctrl		*/
-byte	ALU1_ctrl;			/* OUT[34] ALU Ctrl 1		*/
-byte	ALU2_ctrl;			/* OUT[35] ALU Ctrl 2		*/
-byte	ctrl_signal;			/* OUT[40] コントロール信号出力値保存*/
-byte	baudrate_sw = DEFAULT_BAUDRATE;	/* I/O[6F] ボーレート		*/
-word	window_offset;			/* I/O[70] WINDOW オフセット	*/
-byte	ext_rom_bank;			/* I/O[71] 拡張ROM BANK		*/
-byte	ext_ram_ctrl;			/* I/O[E2] 拡張RAM制御		*/
-byte	ext_ram_bank;			/* I/O[E3] 拡張RAMセレクト	*/
-
-static	pair	kanji1_addr;		/* OUT[E8-E9] 漢字ROM(第1) ADDR	*/
-static	pair	kanji2_addr;		/* OUT[EC-ED] 漢字ROM(第2) ADDR	*/
-
-byte	jisho_rom_bank;			/* OUT[F0] 辞書ROMセレクト	*/
-byte	jisho_rom_ctrl;			/* OUT[F1] 辞書ROMバンク	*/
+int high_mode;          /* 高速モード 1:Yes 0:No   */
 
 
-int	calendar_stop = FALSE;		/* 時計停止フラグ		*/
-static	char	calendar_data[7] =	/* 時計停止時刻 (年月日曜時分秒)*/
+static  byte    dipsw_1;        /* IN[30] ディップスイッチ 1    */
+static  byte    dipsw_2;        /* IN[31] ディップスイッチ 2    */
+static  byte    ctrl_boot;      /* IN[40] ディスクブート情報   */
+static  byte    cpu_clock;      /* IN[6E] CPU クロック      */
+
+int memory_bank;            /* OUT[5C-5F] IN[5C] メモリバンク*/
+
+static  byte    common_out_data;    /* OUT[10] PRT/時計       */
+byte    misc_ctrl;          /* I/O[32] 各種Ctrl       */
+byte    ALU1_ctrl;          /* OUT[34] ALU Ctrl 1       */
+byte    ALU2_ctrl;          /* OUT[35] ALU Ctrl 2       */
+byte    ctrl_signal;            /* OUT[40] コントロール信号出力値保存*/
+byte    baudrate_sw = DEFAULT_BAUDRATE; /* I/O[6F] ボーレート      */
+word    window_offset;          /* I/O[70] WINDOW オフセット   */
+byte    ext_rom_bank;           /* I/O[71] 拡張ROM BANK       */
+byte    ext_ram_ctrl;           /* I/O[E2] 拡張RAM制御      */
+byte    ext_ram_bank;           /* I/O[E3] 拡張RAMセレクト    */
+
+static  pair    kanji1_addr;        /* OUT[E8-E9] 漢字ROM(第1) ADDR  */
+static  pair    kanji2_addr;        /* OUT[EC-ED] 漢字ROM(第2) ADDR  */
+
+byte    jisho_rom_bank;         /* OUT[F0] 辞書ROMセレクト    */
+byte    jisho_rom_ctrl;         /* OUT[F1] 辞書ROMバンク   */
+
+
+int calendar_stop = FALSE;      /* 時計停止フラグ        */
+static  char    calendar_data[7] =  /* 時計停止時刻 (年月日曜時分秒)*/
 { 85, 0, 1, 0, 0, 0, 0, };
 
 
-int	cmt_speed = 0;			/* テープ速度(BPS)、 0は自動	*/
-int	cmt_intr  = TRUE;		/* 真で、テープ読込に割込使用	*/
-int	cmt_wait  = TRUE;		/* 真で、テープ読込ウェイトあり	*/
+int cmt_speed = 0;          /* テープ速度(BPS)、 0は自動   */
+int cmt_intr  = TRUE;       /* 真で、テープ読込に割込使用  */
+int cmt_wait  = TRUE;       /* 真で、テープ読込ウェイトあり   */
 
 
-int	highspeed_mode = FALSE;		/* 真で、高速 BASIC 処理あり 	*/
+int highspeed_mode = FALSE;     /* 真で、高速 BASIC 処理あり   */
 
 
-int	use_siomouse = FALSE;		/* 真で、シリアルマウスあり	*/
+int use_siomouse = FALSE;       /* 真で、シリアルマウスあり */
 
 
 /* 以下はテープイメージのファイル依存情報なので、ステートセーブしない */
 
-static	int	cmt_is_t88;		/* 真…T88、偽…CMT		*/
-static	int	cmt_block_size;		/* データタグ内のサイズ(T88)	*/
-static	long	cmt_size;		/* イメージのサイズ		*/
-static	int	cmt_EOF = FALSE;	/* 真で、テープ入力 EOF   	*/
-static	int	com_EOF = FALSE;	/* 真で、シリアル入力 EOF 	*/
-static	long	com_size;		/* イメージのサイズ		*/
+static  int cmt_is_t88;     /* 真…T88、偽…CMT        */
+static  int cmt_block_size;     /* データタグ内のサイズ(T88)  */
+static  long    cmt_size;       /* イメージのサイズ     */
+static  int cmt_EOF = FALSE;    /* 真で、テープ入力 EOF     */
+static  int com_EOF = FALSE;    /* 真で、シリアル入力 EOF  */
+static  long    com_size;       /* イメージのサイズ     */
 
 
-static byte sio_in_data( void );	/* IN[20] RS232C入力 (データ)	*/
-static byte sio_in_status( void );	/* IN[21] RS232C入力 (制御)	*/
-static byte in_ctrl_signal( void );	/* IN[40] コントロール信号入力	*/
+static byte sio_in_data( void );    /* IN[20] RS232C入力 (データ)  */
+static byte sio_in_status( void );  /* IN[21] RS232C入力 (制御) */
+static byte in_ctrl_signal( void ); /* IN[40] コントロール信号入力    */
 
-static void sio_out_data( byte );	/* OUT[20] RS232C出力 (データ)	*/
-static void sio_out_command( byte );	/* OUT[21] RS232C出力 (コマンド)*/
-static void out_ctrl_signal( byte );	/* OUT[40] コントロール信号出力	*/
+static void sio_out_data( byte );   /* OUT[20] RS232C出力 (データ) */
+static void sio_out_command( byte );    /* OUT[21] RS232C出力 (コマンド)*/
+static void out_ctrl_signal( byte );    /* OUT[40] コントロール信号出力   */
 
 static void sio_tape_highspeed_load( void );
 static void sio_set_intr_base( void );
 static void sio_check_cmt_error( void );
 
-#define	sio_tape_readable()	(fp_ti && !cmt_EOF)	/* テープ読込可？   */
-#define	sio_tape_writable()	(fp_to)			/* テープ書込可？   */
-#define	sio_serial_readable()	(fp_si && !com_EOF)	/* シリアル読込可？ */
-#define	sio_serial_writable()	(fp_so)			/* シリアル書込可？ */
+#define sio_tape_readable() (fp_ti && !cmt_EOF) /* テープ読込可？   */
+#define sio_tape_writable() (fp_to)         /* テープ書込可？   */
+#define sio_serial_readable()   (fp_si && !com_EOF) /* シリアル読込可？ */
+#define sio_serial_writable()   (fp_so)         /* シリアル書込可？ */
 
 
 /************************************************************************/
-/* メモリウェイト							*/
+/* メモリウェイト                            */
 /************************************************************************/
 /*
  * まだちゃんと対応するのは先になりそうですが、とりあえず
  *
- *	低速モードでの M1 ウェイト (フェッチ毎に 1ステート? )
- *	低速モードでの DMAのウェイト ( 1バイト9ステート? を VSYNC毎? )
- *	高速モードで、高速RAMでの M1 ウェイト (フェッチ毎に 1ステート? )
- *	サブシステムでの M1 ウェイト (フェッチ毎に 1ステート? )
+ *  低速モードでの M1 ウェイト (フェッチ毎に 1ステート? )
+ *  低速モードでの DMAのウェイト ( 1バイト9ステート? を VSYNC毎? )
+ *  高速モードで、高速RAMでの M1 ウェイト (フェッチ毎に 1ステート? )
+ *  サブシステムでの M1 ウェイト (フェッチ毎に 1ステート? )
  *
  * あたりを適当に入れてみることにします。
  */
 
-#define	DMA_WAIT	(9)
+#define DMA_WAIT    (9)
 
-static	int	mem_wait_highram = FALSE;
+static  int mem_wait_highram = FALSE;
 
 
 /************************************************************************/
-/* PCG-8100								*/
+/* PCG-8100                             */
 /************************************************************************/
-static	int	pcg_data;
-static	int	pcg_addr;
+static  int pcg_data;
+static  int pcg_addr;
 
-static	void	pcg_out_data( byte data )
+static  void    pcg_out_data( byte data )
 {
   pcg_data = data;
 }
 
-static	void	pcg_out_addr_low( byte addr )
+static  void    pcg_out_addr_low( byte addr )
 {
   pcg_addr = (pcg_addr & 0xff00) | addr;
 }
 
-static	void	pcg_out_addr_high( byte addr )
+static  void    pcg_out_addr_high( byte addr )
 {
   byte src;
 
   pcg_addr = (pcg_addr & 0x00ff) | ((int)addr << 8);
 
-  if( addr & 0x10 ){	/* exec */
+  if( addr & 0x10 ){    /* exec */
 
     if( addr & 0x20 ){ src = font_mem[ 0x400 + (pcg_addr&0x3ff) ]; } /* copy */
-    else             { src = pcg_data; }			    /* store */
+    else             { src = pcg_data; }                /* store */
 
     font_pcg[ 0x400 + (pcg_addr&0x3ff) ] = src;
   }
@@ -175,68 +175,68 @@ static	void	pcg_out_addr_high( byte addr )
 
 
 /************************************************************************/
-/* 高速 BASIC モード							*/
+/* 高速 BASIC モード                           */
 /************************************************************************/
 /*
  * 高速 BASIC 処理は、peach氏により提供されました。
  */
 
-static	word	ret_addr = 0xffff;
-static	int	hs_icount = 0;
+static  word    ret_addr = 0xffff;
+static  int     hs_icount = 0;
 
-	int highspeed_flag = FALSE;	/* 現在、高速BASIC 処理中	*/
-static	int highspeed_n88rom = FALSE;	/* MAIN-ROM バンク選択時、真	*/
-					/* (この時、高速BASIC 処理可能)	*/
+        int     highspeed_flag = FALSE; /* 現在、高速BASIC 処理中   */
+static  int     highspeed_n88rom = FALSE;   /* MAIN-ROM バンク選択時、真    */
+                    /* (この時、高速BASIC 処理可能)   */
 
 /* 高速 BASIC モードに入るときのアドレス (BIOS依存かも?) */
 word highspeed_routine[] = {
-    0x6e9a,			/* PSET   */
-    0x6eae,			/* LINE   */
-    0x6eca,			/* ROLL   */
-    0x6ece,			/* CIRCLE */
-    0x6eda,			/* PAINT  */
-    0x7198,			/* GET@   */
-    0x71a6,			/* PUT@   */
+    0x6e9a,         /* PSET   */
+    0x6eae,         /* LINE   */
+    0x6eca,         /* ROLL   */
+    0x6ece,         /* CIRCLE */
+    0x6eda,         /* PAINT  */
+    0x7198,         /* GET@   */
+    0x71a6,         /* PUT@   */
     EndofBasicAddr
 };
 
 
 /************************************************************************/
-/* メモリアクセス							*/
-/*					special thanks	笠松健一さん	*/
-/*							peach さん	*/
+/* メモリアクセス                                                       */
+/*                                  special thanks  笠松健一さん        */
+/*                                                  peach さん          */
 /************************************************************************/
 /*
    メインメモリはバンク切り替えによって、以下のようにマッピングされる。
 
-   0000	+------++------+				+------+ +------+
-	|      ||      |				|      | |      |+
-	|      ||      |				|      | |      ||
-	|      || MAIN |				|N-    | | EXT  ||
-	|      || ROM  |				| BASIC| | RAM  ||
-	|      ||      |				|  ROM | |      ||
-   6000	+      ++      ++------++------++------++------++      + | (x4) ||
-	|      ||      ||Ext.0 ||Ext.1 ||Ext.2 ||Ext.3 ||      | |      ||
-   8000	+ MAIN ++------++------++------++------++------++------+ +------+|
-	| RAM  ||Window|                                          +------+
-   8400	+      ++------+
-	|      |
-	|      |
-   C000	+      +	+------++------++------+                 +------+
-	|      |	|      ||      ||      |		 |      |+
-	|      |	| VRAM || VRAM || VRAM |		 | 辞書 ||
-   F000	+      ++------+|   B  ||   R  ||   G  |		 | ROM  ||
-	|      || High ||      ||      ||      |		 | (x32)||
-   FFFF	+------++------++------++------++------+		 +------+|
-								  +------+
+   0000 +------++------+                                +------+ +------+
+        |      ||      |                                |      | |      |+
+        |      ||      |                                |      | |      ||
+        |      || MAIN |                                |N-    | | EXT  ||
+        |      || ROM  |                                | BASIC| | RAM  ||
+        |      ||      |                                |  ROM | |      ||
+   6000 +      ++      ++------++------++------++------++      + | (x4) ||
+        |      ||      ||Ext.0 ||Ext.1 ||Ext.2 ||Ext.3 ||      | |      ||
+   8000 + MAIN ++------++------++------++------++------++------+ +------+|
+        | RAM  ||Window|                                          +------+
+   8400 +      ++------+
+        |      |
+        |      |
+   C000 +      +        +------++------++------+                  +------+
+        |      |        |      ||      ||      |                  |      |+
+        |      |        | VRAM || VRAM || VRAM |                  | 辞書 ||
+   F000 +      ++------+|   B  ||   R  ||   G  |                  | ROM  ||
+        |      || High ||      ||      ||      |                  | (x32)||
+   FFFF +------++------++------++------++------+                  +------+|
+                                                                   +------+
    つまり、大きく分けると、以下の6つのエリアに分けられる。
 
-	0000H〜5FFFH	MAIN RAM / MAIN ROM / N-BASIC ROM / 拡張RAM
-	6000H〜7FFFH	MAIN RAM / MAIN ROM / 拡張ROM / N-BASIC ROM / 拡張RAM
-	8000H〜83FFH	MAIN RAM / ウインドウ
-	8400H〜BFFFH	MAIN RAM
-	C000H〜EFFFH	MAIN RAM / VRAM / 辞書ROM
-	F000H〜FFFFH	MAIN RAM / 高速RAM / VRAM / 辞書ROM
+    0000H〜5FFFH   MAIN RAM / MAIN ROM / N-BASIC ROM / 拡張RAM
+    6000H〜7FFFH   MAIN RAM / MAIN ROM / 拡張ROM / N-BASIC ROM / 拡張RAM
+    8000H〜83FFH   MAIN RAM / ウインドウ
+    8400H〜BFFFH   MAIN RAM
+    C000H〜EFFFH   MAIN RAM / VRAM / 辞書ROM
+    F000H〜FFFFH   MAIN RAM / 高速RAM / VRAM / 辞書ROM
 
    バンク切り替えを行なった時に、各々のエリアがどのバンクに割り当てられたのか
    をチェックし、実際のメモリアクセスはその割り当て情報により行なう。
@@ -245,59 +245,59 @@ word highspeed_routine[] = {
    注)
    Hモードにおいては、 0xf000 〜 0xffff 番地を以下のようにエミュレートする。
 
-	高速RAMは    main_ram[ 0xf000 〜 0xffff ]      を使う
-	メインRAMは  main_high_ram[ 0x0000 〜 0x0fff ] を使う
+    高速RAMは    main_ram[ 0xf000 〜 0xffff ]      を使う
+    メインRAMは  main_high_ram[ 0x0000 〜 0x0fff ] を使う
 
    これにより、テキスト表示処理は常に main_ram を参照すればよいことになる。
 */
 
 
-static	byte	*read_mem_0000_5fff;	/* メインメモリ リードポインタ	*/
-static	byte	*read_mem_6000_7fff;
-static	byte	*read_mem_8000_83ff;
-static	byte	*read_mem_c000_efff;
-static	byte	*read_mem_f000_ffff;
+static  byte    *read_mem_0000_5fff;    /* メインメモリ リードポインタ */
+static  byte    *read_mem_6000_7fff;
+static  byte    *read_mem_8000_83ff;
+static  byte    *read_mem_c000_efff;
+static  byte    *read_mem_f000_ffff;
 
-static	byte	*write_mem_0000_7fff;	/* メインメモリ ライトポインタ	*/
-static	byte	*write_mem_8000_83ff;
-static	byte	*write_mem_c000_efff;
-static	byte	*write_mem_f000_ffff;
+static  byte    *write_mem_0000_7fff;   /* メインメモリ ライトポインタ */
+static  byte    *write_mem_8000_83ff;
+static  byte    *write_mem_c000_efff;
+static  byte    *write_mem_f000_ffff;
 
 /*------------------------------------------------------*/
-/* address : 0x0000 〜 0x7fff の メモリ割り当て		*/
-/*		ext_ram_ctrl, ext_ram_bank, grph_ctrl,	*/
-/*		ext_rom_bank, misc_ctrl により変化	*/
+/* address : 0x0000 〜 0x7fff の メモリ割り当て        */
+/*      ext_ram_ctrl, ext_ram_bank, grph_ctrl,  */
+/*      ext_rom_bank, misc_ctrl により変化 */
 /*------------------------------------------------------*/
 #if 1
-INLINE	void	main_memory_mapping_0000_7fff( void )
+INLINE  void    main_memory_mapping_0000_7fff( void )
 {
-  highspeed_n88rom = FALSE;	/* デフォルト */
+  highspeed_n88rom = FALSE; /* デフォルト */
 
   switch( ext_ram_ctrl ){
 
-  case 0x00:					/* 拡張RAM RW不可 */
-    if( grph_ctrl&GRPH_CTRL_64RAM ){			/* 64KB RAM mode */
+  case 0x00:                    /* 拡張RAM RW不可 */
+    if( grph_ctrl&GRPH_CTRL_64RAM ){            /* 64KB RAM mode */
       read_mem_0000_5fff  = &main_ram[ 0x0000 ];
       read_mem_6000_7fff  = &main_ram[ 0x6000 ];
       write_mem_0000_7fff = &main_ram[ 0x0000 ];
-    }else{						/* ROM/RAM mode */
-      if( grph_ctrl&GRPH_CTRL_N ){				/* N BASIC */
-	read_mem_0000_5fff = &main_rom_n[ 0x0000 ];
-	read_mem_6000_7fff = &main_rom_n[ 0x6000 ];
-      }else{							/*N88 BASIC*/
-	read_mem_0000_5fff = &main_rom[ 0x0000 ];
-	if( ext_rom_bank&EXT_ROM_NOT ){				/* 通常ROM */
-	  read_mem_6000_7fff = &main_rom[ 0x6000 ];
-	  highspeed_n88rom = TRUE;
-	}else{							/* 拡張ROM */
-	  read_mem_6000_7fff = &main_rom_ext[ misc_ctrl&MISC_CTRL_EBANK ][0];
-	}
+    }else{                      /* ROM/RAM mode */
+      if( grph_ctrl&GRPH_CTRL_N ){              /* N BASIC */
+    read_mem_0000_5fff = &main_rom_n[ 0x0000 ];
+    read_mem_6000_7fff = &main_rom_n[ 0x6000 ];
+      }else{                            /*N88 BASIC*/
+    read_mem_0000_5fff = &main_rom[ 0x0000 ];
+    if( ext_rom_bank&EXT_ROM_NOT ){             /* 通常ROM */
+      read_mem_6000_7fff = &main_rom[ 0x6000 ];
+      highspeed_n88rom = TRUE;
+    }else{                          /* 拡張ROM */
+      read_mem_6000_7fff = &main_rom_ext[ misc_ctrl&MISC_CTRL_EBANK ][0];
+    }
       }
       write_mem_0000_7fff = &main_ram[ 0x0000 ];
     }
     break;
 
-  case 0x01:					/* 拡張RAM R可 W不可 */
+  case 0x01:                    /* 拡張RAM R可 W不可 */
     if( ext_ram_bank < use_extram*4 ){
       read_mem_0000_5fff = &ext_ram[ ext_ram_bank ][ 0x0000 ];
       read_mem_6000_7fff = &ext_ram[ ext_ram_bank ][ 0x6000 ];
@@ -308,23 +308,23 @@ INLINE	void	main_memory_mapping_0000_7fff( void )
     write_mem_0000_7fff = &main_ram[ 0x0000 ];
     break;
 
-  case 0x10:					/* 拡張RAM R不可 W可  */
-		/* buf fix by peach (thanks!) */
-    if( grph_ctrl&GRPH_CTRL_64RAM ){			/* 64KB RAM mode */
+  case 0x10:                    /* 拡張RAM R不可 W可  */
+        /* buf fix by peach (thanks!) */
+    if( grph_ctrl&GRPH_CTRL_64RAM ){            /* 64KB RAM mode */
       read_mem_0000_5fff  = &main_ram[ 0x0000 ];
       read_mem_6000_7fff  = &main_ram[ 0x6000 ];
-    }else{						/* ROM/RAM mode */
-      if( grph_ctrl&GRPH_CTRL_N ){				/* N BASIC */
-	read_mem_0000_5fff = &main_rom_n[ 0x0000 ];
-	read_mem_6000_7fff = &main_rom_n[ 0x6000 ];
-      }else{							/*N88 BASIC*/
-	read_mem_0000_5fff = &main_rom[ 0x0000 ];
-	if( ext_rom_bank&EXT_ROM_NOT ){				/* 通常ROM */
-	  read_mem_6000_7fff = &main_rom[ 0x6000 ];
-	  highspeed_n88rom = TRUE;
-	}else{							/* 拡張ROM */
-	  read_mem_6000_7fff = &main_rom_ext[ misc_ctrl&MISC_CTRL_EBANK ][0];
-	}
+    }else{                      /* ROM/RAM mode */
+      if( grph_ctrl&GRPH_CTRL_N ){              /* N BASIC */
+    read_mem_0000_5fff = &main_rom_n[ 0x0000 ];
+    read_mem_6000_7fff = &main_rom_n[ 0x6000 ];
+      }else{                            /*N88 BASIC*/
+    read_mem_0000_5fff = &main_rom[ 0x0000 ];
+    if( ext_rom_bank&EXT_ROM_NOT ){             /* 通常ROM */
+      read_mem_6000_7fff = &main_rom[ 0x6000 ];
+      highspeed_n88rom = TRUE;
+    }else{                          /* 拡張ROM */
+      read_mem_6000_7fff = &main_rom_ext[ misc_ctrl&MISC_CTRL_EBANK ][0];
+    }
       }
     }
     if( ext_ram_bank < use_extram*4 ){
@@ -334,7 +334,7 @@ INLINE	void	main_memory_mapping_0000_7fff( void )
     }
     break;
 
-  case 0x11:					/* 拡張RAM RW可 */
+  case 0x11:                    /* 拡張RAM RW可 */
     if( ext_ram_bank < use_extram*4 ){
       read_mem_0000_5fff  = &ext_ram[ ext_ram_bank ][ 0x0000 ];
       read_mem_6000_7fff  = &ext_ram[ ext_ram_bank ][ 0x6000 ];
@@ -348,49 +348,49 @@ INLINE	void	main_memory_mapping_0000_7fff( void )
   }
 }
 
-#else	/* こう、すっきりさせるほうがいい？ */
+#else   /* こう、すっきりさせるほうがいい？ */
 
-INLINE	void	main_memory_mapping_0000_7fff( void )
+INLINE  void    main_memory_mapping_0000_7fff( void )
 {
-  highspeed_n88rom = FALSE;	/* デフォルト */
+  highspeed_n88rom = FALSE; /* デフォルト */
 
-	/* リードは、指定したバンクに応じたメモリから */
+    /* リードは、指定したバンクに応じたメモリから */
 
-				/* buf fix by peach (thanks!) */
-  if( grph_ctrl&GRPH_CTRL_64RAM ){			/* 64KB RAM mode */
+                /* buf fix by peach (thanks!) */
+  if( grph_ctrl&GRPH_CTRL_64RAM ){          /* 64KB RAM mode */
     read_mem_0000_5fff  = &main_ram[ 0x0000 ];
     read_mem_6000_7fff  = &main_ram[ 0x6000 ];
-  }else{						/* ROM/RAM mode */
-    if( grph_ctrl&GRPH_CTRL_N ){				/* N BASIC */
+  }else{                        /* ROM/RAM mode */
+    if( grph_ctrl&GRPH_CTRL_N ){                /* N BASIC */
       read_mem_0000_5fff = &main_rom_n[ 0x0000 ];
       read_mem_6000_7fff = &main_rom_n[ 0x6000 ];
-    }else{							/*N88 BASIC*/
+    }else{                          /*N88 BASIC*/
       read_mem_0000_5fff = &main_rom[ 0x0000 ];
-      if( ext_rom_bank&EXT_ROM_NOT ){				/* 通常ROM */
-	read_mem_6000_7fff = &main_rom[ 0x6000 ];
-	highspeed_n88rom = TRUE;
-      }else{							/* 拡張ROM */
-	read_mem_6000_7fff = &main_rom_ext[ misc_ctrl&MISC_CTRL_EBANK ][0];
+      if( ext_rom_bank&EXT_ROM_NOT ){               /* 通常ROM */
+    read_mem_6000_7fff = &main_rom[ 0x6000 ];
+    highspeed_n88rom = TRUE;
+      }else{                            /* 拡張ROM */
+    read_mem_6000_7fff = &main_rom_ext[ misc_ctrl&MISC_CTRL_EBANK ][0];
       }
     }
   }
 
-	/* ライトは、常にメインRAM へ */
+    /* ライトは、常にメインRAM へ */
 
   write_mem_0000_7fff = &main_ram[ 0x0000 ];
 
 
 
-	/* 拡張RAMへのアクセス指定があれば、拡張RAMをリード・ライトする */
+    /* 拡張RAMへのアクセス指定があれば、拡張RAMをリード・ライトする */
 
-  if( ext_ram_ctrl & 0x01 ){				/* 拡張RAM R可 */
+  if( ext_ram_ctrl & 0x01 ){                /* 拡張RAM R可 */
     if( ext_ram_bank < use_extram*4 ){
       read_mem_0000_5fff = &ext_ram[ ext_ram_bank ][ 0x0000 ];
       read_mem_6000_7fff = &ext_ram[ ext_ram_bank ][ 0x6000 ];
     }
   }
 
-  if( ext_ram_ctrl & 0x10 ){				/* 拡張RAM W可 */
+  if( ext_ram_ctrl & 0x10 ){                /* 拡張RAM W可 */
     if( ext_ram_bank < use_extram*4 ){
       write_mem_0000_7fff = &ext_ram[ ext_ram_bank ][ 0x0000 ];
     }
@@ -400,10 +400,10 @@ INLINE	void	main_memory_mapping_0000_7fff( void )
 
 
 /*------------------------------------------------------*/
-/* address : 0x8000 〜 0x83ff の メモリ割り当て		*/
-/*		grph_ctrl, window_offset により変化	*/
+/* address : 0x8000 〜 0x83ff の メモリ割り当て        */
+/*      grph_ctrl, window_offset により変化    */
 /*------------------------------------------------------*/
-INLINE	void	main_memory_mapping_8000_83ff( void )
+INLINE  void    main_memory_mapping_8000_83ff( void )
 {
   if( grph_ctrl & ( GRPH_CTRL_64RAM | GRPH_CTRL_N ) ){
     read_mem_8000_83ff  = &main_ram[ 0x8000 ];
@@ -411,14 +411,14 @@ INLINE	void	main_memory_mapping_8000_83ff( void )
   }else{
     if( high_mode ){
       if( window_offset <= 0xf000 - 0x400 ){
-	read_mem_8000_83ff  = &main_ram[ window_offset ];
-	write_mem_8000_83ff = &main_ram[ window_offset ];
+    read_mem_8000_83ff  = &main_ram[ window_offset ];
+    write_mem_8000_83ff = &main_ram[ window_offset ];
       }else if( 0xf000 <= window_offset && window_offset <= 0x10000 - 0x400 ){
-	read_mem_8000_83ff  = &main_high_ram[ window_offset - 0xf000 ];
-	write_mem_8000_83ff = &main_high_ram[ window_offset - 0xf000 ];
+    read_mem_8000_83ff  = &main_high_ram[ window_offset - 0xf000 ];
+    write_mem_8000_83ff = &main_high_ram[ window_offset - 0xf000 ];
       }else{
-	read_mem_8000_83ff  = NULL;
-	write_mem_8000_83ff = NULL;
+    read_mem_8000_83ff  = NULL;
+    write_mem_8000_83ff = NULL;
       }
     }else{
       read_mem_8000_83ff  = &main_ram[ window_offset ];
@@ -429,11 +429,11 @@ INLINE	void	main_memory_mapping_8000_83ff( void )
 
 
 /*------------------------------------------------------*/
-/* address : 0xc000 〜 0xffff の メモリ割り当て		*/
-/*		jisho_rom_ctrl, jisho_rom_bank, 	*/
-/*		misc_ctrl により変化			*/
+/* address : 0xc000 〜 0xffff の メモリ割り当て        */
+/*      jisho_rom_ctrl, jisho_rom_bank,     */
+/*      misc_ctrl により変化           */
 /*------------------------------------------------------*/
-INLINE	void	main_memory_mapping_c000_ffff( void )
+INLINE  void    main_memory_mapping_c000_ffff( void )
 {
   mem_wait_highram = FALSE;
 
@@ -461,11 +461,11 @@ INLINE	void	main_memory_mapping_c000_ffff( void )
 
 
 /*------------------------------------------------------*/
-/* address : 0xc000 〜 0xffff の メイン←→VARM切り替え	*/
-/*		misc_ctrl, ALU2_ctrl,			*/
-/*		memory_bank により変化			*/
+/* address : 0xc000 〜 0xffff の メイン←→VARM切り替え  */
+/*      misc_ctrl, ALU2_ctrl,           */
+/*      memory_bank により変化         */
 /*------------------------------------------------------*/
-static	int	vram_access_way;	/* vram アクセスの方法	*/
+static  int vram_access_way;    /* vram アクセスの方法   */
 enum VramAccessWay{
   VRAM_ACCESS_BANK,
   VRAM_ACCESS_ALU,
@@ -473,22 +473,22 @@ enum VramAccessWay{
   EndofVramAcc
 };
 
-INLINE	void	main_memory_vram_mapping( void )
+INLINE  void    main_memory_vram_mapping( void )
 {
-  if( misc_ctrl & MISC_CTRL_EVRAM ){		/* 拡張アクセスモード */
+  if( misc_ctrl & MISC_CTRL_EVRAM ){        /* 拡張アクセスモード */
 
     /* ワードラゴンで使用 (port 35H の方はいらないかも…) by peach */
     memory_bank = MEMORY_BANK_MAIN;
 
-    if( ALU2_ctrl & ALU2_CTRL_VACCESS ){		/* VRAM拡張アクセス */
+    if( ALU2_ctrl & ALU2_CTRL_VACCESS ){        /* VRAM拡張アクセス */
       vram_access_way = VRAM_ACCESS_ALU;
-    }else{						/* MAIN RAMアクセス */
+    }else{                      /* MAIN RAMアクセス */
       vram_access_way = VRAM_NOT_ACCESS;
     }
-  }else{					/* 独立アクセスモード */
-    if( memory_bank == MEMORY_BANK_MAIN ){		/* MAIN RAMアクセス */
+  }else{                    /* 独立アクセスモード */
+    if( memory_bank == MEMORY_BANK_MAIN ){      /* MAIN RAMアクセス */
       vram_access_way = VRAM_NOT_ACCESS;
-    }else{						/* VRAMアクセス     */
+    }else{                      /* VRAMアクセス     */
       vram_access_way = VRAM_ACCESS_BANK;
     }
   }
@@ -498,17 +498,17 @@ INLINE	void	main_memory_vram_mapping( void )
 
 
 /*------------------------------*/
-/* 通常のＶＲＡＭリード		*/
+/* 通常のＶＲＡＭリード       */
 /*------------------------------*/
-INLINE	byte	vram_read( word addr )
+INLINE  byte    vram_read( word addr )
 {
   return main_vram[addr][ memory_bank ];
 }
 
 /*------------------------------*/
-/* 通常のＶＲＡＭライト		*/
+/* 通常のＶＲＡＭライト       */
 /*------------------------------*/
-INLINE	void	vram_write( word addr, byte data )
+INLINE  void    vram_write( word addr, byte data )
 {
   screen_set_dirty_flag(addr);
 
@@ -516,37 +516,37 @@ INLINE	void	vram_write( word addr, byte data )
 }
 
 /*------------------------------*/
-/* ＡＬＵを介したＶＲＡＭリード	*/
+/* ＡＬＵを介したＶＲＡＭリード   */
 /*------------------------------*/
-typedef	union {
-  bit8		c[4];
-  bit32		l;
+typedef union {
+  bit8      c[4];
+  bit32     l;
 } ALU_memory;
 
-static	ALU_memory	ALU_buf;
-static	ALU_memory	ALU_comp;
+static  ALU_memory  ALU_buf;
+static  ALU_memory  ALU_comp;
 
 #ifdef LSB_FIRST
-#define	set_ALU_comp()						\
-	do{							\
-	  ALU_comp.l = 0;					\
-	  if( (ALU2_ctrl&0x01)==0 ) ALU_comp.l |= 0x000000ff;	\
-	  if( (ALU2_ctrl&0x02)==0 ) ALU_comp.l |= 0x0000ff00;	\
-	  if( (ALU2_ctrl&0x04)==0 ) ALU_comp.l |= 0x00ff0000;	\
-	}while(0)
+#define set_ALU_comp()                      \
+    do{                         \
+      ALU_comp.l = 0;                   \
+      if( (ALU2_ctrl&0x01)==0 ) ALU_comp.l |= 0x000000ff;   \
+      if( (ALU2_ctrl&0x02)==0 ) ALU_comp.l |= 0x0000ff00;   \
+      if( (ALU2_ctrl&0x04)==0 ) ALU_comp.l |= 0x00ff0000;   \
+    }while(0)
 #else
-#define	set_ALU_comp()						\
-	do{							\
-	  ALU_comp.l = 0;					\
-	  if( (ALU2_ctrl&0x01)==0 ) ALU_comp.l |= 0xff000000;	\
-	  if( (ALU2_ctrl&0x02)==0 ) ALU_comp.l |= 0x00ff0000;	\
-	  if( (ALU2_ctrl&0x04)==0 ) ALU_comp.l |= 0x0000ff00;	\
-	}while(0)
+#define set_ALU_comp()                      \
+    do{                         \
+      ALU_comp.l = 0;                   \
+      if( (ALU2_ctrl&0x01)==0 ) ALU_comp.l |= 0xff000000;   \
+      if( (ALU2_ctrl&0x02)==0 ) ALU_comp.l |= 0x00ff0000;   \
+      if( (ALU2_ctrl&0x04)==0 ) ALU_comp.l |= 0x0000ff00;   \
+    }while(0)
 #endif
 
-INLINE	byte	ALU_read( word addr )
+INLINE  byte    ALU_read( word addr )
 {
-  ALU_memory	wk;
+  ALU_memory    wk;
 
   ALU_buf.l  = (main_vram4)[addr];
   wk.l       = ALU_comp.l ^ ALU_buf.l;
@@ -555,9 +555,9 @@ INLINE	byte	ALU_read( word addr )
 }
 
 /*------------------------------*/
-/* ＡＬＵを介したＶＲＡＭライト	*/
+/* ＡＬＵを介したＶＲＡＭライト   */
 /*------------------------------*/
-INLINE	void	ALU_write( word addr, byte data )
+INLINE  void    ALU_write( word addr, byte data )
 {
   int i, mode;
 
@@ -569,10 +569,10 @@ INLINE	void	ALU_write( word addr, byte data )
     mode = ALU1_ctrl;
     for( i=0;  i<3;  i++, mode>>=1 ){
       switch( mode&0x11 ){
-      case 0x00:  main_vram[addr][i] &= ~data;	break;
-      case 0x01:  main_vram[addr][i] |=  data;	break;
-      case 0x10:  main_vram[addr][i] ^=  data;	break;
-      default:					break;
+      case 0x00:  main_vram[addr][i] &= ~data;  break;
+      case 0x01:  main_vram[addr][i] |=  data;  break;
+      case 0x10:  main_vram[addr][i] ^=  data;  break;
+      default:                  break;
       }
     }
     break;
@@ -594,29 +594,40 @@ INLINE	void	ALU_write( word addr, byte data )
 
 
 /*----------------------*/
-/*    フェッチ		*/
+/*    フェッチ      */
 /*----------------------*/
 
-byte	main_fetch( word addr )
+byte    main_fetch( word addr )
 {
 
   /* かなり適当な、メモリウェイト処理 */
 
   if( memory_wait ){
 
-    if( high_mode == FALSE ){		/* 低速モードの場合 */
+      if (state_of_cpu + z80main_cpu.state0 >= dma_next_vline) {
+          /* vsync でDMAウェイトを一斉に計算するとBEEPの音出力に影響が出るため、
+             垂直帰線毎にDMAウェイトを初期化する */
 
-      z80main_cpu.state0 += 1;			/* M1サイクルウェイト */
+          SET_DMA_WAIT_COUNT();
 
-      if( dma_wait_count ){			/* DMAウェイトがあれば    */
-	dma_wait_count --;			/* すこしずつ加算していく */
-	z80main_cpu.state0 += DMA_WAIT;
+          /* 次の垂直帰線のステート数を計算する */
+
+          dma_next_vline += state_of_vsync / (crtc_sz_lines * crtc_font_height);
       }
 
-    }else{				/* 高速モードの場合 */
+    if( high_mode == FALSE ){       /* 低速モードの場合 */
 
-      if( addr>=0xf000 && mem_wait_highram ){	/* 高速RAMのフェッチは */
-	z80main_cpu.state0 += 1;		/* M1サイクルウェイト  */
+      z80main_cpu.state0 += 1;          /* M1サイクルウェイト */
+
+      if(dma_wait_count){         /* DMAウェイトがあれば    */
+        dma_wait_count--;          /* すこしずつ加算していく */
+        z80main_cpu.state0 += DMA_WAIT;
+      }
+
+    }else{              /* 高速モードの場合 */
+
+      if( addr>=0xf000 && mem_wait_highram ){   /* 高速RAMのフェッチは */
+    z80main_cpu.state0 += 1;        /* M1サイクルウェイト  */
       }
     }
 
@@ -624,25 +635,25 @@ byte	main_fetch( word addr )
   }
 
 
-  /* 高速 BASIC モード */		/* peach氏提供 */
+  /* 高速 BASIC モード */      /* peach氏提供 */
 
   if (highspeed_mode){
     if (!(highspeed_flag) && highspeed_n88rom) {
       int i;
       for (i = 0; highspeed_routine[i] != EndofBasicAddr; i++) {
-	if (addr == highspeed_routine[i]) {
-	  highspeed_flag = TRUE;
-	  ret_addr = main_mem_read(z80main_cpu.SP.W) +
-	    	    (main_mem_read(z80main_cpu.SP.W + 1) << 8);
-	  hs_icount= z80_state_intchk;
+    if (addr == highspeed_routine[i]) {
+      highspeed_flag = TRUE;
+      ret_addr = main_mem_read(z80main_cpu.SP.W) +
+                (main_mem_read(z80main_cpu.SP.W + 1) << 8);
+      hs_icount= z80_state_intchk;
 
-	  z80_state_intchk = HS_BASIC_COUNT*2;
-	  /*printf("%x %d -> %d -> ",addr,hs_icount,z80_state_intchk);*/
-	  break;
-	}
+      z80_state_intchk = HS_BASIC_COUNT*2;
+      /*printf("%x %d -> %d -> ",addr,hs_icount,z80_state_intchk);*/
+      break;
+    }
       }
     } else if ((highspeed_flag) &&
-	       (ret_addr == addr || z80main_cpu.state0 >= HS_BASIC_COUNT)) {
+           (ret_addr == addr || z80main_cpu.state0 >= HS_BASIC_COUNT)) {
       ret_addr = 0xffff;
       /*printf("'%d'\n",z80_state_intchk);*/
       z80_state_intchk = hs_icount;
@@ -676,9 +687,9 @@ byte	main_fetch( word addr )
 }
 
 /*----------------------*/
-/*    メモリ・リード	*/
+/*    メモリ・リード */
 /*----------------------*/
-byte	main_mem_read( word addr )
+byte    main_mem_read( word addr )
 {
   if     ( addr < 0x6000 ) return  read_mem_0000_5fff[ addr ];
   else if( addr < 0x8000 ) return  read_mem_6000_7fff[ addr & 0x1fff ];
@@ -703,9 +714,9 @@ byte	main_mem_read( word addr )
 }
 
 /*----------------------*/
-/*     メモリ・ライト	*/
+/*     メモリ・ライト    */
 /*----------------------*/
-void	main_mem_write( word addr, byte data )
+void    main_mem_write( word addr, byte data )
 {
   if     ( addr < 0x8000 ) write_mem_0000_7fff[ addr ]          = data;
   else if( addr < 0x8400 ){
@@ -719,8 +730,8 @@ void	main_mem_write( word addr, byte data )
   else if( addr < 0xc000 ) main_ram[ addr ]                     = data;
   else{
     switch( vram_access_way ){
-    case VRAM_ACCESS_ALU:  ALU_write( addr & 0x3fff, data );	break;
-    case VRAM_ACCESS_BANK: vram_write( addr & 0x3fff, data );	break;
+    case VRAM_ACCESS_ALU:  ALU_write( addr & 0x3fff, data );    break;
+    case VRAM_ACCESS_BANK: vram_write( addr & 0x3fff, data );   break;
     default:
       if( addr < 0xf000 )  write_mem_c000_efff[ addr & 0x3fff ] = data;
       else                 write_mem_f000_ffff[ addr & 0x0fff ] = data;
@@ -733,21 +744,21 @@ void	main_mem_write( word addr, byte data )
 
 
 /************************************************************************/
-/* Ｉ／Ｏポートアクセス							*/
+/* Ｉ／Ｏポートアクセス                           */
 /************************************************************************/
 
 /*----------------------*/
-/*    ポート・ライト	*/
+/*    ポート・ライト */
 /*----------------------*/
 
-void	main_io_out( byte port, byte data )
+void    main_io_out( byte port, byte data )
 {
   byte chg;
   PC88_PALETTE_T new_pal;
 
   switch( port ){
 
-	/* 高速テープロード / PCG */
+    /* 高速テープロード / PCG */
   case 0x00:
     /*if( use_pcg )*/
       pcg_out_data( data );
@@ -774,28 +785,28 @@ void	main_io_out( byte port, byte data )
     return;
 
 
-	/* プリンタ出力／カレンダクロック 出力データ */
+    /* プリンタ出力／カレンダクロック 出力データ */
   case 0x10:
     common_out_data = data;
     return;
 
 
-	/* RS-232C／CMT 出力データ */
+    /* RS-232C／CMT 出力データ */
   case 0x20:
     sio_out_data( data );
     return;
 
-	/* RS-232C／CMT 制御コマンド */
+    /* RS-232C／CMT 制御コマンド */
   case 0x21:
     sio_out_command( data );
     return;
 
 
-	/* システムコントロール出力 */
+    /* システムコントロール出力 */
   case 0x30:
-    if( (sys_ctrl^data) & (SYS_CTRL_80) ){	/* SYS_CTRL_MONO は無視 */
-      screen_set_dirty_all();			/* (テキストのカラーは  */
-    }						/*  CRTC設定にて決定)   */
+    if( (sys_ctrl^data) & (SYS_CTRL_80) ){  /* SYS_CTRL_MONO は無視 */
+      screen_set_dirty_all();           /* (テキストのカラーは  */
+    }                       /*  CRTC設定にて決定)   */
 
     if( sio_tape_readable() ){
       if( (sys_ctrl & 0x08) && !(data & 0x08) ) sio_check_cmt_error();
@@ -814,16 +825,16 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
 */
     return;
 
-	/* グラフィックコントロール出力 */
+    /* グラフィックコントロール出力 */
   case 0x31:
     chg = grph_ctrl ^ data;
 
-		/* GRPH_CTRL_25 は無視 (テキスト25行は CRTC設定にて決定) */
+        /* GRPH_CTRL_25 は無視 (テキスト25行は CRTC設定にて決定) */
     if( chg & (GRPH_CTRL_200|GRPH_CTRL_VDISP|GRPH_CTRL_COLOR) ){
       screen_set_dirty_all();
 
       if( chg & GRPH_CTRL_COLOR ){
-	screen_set_dirty_palette();
+    screen_set_dirty_palette();
       }
     }
 
@@ -838,7 +849,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     main_memory_mapping_8000_83ff();
     return;
 
-	/* 各種設定入出力 */
+    /* 各種設定入出力 */
   case 0x32:
     chg = misc_ctrl ^ data;
     if( chg & MISC_CTRL_ANALOG ){
@@ -856,7 +867,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     return;
 
 
-	/* 拡張VRAM制御 */
+    /* 拡張VRAM制御 */
   case 0x34:
     ALU1_ctrl = data;
     return;
@@ -866,19 +877,19 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
 
     /* クリムゾン３やワードラゴン,STAR TRADERなどで使用 */
     if (data & ALU2_CTRL_VACCESS) memory_bank = MEMORY_BANK_MAIN;
-					/* bug fix by peach (thanks!) */
+                    /* bug fix by peach (thanks!) */
 
     main_memory_vram_mapping();
     return;
 
 
-	/* コントロール信号出力 */
+    /* コントロール信号出力 */
   case 0x40:
     out_ctrl_signal( data );
     return;
 
 
-	/* サウンド出力 */
+    /* サウンド出力 */
   case 0x44:
     if( sound_port & SD_PORT_44_45 ) sound_out_reg( data );
     return;
@@ -893,7 +904,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     return;
 
 
-    	/* CRTC出力 */
+        /* CRTC出力 */
   case 0x50:
     crtc_out_parameter( data );
 /*printf("CRTC PARM %02x\n",data);*/
@@ -903,7 +914,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
 /*printf("CRTC CMD %02x\n",data);*/
     return;
 
-	/* 背景色（デジタル）*/
+    /* 背景色（デジタル）*/
   case 0x52:
     if( data&0x1 ) new_pal.blue  = 7;
     else           new_pal.blue  = 0;
@@ -913,7 +924,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     else           new_pal.green = 0;
 
     if( new_pal.blue  != vram_bg_palette.blue  ||
-	new_pal.red   != vram_bg_palette.red   ||
+    new_pal.red   != vram_bg_palette.red   ||
         new_pal.green != vram_bg_palette.green ){
       vram_bg_palette.blue  = new_pal.blue;
       vram_bg_palette.red   = new_pal.red;
@@ -922,36 +933,36 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     }
     return;
 
-	/* 画面重ね合わせ */
+    /* 画面重ね合わせ */
   case 0x53:
     grph_pile = data;
     set_text_display();
     screen_set_dirty_all();
     return;
 
-	/* パレット設定 */
+    /* パレット設定 */
   case 0x54:
     if( (data & 0x80) &&
-	(misc_ctrl & MISC_CTRL_ANALOG) ){	/* アナログモード */
+    (misc_ctrl & MISC_CTRL_ANALOG) ){   /* アナログモード */
       if( (data & 0x40) == 0 ){
-	new_pal.blue  = (data     ) & 0x07;
-	new_pal.red   = (data >> 3) & 0x07;
-	new_pal.green = vram_bg_palette.green;
+    new_pal.blue  = (data     ) & 0x07;
+    new_pal.red   = (data >> 3) & 0x07;
+    new_pal.green = vram_bg_palette.green;
       }else{
-	new_pal.blue  = vram_bg_palette.blue;
-	new_pal.red   = vram_bg_palette.red;
-	new_pal.green = (data     ) & 0x07;
+    new_pal.blue  = vram_bg_palette.blue;
+    new_pal.red   = vram_bg_palette.red;
+    new_pal.green = (data     ) & 0x07;
       }
       if( new_pal.blue  != vram_bg_palette.blue  ||
-	  new_pal.red   != vram_bg_palette.red   ||
+      new_pal.red   != vram_bg_palette.red   ||
           new_pal.green != vram_bg_palette.green ){
-	vram_bg_palette.blue  = new_pal.blue;
-	vram_bg_palette.red   = new_pal.red;
-	vram_bg_palette.green = new_pal.green;
-	screen_set_dirty_palette();
+    vram_bg_palette.blue  = new_pal.blue;
+    vram_bg_palette.red   = new_pal.red;
+    vram_bg_palette.green = new_pal.green;
+    screen_set_dirty_palette();
       }
       return;
-    }	/* else no return; (.. continued) */
+    }   /* else no return; (.. continued) */
     /* FALLTHROUGH */
   case 0x55:
   case 0x56:
@@ -961,7 +972,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
   case 0x5a:
   case 0x5b:
 /*printf("PAL %02xH %02x\n",port,data );*/
-    if( ! (misc_ctrl&MISC_CTRL_ANALOG) ){	/* デジタルモード */
+    if( ! (misc_ctrl&MISC_CTRL_ANALOG) ){   /* デジタルモード */
 
       if( data&0x1 ) new_pal.blue  = 7;
       else           new_pal.blue  = 0;
@@ -970,21 +981,21 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
       if( data&0x4 ) new_pal.green = 7;
       else           new_pal.green = 0;
 
-    }else{					/* アナログモード */
+    }else{                  /* アナログモード */
       if( (data & 0x40) == 0 ){
-	new_pal.blue  = (data      ) & 0x07;
-	new_pal.red   = (data >> 3 ) & 0x07;
-	new_pal.green = vram_palette[ port-0x54 ].green;
+    new_pal.blue  = (data      ) & 0x07;
+    new_pal.red   = (data >> 3 ) & 0x07;
+    new_pal.green = vram_palette[ port-0x54 ].green;
       }else{
-	new_pal.green = (data      ) & 0x07;
-	new_pal.red   = vram_palette[ port-0x54 ].red;
-	new_pal.blue  = vram_palette[ port-0x54 ].blue;
+    new_pal.green = (data      ) & 0x07;
+    new_pal.red   = vram_palette[ port-0x54 ].red;
+    new_pal.blue  = vram_palette[ port-0x54 ].blue;
       }
     }
 
     if( new_pal.blue  != vram_palette[ port-0x54 ].blue  ||
-	new_pal.red   != vram_palette[ port-0x54 ].red   ||
-	new_pal.green != vram_palette[ port-0x54 ].green ){
+    new_pal.red   != vram_palette[ port-0x54 ].red   ||
+    new_pal.green != vram_palette[ port-0x54 ].green ){
       vram_palette[ port-0x54 ].blue  = new_pal.blue;
       vram_palette[ port-0x54 ].red   = new_pal.red;
       vram_palette[ port-0x54 ].green = new_pal.green;
@@ -993,7 +1004,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     return;
 
     
-	/* メモリバンク切替え */
+    /* メモリバンク切替え */
   case 0x5c:
     memory_bank = MEMORY_BANK_GRAM0;
     main_memory_vram_mapping();
@@ -1011,7 +1022,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     main_memory_vram_mapping();
     return;
 
-	/* DMAC出力 */
+    /* DMAC出力 */
 
   case 0x60:
   case 0x62:
@@ -1033,25 +1044,25 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     return;
 
 
-	/* ボーレート */
+    /* ボーレート */
   case 0x6f:
-    if( ROM_VERSION >= '8' ) baudrate_sw = data;	/* FH/MH 以降に対応 */
+    if( ROM_VERSION >= '8' ) baudrate_sw = data;    /* FH/MH 以降に対応 */
     return;
 
 
-	/* Window オフセットアドレス入出力 */
+    /* Window オフセットアドレス入出力 */
   case 0x70:
     window_offset = (word)data << 8;
     main_memory_mapping_8000_83ff();
     return;
 
-	/* 拡張 ROM バンク */
+    /* 拡張 ROM バンク */
   case 0x71:
     ext_rom_bank = data;
     main_memory_mapping_0000_7fff();
     return;
 
-	/* Window オフセットアドレス インクリメント */
+    /* Window オフセットアドレス インクリメント */
 
   case 0x78:
     window_offset += 0x100;
@@ -1060,7 +1071,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
 
 
 
-	/* サウンド出力(オプション) */
+    /* サウンド出力(オプション) */
   case 0xa8:
     if( sound_port & SD_PORT_A8_AD ){
       sound_out_reg( data );
@@ -1090,7 +1101,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     return;
 
 
-	/* 拡張 RAM 制御 */
+    /* 拡張 RAM 制御 */
   case 0xe2:
     if( use_extram ){
       ext_ram_ctrl = data & 0x11;
@@ -1100,40 +1111,40 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
   case 0xe3:
 /*printf("OUT E3 <=  %02X\n",data);*/
     if( use_extram ){
-      if( linear_ext_ram ){		/* 出力値の通りにバンクを割り振る */
-	ext_ram_bank = data;
-      }else{				/* 実機っぽく(?)バンクを割り振る */
-	ext_ram_bank = 0xff;
-	if (use_extram <= 4) {				/* 128KB*4以下 */
-	    if ((data & 0x0f) < use_extram * 4) {
-		ext_ram_bank = data & 0x0f;
-	    }
-	} else if (use_extram == 8) {			/* 1MB */
-	    /* 設定 00-07h, 10-17h, 20-27h, 30-37h とする */
-	    if ((data & 0xc8) == 0x00) {
-		ext_ram_bank = ((data & 0x30) >> 1) | (data & 0x07);
-	    }
-	} else if (use_extram <= 10) {			/* 1MB + 128KB*2以下 */
-	    /* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
-	    if ((data & 0xc8) == 0x08) {
-		ext_ram_bank = ((data & 0x30) >> 1) | (data & 0x07);
-	    } else if ((data & 0x0f) < (use_extram - 8) * 4) {
-		ext_ram_bank = (data & 0x0f) + 0x20;
-	    }
-	} else if (use_extram == 16) {			/* 2MB */
-	    /* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
-	    /* 設定 48-4Fh, 58-5Fh, 68-6Fh, 78-7Fh とする */
-	    if ((data & 0x88) == 0x08) {
-		ext_ram_bank = ((data & 0x70) >> 1) | (data & 0x07);
-	    }
-	}
+      if( linear_ext_ram ){     /* 出力値の通りにバンクを割り振る */
+    ext_ram_bank = data;
+      }else{                /* 実機っぽく(?)バンクを割り振る */
+    ext_ram_bank = 0xff;
+    if (use_extram <= 4) {              /* 128KB*4以下 */
+        if ((data & 0x0f) < use_extram * 4) {
+        ext_ram_bank = data & 0x0f;
+        }
+    } else if (use_extram == 8) {           /* 1MB */
+        /* 設定 00-07h, 10-17h, 20-27h, 30-37h とする */
+        if ((data & 0xc8) == 0x00) {
+        ext_ram_bank = ((data & 0x30) >> 1) | (data & 0x07);
+        }
+    } else if (use_extram <= 10) {          /* 1MB + 128KB*2以下 */
+        /* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
+        if ((data & 0xc8) == 0x08) {
+        ext_ram_bank = ((data & 0x30) >> 1) | (data & 0x07);
+        } else if ((data & 0x0f) < (use_extram - 8) * 4) {
+        ext_ram_bank = (data & 0x0f) + 0x20;
+        }
+    } else if (use_extram == 16) {          /* 2MB */
+        /* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
+        /* 設定 48-4Fh, 58-5Fh, 68-6Fh, 78-7Fh とする */
+        if ((data & 0x88) == 0x08) {
+        ext_ram_bank = ((data & 0x70) >> 1) | (data & 0x07);
+        }
+    }
       }
       main_memory_mapping_0000_7fff();
     }
     return;
 
 
-	/* 割り込みレベルの設定 */
+    /* 割り込みレベルの設定 */
   case 0xe4:
     intr_priority = data & 0x08;
     if( intr_priority ) intr_level = 7;
@@ -1141,12 +1152,12 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     if( highspeed_flag == FALSE ){
       CPU_REFRESH_INTERRUPT();
 
-      /* 'ASHE対策…… */	/* thanks! peach */
+      /* 'ASHE対策…… */   /* thanks! peach */
       z80main_cpu.skip_intr_chk = TRUE;
     }
     return;
 
-	/* 割り込みマスク */
+    /* 割り込みマスク */
   case 0xe6:
     intr_sio_enable   = data & INTERRUPT_MASK_SIO;
     intr_vsync_enable = data & INTERRUPT_MASK_VSYNC;
@@ -1160,7 +1171,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     return;
 
 
-	/* 漢字ＲＯＭ アドレス設定 */
+    /* 漢字ＲＯＭ アドレス設定 */
   case 0xe8:
     kanji1_addr.B.l = data;
     return;
@@ -1180,7 +1191,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     return;
 
 
-	/* 辞書ROMの設定 */
+    /* 辞書ROMの設定 */
 
   case 0xf0:
     if( use_jisho_rom ){
@@ -1195,7 +1206,7 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
     }
     return;
 
-	/* ＰＩＯ */
+    /* ＰＩＯ */
 
   case 0xfc:
     logpio(" %02x-->\n",data);
@@ -1216,33 +1227,33 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
 
 
 
-	/* その他のポート */
+    /* その他のポート */
 
-  case 0x90:  case 0x91:  case 0x92:  case 0x93:	/* CD-ROM */
+  case 0x90:  case 0x91:  case 0x92:  case 0x93:    /* CD-ROM */
   case 0x94:  case 0x95:  case 0x96:  case 0x97:
   case 0x98:  case 0x99:  case 0x9a:  case 0x9b:
   case 0x9c:  case 0x9d:  case 0x9e:  case 0x9f:
 
-  case 0xa0:  case 0xa1:  case 0xa2:  case 0xa3:	/* MUSIC & NETWORK */
+  case 0xa0:  case 0xa1:  case 0xa2:  case 0xa3:    /* MUSIC & NETWORK */
 
-			  case 0xc2:  case 0xc3:	/* MUSIC */
+              case 0xc2:  case 0xc3:    /* MUSIC */
   case 0xc4:  case 0xc5:  case 0xc6:  case 0xc7:
   case 0xc8:  case 0xc9:  case 0xca:  case 0xcb:
   case 0xcc:  case 0xcd:  case 0xce:  case 0xcf:
 
-  case 0xd0:  case 0xd1:  case 0xd2:  case 0xd3:	/* MUSIC & GP-IB*/
+  case 0xd0:  case 0xd1:  case 0xd2:  case 0xd3:    /* MUSIC & GP-IB*/
   case 0xd4:  case 0xd5:  case 0xd6:  case 0xd7:
-  case 0xd8:						/* GP-IB */
+  case 0xd8:                        /* GP-IB */
 
-  case 0xdc:  case 0xdd:  case 0xde:  case 0xdf:	/* MODEM */
+  case 0xdc:  case 0xdd:  case 0xde:  case 0xdf:    /* MODEM */
 
-  case 0xb4:  case 0xb5:				/* VIDEO ART */
+  case 0xb4:  case 0xb5:                /* VIDEO ART */
 
 
-  case 0xc1:				/* ??? Access in N88-BASIC ver 1.8 */
+  case 0xc1:                /* ??? Access in N88-BASIC ver 1.8 */
   case 0xf3:  case 0xf4:  case 0xf8:
   
-  case 0xe7:				/* ??? Access in N-BASIC ver 1.8 */
+  case 0xe7:                /* ??? Access in N-BASIC ver 1.8 */
 
     return;
   }
@@ -1253,13 +1264,13 @@ printf("CMT %02x, %s: Motor %s: CDS %d\n",data,
 }
 
 /*----------------------*/
-/*    ポート・リード	*/
+/*    ポート・リード */
 /*----------------------*/
-byte	main_io_in( byte port )
+byte    main_io_in( byte port )
 {
   switch( port ){
 
-	/* キーボード */
+    /* キーボード */
   case 0x00:
   case 0x01:
   case 0x02:
@@ -1276,23 +1287,23 @@ byte	main_io_in( byte port )
   case 0x0d:
   case 0x0e:
   case 0x0f:
-    disk_ex_drv = 0;		/* キー入力でリセット */
-#ifdef	USE_KEYBOARD_BUG				/* peach氏提供 */
+    disk_ex_drv = 0;        /* キー入力でリセット */
+#ifdef  USE_KEYBOARD_BUG                /* peach氏提供 */
     {
       int i;
       byte mkey, mkey_old;
 
       mkey = key_scan[port];
       do {
-	mkey_old = mkey;
-	for (i = 0; i < 0x10; i++) {
-	  if (i != port && key_scan[i] != 0xff) {
-	    /* [SHIFT],[CTRL],[GRAPH],[カナ]には適用しない */
-	    if ((i == 0x08 && (mkey | key_scan[i] | 0xf0) != 0xff) ||
-		(i != 0x08 && (mkey | key_scan[i])        != 0xff))
-	      mkey &= key_scan[i];
-	  }
-	}
+    mkey_old = mkey;
+    for (i = 0; i < 0x10; i++) {
+      if (i != port && key_scan[i] != 0xff) {
+        /* [SHIFT],[CTRL],[GRAPH],[カナ]には適用しない */
+        if ((i == 0x08 && (mkey | key_scan[i] | 0xf0) != 0xff) ||
+        (i != 0x08 && (mkey | key_scan[i])        != 0xff))
+          mkey &= key_scan[i];
+      }
+    }
       } while (mkey_old != mkey);
       return(mkey);
     }
@@ -1301,35 +1312,35 @@ byte	main_io_in( byte port )
 #endif
 
 
-	/* RS-232C／CMT 入力データ */
+    /* RS-232C／CMT 入力データ */
   case 0x20:
     return sio_in_data();
 
 
-	/* RS-232C/CMT 制御 */
+    /* RS-232C/CMT 制御 */
   case 0x21:
     return sio_in_status();
 
 
-	/* ディップスイッチ入力 */
+    /* ディップスイッチ入力 */
 
   case 0x30:
     return dipsw_1 | 0xc0;
   case 0x31:
     return dipsw_2;
 
-	/* 各種設定入力 */
+    /* 各種設定入力 */
   case 0x32:
     return misc_ctrl;
 
-	/* コントロール信号入力 */
+    /* コントロール信号入力 */
   case 0x40:
     return in_ctrl_signal() | 0xc0 | 0x04;
  /* return in_ctrl_signal() | 0xc0;*/
 
 
-	/* サウンド入力 */
-	
+    /* サウンド入力 */
+    
   case 0x44:
     if( sound_port & SD_PORT_44_45 ) return sound_in_status( );
     else                             return 0xff;
@@ -1344,7 +1355,7 @@ byte	main_io_in( byte port )
     else                             return 0xff;
 
 
-    	/* CRTC入力 */
+        /* CRTC入力 */
   case 0x50:
 /*printf("READ CRTC parm\n");*/
     return crtc_in_parameter( );
@@ -1353,12 +1364,12 @@ byte	main_io_in( byte port )
     return crtc_in_status( );
 
 
-	/* メモリバンク */
+    /* メモリバンク */
   case 0x5c:
     return (1<<memory_bank) | 0xf8;
 
 
-	/* DMAC入力 */
+    /* DMAC入力 */
 
   case 0x60:
   case 0x62:
@@ -1377,70 +1388,70 @@ byte	main_io_in( byte port )
     return dmac_in_status( );
 
 
-	/* CPU クロック */
+    /* CPU クロック */
   case 0x6e:
-    if( ROM_VERSION >= '8' ) return cpu_clock | 0x10;	/* FH/MH 以降に対応 */
-    else		     return 0xff;
+    if( ROM_VERSION >= '8' ) return cpu_clock | 0x10;   /* FH/MH 以降に対応 */
+    else             return 0xff;
 
 
-	/* ボーレート */
+    /* ボーレート */
   case 0x6f:
-    if( ROM_VERSION >= '8' ) return baudrate_sw | 0xf0;	/* FH/MH 以降に対応 */
-    else		     return 0xff;
+    if( ROM_VERSION >= '8' ) return baudrate_sw | 0xf0; /* FH/MH 以降に対応 */
+    else             return 0xff;
 
 
-	/* Window オフセットアドレス入出力 */
+    /* Window オフセットアドレス入出力 */
   case 0x70:
     return window_offset >> 8;
 
 
-	/* 拡張 ROM バンク */
+    /* 拡張 ROM バンク */
   case 0x71:
     return ext_rom_bank;
 
 
-	/* 拡張 RAM 制御 */
+    /* 拡張 RAM 制御 */
   case 0xe2:
     if( use_extram ) return ~ext_ram_ctrl | 0xee;
     return 0xff;
   case 0xe3:
-    if( linear_ext_ram ){		/* 出力値の通りにバンクを割り振った */
+    if( linear_ext_ram ){       /* 出力値の通りにバンクを割り振った */
       if( use_extram &&
-	(ext_ram_bank < use_extram*4) ) return ext_ram_bank;
+    (ext_ram_bank < use_extram*4) ) return ext_ram_bank;
       return 0xff;
-    }else{				/* 実機っぽく(?)バンクを割り振った */
-	byte ret = 0xff;
-	if (use_extram && (ext_ram_bank != 0xff)) {
-	    if (use_extram <= 4) {			/* 128KB*4以下 */
-		ret = (ext_ram_bank | 0xf0);
-	    } else if (use_extram == 8) {		/* 1MB */
-		/* 設定 00-07h, 10-17h, 20-27h, 30-37h とする */
-		if (ext_ram_bank < 8) {
-		    ret = (ext_ram_bank | 0xf0);
-		} else {
-		    ret = ((ext_ram_bank & 0x18) << 1) | (ext_ram_bank & 0x07);
-		}
-	    } else if (use_extram <= 10) {		/* 1MB + 128KB*2以下 */
-		/* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
-		if (ext_ram_bank < 0x20) {
-		    ret = ((ext_ram_bank & 0x18) << 1) | 0x08 |
-							 (ext_ram_bank & 0x07);
-		} else {
-		    ret = ((ext_ram_bank - 0x20) | 0xf0);
-		}
-	    } else if (use_extram == 16) {		/* 2MB */
-		/* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
-		/* 設定 48-4Fh, 58-5Fh, 68-6Fh, 78-7Fh とする */
-		ret = ((ext_ram_bank & 0x38) << 1) | 0x08 |
-							(ext_ram_bank & 0x07);
-	    }
-	}
+    }else{              /* 実機っぽく(?)バンクを割り振った */
+    byte ret = 0xff;
+    if (use_extram && (ext_ram_bank != 0xff)) {
+        if (use_extram <= 4) {          /* 128KB*4以下 */
+        ret = (ext_ram_bank | 0xf0);
+        } else if (use_extram == 8) {       /* 1MB */
+        /* 設定 00-07h, 10-17h, 20-27h, 30-37h とする */
+        if (ext_ram_bank < 8) {
+            ret = (ext_ram_bank | 0xf0);
+        } else {
+            ret = ((ext_ram_bank & 0x18) << 1) | (ext_ram_bank & 0x07);
+        }
+        } else if (use_extram <= 10) {      /* 1MB + 128KB*2以下 */
+        /* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
+        if (ext_ram_bank < 0x20) {
+            ret = ((ext_ram_bank & 0x18) << 1) | 0x08 |
+                             (ext_ram_bank & 0x07);
+        } else {
+            ret = ((ext_ram_bank - 0x20) | 0xf0);
+        }
+        } else if (use_extram == 16) {      /* 2MB */
+        /* 設定 08-0Fh, 18-1Fh, 28-2Fh, 38-3Fh とする */
+        /* 設定 48-4Fh, 58-5Fh, 68-6Fh, 78-7Fh とする */
+        ret = ((ext_ram_bank & 0x38) << 1) | 0x08 |
+                            (ext_ram_bank & 0x07);
+        }
+    }
 /*printf("IN E3 -----> %02X\n",ret);*/
-	return ret;
+    return ret;
     }
 
 
-	/* サウンド入力(オプション) */
+    /* サウンド入力(オプション) */
   case 0xa8:
     if( sound_port & SD_PORT_A8_AD ) return sound_in_status( );
     else                             return 0xff;
@@ -1459,7 +1470,7 @@ byte	main_io_in( byte port )
 
 
 
-	/* 漢字ＲＯＭ フォント入力 */
+    /* 漢字ＲＯＭ フォント入力 */
   case 0xe8:
     return kanji_rom[0][kanji1_addr.W][1];
   case 0xe9:
@@ -1472,22 +1483,22 @@ byte	main_io_in( byte port )
 
 
 
-	/* ＰＩＯ */
+    /* ＰＩＯ */
 
   case 0xfc:
     {
       byte data = pio_read_AB( PIO_SIDE_M, PIO_PORT_A );
       logpio(" %02x<--\n",data);
 /*      {
-	static byte debug_pio_halt[4] = { 0,0,0,0 };
-	debug_pio_halt[0] = debug_pio_halt[1];
-	debug_pio_halt[1] = debug_pio_halt[2];
-	debug_pio_halt[2] = debug_pio_halt[3];
-	debug_pio_halt[3] = data;
-	if(debug_pio_halt[0]==0x20&&
-	   debug_pio_halt[1]==0x3d&&
-	   debug_pio_halt[2]==0x02&&
-	   debug_pio_halt[3]==0x00) emu_mode=MONITOR;
+    static byte debug_pio_halt[4] = { 0,0,0,0 };
+    debug_pio_halt[0] = debug_pio_halt[1];
+    debug_pio_halt[1] = debug_pio_halt[2];
+    debug_pio_halt[2] = debug_pio_halt[3];
+    debug_pio_halt[3] = data;
+    if(debug_pio_halt[0]==0x20&&
+       debug_pio_halt[1]==0x3d&&
+       debug_pio_halt[2]==0x02&&
+       debug_pio_halt[3]==0x00) emu_mode=MONITOR;
       }*/
       return data;
     }
@@ -1503,37 +1514,37 @@ byte	main_io_in( byte port )
 
 
 
-	/* その他のポート */
+    /* その他のポート */
 
-  case 0x90:  case 0x91:  case 0x92:  case 0x93:	/* CD-ROM */
+  case 0x90:  case 0x91:  case 0x92:  case 0x93:    /* CD-ROM */
   case 0x94:  case 0x95:  case 0x96:  case 0x97:
   case 0x98:  case 0x99:  case 0x9a:  case 0x9b:
   case 0x9c:  case 0x9d:  case 0x9e:  case 0x9f:
 
-  case 0xa0:  case 0xa1:  case 0xa2:  case 0xa3:	/* MUSIC & NETWORK */
+  case 0xa0:  case 0xa1:  case 0xa2:  case 0xa3:    /* MUSIC & NETWORK */
 
-			  case 0xc2:  case 0xc3:	/* MUSIC */
+              case 0xc2:  case 0xc3:    /* MUSIC */
   case 0xc4:  case 0xc5:  case 0xc6:  case 0xc7:
   case 0xc8:  case 0xc9:  case 0xca:  case 0xcb:
   case 0xcc:  case 0xcd:  case 0xce:  case 0xcf:
 
-  case 0xd0:  case 0xd1:  case 0xd2:  case 0xd3:	/* MUSIC & GP-IB*/
+  case 0xd0:  case 0xd1:  case 0xd2:  case 0xd3:    /* MUSIC & GP-IB*/
   case 0xd4:  case 0xd5:  case 0xd6:  case 0xd7:
-  case 0xd8:						/* GP-IB */
+  case 0xd8:                        /* GP-IB */
 
-  case 0xdc:  case 0xdd:  case 0xde:  case 0xdf:	/* MODEM */
+  case 0xdc:  case 0xdd:  case 0xde:  case 0xdf:    /* MODEM */
 
-  case 0xb4:  case 0xb5:				/* VIDEO ART */
+  case 0xb4:  case 0xb5:                /* VIDEO ART */
 
 
-  case 0xc1:				/* ??? Access in N88-BASIC ver 1.8 */
+  case 0xc1:                /* ??? Access in N88-BASIC ver 1.8 */
   case 0xf3:  case 0xf4:  case 0xf8:
   
     return 0xff;
 #if 0
-  case 0xf4:				/* ??? */
+  case 0xf4:                /* ??? */
     return 0xff;
-  case 0xf8:				/* ??? */
+  case 0xf8:                /* ??? */
     return 0xff;
 #endif
   }
@@ -1550,28 +1561,28 @@ byte	main_io_in( byte port )
 
 
 /*===========================================================================*/
-/* シリアルポート							     */
+/* シリアルポート                                 */
 /*===========================================================================*/
 
-static	int	sio_instruction;		/* USART のコマンド状態 */
-static	byte	sio_mode;			/* USART の設定モード   */
-static	byte	sio_command;			/* USART のコマンド	*/
-static	int	sio_data_exist;			/* 読込未の SIOデータ有 */
-static	byte	sio_data;			/* SIOデータ            */
+static  int sio_instruction;        /* USART のコマンド状態 */
+static  byte    sio_mode;           /* USART の設定モード   */
+static  byte    sio_command;            /* USART のコマンド    */
+static  int sio_data_exist;         /* 読込未の SIOデータ有 */
+static  byte    sio_data;           /* SIOデータ            */
 
-static	int	com_X_flow = FALSE;		/* 真で、Xフロー制御中	*/
+static  int com_X_flow = FALSE;     /* 真で、Xフロー制御中 */
 
-static	int	cmt_dummy_read_cnt = 0;		/* 割込未使用時のダミー	*/
-static	int	cmt_skip;			/* 無効データ部の読み飛ばし */
-static	int	cmt_skip_data;			/* 読み飛ばし直後のデータ   */
+static  int cmt_dummy_read_cnt = 0;     /* 割込未使用時のダミー   */
+static  int cmt_skip;           /* 無効データ部の読み飛ばし */
+static  int cmt_skip_data;          /* 読み飛ばし直後のデータ   */
 
-static	long	cmt_read_chars = 0;		/* 読み込んだ実バイト数	*/
-static	long	cmt_stateload_chars = 0;	/* ステートロード時読込数*/
-static	int	cmt_stateload_skip = 0;		/* ステートロード時 skip */
+static  long    cmt_read_chars = 0;     /* 読み込んだ実バイト数   */
+static  long    cmt_stateload_chars = 0;    /* ステートロード時読込数*/
+static  int cmt_stateload_skip = 0;     /* ステートロード時 skip */
 
-static	int	sio_getc( int is_cmt, int *tick );
+static  int sio_getc( int is_cmt, int *tick );
 
-void	sio_data_clear(void)
+void    sio_data_clear(void)
 {
     sio_data_exist = FALSE;
 }
@@ -1579,7 +1590,7 @@ void	sio_data_clear(void)
 
 /*-------- ロード用テープイメージファイルを "rb" で開く --------*/
 
-int	sio_open_tapeload( const char *filename )
+int sio_open_tapeload( const char *filename )
 {
   sio_close_tapeload();
 
@@ -1595,7 +1606,7 @@ int	sio_open_tapeload( const char *filename )
   cmt_stateload_chars = 0;
   return FALSE;
 }
-void	sio_close_tapeload( void )
+void    sio_close_tapeload( void )
 {
   if( fp_ti ){ osd_fclose( fp_ti ); fp_ti = NULL; }
   sio_set_intr_base();
@@ -1605,7 +1616,7 @@ void	sio_close_tapeload( void )
 
 /*-------- セーブ用テープイメージファイルを "ab" で開く --------*/
 
-int	sio_open_tapesave( const char *filename )
+int sio_open_tapesave( const char *filename )
 {
   sio_close_tapesave();
 
@@ -1619,14 +1630,14 @@ int	sio_open_tapesave( const char *filename )
   }
   return FALSE;
 }
-void	sio_close_tapesave( void )
+void    sio_close_tapesave( void )
 {
   if( fp_to ){ osd_fclose( fp_to ); fp_to = NULL; }
 }
 
 /*-------- シリアル入力用のファイルを "rb" で開く --------*/
 
-int	sio_open_serialin( const char *filename )
+int sio_open_serialin( const char *filename )
 {
   sio_close_serialin();
 
@@ -1652,7 +1663,7 @@ int	sio_open_serialin( const char *filename )
 
   return FALSE;
 }
-void	sio_close_serialin( void )
+void    sio_close_serialin( void )
 {
   if( fp_si ){ osd_fclose( fp_si ); fp_si = NULL; }
   sio_set_intr_base();
@@ -1661,7 +1672,7 @@ void	sio_close_serialin( void )
 
 /*-------- シリアル出力用のファイルを "ab" で開く --------*/
 
-int	sio_open_serialout( const char *filename )
+int sio_open_serialout( const char *filename )
 {
   sio_close_serialout();
 
@@ -1675,14 +1686,14 @@ int	sio_open_serialout( const char *filename )
   }
   return FALSE;
 }
-void	sio_close_serialout( void )
+void    sio_close_serialout( void )
 {
   if( fp_so ){ osd_fclose( fp_so ); fp_so = NULL; }
 }
 
 /*-------- シリアルマウスを初期化/終了する --------*/
 
-void	sio_mouse_init(int initial)
+void    sio_mouse_init(int initial)
 {
   if (initial) {
     init_serial_mouse_data();
@@ -1692,8 +1703,8 @@ void	sio_mouse_init(int initial)
 
 /*-------- 開いているテープイメージを巻き戻す --------*/
 
-#define T88_HEADER_STR		"PC-8801 Tape Image(T88)"
-int	sio_tape_rewind( void )
+#define T88_HEADER_STR      "PC-8801 Tape Image(T88)"
+int sio_tape_rewind( void )
 {
   int size;
   char buf[ sizeof(T88_HEADER_STR) ];
@@ -1708,21 +1719,21 @@ int	sio_tape_rewind( void )
 
     size = osd_fread( buf, sizeof(char), sizeof(buf), fp_ti );
     if( size == sizeof(buf) &&
-	memcmp( buf, T88_HEADER_STR, sizeof(buf) ) == 0 ){	/* T88 */
+    memcmp( buf, T88_HEADER_STR, sizeof(buf) ) == 0 ){  /* T88 */
       cmt_is_t88     = TRUE;
       cmt_block_size = 0;
       cmt_EOF        = FALSE;
       cmt_skip       = 0;
-    }else{							/* CMT */
+    }else{                          /* CMT */
       cmt_is_t88     = FALSE;
       cmt_EOF        = FALSE;
       cmt_skip       = 0;
       if( osd_fseek( fp_ti, 0, SEEK_SET ) ) goto ERR;
     }
 
-    while( cmt_stateload_chars -- ){	/* ステートロード時は、テープ早送り */
+    while( cmt_stateload_chars -- ){    /* ステートロード時は、テープ早送り */
       if( sio_getc( TRUE, NULL ) == EOF ){
-	break;
+    break;
       }
     }
     cmt_skip = cmt_stateload_skip;
@@ -1744,48 +1755,48 @@ int	sio_tape_rewind( void )
 
 /*-------- 開いているテープの現在位置を返す (何%読んだかの確認用) --------*/
 
-int	sio_tape_pos( long *cur, long *end )
+int sio_tape_pos( long *cur, long *end )
 {
   long v;
 
   if( fp_ti ){
-    if( cmt_EOF ){		/* 終端なら、位置=0/終端=0 にし、真を返す */
+    if( cmt_EOF ){      /* 終端なら、位置=0/終端=0 にし、真を返す */
       *cur = 0;
       *end = 0;
       return TRUE;
-    }else{			/* 途中なら、位置と終端をセットし真を返す */
+    }else{          /* 途中なら、位置と終端をセットし真を返す */
       v = osd_ftell( fp_ti );
       if( v >= 0 ){
-	*cur = v;
-	*end = cmt_size;
-	return TRUE;
+    *cur = v;
+    *end = cmt_size;
+    return TRUE;
       }
     }
   }
-  *cur = 0;			/* 不明時は、位置=0/終端=0 にし、偽を返す */
+  *cur = 0;         /* 不明時は、位置=0/終端=0 にし、偽を返す */
   *end = 0;
   return FALSE;
 }
 
-int	sio_com_pos( long *cur, long *end )
+int sio_com_pos( long *cur, long *end )
 {
   long v;
 
   if( fp_si ){
-    if( com_EOF ){		/* 終端なら、位置=0/終端=0 にし、真を返す */
+    if( com_EOF ){      /* 終端なら、位置=0/終端=0 にし、真を返す */
       *cur = 0;
       *end = 0;
       return TRUE;
-    }else{			/* 途中なら、位置と終端をセットし真を返す */
+    }else{          /* 途中なら、位置と終端をセットし真を返す */
       v = osd_ftell( fp_si );
       if( v >= 0 ){
-	*cur = v;
-	*end = com_size;
-	return TRUE;
+    *cur = v;
+    *end = com_size;
+    return TRUE;
       }
     }
   }
-  *cur = 0;			/* 不明時は、位置=0/終端=0 にし、偽を返す */
+  *cur = 0;         /* 不明時は、位置=0/終端=0 にし、偽を返す */
   *end = 0;
   return FALSE;
 }
@@ -1797,13 +1808,13 @@ int	sio_com_pos( long *cur, long *end )
 /*
  * 開いているsioイメージから1文字読み込む 
  */
-static	int	sio_getc( int is_cmt, int *tick )
+static  int sio_getc( int is_cmt, int *tick )
 {
   int i, c, id, size, time;
 
   if( tick ) *tick = 0;
 
-  if( is_cmt==FALSE ){			/* シリアル入力 */
+  if( is_cmt==FALSE ){          /* シリアル入力 */
 
     if (use_siomouse) {
       c = get_serial_mouse_data();
@@ -1821,77 +1832,77 @@ static	int	sio_getc( int is_cmt, int *tick )
     }
     return c;
 
-  }else{				/* テープ入力 */
+  }else{                /* テープ入力 */
 
     if( fp_ti==NULL ) return EOF;
     if( cmt_EOF )     return EOF;
 
-    if( cmt_is_t88 == FALSE ){			/* CMT形式の場合 */
+    if( cmt_is_t88 == FALSE ){          /* CMT形式の場合 */
 
       c = osd_fgetc( fp_ti );
 
-    }else{					/* T88形式の場合 */
+    }else{                  /* T88形式の場合 */
 
       while( cmt_block_size == 0 ){
 
-	if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	id = c;
-	if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	id += c << 8;
+    if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+    id = c;
+    if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+    id += c << 8;
 
-	if( id==0x0000 ){				/* 終了タグ */
-	  c = EOF; break;
-	}
-	else {
-	  if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	  size = c;
-	  if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	  size += c << 8;
+    if( id==0x0000 ){               /* 終了タグ */
+      c = EOF; break;
+    }
+    else {
+      if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+      size = c;
+      if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+      size += c << 8;
 
-	  if( id == 0x0101 ){				/* データタグ */
+      if( id == 0x0101 ){               /* データタグ */
 
-	    if( size < 12 ){ c = EOF; break; }
+        if( size < 12 ){ c = EOF; break; }
 
-	    for( i=0; i<12; i++ ){	/* 情報は全て無視 */
-	      if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	    }
-	    if( c==EOF ) break;
-	    cmt_block_size = size - 12;
+        for( i=0; i<12; i++ ){  /* 情報は全て無視 */
+          if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+        }
+        if( c==EOF ) break;
+        cmt_block_size = size - 12;
 
-	  }else{					
+      }else{                    
 
-	    if( id == 0x0100 ||				/* ブランクタグ */
-		id == 0x0102 ||				/* スペースタグ */
-		id == 0x0103 ){				/* マークタグ   */
+        if( id == 0x0100 ||             /* ブランクタグ */
+        id == 0x0102 ||             /* スペースタグ */
+        id == 0x0103 ){             /* マークタグ   */
 
-	      if( size != 8 ){ c = EOF; break; }
+          if( size != 8 ){ c = EOF; break; }
 
-	      for( i=0; i<4; i++ ){	/* 開始時間は無視 */
-		if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	      }
-	      if( c==EOF ) break;
-					/* 長さ時間は取得 */
-	      if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	      time = c;
-	      if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	      time += c << 8;
-	      if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	      time += c << 16;
-	      if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	      time += c << 24;
+          for( i=0; i<4; i++ ){ /* 開始時間は無視 */
+        if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+          }
+          if( c==EOF ) break;
+                    /* 長さ時間は取得 */
+          if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+          time = c;
+          if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+          time += c << 8;
+          if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+          time += c << 16;
+          if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+          time += c << 24;
 
-	      if( tick ) *tick += time;
+          if( tick ) *tick += time;
 
-	    }else{					/* 他のタグ(無視) */
+        }else{                  /* 他のタグ(無視) */
 
-	      for( i=0; i<size; i++ ){
-		if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
-	      }
-	      if( c==EOF ) break;
+          for( i=0; i<size; i++ ){
+        if( (c=osd_fgetc(fp_ti))==EOF ){ break; }
+          }
+          if( c==EOF ) break;
 
-	    }
-	  }
-	}
+        }
+      }
+    }
       }
 
       cmt_block_size --;
@@ -1914,24 +1925,24 @@ static	int	sio_getc( int is_cmt, int *tick )
  * 1バイト読み飛ばす。データの途中かどうかは T88 でないとチェックできない。
  * こんなチェック、必要なのか？？
  */
-static	void	sio_check_cmt_error( void )
+static  void    sio_check_cmt_error( void )
 {
   int c;
   if( sio_tape_readable() ){
-    if( cmt_is_t88     &&	/* T88 かつ、データタグの途中の時のみ */
-	cmt_skip == 0  &&
-	cmt_block_size ){
+    if( cmt_is_t88     &&   /* T88 かつ、データタグの途中の時のみ */
+    cmt_skip == 0  &&
+    cmt_block_size ){
       cmt_block_size --;
       c = osd_fgetc( fp_ti );
 
       if( verbose_proc )
-	printf( "Tape read: lost 1 byte\n" );
+    printf( "Tape read: lost 1 byte\n" );
 
       if( c==EOF ){
-	cmt_EOF = TRUE;
-	status_message(1, STATUS_WARN_TIME, "Tape Read  [EOF]");
+    cmt_EOF = TRUE;
+    status_message(1, STATUS_WARN_TIME, "Tape Read  [EOF]");
       }else{
-	cmt_read_chars ++;
+    cmt_read_chars ++;
       }
     }
   }
@@ -1945,12 +1956,12 @@ static	void	sio_check_cmt_error( void )
 /*
  * 開いているsioイメージに1文字書き込む 
  */
-static	int	sio_putc( int is_cmt, int c )
+static  int sio_putc( int is_cmt, int c )
 {
   OSD_FILE *fp;
 
-  if( is_cmt==FALSE ){ fp = fp_so; }	/* シリアル出力 */
-  else               { fp = fp_to; }	/* テープ出力 */
+  if( is_cmt==FALSE ){ fp = fp_so; }    /* シリアル出力 */
+  else               { fp = fp_to; }    /* テープ出力 */
   
   if( fp ){
     osd_fputc( c, fp );
@@ -1963,55 +1974,55 @@ static	int	sio_putc( int is_cmt, int c )
 /*
  * 高速テープロード …… 詳細不明。こんな機能あったのか… 
  */
-static	void	sio_tape_highspeed_load( void )
+static  void    sio_tape_highspeed_load( void )
 {
   int c, sum, addr, size;
 
   if( sio_tape_readable()==FALSE ) return;
 
-			  /* マシン語ヘッダを探す */
+              /* マシン語ヘッダを探す */
 
-  do{						/* 0x3a が出てくるまでリード */
+  do{                       /* 0x3a が出てくるまでリード */
     if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
   } while( c != 0x3a );
-						/* 転送先アドレス H */
+                        /* 転送先アドレス H */
   if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
   sum = c;
   addr = c * 256;
-						/* 転送先アドレス L */
+                        /* 転送先アドレス L */
   if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
   sum += c;
   addr += c;
-						/* ヘッダ部サム */
+                        /* ヘッダ部サム */
   if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
   sum += c;
   if( (sum&0xff) != 0 ){ return; }
 
 
-		/* あとはデータ部の繰り返し */
+        /* あとはデータ部の繰り返し */
 
   while( TRUE ){
 
-    do{						/* 0x3a が出てくるまでリード */
+    do{                     /* 0x3a が出てくるまでリード */
       if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
     } while( c != 0x3a );
 
-						/* データ数 */
+                        /* データ数 */
     if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
     sum  = c;
     size = c;
-    if( c==0 ){						/* データ数==0で終端 */
+    if( c==0 ){                     /* データ数==0で終端 */
       return;
     }
 
-    for( ; size; size -- ){			/* データ数分、転送 */
+    for( ; size; size -- ){         /* データ数分、転送 */
 
       if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
       sum += c;
       main_mem_write( addr, c );
       addr ++;
     }
-						/* データ部サム */
+                        /* データ部サム */
     if( (c = sio_getc(TRUE,0)) == EOF ){ return; }
     sum += c;
     if( (sum&0xff) != 0 ){ return; }
@@ -2023,9 +2034,9 @@ static	void	sio_tape_highspeed_load( void )
 /*
  * RS232C割り込み周期のセット 
  */
-				/* これらの変数は、設定から算出する */
-static int sio_bps;		/* BPS */
-static int sio_framesize;	/* StartBit + Bit長 + StopBit を適当に計算 */
+                /* これらの変数は、設定から算出する */
+static int sio_bps;     /* BPS */
+static int sio_framesize;   /* StartBit + Bit長 + StopBit を適当に計算 */
 
 static void sio_set_intr_base( void )
 {
@@ -2042,23 +2053,23 @@ static void sio_set_intr_base( void )
       (sio_command & 0x04) &&
       ( (sys_ctrl & 0x20) || (sys_ctrl & 0x08) ) ){
 
-    if( sys_ctrl & 0x20 ){		/* RS232C 指定時  */
+    if( sys_ctrl & 0x20 ){      /* RS232C 指定時  */
 
-      sio_bps = table[ baudrate_sw ];		/* BPS は ボーレート設定 */
-      sio_framesize = 10;			/* フレーム長は10bit固定 */
+      sio_bps = table[ baudrate_sw ];       /* BPS は ボーレート設定 */
+      sio_framesize = 10;           /* フレーム長は10bit固定 */
 
-    }else{				/* CMT 指定時 */
+    }else{              /* CMT 指定時 */
 
-      if( cmt_speed == 0 ){			/* 通常は、*/
-	if( sys_ctrl & 0x10 ) sio_bps = 1200;	/* I/O 30h:bit4=1 で 1200bps */
-	else                  sio_bps =  600;	/*             =0 で  600bps */
+      if( cmt_speed == 0 ){         /* 通常は、*/
+    if( sys_ctrl & 0x10 ) sio_bps = 1200;   /* I/O 30h:bit4=1 で 1200bps */
+    else                  sio_bps =  600;   /*             =0 で  600bps */
       }else{
-	sio_bps = cmt_speed;			/* 引数指定時はその値 */
+    sio_bps = cmt_speed;            /* 引数指定時はその値 */
       }
-      sio_framesize = 11;			/* フレーム長は11bit固定 */
+      sio_framesize = 11;           /* フレーム長は11bit固定 */
     }
 
-  }else{				/* シリアル不可時 */
+  }else{                /* シリアル不可時 */
     sio_bps = 0;
     sio_framesize = 0;
   }
@@ -2074,10 +2085,10 @@ static void sio_set_intr_base( void )
  * なので、時間が n の場合、n/4800秒ウェイトをいれるといい感じになるはず。
  * つまり、 ( n / 4800 ) * CPU_CLOCK / rs232c_intr_base 回分、
  * RS232C割り込みを余分に待てばいい。この式は、置き換えると
- *	     ( n / 4800 ) * ( bps / framesize )
+ *       ( n / 4800 ) * ( bps / framesize )
  * になる。まあいずれにせよかなり適当なウェイトではあるが。
 */
-static	int	tick_2_intr_skip( int tick )
+static  int tick_2_intr_skip( int tick )
 {
   if( sio_framesize == 0 ) return 0;
 
@@ -2089,13 +2100,13 @@ static	int	tick_2_intr_skip( int tick )
 /*
  *
  */
-static	void	sio_init( void )
+static  void    sio_init( void )
 {
   sio_instruction = 0;
   sio_command     = 0;
   sio_mode        = 0;
   sio_data_exist  = FALSE;
-  sio_data        = 0;		/* 初期値は0。とあるゲームの救済のため… ;_; */
+  sio_data        = 0;      /* 初期値は0。とあるゲームの救済のため… ;_; */
 
   com_X_flow      = FALSE;
 
@@ -2104,26 +2115,26 @@ static	void	sio_init( void )
 /*
  *
  */
-static	void	sio_out_command( byte data )
+static  void    sio_out_command( byte data )
 {
-  if( sio_instruction==0 ){			/* 内部リセット直後は、 */
-    sio_mode        = data;				/* モード受付け */
+  if( sio_instruction==0 ){         /* 内部リセット直後は、 */
+    sio_mode        = data;             /* モード受付け */
     sio_instruction = 1;
 
-  }else{					/* それ以外はコマンド受付け */
+  }else{                    /* それ以外はコマンド受付け */
 
-    if( data & 0x40 ){					/* 内部リセット */
+    if( data & 0x40 ){                  /* 内部リセット */
       sio_mode        = 0;
       sio_instruction = 0;
       sio_command     = 0x40;
       sio_data        = 0;
-    }else{						/* その他       */
+    }else{                      /* その他       */
       sio_command     = data;
     }
 
-    if( (sio_command & 0x04) == 0 ){			/* リセットor受信禁止*/
-      sio_data_exist = FALSE;				/* なら、受信ワーク  */
-      RS232C_flag   = FALSE;				/* をクリアする      */
+    if( (sio_command & 0x04) == 0 ){            /* リセットor受信禁止*/
+      sio_data_exist = FALSE;               /* なら、受信ワーク  */
+      RS232C_flag   = FALSE;                /* をクリアする      */
     }
 
     sio_set_intr_base();
@@ -2133,19 +2144,19 @@ static	void	sio_out_command( byte data )
 /*
  *
  */
-static	void	sio_out_data( byte data )
+static  void    sio_out_data( byte data )
 {
   int is_cmt;
 
-  if( (sio_command & 0x01) ){		/* 送信イネーブル */
-    if( sys_ctrl & 0x20 ){			/* シリアル出力の場合 */
+  if( (sio_command & 0x01) ){       /* 送信イネーブル */
+    if( sys_ctrl & 0x20 ){          /* シリアル出力の場合 */
       is_cmt = FALSE;
-      if     ( data==0x11 ){				/* ^Q 出力 */
-	com_X_flow = FALSE;
-      }else if( data==0x13 ){				/* ^S 出力 */
-	com_X_flow = TRUE;
+      if     ( data==0x11 ){                /* ^Q 出力 */
+    com_X_flow = FALSE;
+      }else if( data==0x13 ){               /* ^S 出力 */
+    com_X_flow = TRUE;
       }
-    }else{					/* テープ出力の場合 */
+    }else{                  /* テープ出力の場合 */
       is_cmt = TRUE;
     }
     sio_putc( is_cmt, data );
@@ -2154,7 +2165,7 @@ static	void	sio_out_data( byte data )
 /*
  *
  */
-static	byte	sio_in_data( void )
+static  byte    sio_in_data( void )
 {
 /*printf("->%02x ",sio_data);fflush(stdout);*/
   sio_data_exist = FALSE;
@@ -2164,51 +2175,51 @@ static	byte	sio_in_data( void )
 /*
  *
  */
-static	byte	sio_in_status( void )
+static  byte    sio_in_status( void )
 {
   int c;
-  byte	status = 0x80 | 0x04;		/* 送信バッファエンプティ */
+  byte  status = 0x80 | 0x04;       /* 送信バッファエンプティ */
                 /* DSR| TxE */
 
-  if( sio_command & 0x04 ){		/* 現在、受信イネーブルの場合 */
+  if( sio_command & 0x04 ){     /* 現在、受信イネーブルの場合 */
 
-    if( (sys_ctrl & 0x20)==0 && 		/* テープで、SIO割り込みを  */
-	sio_tape_readable() &&			/* 使わない場合、ここで読む */
-	cmt_intr == FALSE ){
+    if( (sys_ctrl & 0x20)==0 &&         /* テープで、SIO割り込みを  */
+    sio_tape_readable() &&          /* 使わない場合、ここで読む */
+    cmt_intr == FALSE ){
 
-      cmt_dummy_read_cnt ++;			/* IN 21 を 2回実行する度に */
+      cmt_dummy_read_cnt ++;            /* IN 21 を 2回実行する度に */
       if( cmt_dummy_read_cnt >= 2 ){
-	cmt_dummy_read_cnt = 0;
+    cmt_dummy_read_cnt = 0;
 
-	c = sio_getc( TRUE, 0 );		/* テープから1文字読む */
+    c = sio_getc( TRUE, 0 );        /* テープから1文字読む */
 /*printf("[%03x]",c&0xfff);fflush(stdout);*/
-	if( c != EOF ){
-	  sio_data = (byte)c;
-	  sio_data_exist = TRUE;
-	}
+    if( c != EOF ){
+      sio_data = (byte)c;
+      sio_data_exist = TRUE;
+    }
       }
     }
 
-    if( sio_data_exist ){			/* データがあれば */
-      status |= 0x02;					/* 受信レディ */
+    if( sio_data_exist ){           /* データがあれば */
+      status |= 0x02;                   /* 受信レディ */
              /* RxRDY */
     }
   }
 
-  if( sio_command & 0x01 ){		/* 現在、送信イネーブルの場合 */
+  if( sio_command & 0x01 ){     /* 現在、送信イネーブルの場合 */
     if(( (sys_ctrl & 0x20) /*&& sio_serial_writable()*/ ) ||
        (!(sys_ctrl & 0x20)   && sio_tape_writable()     ) ){
-      status |= 0x01;				/* 送信レディ */
+      status |= 0x01;               /* 送信レディ */
              /* TxRDY */
     }
   }
 
-  return	status;
+  return    status;
 }
 /*
  *
  */
-static	void	sio_term( void )
+static  void    sio_term( void )
 {
 }
 
@@ -2217,41 +2228,41 @@ static	void	sio_term( void )
 /*
  * RS-232C 受信割り込み処理
  */
-int	sio_intr( void )
+int sio_intr( void )
 {
   int c = EOF;
   int tick;
 
-  if( (sio_command & 0x04) &&		/* 現在、受信イネーブルで   */
-      ! sio_data_exist ){		/* 読込未のデータがない場合 */
+  if( (sio_command & 0x04) &&       /* 現在、受信イネーブルで   */
+      ! sio_data_exist ){       /* 読込未のデータがない場合 */
 
-    if( sys_ctrl & 0x20 ){			/* シリアル入力 */
+    if( sys_ctrl & 0x20 ){          /* シリアル入力 */
 
       if( com_X_flow ) return FALSE;
       c = sio_getc( FALSE, 0 );
 
-    }else{					/* テープ入力(割込使用時のみ)*/
+    }else{                  /* テープ入力(割込使用時のみ)*/
       if( cmt_intr ){
 
-	if( cmt_skip==0 ){
-	  if( cmt_wait ){
-	    c = sio_getc( TRUE, &tick );
-	    if( tick ){
-	      cmt_skip = tick_2_intr_skip( tick );
-	      if( cmt_skip!=0  ){
-		cmt_skip_data = c;
-		c = EOF;
-	      }
-	    }
-	  }else{
-	    c = sio_getc( TRUE, 0 );
-	  }
-	}else{						/* T88の場合は、    */
-	  cmt_skip --;					/* 無効データ部分の */
-	  if( cmt_skip==0 ){				/* 間、時間潰しする */
-	    c = cmt_skip_data;
-	  }
-	}
+    if( cmt_skip==0 ){
+      if( cmt_wait ){
+        c = sio_getc( TRUE, &tick );
+        if( tick ){
+          cmt_skip = tick_2_intr_skip( tick );
+          if( cmt_skip!=0  ){
+        cmt_skip_data = c;
+        c = EOF;
+          }
+        }
+      }else{
+        c = sio_getc( TRUE, 0 );
+      }
+    }else{                      /* T88の場合は、    */
+      cmt_skip --;                  /* 無効データ部分の */
+      if( cmt_skip==0 ){                /* 間、時間潰しする */
+        c = cmt_skip_data;
+      }
+    }
       }
     }
 
@@ -2259,7 +2270,7 @@ int	sio_intr( void )
       sio_data = (byte)c;
       sio_data_exist = TRUE;
 /*printf("<%02x> ",sio_data);fflush(stdout);*/
-      return TRUE;				/* RxRDY割り込み発生 */
+      return TRUE;              /* RxRDY割り込み発生 */
     }
   }
   return FALSE;
@@ -2268,44 +2279,44 @@ int	sio_intr( void )
 
 
 /*
- *	状態チェック関数
+ *  状態チェック関数
  */
-int	tape_exist( void )
+int tape_exist( void )
 {
   return (fp_ti || fp_to);
 }
 
-int	tape_readable( void )
+int tape_readable( void )
 {
   return (fp_ti) ? TRUE : FALSE;
 }
 
-int	tape_writable( void )
+int tape_writable( void )
 {
   return (fp_to) ? TRUE : FALSE;
 }
 
-int	tape_reading( void )
+int tape_reading( void )
 {
   return( fp_ti &&
-	  (sio_command & 4) &&
-	  ((sys_ctrl & 0x28) == 0x08) );
+      (sio_command & 4) &&
+      ((sys_ctrl & 0x28) == 0x08) );
 }
 
-int	tape_writing( void )
+int tape_writing( void )
 {
   return( fp_to &&
-	  (sio_command & 1) &&
-	  ((sys_ctrl & 0x28) == 0x08) );
+      (sio_command & 1) &&
+      ((sys_ctrl & 0x28) == 0x08) );
 }
 
 
 
 /*===========================================================================*/
-/* パラレルポート							     */
+/* パラレルポート                                 */
 /*===========================================================================*/
 
-int	printer_open( const char *filename )
+int printer_open( const char *filename )
 {
   printer_close();
 
@@ -2319,37 +2330,37 @@ int	printer_open( const char *filename )
   }
   return FALSE;
 }
-void	printer_close( void )
+void    printer_close( void )
 {
   if( fp_prn ){ osd_fclose( fp_prn ); fp_prn = NULL; }
 }
 
 
 
-void	printer_init( void )
+void    printer_init( void )
 {
 }
-void	printer_stlobe( void )
+void    printer_stlobe( void )
 {
   if( fp_prn ){
     osd_fputc( common_out_data, fp_prn );
     osd_fflush( fp_prn );
   }
 }
-void	printer_term( void )
+void    printer_term( void )
 {
 }
 
 
 /*===========================================================================*/
-/* カレンダクロック							     */
+/* カレンダクロック                              */
 /*===========================================================================*/
 
-static	Uchar	shift_reg[7];
-static	Uchar	calendar_cdo;
-static	int	calendar_diff;
+static  Uchar   shift_reg[7];
+static  Uchar   calendar_cdo;
+static  int calendar_diff;
 
-static	void	get_calendar_work( void )
+static  void    get_calendar_work( void )
 {
   struct tm t;
 
@@ -2379,9 +2390,9 @@ static	void	get_calendar_work( void )
   shift_reg[5] = ( (t.tm_year%100)%10 <<4 ) | ( t.tm_mon+1 );
   shift_reg[6] = ( (t.tm_year%100)/10 );
 }
-static	void	set_calendar_work( int x )
+static  void    set_calendar_work( int x )
 {
-#define BCD2INT(b)	((((b)>>4)&0x0f)*10 + ((b)&0x0f))
+#define BCD2INT(b)  ((((b)>>4)&0x0f)*10 + ((b)&0x0f))
   time_t now_time;
   time_t chg_time;
   struct tm *tp;
@@ -2394,8 +2405,8 @@ static	void	set_calendar_work( int x )
   if(x==0){
     if( verbose_io )
       printf("Set Clock %02d/%02x(%s) %02x:%02x:%02x\n",
-	     (shift_reg[4]>>4)&0x0f, shift_reg[3], week[ shift_reg[4]&0x07 ],
-	     shift_reg[2], shift_reg[1], shift_reg[0]);
+         (shift_reg[4]>>4)&0x0f, shift_reg[3], week[ shift_reg[4]&0x07 ],
+         shift_reg[2], shift_reg[1], shift_reg[0]);
 
     now_time  = time( NULL );
     now_time += (time_t)calendar_diff;
@@ -2405,9 +2416,9 @@ static	void	set_calendar_work( int x )
   }else{
     if( verbose_io )
       printf("Set Clock %02x/%02d/%02x(%s) %02x:%02x:%02x\n",
-	     shift_reg[5],
-	     (shift_reg[4]>>4)&0x0f, shift_reg[3], week[ shift_reg[4]&0x07 ],
-	     shift_reg[2], shift_reg[1], shift_reg[0]);
+         shift_reg[5],
+         (shift_reg[4]>>4)&0x0f, shift_reg[3], week[ shift_reg[4]&0x07 ],
+         shift_reg[2], shift_reg[1], shift_reg[0]);
 
     i = BCD2INT( shift_reg[5] );
     if( i >= 38 ) t.tm_year = 1900 + i -1900;
@@ -2433,18 +2444,18 @@ static	void	set_calendar_work( int x )
 }
 
 
-void	calendar_init( void )
+void    calendar_init( void )
 {
-  int	i;
+  int   i;
   for(i=0;i<7;i++) shift_reg[i] = 0;
   calendar_cdo = 0;
 
   calendar_diff = 0;
 }
 
-void	calendar_shift_clock( void )
+void    calendar_shift_clock( void )
 {
-  byte	x = ( common_out_data>>3 ) & 0x01;
+  byte  x = ( common_out_data>>3 ) & 0x01;
 
   calendar_cdo = shift_reg[0] & 0x01;
   shift_reg[0] = ( shift_reg[0]>>1 ) | ( shift_reg[1]<<7 );
@@ -2456,51 +2467,51 @@ void	calendar_shift_clock( void )
   shift_reg[6] = ( shift_reg[6]>>1 ) | ( x<<3 );
 }
 
-void	calendar_stlobe( void )
+void    calendar_stlobe( void )
 {
   switch( common_out_data & 0x7 ){
-  case 0:	/*calendar_init();*/	break;		/* 初期化 */
-  case 1:	calendar_shift_clock();	break;		/* シフト */
-  case 2:	calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		set_calendar_work(0);	break;
-  case 3:	get_calendar_work();			/* 時刻取得 */
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();
-		calendar_shift_clock();	break;
-  case 4:	break;
-  case 5:	break;
-  case 6:	break;
+  case 0:   /*calendar_init();*/    break;      /* 初期化 */
+  case 1:   calendar_shift_clock(); break;      /* シフト */
+  case 2:   calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        set_calendar_work(0);   break;
+  case 3:   get_calendar_work();            /* 時刻取得 */
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock();
+        calendar_shift_clock(); break;
+  case 4:   break;
+  case 5:   break;
+  case 6:   break;
   case 7:
     switch( shift_reg[6] & 0xf ){
 
-    case 0:	/*calendar_init();*/	break;		/* 初期化 */
-    case 1:	calendar_shift_clock();	break;		/* シフト */
-    case 2:	set_calendar_work(1);	break;		/* 時刻設定 */
-    case 3:	get_calendar_work();	break;		/* 時刻取得 */
-    case 4:	break;
-    case 5:	break;
-    case 6:	break;
-    case 7:	break;
-    case 8:	break;
-    case 9:	break;
-    case 10:	break;
-    case 11:	break;
-    case 12:	break;
-    case 13:	break;
-    case 14:	break;
-    case 15:	/*test_mode();*/	break;
+    case 0: /*calendar_init();*/    break;      /* 初期化 */
+    case 1: calendar_shift_clock(); break;      /* シフト */
+    case 2: set_calendar_work(1);   break;      /* 時刻設定 */
+    case 3: get_calendar_work();    break;      /* 時刻取得 */
+    case 4: break;
+    case 5: break;
+    case 6: break;
+    case 7: break;
+    case 8: break;
+    case 9: break;
+    case 10:    break;
+    case 11:    break;
+    case 12:    break;
+    case 13:    break;
+    case 14:    break;
+    case 15:    /*test_mode();*/    break;
     }
     break;
   }
@@ -2508,20 +2519,20 @@ void	calendar_stlobe( void )
 
 
 /*===========================================================================*/
-/* コントロール信号入出力						     */
+/* コントロール信号入出力                             */
 /*===========================================================================*/
 
-void	out_ctrl_signal( byte data )
+void    out_ctrl_signal( byte data )
 {
-  byte	trg_on  = ~ctrl_signal &  data;
-  byte	trg_off =  ctrl_signal & ~data;
+  byte  trg_on  = ~ctrl_signal &  data;
+  byte  trg_off =  ctrl_signal & ~data;
 
   if( trg_on  & 0x01 ) printer_stlobe();
   if( trg_off & 0x02 ) calendar_stlobe();
   if( trg_off & 0x04 ) calendar_shift_clock();
 
   if( data & 0x08 ) set_crtc_sync_bit();
-  else		    clr_crtc_sync_bit();
+  else          clr_crtc_sync_bit();
 
   if( (trg_on & (0x80|0x20)) || (trg_off & (0x80|0x20)) ){
     xmame_dev_beep_out_data( data );
@@ -2533,12 +2544,12 @@ void	out_ctrl_signal( byte data )
   ctrl_signal = data;
 }
 
-byte	in_ctrl_signal( void )
+byte    in_ctrl_signal( void )
 {
   return ((ctrl_vrtc    << 5 ) |
-	  (calendar_cdo << 4 ) |
-	   ctrl_boot           |
-	   monitor_15k         );
+      (calendar_cdo << 4 ) |
+       ctrl_boot           |
+       monitor_15k         );
 }
 
 
@@ -2549,15 +2560,15 @@ byte	in_ctrl_signal( void )
 
 
 /************************************************************************/
-/* メモリの初期化 (電源投入時のみ)					*/
+/* メモリの初期化 (電源投入時のみ)                    */
 /************************************************************************/
 #if 0
-void	power_on_ram_init( void )
+void    power_on_ram_init( void )
 {
   int   addr, i;
   Uchar data;
 
-		/* メイン RAM を特殊なパターンで埋める */
+        /* メイン RAM を特殊なパターンで埋める */
 
   for( addr = 0; addr < 0x10000; addr += 0x100 ){
     if( (addr&0x0d00)==0x0100 || (addr&0x0f00)==0x0500 ||
@@ -2569,7 +2580,7 @@ void	power_on_ram_init( void )
     if((addr&0xf000)==0xb000 ) data ^= 0xff;
 #if 0
     if((addr&0xf000)==0xe000 ) data ^= 0xff; /* とりあえず反転 */
-					     /* changed by peach */
+                         /* changed by peach */
 #endif
 
     for(i=0;i<4;i++){
@@ -2585,31 +2596,31 @@ void	power_on_ram_init( void )
   }
 
 
-		/* 高速 RAM(の裏) を特殊なパターンで埋める */
+        /* 高速 RAM(の裏) を特殊なパターンで埋める */
 
   memcpy( main_high_ram, &main_ram[0xf000], 0x1000 );
   for( addr=0xf000; addr<0x10000; addr++ ) main_ram[addr] ^= 0xff;
 }
 
 
-#else	/* FH ではこのような気がするけど……… */
-void	power_on_ram_init( void )
+#else   /* FH ではこのような気がするけど……… */
+void    power_on_ram_init( void )
 {
   int   addr, i;
   Uchar data;
 
-		/* メイン RAM を特殊なパターンで埋める */
+        /* メイン RAM を特殊なパターンで埋める */
 
   for( addr = 0; addr < 0x4000; addr += 0x100 ){
 
-    if( ((addr & 0x0d00) == 0x0100) ||		/* x100, x300 */
-	((addr & 0x0d00) == 0x0c00) ){		/* xc00, xe00 */
+    if( ((addr & 0x0d00) == 0x0100) ||      /* x100, x300 */
+    ((addr & 0x0d00) == 0x0c00) ){      /* xc00, xe00 */
       data = 0xff;
     }else if( ((addr & 0x0f00) == 0x0500) &&
-	      ((addr & 0x2000) == 0x0000) ){	/* 0500, 1500 */
+          ((addr & 0x2000) == 0x0000) ){    /* 0500, 1500 */
       data = 0xff;
     }else if( ((addr & 0x0f00) == 0x0a00) &&
-	      ((addr & 0x3000) != 0x0000) ){	/* 1a00, 2a00, 3a00 */
+          ((addr & 0x3000) != 0x0000) ){    /* 1a00, 2a00, 3a00 */
       data = 0xff;
     }else{
       data = 0x00;
@@ -2665,63 +2676,63 @@ void	power_on_ram_init( void )
 
 
 /************************************************************************/
-/* PC88 メインシステム 初期化						*/
+/* PC88 メインシステム 初期化                     */
 /************************************************************************/
 
-static	void	bootup_work_init(void)
+static  void    bootup_work_init(void)
 {
-	/* V1モードのバージョンの小数点以下を強制変更する */
+    /* V1モードのバージョンの小数点以下を強制変更する */
 
     if (set_version) ROM_VERSION = set_version;
     else             ROM_VERSION = rom_version;
 
-	/* 起動デバイス(ROM/DISK)未定の時 */
+    /* 起動デバイス(ROM/DISK)未定の時 */
 
     if (boot_from_rom == BOOT_AUTO) {
-	if (disk_image_exist(0))	/* ディスク挿入時はDISK */
-	    boot_from_rom = FALSE;
-	else				/* それ以外は、    ROM  */
-	    boot_from_rom = TRUE;
+    if (disk_image_exist(0))    /* ディスク挿入時はDISK */
+        boot_from_rom = FALSE;
+    else                /* それ以外は、    ROM  */
+        boot_from_rom = TRUE;
     }
 
-	/* 起動時の BASICモード未定の時	  */
+    /* 起動時の BASICモード未定の時    */
 
-    if (boot_basic == BASIC_AUTO) {			
-	if (ROM_VERSION >= '4')			/* SR 以降は、V2	  */
-	    boot_basic = BASIC_V2;
-	else					/* それ以前は、V1S	  */
-	    boot_basic = BASIC_V1S;
+    if (boot_basic == BASIC_AUTO) {         
+    if (ROM_VERSION >= '4')         /* SR 以降は、V2      */
+        boot_basic = BASIC_V2;
+    else                    /* それ以前は、V1S      */
+        boot_basic = BASIC_V1S;
     }
 
-	/* サウンド(I/II)のポートを設定	 */
+    /* サウンド(I/II)のポートを設定   */
 
     if (sound_board == SOUND_II) {
 
-	if      (ROM_VERSION >= '8')		/* FH/MH 以降は、44〜47H */
-	    sound_port = SD_PORT_44_45 | SD_PORT_46_47;
-	else if (ROM_VERSION >= '4')		/* SR 以降は、44〜45,A8〜ADH */
-	    sound_port = SD_PORT_44_45 | SD_PORT_A8_AD;
-	else					/* それ以前は、  A8〜ADH */
-	    sound_port = SD_PORT_A8_AD;
+    if      (ROM_VERSION >= '8')        /* FH/MH 以降は、44〜47H */
+        sound_port = SD_PORT_44_45 | SD_PORT_46_47;
+    else if (ROM_VERSION >= '4')        /* SR 以降は、44〜45,A8〜ADH */
+        sound_port = SD_PORT_44_45 | SD_PORT_A8_AD;
+    else                    /* それ以前は、  A8〜ADH */
+        sound_port = SD_PORT_A8_AD;
 
     } else {
 
-	if (ROM_VERSION >= '4')			/* SR以降は、44〜45H	 */
-	    sound_port = SD_PORT_44_45;
-	else					/* それ以前は、？？？	 */
-	  /*sound_port = SD_PORT_A8_AD;*/
-	    sound_port = 0;			/*	対応しないなら 0 */
+    if (ROM_VERSION >= '4')         /* SR以降は、44〜45H    */
+        sound_port = SD_PORT_44_45;
+    else                    /* それ以前は、？？？   */
+      /*sound_port = SD_PORT_A8_AD;*/
+        sound_port = 0;         /*  対応しないなら 0 */
     }
 }
 
 
-void	pc88main_init( int init )
+void    pc88main_init( int init )
 {
   int i;
 
   bootup_work_init();
 
-	/* CPU ワーク初期化 */
+    /* CPU ワーク初期化 */
 
   if( init == INIT_POWERON  ||  init == INIT_RESET ){
 
@@ -2733,24 +2744,24 @@ void	pc88main_init( int init )
   z80main_cpu.intr_update = main_INT_update;
   z80main_cpu.intr_ack    = main_INT_chk;
 
-  z80main_cpu.break_if_halt = FALSE;		/* for debug */
-  z80main_cpu.PC_prev   = z80main_cpu.PC;	/* dummy for monitor */
+  z80main_cpu.break_if_halt = FALSE;        /* for debug */
+  z80main_cpu.PC_prev   = z80main_cpu.PC;   /* dummy for monitor */
 
-#ifdef	DEBUGLOG
-  z80main_cpu.log	= TRUE;
+#ifdef  DEBUGLOG
+  z80main_cpu.log   = TRUE;
 #else
-  z80main_cpu.log	= FALSE;
+  z80main_cpu.log   = FALSE;
 #endif
 
 
-	/* RAMを電源投入時パターンで初期化 */
+    /* RAMを電源投入時パターンで初期化 */
 
   if( init == INIT_POWERON ){
     power_on_ram_init();
   }
 
 
-	/* フォント初期化 */
+    /* フォント初期化 */
 
   if( init == INIT_POWERON  ||  init == INIT_RESET ){
 
@@ -2760,7 +2771,7 @@ void	pc88main_init( int init )
   }
 
 
-	/* キーボード初期化 */
+    /* キーボード初期化 */
 
   if( init == INIT_POWERON  ||  init == INIT_STATELOAD ){
     keyboard_reset();
@@ -2768,7 +2779,7 @@ void	pc88main_init( int init )
 
 
 
-  printer_init();			/* PRINTER は復元しない	*/
+  printer_init();           /* PRINTER は復元しない   */
 
   if( init == INIT_POWERON  ||  init == INIT_RESET ){
 
@@ -2814,26 +2825,26 @@ void	pc88main_init( int init )
       break;
     }
 
-    ctrl_boot		= (boot_from_rom) ? SW_ROMBOOT : 0;
-    memory_bank		= MEMORY_BANK_MAIN;
-    cpu_clock		= (boot_clock_4mhz) ? SW_4MHZ : 0;
+    ctrl_boot       = (boot_from_rom) ? SW_ROMBOOT : 0;
+    memory_bank     = MEMORY_BANK_MAIN;
+    cpu_clock       = (boot_clock_4mhz) ? SW_4MHZ : 0;
 
-    sys_ctrl		= 0x31;
-    grph_ctrl		= 0x31;
-    misc_ctrl		= 0x90;
-    ALU1_ctrl		= 0x77;
-    ALU2_ctrl		= 0x00;
-    ctrl_signal		= 0x0f;
-    grph_pile		= 0x00;
-  /*baudrate_sw		= 0;*/
-    window_offset	= 0x0000;
-    ext_rom_bank	= 0xff;
+    sys_ctrl        = 0x31;
+    grph_ctrl       = 0x31;
+    misc_ctrl       = 0x90;
+    ALU1_ctrl       = 0x77;
+    ALU2_ctrl       = 0x00;
+    ctrl_signal     = 0x0f;
+    grph_pile       = 0x00;
+  /*baudrate_sw     = 0;*/
+    window_offset   = 0x0000;
+    ext_rom_bank    = 0xff;
 
-    ext_ram_ctrl	= 0;
-    ext_ram_bank	= 0;
+    ext_ram_ctrl    = 0;
+    ext_ram_bank    = 0;
 
-    jisho_rom_ctrl	= JISHO_NOT_SELECT;
-    jisho_rom_bank	= 0;
+    jisho_rom_ctrl  = JISHO_NOT_SELECT;
+    jisho_rom_bank  = 0;
 
     vram_bg_palette.blue  = 0;
     vram_bg_palette.red   = 0;
@@ -2844,11 +2855,11 @@ void	pc88main_init( int init )
       vram_palette[ i ].green = (i&4) ? 7 : 0;
     }
 
-    intr_level		= 7;
-    intr_priority	= 0;
-    intr_sio_enable	= 0x00;
-    intr_vsync_enable	= 0x00;
-    intr_rtc_enable	= 0x00;
+    intr_level      = 7;
+    intr_priority   = 0;
+    intr_sio_enable = 0x00;
+    intr_vsync_enable   = 0x00;
+    intr_rtc_enable = 0x00;
   }
 
   main_memory_mapping_0000_7fff();
@@ -2875,9 +2886,9 @@ void	pc88main_init( int init )
 
 
 /************************************************************************/
-/* PC88 メインシステム 終了						*/
+/* PC88 メインシステム 終了                        */
 /************************************************************************/
-void	pc88main_term( void )
+void    pc88main_term( void )
 {
   printer_term();
   sio_term();
@@ -2893,53 +2904,53 @@ void	pc88main_term( void )
 
 
 /************************************************************************/
-/* ブレークポイント関連							*/
+/* ブレークポイント関連                           */
 /************************************************************************/
-INLINE	void	check_break_point( int type, word addr, byte data, char *str )
+INLINE  void    check_break_point( int type, word addr, byte data, char *str )
 {
-  int	i;
+  int   i;
 
   if (quasi88_is_monitor())  return; /* モニターモード時はスルー */
   for( i=0; i<NR_BP; i++ ){
     if( break_point[BP_MAIN][i].type == type &&
         break_point[BP_MAIN][i].addr == addr ){
       printf( "*** Break at %04x *** "
-	      "( MAIN - #%d [ %s %04XH , data = %02XH ]\n",
-	      z80main_cpu.PC.W, i+1, str, addr, data );
+          "( MAIN - #%d [ %s %04XH , data = %02XH ]\n",
+          z80main_cpu.PC.W, i+1, str, addr, data );
       quasi88_debug();
       break;
     }
   }
 }
 
-byte	main_fetch_with_BP( word addr )
+byte    main_fetch_with_BP( word addr )
 {
-  byte	data = main_fetch( addr );
+  byte  data = main_fetch( addr );
   check_break_point( BP_READ, addr, data, "FETCH from" );
   return data;
 }
 
-byte	main_mem_read_with_BP( word addr )
+byte    main_mem_read_with_BP( word addr )
 {
-  byte	data = main_mem_read( addr );
+  byte  data = main_mem_read( addr );
   check_break_point( BP_READ, addr, data, "READ from" );
   return data;
 }
 
-void	main_mem_write_with_BP( word addr, byte data )
+void    main_mem_write_with_BP( word addr, byte data )
 {
   main_mem_write( addr, data );
   check_break_point( BP_WRITE, addr, data, "WRITE to" );
 }
 
-byte	main_io_in_with_BP( byte port )
+byte    main_io_in_with_BP( byte port )
 {
-  byte	data =  main_io_in( port );
+  byte  data =  main_io_in( port );
   check_break_point( BP_IN, port, data, "IN from" );
   return data;
 }
 
-void	main_io_out_with_BP( byte port, byte data )
+void    main_io_out_with_BP( byte port, byte data )
 {
   main_io_out( port, data );
   check_break_point( BP_OUT, port, data, "OUT to" );
@@ -2948,20 +2959,20 @@ void	main_io_out_with_BP( byte port, byte data )
 
 
 /************************************************************************/
-/*									*/
+/*                                  */
 /************************************************************************/
-void	pc88main_bus_setup( void )
+void    pc88main_bus_setup( void )
 {
-#ifdef	USE_MONITOR
+#ifdef  USE_MONITOR
 
-  int	i, buf[4];
+  int   i, buf[4];
   for( i=0; i<4; i++ ) buf[i]=0;
   for( i=0; i<NR_BP; i++ ){
     switch( break_point[BP_MAIN][i].type ){
-    case BP_READ:	buf[0]++;	break;
-    case BP_WRITE:	buf[1]++;	break;
-    case BP_IN:		buf[2]++;	break;
-    case BP_OUT:	buf[3]++;	break;
+    case BP_READ:   buf[0]++;   break;
+    case BP_WRITE:  buf[1]++;   break;
+    case BP_IN:     buf[2]++;   break;
+    case BP_OUT:    buf[3]++;   break;
     }
   }
    
@@ -3007,128 +3018,128 @@ void	pc88main_bus_setup( void )
  * ステートロード／ステートセーブ
  ************************************************************************/
 
-#define	SID	"MAIN"
-#define	SID2	"MAI2"
+#define SID "MAIN"
+#define SID2    "MAI2"
 
-static	T_SUSPEND_W	suspend_pc88main_work[]=
+static  T_SUSPEND_W suspend_pc88main_work[]=
 {
-  { TYPE_STR,	&file_tape[0][0],	},
-  { TYPE_STR,	&file_tape[1][0],	},
+  { TYPE_STR,   &file_tape[0][0],   },
+  { TYPE_STR,   &file_tape[1][0],   },
 
-  { TYPE_INT,	&boot_basic,		},
-  { TYPE_INT,	&boot_dipsw,		},
-  { TYPE_INT,	&boot_from_rom,		},
-  { TYPE_INT,	&boot_clock_4mhz,	},
-  { TYPE_INT,	&monitor_15k,		},
+  { TYPE_INT,   &boot_basic,        },
+  { TYPE_INT,   &boot_dipsw,        },
+  { TYPE_INT,   &boot_from_rom,     },
+  { TYPE_INT,   &boot_clock_4mhz,   },
+  { TYPE_INT,   &monitor_15k,       },
 
-  { TYPE_PAIR,	&z80main_cpu.AF,	},
-  { TYPE_PAIR,	&z80main_cpu.BC,	},
-  { TYPE_PAIR,	&z80main_cpu.DE,	},
-  { TYPE_PAIR,	&z80main_cpu.HL,	},
-  { TYPE_PAIR,	&z80main_cpu.IX,	},
-  { TYPE_PAIR,	&z80main_cpu.IY,	},
-  { TYPE_PAIR,	&z80main_cpu.PC,	},
-  { TYPE_PAIR,	&z80main_cpu.SP,	},
-  { TYPE_PAIR,	&z80main_cpu.AF1,	},
-  { TYPE_PAIR,	&z80main_cpu.BC1,	},
-  { TYPE_PAIR,	&z80main_cpu.DE1,	},
-  { TYPE_PAIR,	&z80main_cpu.HL1,	},
-  { TYPE_BYTE,	&z80main_cpu.I,		},
-  { TYPE_BYTE,	&z80main_cpu.R,		},
-  { TYPE_BYTE,	&z80main_cpu.R_saved,	},
-  { TYPE_CHAR,	&z80main_cpu.IFF,	},
-  { TYPE_CHAR,	&z80main_cpu.IFF2,	},
-  { TYPE_CHAR,	&z80main_cpu.IM,	},
-  { TYPE_CHAR,	&z80main_cpu.HALT,	},
-  { TYPE_INT,	&z80main_cpu.INT_active,},
-  { TYPE_INT,	&z80main_cpu.icount,	},
-  { TYPE_INT,	&z80main_cpu.state0,	},
-  { TYPE_INT,	&z80main_cpu.skip_intr_chk,	},
-  { TYPE_CHAR,	&z80main_cpu.log,		},
-  { TYPE_CHAR,	&z80main_cpu.break_if_halt,	},
+  { TYPE_PAIR,  &z80main_cpu.AF,    },
+  { TYPE_PAIR,  &z80main_cpu.BC,    },
+  { TYPE_PAIR,  &z80main_cpu.DE,    },
+  { TYPE_PAIR,  &z80main_cpu.HL,    },
+  { TYPE_PAIR,  &z80main_cpu.IX,    },
+  { TYPE_PAIR,  &z80main_cpu.IY,    },
+  { TYPE_PAIR,  &z80main_cpu.PC,    },
+  { TYPE_PAIR,  &z80main_cpu.SP,    },
+  { TYPE_PAIR,  &z80main_cpu.AF1,   },
+  { TYPE_PAIR,  &z80main_cpu.BC1,   },
+  { TYPE_PAIR,  &z80main_cpu.DE1,   },
+  { TYPE_PAIR,  &z80main_cpu.HL1,   },
+  { TYPE_BYTE,  &z80main_cpu.I,     },
+  { TYPE_BYTE,  &z80main_cpu.R,     },
+  { TYPE_BYTE,  &z80main_cpu.R_saved,   },
+  { TYPE_CHAR,  &z80main_cpu.IFF,   },
+  { TYPE_CHAR,  &z80main_cpu.IFF2,  },
+  { TYPE_CHAR,  &z80main_cpu.IM,    },
+  { TYPE_CHAR,  &z80main_cpu.HALT,  },
+  { TYPE_INT,   &z80main_cpu.INT_active,},
+  { TYPE_INT,   &z80main_cpu.icount,    },
+  { TYPE_INT,   &z80main_cpu.state0,    },
+  { TYPE_INT,   &z80main_cpu.skip_intr_chk, },
+  { TYPE_CHAR,  &z80main_cpu.log,       },
+  { TYPE_CHAR,  &z80main_cpu.break_if_halt, },
 
-  { TYPE_INT,	&high_mode,		},
+  { TYPE_INT,   &high_mode,     },
 
-  { TYPE_BYTE,	&dipsw_1,		},
-  { TYPE_BYTE,	&dipsw_2,		},
-  { TYPE_BYTE,	&ctrl_boot,		},
-  { TYPE_INT,	&memory_bank,		},
-  { TYPE_BYTE,	&cpu_clock,		},
+  { TYPE_BYTE,  &dipsw_1,       },
+  { TYPE_BYTE,  &dipsw_2,       },
+  { TYPE_BYTE,  &ctrl_boot,     },
+  { TYPE_INT,   &memory_bank,       },
+  { TYPE_BYTE,  &cpu_clock,     },
 
-  { TYPE_BYTE,	&common_out_data,	},
-  { TYPE_BYTE,	&misc_ctrl,		},
-  { TYPE_BYTE,	&ALU1_ctrl,		},
-  { TYPE_BYTE,	&ALU2_ctrl,		},
-  { TYPE_BYTE,	&ctrl_signal,		},
-  { TYPE_BYTE,	&baudrate_sw,		},
-  { TYPE_WORD,	&window_offset,		},
-  { TYPE_BYTE,	&ext_rom_bank,		},
-  { TYPE_BYTE,	&ext_ram_ctrl,		},
-  { TYPE_BYTE,	&ext_ram_bank,		},
+  { TYPE_BYTE,  &common_out_data,   },
+  { TYPE_BYTE,  &misc_ctrl,     },
+  { TYPE_BYTE,  &ALU1_ctrl,     },
+  { TYPE_BYTE,  &ALU2_ctrl,     },
+  { TYPE_BYTE,  &ctrl_signal,       },
+  { TYPE_BYTE,  &baudrate_sw,       },
+  { TYPE_WORD,  &window_offset,     },
+  { TYPE_BYTE,  &ext_rom_bank,      },
+  { TYPE_BYTE,  &ext_ram_ctrl,      },
+  { TYPE_BYTE,  &ext_ram_bank,      },
 
-  { TYPE_PAIR,	&kanji1_addr,		},
-  { TYPE_PAIR,	&kanji2_addr,		},
+  { TYPE_PAIR,  &kanji1_addr,       },
+  { TYPE_PAIR,  &kanji2_addr,       },
 
-  { TYPE_BYTE,	&jisho_rom_bank,	},
-  { TYPE_BYTE,	&jisho_rom_ctrl,	},
+  { TYPE_BYTE,  &jisho_rom_bank,    },
+  { TYPE_BYTE,  &jisho_rom_ctrl,    },
 
-  { TYPE_INT,	&calendar_stop,		},
-  { TYPE_CHAR,	&calendar_data[0],	},
-  { TYPE_CHAR,	&calendar_data[1],	},
-  { TYPE_CHAR,	&calendar_data[2],	},
-  { TYPE_CHAR,	&calendar_data[3],	},
-  { TYPE_CHAR,	&calendar_data[4],	},
-  { TYPE_CHAR,	&calendar_data[5],	},
-  { TYPE_CHAR,	&calendar_data[6],	},
+  { TYPE_INT,   &calendar_stop,     },
+  { TYPE_CHAR,  &calendar_data[0],  },
+  { TYPE_CHAR,  &calendar_data[1],  },
+  { TYPE_CHAR,  &calendar_data[2],  },
+  { TYPE_CHAR,  &calendar_data[3],  },
+  { TYPE_CHAR,  &calendar_data[4],  },
+  { TYPE_CHAR,  &calendar_data[5],  },
+  { TYPE_CHAR,  &calendar_data[6],  },
 
-  { TYPE_INT,	&cmt_speed,		},
-  { TYPE_INT,	&cmt_intr,		},
-  { TYPE_INT,	&cmt_wait,		},
+  { TYPE_INT,   &cmt_speed,     },
+  { TYPE_INT,   &cmt_intr,      },
+  { TYPE_INT,   &cmt_wait,      },
 
-  { TYPE_INT,	&highspeed_mode,	},
-  { TYPE_INT,	&memory_wait,		},
+  { TYPE_INT,   &highspeed_mode,    },
+  { TYPE_INT,   &memory_wait,       },
 
-  { TYPE_INT,	&ALU_buf.l,	},	/*  TYPE_CHAR, ALU_buf.c[0]-[3] ?  */
-  { TYPE_INT,	&ALU_comp.l,	},	/*  TYPE_CHAR, ALU_comp.c[0]-[3] ? */
+  { TYPE_INT,   &ALU_buf.l, },  /*  TYPE_CHAR, ALU_buf.c[0]-[3] ?  */
+  { TYPE_INT,   &ALU_comp.l,    },  /*  TYPE_CHAR, ALU_comp.c[0]-[3] ? */
 
-  { TYPE_INT,	&pcg_data,		},
-  { TYPE_INT,	&pcg_addr,		},
+  { TYPE_INT,   &pcg_data,      },
+  { TYPE_INT,   &pcg_addr,      },
 
-  { TYPE_INT,	&sio_instruction,	},
-  { TYPE_BYTE,	&sio_mode,		},
-  { TYPE_BYTE,	&sio_command,		},
-  { TYPE_INT,	&sio_data_exist,	},
-  { TYPE_BYTE,	&sio_data,		},
+  { TYPE_INT,   &sio_instruction,   },
+  { TYPE_BYTE,  &sio_mode,      },
+  { TYPE_BYTE,  &sio_command,       },
+  { TYPE_INT,   &sio_data_exist,    },
+  { TYPE_BYTE,  &sio_data,      },
 
-  { TYPE_INT,	&com_X_flow,		},
+  { TYPE_INT,   &com_X_flow,        },
 
-  { TYPE_INT,	&cmt_dummy_read_cnt,	},
-  { TYPE_INT,	&cmt_skip,		},
-  { TYPE_INT,	&cmt_skip_data,		},
+  { TYPE_INT,   &cmt_dummy_read_cnt,    },
+  { TYPE_INT,   &cmt_skip,      },
+  { TYPE_INT,   &cmt_skip_data,     },
 
-  { TYPE_LONG,	&cmt_read_chars,	},
+  { TYPE_LONG,  &cmt_read_chars,    },
 
-  { TYPE_CHAR,	&shift_reg[0],		},
-  { TYPE_CHAR,	&shift_reg[1],		},
-  { TYPE_CHAR,	&shift_reg[2],		},
-  { TYPE_CHAR,	&shift_reg[3],		},
-  { TYPE_CHAR,	&shift_reg[4],		},
-  { TYPE_CHAR,	&shift_reg[5],		},
-  { TYPE_CHAR,	&shift_reg[6],		},
-  { TYPE_CHAR,	&calendar_cdo,		},
-  { TYPE_INT,	&calendar_diff,		},
+  { TYPE_CHAR,  &shift_reg[0],      },
+  { TYPE_CHAR,  &shift_reg[1],      },
+  { TYPE_CHAR,  &shift_reg[2],      },
+  { TYPE_CHAR,  &shift_reg[3],      },
+  { TYPE_CHAR,  &shift_reg[4],      },
+  { TYPE_CHAR,  &shift_reg[5],      },
+  { TYPE_CHAR,  &shift_reg[6],      },
+  { TYPE_CHAR,  &calendar_cdo,      },
+  { TYPE_INT,   &calendar_diff,     },
 
-  { TYPE_END,	0			},
+  { TYPE_END,   0           },
 };
 
-static	T_SUSPEND_W	suspend_pc88main_work2[]=
+static  T_SUSPEND_W suspend_pc88main_work2[]=
 {
-  { TYPE_INT,	&use_siomouse,		},
-  { TYPE_END,	0			},
+  { TYPE_INT,   &use_siomouse,      },
+  { TYPE_END,   0           },
 };
 
 
-int	statesave_pc88main( void )
+int statesave_pc88main( void )
 {
 /*if( fp_ti ) printf("%d\n",osd_ftell(fp_ti));*/
 
@@ -3139,7 +3150,7 @@ int	statesave_pc88main( void )
   return TRUE;
 }
 
-int	stateload_pc88main( void )
+int stateload_pc88main( void )
 {
   if( stateload_table( SID, suspend_pc88main_work ) != STATE_OK ) return FALSE;
 

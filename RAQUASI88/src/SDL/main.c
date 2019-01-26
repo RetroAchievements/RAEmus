@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/*				QUASI88					*/
-/*									*/
+/*                                  */
+/*              QUASI88                 */
+/*                                  */
 /************************************************************************/
 
 #include <stdio.h>
@@ -11,10 +11,10 @@
 #include "quasi88.h"
 #include "device.h"
 
-#include "getconf.h"	/* config_init */
-#include "suspend.h"	/* stateload_system */
-#include "menu.h"	/* menu_about_osd_msg */
-#include "keyboard.h"	/* romaji_type */
+#include "getconf.h"    /* config_init */
+#include "suspend.h"    /* stateload_system */
+#include "menu.h"   /* menu_about_osd_msg */
+#include "keyboard.h"   /* romaji_type */
 
 
 /***********************************************************************
@@ -31,8 +31,8 @@ static int oo_env(const char *var, const char *str)
 static int o_videodrv(char *str) { return oo_env("SDL_VIDEODRIVER=", str); }
 static int o_audiodrv(char *str) { return oo_env("SDL_AUDIODRIVER=", str); }
 
-static	int	invalid_arg;
-static	const	T_CONFIG_TABLE sdl_options[] =
+static  int invalid_arg;
+static  const   T_CONFIG_TABLE sdl_options[] =
 {
   /* 300〜349: システム依存オプション */
 
@@ -66,7 +66,7 @@ static	const	T_CONFIG_TABLE sdl_options[] =
   {   0, NULL,           X_INV,                                       0,0,0,0, 0        },
 };
 
-static	void	help_msg_sdl(void)
+static  void    help_msg_sdl(void)
 {
   fprintf
   (
@@ -91,54 +91,54 @@ static	void	help_msg_sdl(void)
 /***********************************************************************
  * メイン処理
  ************************************************************************/
-static	void	finish(void);
+static  void    finish(void);
 
-int	main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     int x = 1;
 
-	/* エンディアンネスチェック */
+    /* エンディアンネスチェック */
 
 #ifdef LSB_FIRST
     if (*(char *)&x != 1) {
-	fprintf(stderr,
-		"%s CAN'T EXCUTE !\n"
-		"This machine is Big-Endian.\n"
-		"Compile again comment-out 'LSB_FIRST = 1' in Makefile.\n",
-		argv[0]);
-	return -1;
+    fprintf(stderr,
+        "%s CAN'T EXCUTE !\n"
+        "This machine is Big-Endian.\n"
+        "Compile again comment-out 'LSB_FIRST = 1' in Makefile.\n",
+        argv[0]);
+    return -1;
     }
 #else
     if (*(char *)&x == 1) {
-	fprintf(stderr,
-		"%s CAN'T EXCUTE !\n"
-		"This machine is Little-Endian.\n"
-		"Compile again comment-in 'LSB_FIRST = 1' in Makefile.\n",
-		argv[0]);
-	return -1;
+    fprintf(stderr,
+        "%s CAN'T EXCUTE !\n"
+        "This machine is Little-Endian.\n"
+        "Compile again comment-in 'LSB_FIRST = 1' in Makefile.\n",
+        argv[0]);
+    return -1;
     }
 #endif
 
-#ifdef	WIN32
+#ifdef  WIN32
     /* 一部の初期値を改変 (いいやり方はないかな…) */
-    romaji_type = 1;			/* ローマ字変換の規則を MS-IME風に */
+    romaji_type = 1;            /* ローマ字変換の規則を MS-IME風に */
 #endif
 
 
-    if (config_init(argc, argv,		/* 環境初期化 & 引数処理 */
-		    sdl_options,
-		    help_msg_sdl)) {
+    if (config_init(argc, argv,     /* 環境初期化 & 引数処理 */
+            sdl_options,
+            help_msg_sdl)) {
 
-	if (sdl_init()) {		/* SDL関連の初期化 */
+    if (sdl_init()) {       /* SDL関連の初期化 */
 
-	    quasi88_atexit(finish);	/* quasi88() 実行中に強制終了した際の
-					   コールバック関数を登録する */
-	    quasi88();			/* PC-8801 エミュレーション */
+        quasi88_atexit(finish); /* quasi88() 実行中に強制終了した際の
+                       コールバック関数を登録する */
+        quasi88();          /* PC-8801 エミュレーション */
 
-	    sdl_exit();			/* SDL関連後始末 */
-	}
+        sdl_exit();         /* SDL関連後始末 */
+    }
 
-	config_exit();			/* 引数処理後始末 */
+    config_exit();          /* 引数処理後始末 */
     }
 
     return 0;
@@ -149,10 +149,10 @@ int	main(int argc, char *argv[])
 /*
  * 強制終了時のコールバック関数 (quasi88_exit()呼出時に、処理される)
  */
-static	void	finish(void)
+static  void    finish(void)
 {
-    sdl_exit();				/* SDL関連後始末 */
-    config_exit();			/* 引数処理後始末 */
+    sdl_exit();             /* SDL関連後始末 */
+    config_exit();          /* 引数処理後始末 */
 }
 
 
@@ -161,15 +161,15 @@ static	void	finish(void)
  * ステートロード／ステートセーブ
  ************************************************************************/
 
-/*	他の情報すべてがロード or セーブされた後に呼び出される。
- *	必要に応じて、システム固有の情報を付加してもいいかと。
+/*  他の情報すべてがロード or セーブされた後に呼び出される。
+ *  必要に応じて、システム固有の情報を付加してもいいかと。
  */
 
-int	stateload_system( void )
+int stateload_system( void )
 {
   return TRUE;
 }
-int	statesave_system( void )
+int statesave_system( void )
 {
   return TRUE;
 }
@@ -180,9 +180,9 @@ int	statesave_system( void )
  * メニュー画面に表示する、システム固有メッセージ
  ************************************************************************/
 
-int	menu_about_osd_msg(int        req_japanese,
-			   int        *result_code,
-			   const char *message[])
+int menu_about_osd_msg(int        req_japanese,
+               int        *result_code,
+               const char *message[])
 {
     return FALSE;
 }

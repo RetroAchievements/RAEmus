@@ -214,7 +214,7 @@ static void *oss_dsp_create(const void *flags)
    /* set the fraginfo */
    i = j = i | (j << 16);
    fprintf(stderr, "info: setting fragsize to %d, numfrags to %d\n",
-   	1 << (i & 0x0000FFFF), i >> 16);
+    1 << (i & 0x0000FFFF), i >> 16);
    if (ioctl(priv->fd, SNDCTL_DSP_SETFRAGMENT, &i) < 0)
    {
       perror("error: SNDCTL_DSP_SETFRAGMENT");
@@ -240,7 +240,7 @@ static void *oss_dsp_create(const void *flags)
       {
          fprintf(stderr, "warning: obtained fragsize/numfrags differs too much from requested\n"
             "   you may wish to adjust the bufsize setting in your xmamerc file, or try\n"
-	    "   timer-based audio by adding -timer to your command line\n");
+        "   timer-based audio by adding -timer to your command line\n");
       }
       else if (info.bytes > (info.fragsize * info.fragstotal))
       {

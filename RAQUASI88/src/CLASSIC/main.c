@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/*				QUASI88					*/
-/*									*/
+/*                                  */
+/*              QUASI88                 */
+/*                                  */
 /************************************************************************/
 
 /*----------------------------------------------------------------------*
@@ -14,10 +14,10 @@
 #include "quasi88.h"
 #include "device.h"
 
-#include "getconf.h"	/* config_init */
-#include "keyboard.h"	/* romaji_type */
-#include "suspend.h"	/* stateload_system */
-#include "menu.h"	/* menu_about_osd_msg */
+#include "getconf.h"    /* config_init */
+#include "keyboard.h"   /* romaji_type */
+#include "suspend.h"    /* stateload_system */
+#include "menu.h"   /* menu_about_osd_msg */
 
 #include "intr.h"
 #include "screen.h"
@@ -26,8 +26,8 @@
 /***********************************************************************
  * オプション
  ************************************************************************/
-static	int	invalid_arg;
-static	const	T_CONFIG_TABLE classic_options[] =
+static  int invalid_arg;
+static  const   T_CONFIG_TABLE classic_options[] =
 {
   /* 300〜349: システム依存オプション */
 
@@ -53,41 +53,41 @@ static	const	T_CONFIG_TABLE classic_options[] =
 /***********************************************************************
  * メイン処理
  ************************************************************************/
-static	void	finish(void);
+static  void    finish(void);
 
-int	main(void)
+int main(void)
 {
     /* メモリ関連の設定 */
 
-    /* 拡張するスタックのサイズを指定 ↓       どれだけ確保すべきなの？	*/
-    SetApplLimit(GetApplLimit() - 65536*2);	/* スタックサイズを拡張	*/
-    MaxApplZone();				/* ヒープ領域を拡張	*/
-    MoreMasters();				/* なんのおまじない？	*/
+    /* 拡張するスタックのサイズを指定 ↓       どれだけ確保すべきなの？ */
+    SetApplLimit(GetApplLimit() - 65536*2); /* スタックサイズを拡張   */
+    MaxApplZone();              /* ヒープ領域を拡張 */
+    MoreMasters();              /* なんのおまじない？  */
 
 
 
     /* 一部の初期値を改変 (いいやり方はないかな…) */
-    romaji_type = 1;			/* ローマ字変換の規則を MS-IME風に */
+    romaji_type = 1;            /* ローマ字変換の規則を MS-IME風に */
 
 
-    if (config_init(0, NULL,		/* 環境初期化 & 引数処理 */
-		    classic_options,
-		    NULL)) {
+    if (config_init(0, NULL,        /* 環境初期化 & 引数処理 */
+            classic_options,
+            NULL)) {
 
-	mac_init();			/* CLASSIC関連の初期化 */
+    mac_init();         /* CLASSIC関連の初期化 */
 
-	{   /* CLASSIC環境に最適(？) な設定値に書き換えておく */
-	    vsync_freq_hz  = 60.0;  /* 時間経過の計測が1/60秒単位固定なので */
-	    file_coding = 1;        /* SJIS固定 */
-	}
+    {   /* CLASSIC環境に最適(？) な設定値に書き換えておく */
+        vsync_freq_hz  = 60.0;  /* 時間経過の計測が1/60秒単位固定なので */
+        file_coding = 1;        /* SJIS固定 */
+    }
 
-	quasi88_atexit(finish);		/* quasi88() 実行中に強制終了した際の
-					   コールバック関数を登録する */
-	quasi88();			/* PC-8801 エミュレーション */
+    quasi88_atexit(finish);     /* quasi88() 実行中に強制終了した際の
+                       コールバック関数を登録する */
+    quasi88();          /* PC-8801 エミュレーション */
 
-	mac_exit();			/* CLASSIC関連後始末 */
+    mac_exit();         /* CLASSIC関連後始末 */
 
-	config_exit();			/* 引数処理後始末 */
+    config_exit();          /* 引数処理後始末 */
     }
 
     return 0;
@@ -98,10 +98,10 @@ int	main(void)
 /*
  * 強制終了時のコールバック関数 (quasi88_exit()呼出時に、処理される)
  */
-static	void	finish(void)
+static  void    finish(void)
 {
-    mac_exit();				/* CLASSIC関連後始末 */
-    config_exit();			/* 引数処理後始末 */
+    mac_exit();             /* CLASSIC関連後始末 */
+    config_exit();          /* 引数処理後始末 */
 }
 
 
@@ -115,15 +115,15 @@ static	void	finish(void)
  * ステートロード／ステートセーブ
  ************************************************************************/
 
-/*	他の情報すべてがロード or セーブされた後に呼び出される。
- *	必要に応じて、システム固有の情報を付加してもいいかと。
+/*  他の情報すべてがロード or セーブされた後に呼び出される。
+ *  必要に応じて、システム固有の情報を付加してもいいかと。
  */
 
-int	stateload_system( void )
+int stateload_system( void )
 {
   return TRUE;
 }
-int	statesave_system( void )
+int statesave_system( void )
 {
   return TRUE;
 }
@@ -134,33 +134,33 @@ int	statesave_system( void )
  * メニュー画面に表示する、システム固有メッセージ
  ************************************************************************/
 
-int	menu_about_osd_msg(int        req_japanese,
-			   int        *result_code,
-			   const char *message[])
+int menu_about_osd_msg(int        req_japanese,
+               int        *result_code,
+               const char *message[])
 {
     static const char *about_en =
     {
-	"Mouse and joystick are not supported.\n"
-	"\n"
-	"Many many menu items are not available.\n"
+    "Mouse and joystick are not supported.\n"
+    "\n"
+    "Many many menu items are not available.\n"
     };
 
     static const char *about_jp =
     {
-	"速度に関する設定は変更できません\n"
-	"マウス、ジョイスティックは使用できません\n"
-	"マウスカーソルの表示制御はサポートされていません\n"
-	"ソフトウェア NumLock はサポートされていません\n"
-	"キー設定ファイルの読み込みはサポートされていません\n"
+    "速度に関する設定は変更できません\n"
+    "マウス、ジョイスティックは使用できません\n"
+    "マウスカーソルの表示制御はサポートされていません\n"
+    "ソフトウェア NumLock はサポートされていません\n"
+    "キー設定ファイルの読み込みはサポートされていません\n"
     };
 
 
-    *result_code = -1;				/* 文字コード指定なし */
+    *result_code = -1;              /* 文字コード指定なし */
 
     if (req_japanese == FALSE) {
-	*message = about_en;
+    *message = about_en;
     } else {
-	*message = about_jp;
+    *message = about_jp;
     }
 
     return TRUE;

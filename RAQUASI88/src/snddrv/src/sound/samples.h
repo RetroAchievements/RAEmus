@@ -17,7 +17,7 @@ struct loaded_samples
 struct Samplesinterface
 {
     int         channels;   /* number of discrete audio channels needed */
-	const char **samplenames;
+    const char **samplenames;
     void        (*start)(void);
 };
 

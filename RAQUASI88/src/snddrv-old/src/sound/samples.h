@@ -3,9 +3,9 @@
 
 struct Samplesinterface
 {
-	int channels;	/* number of discrete audio channels needed */
-	int volume;		/* global volume for all samples */
-	const char **samplenames;
+    int channels;   /* number of discrete audio channels needed */
+    int volume;     /* global volume for all samples */
+    const char **samplenames;
 };
 
 

@@ -5,10 +5,10 @@
 
 struct AY8910interface
 {
-	read8_handler portAread;
-	read8_handler portBread;
-	write8_handler portAwrite;
-	write8_handler portBwrite;
+    read8_handler portAread;
+    read8_handler portBread;
+    write8_handler portAwrite;
+    write8_handler portBwrite;
 };
 
 void AY8910_set_volume(int chip,int channel,int volume);
@@ -65,8 +65,8 @@ WRITE16_HANDLER( AY8910_write_port_4_msb_w );
 /*********** An interface for SSG of YM2203 ***********/
 
 void *ay8910_start_ym(int chip_type, int sndindex, int clock, int streams,
-		read8_handler portAread, read8_handler portBread,
-		write8_handler portAwrite, write8_handler portBwrite);
+        read8_handler portAread, read8_handler portBread,
+        write8_handler portAwrite, write8_handler portBwrite);
 
 void ay8910_stop_ym(void *chip);
 void ay8910_reset_ym(void *chip);
@@ -74,8 +74,8 @@ void ay8910_set_clock_ym(void *chip, int clock);
 void ay8910_write_ym(void *chip, int addr, int data);
 int ay8910_read_ym(void *chip);
 
-#if 1		/* QUASI88 */
+#if 1       /* QUASI88 */
 void ay8910_set_volume_ym(void *chip,int channel,float volume);
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
 #endif

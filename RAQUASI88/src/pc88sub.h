@@ -2,26 +2,26 @@
 #define PC88SUB_H_INCLUDED
 
 
-	/**** 変数 ****/
+    /**** 変数 ****/
 
-extern	int	sub_load_rate;
-
-
-	/**** 関数 ****/
+extern  int sub_load_rate;
 
 
-void	pc88sub_init( int init );
-void	pc88sub_term( void );
-void	pc88sub_bus_setup( void );
+    /**** 関数 ****/
 
 
-byte	sub_mem_read( word addr );
-void	sub_mem_write( word addr, byte data );
-byte	sub_io_in( byte port );
-void	sub_io_out( byte port, byte data );
+void    pc88sub_init( int init );
+void    pc88sub_term( void );
+void    pc88sub_bus_setup( void );
 
 
-void	subcpu_keyscan_draw( void );
+byte    sub_mem_read( word addr );
+void    sub_mem_write( word addr, byte data );
+byte    sub_io_in( byte port );
+void    sub_io_out( byte port, byte data );
 
 
-#endif	/* PC88SUB_H_INCLUDED */
+void    subcpu_keyscan_draw( void );
+
+
+#endif  /* PC88SUB_H_INCLUDED */

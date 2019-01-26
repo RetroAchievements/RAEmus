@@ -8,21 +8,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef	USE_SOUND
+#ifdef  USE_SOUND
 
 #include "mame-quasi88.h"
 
 #define  SNDDRV_WORK_DEFINE
 #include "audio.h"
 
-#include "sysdep_mixer.h"	/* sysdep_mixer_init()	*/
+#include "sysdep_mixer.h"   /* sysdep_mixer_init()  */
 
 /*----------------------------------------------------------------------*/
 /* rc_struct 構造体により、オプションを制御する */
 
 static struct rc_struct *rc;
 
-extern	struct rc_option sound_opts[];
+extern  struct rc_option sound_opts[];
 
 
 /*===========================================================================*/
@@ -41,8 +41,8 @@ extern	struct rc_option sound_opts[];
  *      xmame_config_init() の処理の後片付けが必要なら、ここで行う。
  *
  *****************************************************************************/
-/*		config_init() [src/unix/config.c] */
-int		xmame_config_init(void)
+/*      config_init() [src/unix/config.c] */
+int     xmame_config_init(void)
 {
    /* create the rc object */
    if (!(rc = rc_create()))
@@ -60,8 +60,8 @@ int		xmame_config_init(void)
    return OSD_OK;
 }
 
-/*		config_exit() [src/unix/config.c] */
-void	xmame_config_exit(void)
+/*      config_exit() [src/unix/config.c] */
+void    xmame_config_exit(void)
 {
    if(rc)
    {
@@ -84,7 +84,7 @@ void	xmame_config_exit(void)
  *****************************************************************************/
 const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
 {
-	return NULL;
+    return NULL;
 }
 
 
@@ -95,17 +95,17 @@ const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
  *      config_init() より、オプション -help の処理の際に呼び出される。
  *      標準出力にヘルプメッセージを表示する。
  *****************************************************************************/
-void	xmame_config_show_option(void)
+void    xmame_config_show_option(void)
 {
-	fprintf(stdout, 
-			"\n"
-			"==========================================\n"
-			"== SOUND OPTIONS ( dependent on XMAME ) ==\n"
-			"==                     [ XMAME 0.71.1 ] ==\n"
-			"==========================================\n"
-			);
+    fprintf(stdout, 
+            "\n"
+            "==========================================\n"
+            "== SOUND OPTIONS ( dependent on XMAME ) ==\n"
+            "==                     [ XMAME 0.71.1 ] ==\n"
+            "==========================================\n"
+            );
 
-	rc_print_help(rc, stdout);
+    rc_print_help(rc, stdout);
 }
 
 
@@ -131,9 +131,9 @@ void	xmame_config_show_option(void)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int		xmame_config_check_option(char *opt1, char *opt2, int priority)
+int     xmame_config_check_option(char *opt1, char *opt2, int priority)
 {
-	return rc_quasi88(rc, opt1, opt2, priority);
+    return rc_quasi88(rc, opt1, opt2, priority);
 }
 
 
@@ -159,10 +159,10 @@ int		xmame_config_check_option(char *opt1, char *opt2, int priority)
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
 #include "rc_priv.h"
-int		xmame_config_save_option(void (*real_write)
-								   (const char *opt_name, const char *opt_arg))
+int     xmame_config_save_option(void (*real_write)
+                                   (const char *opt_name, const char *opt_arg))
 {
-	return rc_quasi88_save(rc->option, real_write);
+    return rc_quasi88_save(rc->option, real_write);
 }
 
 
@@ -193,20 +193,20 @@ int		xmame_config_save_option(void (*real_write)
  *      真なら変更可能。偽なら不可。
  *
  *****************************************************************************/
-int		xmame_has_audiodevice(void)
-{
-	if (use_sound) {
-		if (sound_stream) return TRUE;
-	}
-	return FALSE;
-}
-
-int		xmame_has_mastervolume(void)
+int     xmame_has_audiodevice(void)
 {
     if (use_sound) {
-		if (osd_has_sound_mixer()) return TRUE;
-	}
-	return FALSE;
+        if (sound_stream) return TRUE;
+    }
+    return FALSE;
+}
+
+int     xmame_has_mastervolume(void)
+{
+    if (use_sound) {
+        if (osd_has_sound_mixer()) return TRUE;
+    }
+    return FALSE;
 }
 
 
@@ -272,8 +272,8 @@ int		xmame_has_mastervolume(void)
 /* void osd_stop_audio_stream(void)                       [src/unix/sound.c] */
 /* void osd_sound_enable(int enable)                      [src/unix/sound.c] */
 
-/*		osd_update_video_and_audio(struct mame_display *display) [src/unix/video.c] */
-void	osd_update_video_and_audio(void)
+/*      osd_update_video_and_audio(struct mame_display *display) [src/unix/video.c] */
+void    osd_update_video_and_audio(void)
 {
    if (sound_stream && sound_enabled)
       sound_stream_update(sound_stream);
@@ -295,4 +295,4 @@ void	osd_update_video_and_audio(void)
 /* void osd_set_mastervolume(int attenuation)             [src/unix/sound.c] */
 /* int  osd_get_mastervolume(void)                        [src/unix/sound.c] */
 
-#endif	/* USE_SOUND */
+#endif  /* USE_SOUND */

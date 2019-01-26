@@ -23,12 +23,12 @@
 #include <string.h>
 
 
-#ifdef	USE_SOUND
+#ifdef  USE_SOUND
 
 #include "mame-quasi88.h"
 
 #include "snddrv.h"
-static	int use_audiodevice = 1;	/* use audio-devide for audio output */
+static  int use_audiodevice = 1;    /* use audio-devide for audio output */
 
 
 static Boolean InitializeSound(void);
@@ -40,11 +40,11 @@ static Boolean isLessSoundStream(int dataNum, long tick);
 
 static Boolean alreadyInit = false;
 
-#define	REFRESH_RATE	60.0
-#define	CHANNELS		sNumOfChannles
+#define REFRESH_RATE    60.0
+#define CHANNELS        sNumOfChannles
 
 /*----------------------------------------------------------------------*/
-int		attenuation = 0;		/* ボリューム -32〜0 [db] */
+int     attenuation = 0;        /* ボリューム -32〜0 [db] */
 
 /*===========================================================================*/
 /*              QUASI88 から呼び出される、MAME の処理関数                    */
@@ -62,11 +62,11 @@ int		attenuation = 0;		/* ボリューム -32〜0 [db] */
  *      xmame_config_init() の処理の後片付けが必要なら、ここで行う。
  *
  *****************************************************************************/
-int		xmame_config_init(void)
+int     xmame_config_init(void)
 {
-	return 0;		/*OSD_OK;*/
+    return 0;       /*OSD_OK;*/
 }
-void	xmame_config_exit(void)
+void    xmame_config_exit(void)
 {
 }
 
@@ -81,8 +81,8 @@ void	xmame_config_exit(void)
  *      T_CONFIG_TABLE を使用する場合、そのポインタを返す。
  *      独自方式で解析する場合は、 NULL を返す。
  *****************************************************************************/
-static	int	invalid_arg;			/* 無効なオプション用のダミー変数 */
-static	const	T_CONFIG_TABLE xmame_options[] =
+static  int invalid_arg;            /* 無効なオプション用のダミー変数 */
+static  const   T_CONFIG_TABLE xmame_options[] =
 {
   /* 350〜399: サウンド依存オプション */
 
@@ -116,7 +116,7 @@ static	const	T_CONFIG_TABLE xmame_options[] =
 
 const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
 {
-	return xmame_options;
+    return xmame_options;
 }
 
 
@@ -127,13 +127,13 @@ const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
  *      config_init() より、オプション -help の処理の際に呼び出される。
  *      標準出力にヘルプメッセージを表示する。
  *****************************************************************************/
-#ifdef	XMAME_SNDDRV_071
-#define	XMAME_VER "0.71.1"
-#else	/* ver 0.106 */
-#define	XMAME_VER " 0.106"
+#ifdef  XMAME_SNDDRV_071
+#define XMAME_VER "0.71.1"
+#else   /* ver 0.106 */
+#define XMAME_VER " 0.106"
 #endif
 
-void	xmame_config_show_option(void)
+void    xmame_config_show_option(void)
 {
   fprintf(stdout,
   "\n"
@@ -180,9 +180,9 @@ void	xmame_config_show_option(void)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int		xmame_config_check_option(char *opt1, char *opt2, int priority)
+int     xmame_config_check_option(char *opt1, char *opt2, int priority)
 {
-	return 0;
+    return 0;
 }
 
 
@@ -207,10 +207,10 @@ int		xmame_config_check_option(char *opt1, char *opt2, int priority)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int		xmame_config_save_option(void (*real_write)
-								   (const char *opt_name, const char *opt_arg))
+int     xmame_config_save_option(void (*real_write)
+                                   (const char *opt_name, const char *opt_arg))
 {
-	return 0;
+    return 0;
 }
 
 
@@ -228,7 +228,7 @@ int		xmame_config_save_option(void (*real_write)
  *****************************************************************************/
 T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
 {
-	return NULL;
+    return NULL;
 }
 
 
@@ -244,15 +244,15 @@ T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
  *      真なら変更可能。偽なら不可。
  *
  *****************************************************************************/
-int		xmame_has_audiodevice(void)
+int     xmame_has_audiodevice(void)
 {
     if (use_audiodevice) return TRUE;
     else                 return FALSE;
 }
 
-int		xmame_has_mastervolume(void)
+int     xmame_has_mastervolume(void)
 {
-	return TRUE;
+    return TRUE;
 }
 
 
@@ -333,26 +333,26 @@ static int sound_samples_per_frame = 0;
 // C string <> Pascal string conversion
 static void CopyCStringToPascal(const char *src, unsigned char *dst)
 {
-	int num = 0;
-	int i;
-	const char *srcBak = src;
+    int num = 0;
+    int i;
+    const char *srcBak = src;
 
-	while (*(src++) != '\0') {
-		num++;
-	}
-	src = srcBak;
-	dst[0] = num;
-	for (i=0; i<num; i++) {
-		dst[i+1]=*(src++);
-	}
+    while (*(src++) != '\0') {
+        num++;
+    }
+    src = srcBak;
+    dst[0] = num;
+    for (i=0; i<num; i++) {
+        dst[i+1]=*(src++);
+    }
 }
 static void CopyPascalStringToC(const unsigned char *src, char *dst)
 {
-	int i;
-	for (i=0; i < src[0]; i++) {
-		*(dst++) = src[i+1];
-	}
-	*(dst) = '\0';
+    int i;
+    for (i=0; i < src[0]; i++) {
+        *(dst++) = src[i+1];
+    }
+    *(dst) = '\0';
 }
 
 
@@ -360,35 +360,35 @@ static void CopyPascalStringToC(const unsigned char *src, char *dst)
 // constants
 enum
 {
-	kSoundStreamFramesAt44kHz	= 12288*1,
-	kTotalSoundBuffers			= 2,
-	kQueuedSoundBuffers			= 2
+    kSoundStreamFramesAt44kHz   = 12288*1,
+    kTotalSoundBuffers          = 2,
+    kQueuedSoundBuffers         = 2
 };
 
 // our buffered data
-static SInt16	sSoundStream[kSoundStreamFramesAt44kHz * 2];
-static UInt32	sSoundStreamFrames;
-static UInt32	sSoundIn;
-static UInt32	sSoundOut;
+static SInt16   sSoundStream[kSoundStreamFramesAt44kHz * 2];
+static UInt32   sSoundStreamFrames;
+static UInt32   sSoundIn;
+static UInt32   sSoundOut;
 
 // the sound channel
 static SndChannelPtr sSoundChannel;
 
 // sound timing
-ComponentInstance 	gSoundClock;
+ComponentInstance   gSoundClock;
 
 // sound buffer parameters
-static UInt32			sSoundBufferFrames;
-static UInt32			sSoundBufferBytes;
-static Boolean			sSoundIsPaused;
+static UInt32           sSoundBufferFrames;
+static UInt32           sSoundBufferBytes;
+static Boolean          sSoundIsPaused;
 
 // sound buffers
-static SndCallBackUPP	sSoundCallback;
-static ExtSoundHeader	*sSoundBuffer[kTotalSoundBuffers];
-static SndCommand		sSoundBufferCmd[kTotalSoundBuffers];
-static SndCommand		sSoundCallbackCmd[kTotalSoundBuffers];
+static SndCallBackUPP   sSoundCallback;
+static ExtSoundHeader   *sSoundBuffer[kTotalSoundBuffers];
+static SndCommand       sSoundBufferCmd[kTotalSoundBuffers];
+static SndCommand       sSoundCallbackCmd[kTotalSoundBuffers];
 
-static int				sNumOfChannles = 2;
+static int              sNumOfChannles = 2;
 
 // function prototypes
 static pascal void SoundCallback(SndChannelPtr inChannel, SndCommand *inCommand);
@@ -401,43 +401,43 @@ static void FreeSoundBuffers(void);
 
 static void memcpyW(register void *dst, register void *src, register unsigned long num)
 {
-	register int i;
-	if (num&1) {
-		for (i = 0; i < num; i++)
-			*(((short *)dst)++) = *(((short *)src)++);
-	} else {
-		for (i = 0; i < num>>1; i++)
-			*(((long *)dst)++) = *(((long *)src)++);
-	}
+    register int i;
+    if (num&1) {
+        for (i = 0; i < num; i++)
+            *(((short *)dst)++) = *(((short *)src)++);
+    } else {
+        for (i = 0; i < num>>1; i++)
+            *(((long *)dst)++) = *(((long *)src)++);
+    }
 }
 
 // examine whether the sSoundStreamFrames is full or not
 static Boolean isFullSoundStream(int dataNum)
 {
-	UInt32		soundIn = sSoundIn;
-	Boolean		updateOk = false;
+    UInt32      soundIn = sSoundIn;
+    Boolean     updateOk = false;
 
-	// check	
-	if (soundIn < sSoundOut) {
-		if ((soundIn + dataNum) <= sSoundOut) updateOk = true;
-	} else if ((soundIn + dataNum) > sSoundStreamFrames) {
-		if ((soundIn + dataNum - sSoundStreamFrames) <= sSoundOut) updateOk = true;
-	} else updateOk = true;
-	if (!updateOk) return true;
-	else return false;
+    // check    
+    if (soundIn < sSoundOut) {
+        if ((soundIn + dataNum) <= sSoundOut) updateOk = true;
+    } else if ((soundIn + dataNum) > sSoundStreamFrames) {
+        if ((soundIn + dataNum - sSoundStreamFrames) <= sSoundOut) updateOk = true;
+    } else updateOk = true;
+    if (!updateOk) return true;
+    else return false;
 }
 
 // examine whether the sSoundStreamFrames will be empty soon or not
 static Boolean isLessSoundStream(int dataNum, long tick)
 {
-	Boolean		updateOk = false;
+    Boolean     updateOk = false;
 
-	// check	
-	if (sSoundOut < sSoundIn) {
-		return sSoundIn - sSoundOut <= dataNum*tick;
-	} else if (sSoundIn < sSoundOut) {
-		return sSoundIn - (sSoundOut - sSoundStreamFrames) <= dataNum*tick;
-	} else return true;
+    // check    
+    if (sSoundOut < sSoundIn) {
+        return sSoundIn - sSoundOut <= dataNum*tick;
+    } else if (sSoundIn < sSoundOut) {
+        return sSoundIn - (sSoundOut - sSoundStreamFrames) <= dataNum*tick;
+    } else return true;
 }
 
 //#pragma segment SegInit
@@ -445,65 +445,65 @@ static Boolean isLessSoundStream(int dataNum, long tick)
 // start the audio system going
 int osd_start_audio_stream(int stereo)
 {
-	CHANNELS = (stereo) ? 2 : 1;
+    CHANNELS = (stereo) ? 2 : 1;
 
-	if (Machine->sample_rate < 8000) {
-		Machine->sample_rate = 8000;
-	} else if (Machine->sample_rate > 44100) {
-		Machine->sample_rate = 44100;
-	}
+    if (Machine->sample_rate < 8000) {
+        Machine->sample_rate = 8000;
+    } else if (Machine->sample_rate > 44100) {
+        Machine->sample_rate = 44100;
+    }
 
-#ifdef	XMAME_SNDDRV_071
+#ifdef  XMAME_SNDDRV_071
 
 #if 0
-	sound_samples_per_frame = (int)(Machine->sample_rate /
+    sound_samples_per_frame = (int)(Machine->sample_rate /
          Machine->drv->frames_per_second);
 #else
-	sound_samples_per_frame = (int)(Machine->sample_rate / REFRESH_RATE);
+    sound_samples_per_frame = (int)(Machine->sample_rate / REFRESH_RATE);
 #endif
 
-#else	/* ver 0.106 */
+#else   /* ver 0.106 */
 
 #if 0
-	sound_samples_per_frame = Machine->sample_rate / Machine->refresh_rate;
+    sound_samples_per_frame = Machine->sample_rate / Machine->refresh_rate;
 #else
-	sound_samples_per_frame = (int)(Machine->sample_rate / REFRESH_RATE);
+    sound_samples_per_frame = (int)(Machine->sample_rate / REFRESH_RATE);
 #endif
 
 #endif
 
 
-	if (use_audiodevice == FALSE) { return sound_samples_per_frame; }
+    if (use_audiodevice == FALSE) { return sound_samples_per_frame; }
 
-	if (alreadyInit) return sound_samples_per_frame;
-	alreadyInit = true;
+    if (alreadyInit) return sound_samples_per_frame;
+    alreadyInit = true;
 
-	InitializeSound();
+    InitializeSound();
 
-	////////
-	sSoundIsPaused = false;
-	
-	// reset the sound buffer
-	sSoundIn = sSoundOut = 0;
-	sSoundStreamFrames = kSoundStreamFramesAt44kHz * CHANNELS * Machine->sample_rate / 44100;
+    ////////
+    sSoundIsPaused = false;
+    
+    // reset the sound buffer
+    sSoundIn = sSoundOut = 0;
+    sSoundStreamFrames = kSoundStreamFramesAt44kHz * CHANNELS * Machine->sample_rate / 44100;
 
-	// pick the appropriate sound buffer size
-	sSoundBufferFrames = 512 * Machine->sample_rate / 44100;
-	sSoundBufferBytes = sSoundBufferFrames << CHANNELS;
-	
-	// allocate the sound channel and initialize the buffering
-	if (!InitializeSoundBuffers())
-	{
-		return 0;
-	}
-	
-	// set the initial volume (-0 dB)
-	osd_set_mastervolume(attenuation);
-	////////
+    // pick the appropriate sound buffer size
+    sSoundBufferFrames = 512 * Machine->sample_rate / 44100;
+    sSoundBufferBytes = sSoundBufferFrames << CHANNELS;
+    
+    // allocate the sound channel and initialize the buffering
+    if (!InitializeSoundBuffers())
+    {
+        return 0;
+    }
+    
+    // set the initial volume (-0 dB)
+    osd_set_mastervolume(attenuation);
+    ////////
 
-	osd_sound_enable(1);
+    osd_sound_enable(1);
 
-	return sound_samples_per_frame;
+    return sound_samples_per_frame;
 }
 
 //#pragma segment SegMain
@@ -511,169 +511,169 @@ int osd_start_audio_stream(int stereo)
 // pushes data into the audio stream
 int osd_update_audio_stream(INT16 *buffer)
 {
-	register UInt32	soundIn = sSoundIn;
-	register UInt32	framesToCopy;
-	int dataNum;
-	INT16 *bufferX;
+    register UInt32 soundIn = sSoundIn;
+    register UInt32 framesToCopy;
+    int dataNum;
+    INT16 *bufferX;
 
-	static long prevTick = 0;
-	register int times;
+    static long prevTick = 0;
+    register int times;
 
-	if (use_audiodevice == FALSE) { return sound_samples_per_frame; }
+    if (use_audiodevice == FALSE) { return sound_samples_per_frame; }
 
 #if 1
-	{
-		register long tick = TickCount() - prevTick;
-		if (tick > 4) tick = 4;
-		prevTick = TickCount();
+    {
+        register long tick = TickCount() - prevTick;
+        if (tick > 4) tick = 4;
+        prevTick = TickCount();
 
-		if (isFullSoundStream(sound_samples_per_frame * CHANNELS)) return sound_samples_per_frame;
-		times = isLessSoundStream(sound_samples_per_frame * CHANNELS, tick+1) ? (tick+1) : 1;
-	}
+        if (isFullSoundStream(sound_samples_per_frame * CHANNELS)) return sound_samples_per_frame;
+        times = isLessSoundStream(sound_samples_per_frame * CHANNELS, tick+1) ? (tick+1) : 1;
+    }
 #else
-	times = 1;
+    times = 1;
 #endif
 
-	for (; times; times--) {
+    for (; times; times--) {
 
-		bufferX = buffer;
-		dataNum = sound_samples_per_frame * CHANNELS;
+        bufferX = buffer;
+        dataNum = sound_samples_per_frame * CHANNELS;
 
-		// copy up to the end of the stream buffer
-		while (dataNum > 0)
-		{
-			// determine how many frames we can copy
-			framesToCopy = sSoundStreamFrames - soundIn;
-			if (framesToCopy > dataNum)
-				framesToCopy = dataNum;
+        // copy up to the end of the stream buffer
+        while (dataNum > 0)
+        {
+            // determine how many frames we can copy
+            framesToCopy = sSoundStreamFrames - soundIn;
+            if (framesToCopy > dataNum)
+                framesToCopy = dataNum;
 
-			// copy and count the samples
-			memcpyW(&sSoundStream[soundIn], bufferX, framesToCopy);
-			dataNum -= framesToCopy;
-			bufferX += framesToCopy;
+            // copy and count the samples
+            memcpyW(&sSoundStream[soundIn], bufferX, framesToCopy);
+            dataNum -= framesToCopy;
+            bufferX += framesToCopy;
 
-			// adjust the output pointer
-			soundIn += framesToCopy;
-			if (soundIn >= sSoundStreamFrames)
-				soundIn -= sSoundStreamFrames;
-		}
-	}
-	sSoundIn = soundIn;
+            // adjust the output pointer
+            soundIn += framesToCopy;
+            if (soundIn >= sSoundStreamFrames)
+                soundIn -= sSoundStreamFrames;
+        }
+    }
+    sSoundIn = soundIn;
 
-	/* return the samples to play this next frame */
-	return sound_samples_per_frame;
+    /* return the samples to play this next frame */
+    return sound_samples_per_frame;
 }
 
 void osd_stop_audio_stream(void)
 {
-	if (use_audiodevice == FALSE) { return; }
+    if (use_audiodevice == FALSE) { return; }
 
-	if (!alreadyInit) return;
-	alreadyInit = false;
+    if (!alreadyInit) return;
+    alreadyInit = false;
 
-	osd_sound_enable(0);
-	TearDownSound();
+    osd_sound_enable(0);
+    TearDownSound();
 }
 
 void osd_update_video_and_audio(void)
 {
-	/* nothing */
+    /* nothing */
 }
 
 void osd_sound_enable(int enable_it)
 {
-	if (use_audiodevice == FALSE) { return; }
+    if (use_audiodevice == FALSE) { return; }
 
-	PauseSound(!enable_it);
+    PauseSound(!enable_it);
 }
 
 //#pragma segment SegInit
 
-//	sets the main volume ( -Attenuation dB )
+//  sets the main volume ( -Attenuation dB )
 static int now_attenuation = 0;
 void osd_set_mastervolume(int attenuation)
 {
-	float multiplier = 1.0;
-	UInt32 volume;
+    float multiplier = 1.0;
+    UInt32 volume;
 
-	if (use_audiodevice == FALSE) { return; }
+    if (use_audiodevice == FALSE) { return; }
 
-	now_attenuation = attenuation;
+    now_attenuation = attenuation;
 
-	// compute a multiplier from the original volume
-	while (attenuation++ < 0)
-		multiplier *= 1.0 / 1.122018454;	// = (10 ^ (1/20)) = 1dB
+    // compute a multiplier from the original volume
+    while (attenuation++ < 0)
+        multiplier *= 1.0 / 1.122018454;    // = (10 ^ (1/20)) = 1dB
 
-	// apply it
-	volume = (UInt32)(multiplier * 0x100);
-	if (volume > 0x100) volume = 0x100;
+    // apply it
+    volume = (UInt32)(multiplier * 0x100);
+    if (volume > 0x100) volume = 0x100;
 
-	{
-		SndCommand mySndCmd;
-		//OSErr myErr;
+    {
+        SndCommand mySndCmd;
+        //OSErr myErr;
 
-		mySndCmd.cmd = volumeCmd;
-		mySndCmd.param1 = 0;		// unused with volumeCmd
-		mySndCmd.param2 = (volume << 16) | volume;
-		SndDoCommand(sSoundChannel, &mySndCmd, false);
-	}
+        mySndCmd.cmd = volumeCmd;
+        mySndCmd.param1 = 0;        // unused with volumeCmd
+        mySndCmd.param2 = (volume << 16) | volume;
+        SndDoCommand(sSoundChannel, &mySndCmd, false);
+    }
 }
 
 int osd_get_mastervolume (void)
 {
-	if (use_audiodevice == FALSE) { return -32; }
+    if (use_audiodevice == FALSE) { return -32; }
 
-	return now_attenuation;
+    return now_attenuation;
 }
 
 // allocates a sound channel and starts it running
 // first this must be called ?
 static Boolean InitializeSound(void)
 {
-	SndCommand 		command;
-	OSErr			err;
-	
-	// attempt to initialize the sound buffers
-	if (!InitializeSoundChannel()) return false;
+    SndCommand      command;
+    OSErr           err;
+    
+    // attempt to initialize the sound buffers
+    if (!InitializeSoundChannel()) return false;
 
-	// nuke any existing clock references
-	gSoundClock = NULL;
+    // nuke any existing clock references
+    gSoundClock = NULL;
 
-	// first turn on the clock
-	command.cmd = clockComponentCmd;
-	command.param1 = true;
-	err = SndDoImmediate(sSoundChannel, &command);
-	if (err != noErr)
-		return false;
-		
-	// then get a component instance
-	command.cmd = getClockComponentCmd;
-	command.param2 = (SInt32)&gSoundClock;
-	err = SndDoImmediate(sSoundChannel, &command);
-	if (err != noErr)
-	{
-		sSoundChannel = NULL;
-		return false;
-	}
-	return true;
+    // first turn on the clock
+    command.cmd = clockComponentCmd;
+    command.param1 = true;
+    err = SndDoImmediate(sSoundChannel, &command);
+    if (err != noErr)
+        return false;
+        
+    // then get a component instance
+    command.cmd = getClockComponentCmd;
+    command.param2 = (SInt32)&gSoundClock;
+    err = SndDoImmediate(sSoundChannel, &command);
+    if (err != noErr)
+    {
+        sSoundChannel = NULL;
+        return false;
+    }
+    return true;
 }
 
 // tearDownSound
 static void TearDownSound(void)
 {
-	// free the channel
-	if (sSoundChannel != NULL)
-		SndDisposeChannel(sSoundChannel, true);
-	sSoundChannel = NULL;
+    // free the channel
+    if (sSoundChannel != NULL)
+        SndDisposeChannel(sSoundChannel, true);
+    sSoundChannel = NULL;
 
-	// attempt to free the sound buffers
-	FreeSoundBuffers();
+    // attempt to free the sound buffers
+    FreeSoundBuffers();
 }
 
 // pauses/resumes sound output
 static void PauseSound(Boolean inPause)
 {
-	sSoundIsPaused = inPause;
+    sSoundIsPaused = inPause;
 }
 
 //#pragma segment SegMain
@@ -682,61 +682,61 @@ static void PauseSound(Boolean inPause)
 // called from call back
 static void FillSoundBuffer(register SInt16 *inBuffer)
 {
-	register SInt32		framesAvailable;
-	register UInt32		framesToCopy;
+    register SInt32     framesAvailable;
+    register UInt32     framesToCopy;
 
-	if (sSoundIsPaused) {
-		memset(inBuffer, 0, sSoundBufferFrames << CHANNELS);
-		return;
-	}
-	
+    if (sSoundIsPaused) {
+        memset(inBuffer, 0, sSoundBufferFrames << CHANNELS);
+        return;
+    }
+    
 #if 1
-	{
-		static UInt16 skipCounter = 0;
+    {
+        static UInt16 skipCounter = 0;
 
-		if (sSoundIn == sSoundOut) {
-			if (skipCounter > 20) {
-				memset(inBuffer, 0, sSoundBufferFrames << CHANNELS);
-				return;
-			}
-			skipCounter ++;
-		} else {
-			skipCounter = 0;
-		}
-	}
+        if (sSoundIn == sSoundOut) {
+            if (skipCounter > 20) {
+                memset(inBuffer, 0, sSoundBufferFrames << CHANNELS);
+                return;
+            }
+            skipCounter ++;
+        } else {
+            skipCounter = 0;
+        }
+    }
 #endif
 
-	framesAvailable = sSoundIn - sSoundOut;
+    framesAvailable = sSoundIn - sSoundOut;
 
-	// account for the circular buffer
-	if (framesAvailable < 0)
-		framesAvailable += sSoundStreamFrames;
+    // account for the circular buffer
+    if (framesAvailable < 0)
+        framesAvailable += sSoundStreamFrames;
 
-	// if we have more than enough data, clip to the maximum per buffer
-	if (framesAvailable >= sSoundBufferFrames * CHANNELS)
-		framesAvailable = sSoundBufferFrames * CHANNELS;
+    // if we have more than enough data, clip to the maximum per buffer
+    if (framesAvailable >= sSoundBufferFrames * CHANNELS)
+        framesAvailable = sSoundBufferFrames * CHANNELS;
 
-	// copy up to the end of the stream buffer
-	while (framesAvailable > 0)
-	{
-		// determine how many frames we can copy
-		framesToCopy = sSoundStreamFrames - sSoundOut;
-		if (framesToCopy > framesAvailable)
-			framesToCopy = framesAvailable;
+    // copy up to the end of the stream buffer
+    while (framesAvailable > 0)
+    {
+        // determine how many frames we can copy
+        framesToCopy = sSoundStreamFrames - sSoundOut;
+        if (framesToCopy > framesAvailable)
+            framesToCopy = framesAvailable;
 
-		// copy and count the samples
-		memcpyW(inBuffer, &sSoundStream[sSoundOut], framesToCopy);
-		
-		framesAvailable -= framesToCopy;
-		inBuffer += framesToCopy;
+        // copy and count the samples
+        memcpyW(inBuffer, &sSoundStream[sSoundOut], framesToCopy);
+        
+        framesAvailable -= framesToCopy;
+        inBuffer += framesToCopy;
 
-		// adjust the output pointer
-		sSoundOut += framesToCopy;
+        // adjust the output pointer
+        sSoundOut += framesToCopy;
 
-		// wrap the output pointer
-		if (sSoundOut >= sSoundStreamFrames)
-			sSoundOut -= sSoundStreamFrames;
-	}
+        // wrap the output pointer
+        if (sSoundOut >= sSoundStreamFrames)
+            sSoundOut -= sSoundStreamFrames;
+    }
 }
 
 //#pragma segment SegInit
@@ -744,95 +744,95 @@ static void FillSoundBuffer(register SInt16 *inBuffer)
 // initialize the sound channel and any other one-shot data
 static Boolean InitializeSoundChannel(void)
 {
-	OSErr err;
-	long initOptions;
+    OSErr err;
+    long initOptions;
 
-	// allocate a UPP callback
-	sSoundCallback = NewSndCallBackUPP(SoundCallback);
-	
-	// now allocate the channel
-	sSoundChannel = NULL;
+    // allocate a UPP callback
+    sSoundCallback = NewSndCallBackUPP(SoundCallback);
+    
+    // now allocate the channel
+    sSoundChannel = NULL;
 
     if (CHANNELS == 1) {
-		initOptions = initMono   + initNoInterp + initNoDrop;
-	} else {
-		initOptions = initStereo + initNoInterp + initNoDrop;
-	}
-	err = SndNewChannel(&sSoundChannel, sampledSynth, initOptions, sSoundCallback);
-	return (err == noErr);
+        initOptions = initMono   + initNoInterp + initNoDrop;
+    } else {
+        initOptions = initStereo + initNoInterp + initNoDrop;
+    }
+    err = SndNewChannel(&sSoundChannel, sampledSynth, initOptions, sSoundCallback);
+    return (err == noErr);
 }
 
 // initialize the sound buffers and create the sound channel
 static Boolean InitializeSoundBuffers(void)
 {
-	extended80 extFreq;
-	int i;
-	OSErr err;
-	Handle itlHandle;               // The 'itl4' resource handle
-	long offset, length;            // Offset-length of parts table
-	NumFormatStringRec myFormatRec; // Canonical format record
-	Str15 pRate;
-	char cRate[16];
-	
-	sprintf(cRate, "%5d", Machine->sample_rate); 
-	CopyCStringToPascal(cRate, pRate);
-	GetIntlResourceTable (smCurrentScript, smNumberPartsTable, &itlHandle, &offset, &length);
-	StringToFormatRec ("\p#####", (NumberParts *)(*itlHandle + offset), &myFormatRec);
-	StringToExtended (pRate, &myFormatRec, (NumberParts *)(*itlHandle + offset), &extFreq);
+    extended80 extFreq;
+    int i;
+    OSErr err;
+    Handle itlHandle;               // The 'itl4' resource handle
+    long offset, length;            // Offset-length of parts table
+    NumFormatStringRec myFormatRec; // Canonical format record
+    Str15 pRate;
+    char cRate[16];
+    
+    sprintf(cRate, "%5d", Machine->sample_rate); 
+    CopyCStringToPascal(cRate, pRate);
+    GetIntlResourceTable (smCurrentScript, smNumberPartsTable, &itlHandle, &offset, &length);
+    StringToFormatRec ("\p#####", (NumberParts *)(*itlHandle + offset), &myFormatRec);
+    StringToExtended (pRate, &myFormatRec, (NumberParts *)(*itlHandle + offset), &extFreq);
 
-	for (i = 0; i < kTotalSoundBuffers; i++)
-	{
-		// allocate and clear the sound buffer
-		sSoundBuffer[i] = malloc(sizeof(ExtSoundHeader) + sSoundBufferBytes);
-		// R. Nabet 0001212 : added error handling
-		if (sSoundBuffer[i] == NULL)
-		{
-			while (--i >= 0)
-				free(sSoundBuffer[i]);
-			return false;
-		}
-		memset(sSoundBuffer[i], 0, sizeof(ExtSoundHeader) + sSoundBufferBytes);
-		
-		// intialize the buffer structures
-		sSoundBuffer[i]->numChannels 	= CHANNELS;
-		sSoundBuffer[i]->sampleRate 	= (UInt32)Machine->sample_rate << 16;
-		sSoundBuffer[i]->encode 		= extSH;
-		sSoundBuffer[i]->numFrames 		= sSoundBufferFrames;
-		sSoundBuffer[i]->AIFFSampleRate = extFreq;
-		sSoundBuffer[i]->sampleSize 	= 16;
-		
-		// initialize the sound commands
-		sSoundBufferCmd[i].cmd 			= bufferCmd;
-		sSoundBufferCmd[i].param2 		= (SInt32)sSoundBuffer[i];
-		sSoundCallbackCmd[i].cmd 		= callBackCmd;
-		sSoundCallbackCmd[i].param1 	= (i + kQueuedSoundBuffers) % kTotalSoundBuffers;
-	}
-	
-	// start stuff playing
-	for (i = 0; i < kQueuedSoundBuffers; i++)
-	{
-		err = SndDoCommand(sSoundChannel, &sSoundBufferCmd[i], true);
-		if (err != noErr)
-			return false;
-		err = SndDoCommand(sSoundChannel, &sSoundCallbackCmd[i], true);
-		if (err != noErr)
-			return false;
-	}
-	return true;
+    for (i = 0; i < kTotalSoundBuffers; i++)
+    {
+        // allocate and clear the sound buffer
+        sSoundBuffer[i] = malloc(sizeof(ExtSoundHeader) + sSoundBufferBytes);
+        // R. Nabet 0001212 : added error handling
+        if (sSoundBuffer[i] == NULL)
+        {
+            while (--i >= 0)
+                free(sSoundBuffer[i]);
+            return false;
+        }
+        memset(sSoundBuffer[i], 0, sizeof(ExtSoundHeader) + sSoundBufferBytes);
+        
+        // intialize the buffer structures
+        sSoundBuffer[i]->numChannels    = CHANNELS;
+        sSoundBuffer[i]->sampleRate     = (UInt32)Machine->sample_rate << 16;
+        sSoundBuffer[i]->encode         = extSH;
+        sSoundBuffer[i]->numFrames      = sSoundBufferFrames;
+        sSoundBuffer[i]->AIFFSampleRate = extFreq;
+        sSoundBuffer[i]->sampleSize     = 16;
+        
+        // initialize the sound commands
+        sSoundBufferCmd[i].cmd          = bufferCmd;
+        sSoundBufferCmd[i].param2       = (SInt32)sSoundBuffer[i];
+        sSoundCallbackCmd[i].cmd        = callBackCmd;
+        sSoundCallbackCmd[i].param1     = (i + kQueuedSoundBuffers) % kTotalSoundBuffers;
+    }
+    
+    // start stuff playing
+    for (i = 0; i < kQueuedSoundBuffers; i++)
+    {
+        err = SndDoCommand(sSoundChannel, &sSoundBufferCmd[i], true);
+        if (err != noErr)
+            return false;
+        err = SndDoCommand(sSoundChannel, &sSoundCallbackCmd[i], true);
+        if (err != noErr)
+            return false;
+    }
+    return true;
 }
 
 // free the sound buffers and the sound channel
 static void FreeSoundBuffers(void)
 {
-	UInt32 i;
-	
-	// free the buffers
-	for (i = 0; i < kTotalSoundBuffers; i++)
-	{
-		if (sSoundBuffer[i] != NULL)
-			free(sSoundBuffer[i]);
-		sSoundBuffer[i] = NULL;
-	}
+    UInt32 i;
+    
+    // free the buffers
+    for (i = 0; i < kTotalSoundBuffers; i++)
+    {
+        if (sSoundBuffer[i] != NULL)
+            free(sSoundBuffer[i]);
+        sSoundBuffer[i] = NULL;
+    }
 }
 
 //#pragma segment SegMain
@@ -840,15 +840,15 @@ static void FreeSoundBuffers(void)
 // Callback command to stream data
 static pascal void SoundCallback(SndChannelPtr inChannel, SndCommand *inCommand)
 {
-	UInt32		bufferIndex = inCommand->param1;
+    UInt32      bufferIndex = inCommand->param1;
 
-	// fill the sound buffer
-	FillSoundBuffer((SInt16 *)sSoundBuffer[bufferIndex]->sampleArea);
+    // fill the sound buffer
+    FillSoundBuffer((SInt16 *)sSoundBuffer[bufferIndex]->sampleArea);
 
-	// queue up the commands
+    // queue up the commands
 
-	SndDoCommand(sSoundChannel, &sSoundBufferCmd[bufferIndex], true);
-	SndDoCommand(sSoundChannel, &sSoundCallbackCmd[bufferIndex], true);
+    SndDoCommand(sSoundChannel, &sSoundBufferCmd[bufferIndex], true);
+    SndDoCommand(sSoundChannel, &sSoundCallbackCmd[bufferIndex], true);
 }
 
-#endif		/* USE_SOUND */
+#endif      /* USE_SOUND */
