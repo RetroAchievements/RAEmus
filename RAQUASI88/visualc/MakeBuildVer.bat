@@ -2,9 +2,9 @@
 
 git describe --tags --match "RAQUASI88.*" > Temp.txt
 set /p ACTIVE_TAG=<Temp.txt
-set VERSION_NUM=%ACTIVE_TAG:~10,4%
-set VERSION_REVISION=%ACTIVE_TAG:~15,-9%
-if "%VERSION_REVISION%"=="" set VERSION_REVISION=0
+set VERSION_TAG=%ACTIVE_TAG:~10%
+for /f "tokens=1,2 delims=-" %%a in ("%VERSION_TAG%") do set VERSION_NUM=%%a&set VERSION_REVISION=%%b
+if "%VERSION_REVISION%" == "" set VERSION_REVISION=0
 
 setlocal
 git diff HEAD > Temp.txt
