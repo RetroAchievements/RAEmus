@@ -1,7 +1,7 @@
 /************************************************************************/
-/*									*/
-/* オペコード別処理 ( DD/FD XX )					*/
-/*									*/
+/*                                  */
+/* オペコード別処理 ( DD/FD XX )                    */
+/*                                  */
 /************************************************************************/
 
 
@@ -10,27 +10,27 @@
     case LD_A_H:   z80->ACC=z80->XX.B.h;            break;
     case LD_A_L:   z80->ACC=z80->XX.B.l;            break;
     case LD_A_xHL: z80->ACC=M_RDMEM(z80->XX.W+(offset)M_RDMEM(z80->PC.W++));
-		   break;
+           break;
 
     case LD_B_H:   z80->BC.B.h=z80->XX.B.h;          break;
     case LD_B_L:   z80->BC.B.h=z80->XX.B.l;          break;
     case LD_B_xHL: z80->BC.B.h=M_RDMEM(z80->XX.W+(offset)M_RDMEM(z80->PC.W++));
-		   break;
+           break;
 
     case LD_C_H:   z80->BC.B.l=z80->XX.B.h;          break;
     case LD_C_L:   z80->BC.B.l=z80->XX.B.l;          break;
     case LD_C_xHL: z80->BC.B.l=M_RDMEM(z80->XX.W+(offset)M_RDMEM(z80->PC.W++));
-		   break;
+           break;
 
     case LD_D_H:   z80->DE.B.h=z80->XX.B.h;          break;
     case LD_D_L:   z80->DE.B.h=z80->XX.B.l;          break;
     case LD_D_xHL: z80->DE.B.h=M_RDMEM(z80->XX.W+(offset)M_RDMEM(z80->PC.W++));
-		   break;
+           break;
 
     case LD_E_H:   z80->DE.B.l=z80->XX.B.h;          break;
     case LD_E_L:   z80->DE.B.l=z80->XX.B.l;          break;
     case LD_E_xHL: z80->DE.B.l=M_RDMEM(z80->XX.W+(offset)M_RDMEM(z80->PC.W++));
-		   break;
+           break;
 
     case LD_H_A:   z80->XX.B.h=z80->ACC;             break;
     case LD_H_B:   z80->XX.B.h=z80->BC.B.h;          break;

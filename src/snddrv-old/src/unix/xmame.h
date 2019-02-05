@@ -1,4 +1,4 @@
-#ifndef	stderr_file
+#ifndef stderr_file
 #define stderr_file stderr
 #endif
 

@@ -1,0 +1,129 @@
+
+           RAQUASI88  -- RetroAchievements-compatible version
+
+-------------------------------------------------------------------------------
+[Contents]
+
+    1)  What is RAQUASI88?
+    2)  What is RetroAchievements?
+    3)  Changes from QUASI88
+    4)  Compilation/Installation
+    5)  Usage
+    6)  Copyright/Disclaimer
+    7)  Authors/Contact
+
+-------------------------------------------------------------------------------
+1)  What is RAQUASI88?
+-------------------------------------------------------------------------------
+
+      RAQUASI88 is a version of QUASI88 built with support for the
+    RetroAchievements system. It is based on the Win32 version of
+    Quasi88, so it is only possible to compile on Windows, but the
+    binaries may be compatible with other platforms through WINE.
+
+      For general information on QUASI88, please refer to
+    MANUAL.TXT and QUASI88.TXT.
+
+-------------------------------------------------------------------------------
+2)  What is RetroAchievements?
+-------------------------------------------------------------------------------
+
+      RetroAchievements is an achievement system aimed at retro games.
+    It allows users to unlock achievements created by volunteers while
+    playing on various platforms.
+
+      For more information, please refer to the website
+    (https://retroachievements.org/).
+
+-------------------------------------------------------------------------------
+3)  Changes from QUASI88
+-------------------------------------------------------------------------------
+
+    1. Performance
+
+    In order to implement the RetroAchievements functionality,
+    performance is slightly lower. Without increasing the CPU clock
+    to a high frequency or setting the speed to 400% or -nowait,
+    modern computers should not have any issue running with full performance.
+
+    2. Restricted functions
+
+    In order to prevent cheating, the following functions are restricted
+    when Hardcore Mode is activated while logged in to RetroAchievements.
+        - Once an image is set, changing to a different supported title
+          requires ejecting disk/tape media and resetting the system.
+        - Setting the speed under 100% through the menu bar is disallowed.
+        - Loading a save state is disallowed.
+    In addition, some functions of the main menu system are removed.
+        - Setting the speed under 100% is not possible.
+        - Setting the CPU clock below the base 4MHz rate is not possible.
+
+    3. New features
+
+    All the RetroAchievements features are implemented.
+        - When logged in and inserting a supported image file,
+          it is possible to unlock achievements.
+          *　As the game detection is based on loaded file contents,
+            saving or switching the disk protection on top of disk
+            data will cause the detection to fail. For more details,
+            please consult the Usage section.
+          * Compatible image files are generally listed on the
+            RetroAchievements forums, accessible through the game
+            pages of supported titles.
+        - Information on supported running games, logged in user
+          data, achievement information, etc. are accessible.
+        - Achievement malfunctions (not unlocking, unlocking
+          at the wrong time, etc.) can be reported.
+
+        For more details, please consult the RetroAchievements website.
+
+-------------------------------------------------------------------------------
+4)  Compilation/Installation
+-------------------------------------------------------------------------------
+
+    1. Initialize the RAIntegration submodule with
+       "git submodule update --init"
+    2. As per the instructions in BUILD-WIN32.TXT,
+       compile RAQUASI88.sln (SDL is not required).
+
+-------------------------------------------------------------------------------
+5)  Usage
+-------------------------------------------------------------------------------
+
+    1. Account creation
+
+      In order to unlock achievements, creating a RetroAchievements
+      account on its website is required. Click "Create a new account",
+      and fill in the registration form. By logging in, other user
+      information (personal message, avatar, etc.) can be configured.
+
+    2. Log in with RAQUASI88
+
+      On first run, updating RAIntegration.dll may be required.
+      Once the download is complete, it is possible to log in.
+
+    3. Insert an image file
+
+      Loading an image file as normal will automatically detect
+      compatible game titles and achievements. As disk images are
+      overwritten on save, loaded images will be copied to the SAVE
+      folder and used for reading and writing, leaving the original image
+      intact.
+
+      In addition, when Hardcore Mode is turned on, it is required to
+      eject all images and reset the system before loading a different
+      title.
+
+-------------------------------------------------------------------------------
+6)  Copyright/Disclaimer
+-------------------------------------------------------------------------------
+
+    Please refer to the "Copyright/Disclaimer" section in QUASI88.TXT.
+
+-------------------------------------------------------------------------------
+7) Authors/Contact
+-------------------------------------------------------------------------------
+
+    QUASI88 original author: 福永省三
+    RAQUASI88 author: Raphaël Zumer
+    Website: https://github.com/rzumer/quasi88

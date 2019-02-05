@@ -1,7 +1,7 @@
 /***********************************************************************
  * グラフィック処理 (システム依存)
  *
- *	詳細は、 graph.h 参照
+ *  詳細は、 graph.h 参照
  ************************************************************************/
 
 #include <stdio.h>
@@ -28,80 +28,80 @@
 
 /* 以下は static な変数。オプションで変更できるのでグローバルにしてある */
 
-	int	colormap_type	= 0;	 /* カラーマップ指定	 0〜2	*/
-	int	use_xsync	= TRUE;	 /* XSync を使用するかどうか	*/
-	int	use_xv		= FALSE; /* Xv を使用するかどうか	*/
+    int colormap_type   = 0;     /* カラーマップ指定     0〜2  */
+    int use_xsync   = TRUE;  /* XSync を使用するかどうか   */
+    int use_xv      = FALSE; /* Xv を使用するかどうか  */
 #ifdef MITSHM
-	int	use_SHM		= TRUE;	 /* MIT-SHM を使用するかどうか	*/
+    int use_SHM     = TRUE;  /* MIT-SHM を使用するかどうか */
 #endif
 
 
 /* 以下は、 event.c などで使用する、 OSD なグローバル変数 */
 
-	Display	*x11_display;
-	Window	x11_window;
-	Atom	x11_atom_kill_type;
-	Atom	x11_atom_kill_data;
+    Display *x11_display;
+    Window  x11_window;
+    Atom    x11_atom_kill_type;
+    Atom    x11_atom_kill_data;
 
-	int	x11_width;		/* 現在のウインドウの幅 */
-	int	x11_height;		/* 現在のウインドウの高 */
+    int x11_width;      /* 現在のウインドウの幅 */
+    int x11_height;     /* 現在のウインドウの高 */
 
-	int	x11_mouse_rel_move;	/* マウス相対移動量検知させるか	*/
+    int x11_mouse_rel_move; /* マウス相対移動量検知させるか   */
 
 /************************************************************************/
 
-static	T_GRAPH_SPEC	graph_spec;		/* 基本情報		*/
+static  T_GRAPH_SPEC    graph_spec;     /* 基本情報     */
 
-static	int		graph_exist;		/* 真で、画面生成済み	*/
-static	T_GRAPH_INFO	graph_info;		/* その時の、画面情報	*/
+static  int     graph_exist;        /* 真で、画面生成済み  */
+static  T_GRAPH_INFO    graph_info;     /* その時の、画面情報  */
 
 
-static	int	x11_enable_fullscreen;		/* 真で、全画面可能	*/
+static  int x11_enable_fullscreen;      /* 真で、全画面可能 */
 
-static	Screen	*x11_screen;
-static	GC	x11_gc;
-static	Visual	*x11_visual;
+static  Screen  *x11_screen;
+static  GC  x11_gc;
+static  Visual  *x11_visual;
 
-static	int	x11_depth;
-static	int	x11_byte_per_pixel;
+static  int x11_depth;
+static  int x11_byte_per_pixel;
 
 
 /* 現在の属性 */
-static	int	x11_mouse_show   = TRUE;
-static	int	x11_grab         = FALSE;
-static	int	x11_keyrepeat_on = TRUE;
+static  int x11_mouse_show   = TRUE;
+static  int x11_grab         = FALSE;
+static  int x11_keyrepeat_on = TRUE;
 
 /************************************************************************/
 
 /* ウインドウの生成時・リサイズ時は、ウインドウサイズ変更不可を指示する */
-static	void	set_wm_hints(int w, int h, int fullscreen);
+static  void    set_wm_hints(int w, int h, int fullscreen);
 
 #ifdef MITSHM
-static	XShmSegmentInfo	SHMInfo;
+static  XShmSegmentInfo SHMInfo;
 
 /* MIT-SHM の失敗をトラップ */
-static	int	private_handler(Display *display, XErrorEvent *E);
+static  int private_handler(Display *display, XErrorEvent *E);
 #endif
 
 /************************************************************************
- *	X11 Windod & DGA / XV
+ *  X11 Windod & DGA / XV
  ************************************************************************/
 
 
 #include "graph-x11dga.c"
 
 
-#ifdef	USE_XV
+#ifdef  USE_XV
 #include "graph-xv.c"
 #endif
 
 
 /************************************************************************
- *	X11の初期化
- *	X11の終了
+ *  X11の初期化
+ *  X11の終了
  ************************************************************************/
 
-void	x11_init(void)
+void    x11_init(void)
 {
     x11_enable_fullscreen = FALSE;
 
@@ -111,95 +111,95 @@ void	x11_init(void)
 
     /* この時点では use_xv は未設定のため、 DGA・XV ともに初期化しておく */
 
-#ifdef	USE_DGA
-    dga_init();		/* DGA 初期化 */
+#ifdef  USE_DGA
+    dga_init();     /* DGA 初期化 */
 #endif
-#ifdef	USE_XV
-    xv_init();		/* XV 初期化 */
+#ifdef  USE_XV
+    xv_init();      /* XV 初期化 */
 #endif
 
     /* 初期化の結果、全画面が可能なら、 x11_enable_fullscreen は真になる */
 }
 
-static	void	init_verbose(void)
+static  void    init_verbose(void)
 {
     if (verbose_proc) {
 
-	if (! x11_display) { printf("FAILED\n"); return; }
-	else               { printf("OK");               }
+    if (! x11_display) { printf("FAILED\n"); return; }
+    else               { printf("OK");               }
 
-#if	defined(USE_DGA) || defined(USE_XV)
- #ifdef	USE_DGA
-	if (use_xv == FALSE) {
-	    dga_verbose();
-	}
+#if defined(USE_DGA) || defined(USE_XV)
+ #ifdef USE_DGA
+    if (use_xv == FALSE) {
+        dga_verbose();
+    }
  #endif
- #ifdef	USE_XV
-	if (use_xv) {
-	    xv_verbose();
-	}
+ #ifdef USE_XV
+    if (use_xv) {
+        xv_verbose();
+    }
  #endif
 #else
-	printf(" (fullscreen not supported)\n");
+    printf(" (fullscreen not supported)\n");
 #endif
   }
 }
 
 /************************************************************************/
 
-void	x11_exit(void)
+void    x11_exit(void)
 {
     if (x11_display) {
-	XAutoRepeatOn(x11_display);	/* オートリピート設定をもとに戻す */
+    XAutoRepeatOn(x11_display); /* オートリピート設定をもとに戻す */
 
-#ifdef	USE_DGA
-	dga_exit();
+#ifdef  USE_DGA
+    dga_exit();
 #endif
-#ifdef	USE_XV
-	xv_exit();
+#ifdef  USE_XV
+    xv_exit();
 #endif
 
-	XSync(x11_display, True);
+    XSync(x11_display, True);
 
-	/* DGA有効時、XCloseDisplayでエラーがでる。なぜに? */
-	if (use_xv ||
-	    x11_enable_fullscreen == FALSE) {	/* とりあえずDGAでない時だけ */
-	    XCloseDisplay(x11_display);
-	}
+    /* DGA有効時、XCloseDisplayでエラーがでる。なぜに? */
+    if (use_xv ||
+        x11_enable_fullscreen == FALSE) {   /* とりあえずDGAでない時だけ */
+        XCloseDisplay(x11_display);
+    }
 
-	x11_display = NULL;
+    x11_display = NULL;
     }
 }
 
 
 /************************************************************************
- *	グラフィック処理の初期化
- *	グラフィック処理の動作
- *	グラフィック処理の終了
+ *  グラフィック処理の初期化
+ *  グラフィック処理の動作
+ *  グラフィック処理の終了
  ************************************************************************/
 
 /* マウス非表示を実現するため、透明マウスカーソルを用意しよう。
    グラフィック初期化時にカーソルを生成、終了時に破棄する。*/
-static	void	create_invisible_mouse(void);
-static	void	destroy_invisible_mouse(void);
+static  void    create_invisible_mouse(void);
+static  void    destroy_invisible_mouse(void);
 
 
-const T_GRAPH_SPEC	*graph_init(void)
+const T_GRAPH_SPEC  *graph_init(void)
 {
     const T_GRAPH_SPEC *spec = NULL;
 
-#ifndef	USE_XV
+#ifndef USE_XV
     use_xv = FALSE;
     x11_scaling = FALSE;
 #endif
 
     if (verbose_proc) {
-	printf("Initializing Graphic System (X11) ... ");
-	init_verbose();
+    printf("Initializing Graphic System (X11) ... ");
+    init_verbose();
     }
 
     if (! x11_display) {
-	return NULL;
+    return NULL;
     }
 
 
@@ -209,22 +209,22 @@ const T_GRAPH_SPEC	*graph_init(void)
 
 
     if (use_xv == FALSE) {
-	spec = x11_graph_init();
+    spec = x11_graph_init();
     }
-#ifdef	USE_XV
+#ifdef  USE_XV
     if (use_xv) {
-	spec = xv_graph_init();
+    spec = xv_graph_init();
     }
 #endif
 
 
     if (spec) {
 
-	/* マウス非表示のための、透明マウスカーソルを生成 */
-	create_invisible_mouse();
+    /* マウス非表示のための、透明マウスカーソルを生成 */
+    create_invisible_mouse();
 
-	/* Drag & Drop 初期化 */
-	xdnd_initialize();
+    /* Drag & Drop 初期化 */
+    xdnd_initialize();
     }
 
     return spec;
@@ -232,15 +232,15 @@ const T_GRAPH_SPEC	*graph_init(void)
 
 /************************************************************************/
 
-const T_GRAPH_INFO	*graph_setup(int width, int height,
-				     int fullscreen, double aspect)
+const T_GRAPH_INFO  *graph_setup(int width, int height,
+                     int fullscreen, double aspect)
 {
     if (use_xv == FALSE) {
-	return x11_graph_setup(width, height, fullscreen, aspect);
+    return x11_graph_setup(width, height, fullscreen, aspect);
     }
-#ifdef	USE_XV
+#ifdef  USE_XV
     if (use_xv) {
-	return xv_graph_setup(width, height, fullscreen, aspect);
+    return xv_graph_setup(width, height, fullscreen, aspect);
     }
 #endif
 
@@ -249,14 +249,14 @@ const T_GRAPH_INFO	*graph_setup(int width, int height,
 
 /************************************************************************/
 
-void	graph_exit(void)
+void    graph_exit(void)
 {
     if (use_xv == FALSE) {
-	x11_graph_exit();
+    x11_graph_exit();
     }
-#ifdef	USE_XV
+#ifdef  USE_XV
     if (use_xv) {
-	xv_graph_exit();
+    xv_graph_exit();
     }
 #endif
 
@@ -266,27 +266,27 @@ void	graph_exit(void)
 
 /*======================================================================*/
 
-static	Cursor x11_cursor_id;
-static	Pixmap x11_cursor_pix;
+static  Cursor x11_cursor_id;
+static  Pixmap x11_cursor_pix;
 
-static	void	create_invisible_mouse(void)
+static  void    create_invisible_mouse(void)
 {
     char data[1] = { 0x00 };
     XColor color;
 
     x11_cursor_pix = XCreateBitmapFromData(x11_display,
-					   DefaultRootWindow(x11_display),
-					   data, 8, 1);
+                       DefaultRootWindow(x11_display),
+                       data, 8, 1);
     color.pixel    = BlackPixelOfScreen(x11_screen);
     x11_cursor_id  = XCreatePixmapCursor(x11_display,
-					 x11_cursor_pix, x11_cursor_pix,
-					 &color, &color, 0, 0);
+                     x11_cursor_pix, x11_cursor_pix,
+                     &color, &color, 0, 0);
 }
 
-static	void	destroy_invisible_mouse(void)
+static  void    destroy_invisible_mouse(void)
 {
     if (x11_mouse_show == FALSE) {
-	XUndefineCursor(x11_display, DefaultRootWindow(x11_display));
+    XUndefineCursor(x11_display, DefaultRootWindow(x11_display));
     }
     XFreePixmap(x11_display, x11_cursor_pix);
 }
@@ -295,14 +295,14 @@ static	void	destroy_invisible_mouse(void)
 
 #ifdef MITSHM
 /* MIT-SHM の失敗をトラップ */
-static	int	private_handler(Display *display, XErrorEvent *E)
+static  int private_handler(Display *display, XErrorEvent *E)
 {
     char str[256];
 
     if (E->error_code == BadAccess ||
-	E->error_code == BadAlloc) {
-	use_SHM = FALSE;
-	return 0;
+    E->error_code == BadAlloc) {
+    use_SHM = FALSE;
+    return 0;
     }
 
     XGetErrorText(display, E->error_code, str, 256);
@@ -320,41 +320,41 @@ static	int	private_handler(Display *display, XErrorEvent *E)
 /*======================================================================*/
 
 /* ウインドウマネージャにサイズ変更不可を指示する */
-static	void	set_wm_hints(int w, int h, int fullscreen)
+static  void    set_wm_hints(int w, int h, int fullscreen)
 {
     XSizeHints Hints;
     XWMHints WMHints;
 
     if (fullscreen) {
 #if 1
-	/* 何のおまじないか知らんが、これをするとウインドウのタイトルや枠が
-	   無くなるので、全画面サイズのウインドウが画面にフィットする。
-	   xmame のソースからコピペ */
-	#define MWM_HINTS_DECORATIONS   2
-	typedef struct {
-	    long flags;
-	    long functions;
-	    long decorations;
-	    long input_mode;
-	} MotifWmHints;
+    /* 何のおまじないか知らんが、これをするとウインドウのタイトルや枠が
+       無くなるので、全画面サイズのウインドウが画面にフィットする。
+       xmame のソースからコピペ */
+    #define MWM_HINTS_DECORATIONS   2
+    typedef struct {
+        long flags;
+        long functions;
+        long decorations;
+        long input_mode;
+    } MotifWmHints;
 
-	Atom mwmatom;
-	MotifWmHints mwmhints;
-	mwmhints.flags = MWM_HINTS_DECORATIONS;
-	mwmhints.decorations = 0;
-	mwmatom = XInternAtom(x11_display,"_MOTIF_WM_HINTS",0);
+    Atom mwmatom;
+    MotifWmHints mwmhints;
+    mwmhints.flags = MWM_HINTS_DECORATIONS;
+    mwmhints.decorations = 0;
+    mwmatom = XInternAtom(x11_display,"_MOTIF_WM_HINTS",0);
 
-	XChangeProperty(x11_display, x11_window,
-			mwmatom, mwmatom, 32,
-			PropModeReplace, (unsigned char *)&mwmhints, 4);
+    XChangeProperty(x11_display, x11_window,
+            mwmatom, mwmatom, 32,
+            PropModeReplace, (unsigned char *)&mwmhints, 4);
 #endif
 
-	Hints.x      = 0;
-	Hints.y      = 0;
-	Hints.flags  = PMinSize|PMaxSize|USPosition|USSize;
-	Hints.win_gravity = NorthWestGravity;
+    Hints.x      = 0;
+    Hints.y      = 0;
+    Hints.flags  = PMinSize|PMaxSize|USPosition|USSize;
+    Hints.win_gravity = NorthWestGravity;
     } else {
-	Hints.flags      = PSize|PMinSize|PMaxSize;
+    Hints.flags      = PSize|PMinSize|PMaxSize;
     }
     Hints.min_width  = Hints.max_width  = Hints.base_width  = w;
     Hints.min_height = Hints.max_height = Hints.base_height = h;
@@ -367,96 +367,96 @@ static	void	set_wm_hints(int w, int h, int fullscreen)
 
 
 /************************************************************************
- *	色の確保
- *	色の解放
+ *  色の確保
+ *  色の解放
  ************************************************************************/
 
-void	graph_add_color(const PC88_PALETTE_T color[],
-			int nr_color, unsigned long pixel[])
+void    graph_add_color(const PC88_PALETTE_T color[],
+            int nr_color, unsigned long pixel[])
 {
     if (use_xv == FALSE) {
-	x11_graph_add_color(color, nr_color, pixel);
+    x11_graph_add_color(color, nr_color, pixel);
     }
-#ifdef	USE_XV
+#ifdef  USE_XV
     if (use_xv) {
-	xv_graph_add_color(color, nr_color, pixel);
+    xv_graph_add_color(color, nr_color, pixel);
     }
 #endif
 }
 
 /************************************************************************/
 
-void	graph_remove_color(int nr_pixel, unsigned long pixel[])
+void    graph_remove_color(int nr_pixel, unsigned long pixel[])
 {
     if (use_xv == FALSE) {
-	x11_graph_remove_color(nr_pixel, pixel);
+    x11_graph_remove_color(nr_pixel, pixel);
     }
-#ifdef	USE_XV
+#ifdef  USE_XV
     if (use_xv) {
-	xv_graph_remove_color(nr_pixel, pixel);
+    xv_graph_remove_color(nr_pixel, pixel);
     }
 #endif
 }
 
 
 /************************************************************************
- *	グラフィックの更新
+ *  グラフィックの更新
  ************************************************************************/
 
-void	graph_update(int nr_rect, T_GRAPH_RECT rect[])
+void    graph_update(int nr_rect, T_GRAPH_RECT rect[])
 {
     if (use_xv == FALSE) {
-	x11_graph_update(nr_rect, rect);
+    x11_graph_update(nr_rect, rect);
     }
-#ifdef	USE_XV
+#ifdef  USE_XV
     if (use_xv) {
-	xv_graph_update(nr_rect, rect);
+    xv_graph_update(nr_rect, rect);
     }
 #endif
 }
 
 
 /************************************************************************
- *	タイトルの設定
- *	属性の設定
+ *  タイトルの設定
+ *  属性の設定
  ************************************************************************/
 
-void	graph_set_window_title(const char *title)
+void    graph_set_window_title(const char *title)
 {
     static char saved_title[128];
 
     if (title) {
-	saved_title[0] = '\0';
-	strncat(saved_title, title, sizeof(saved_title)-1);
+    saved_title[0] = '\0';
+    strncat(saved_title, title, sizeof(saved_title)-1);
     }
 
     if (graph_exist) {
-	XStoreName(x11_display, x11_window, saved_title);
+    XStoreName(x11_display, x11_window, saved_title);
     }
 }
 
 /************************************************************************/
 
-void	graph_set_attribute(int mouse_show, int grab, int keyrepeat_on)
+void    graph_set_attribute(int mouse_show, int grab, int keyrepeat_on)
 {
     x11_mouse_show   = mouse_show;
     x11_grab         = grab;
     x11_keyrepeat_on = keyrepeat_on;
 
     if (x11_get_focus) {
-	x11_set_attribute_focus_in();
+    x11_set_attribute_focus_in();
     }
 }
 
 
 /***********************************************************************
  *
- *	X11 独自関数
+ *  X11 独自関数
  *
  ************************************************************************/
 
 /* フォーカスを失った時、マウス表示、アングラブ、キーリピートありにする */
-void	x11_set_attribute_focus_out(void)
+void    x11_set_attribute_focus_out(void)
 {
     XUndefineCursor(x11_display, x11_window);
     XUngrabPointer(x11_display, CurrentTime);
@@ -464,21 +464,21 @@ void	x11_set_attribute_focus_out(void)
 }
 
 /* フォーカスを得た時、、マウス・グラブ・キーリピートを、設定通りに戻す */
-void	x11_set_attribute_focus_in(void)
+void    x11_set_attribute_focus_in(void)
 {
     int dga = (use_xv == FALSE && graph_info.fullscreen) ? TRUE : FALSE;
 
     if (x11_mouse_show) XUndefineCursor(x11_display, x11_window);
     else                XDefineCursor(x11_display, x11_window, x11_cursor_id);
 
-    if (x11_grab || dga)		/* グラブ指示あり、または */
-					/* DGA 使用時はグラブする */
-			  XGrabPointer(x11_display, x11_window, True,
-				       PointerMotionMask | ButtonPressMask |
-				       ButtonReleaseMask,
-				       GrabModeAsync, GrabModeAsync,
-				       x11_window, None, CurrentTime);
-    else		  XUngrabPointer(x11_display, CurrentTime);
+    if (x11_grab || dga)        /* グラブ指示あり、または */
+                    /* DGA 使用時はグラブする */
+              XGrabPointer(x11_display, x11_window, True,
+                       PointerMotionMask | ButtonPressMask |
+                       ButtonReleaseMask,
+                       GrabModeAsync, GrabModeAsync,
+                       x11_window, None, CurrentTime);
+    else          XUngrabPointer(x11_display, CurrentTime);
 
     if (x11_keyrepeat_on) XAutoRepeatOn(x11_display);
     else                  XAutoRepeatOff(x11_display);
@@ -488,7 +488,7 @@ void	x11_set_attribute_focus_in(void)
 
     if      (dga)                     x11_mouse_rel_move = 1;
     else if (x11_grab &&
-	     x11_mouse_show == FALSE) x11_mouse_rel_move = -1;
+         x11_mouse_show == FALSE) x11_mouse_rel_move = -1;
     else                              x11_mouse_rel_move = 0;
 
     /* マウス移動時のイベントについて (event.c)

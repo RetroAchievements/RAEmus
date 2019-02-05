@@ -6,6 +6,7 @@ extern "C"
     #include <windows.h>
 
     #include "device.h"
+    #include "file-op.h"
     #include "initval.h"
     #include "keyboard.h"
     #include "memory.h"
@@ -13,9 +14,44 @@ extern "C"
     #include "screen.h"
 }
 
+FileInfo loaded_disk = FINFO_DEFAULT;
+FileInfo loaded_tape = FINFO_DEFAULT;
+FileInfo loading_file = FINFO_DEFAULT;
+FileInfo *loaded_title = 0;
+bool should_activate = true;
+
+void reset_file_info(FileInfo *file)
+{
+    file->data = 0;
+    file->data_len = 0;
+    file->name[0] = 0;
+    file->title_id = 0;
+    file->file_type = 0;
+}
+
+void free_file_info(FileInfo *file)
+{
+    if (file->data)
+        free(file->data);
+
+    reset_file_info(file);
+}
+
 /****************************************************************************
  * 実績処理に使用するメモリの読み書き関数
  *****************************************************************************/
+#ifndef RA_ENABLE_TVRAM
+#define RA_ENABLE_TVRAM 1 /* プログラムデータは高速RAMに保存されることがあるため、有効にする */
+#endif
+
+#ifndef RA_ENABLE_GVRAM
+#define RA_ENABLE_GVRAM 0 /* アドレス空間をできるだけ締めるため、有用性の低いグラフィックVRAMを無効にする */
+#endif
+
+#ifndef RA_ENABLE_EXTRAM
+#define RA_ENABLE_EXTRAM 0 /* 拡張RAMの有無は期待できないため、とにかく無効にする */
+#endif
+
 unsigned char ByteReader(byte *buf, size_t nOffs)
 {
     return *(buf + nOffs);
@@ -24,6 +60,16 @@ unsigned char ByteReader(byte *buf, size_t nOffs)
 void ByteWriter(byte *buf, size_t nOffs, unsigned char nVal)
 {
     *(buf + nOffs) = nVal;
+}
+
+unsigned char DummyReader(size_t nOffs)
+{
+    return 0;
+}
+
+void DummyWriter(size_t nOffs, unsigned char nVal)
+{
+    return;
 }
 
 unsigned char MainRAMReader(size_t nOffs)
@@ -36,27 +82,39 @@ void MainRAMWriter(size_t nOffs, unsigned char nVal)
     ByteWriter(main_ram, nOffs, nVal);
 }
 
-/* アドレス空間をできるだけ締めるため、有用性の低い高速RAM・VRAMを無効にする */
-#define RA_ENABLE_VRAM 0
-#if RA_ENABLE_VRAM
-unsigned char HighSpeedRAMReader(size_t nOffs)
+#if RA_ENABLE_TVRAM
+unsigned char TVRAMReader(size_t nOffs)
 {
     return ByteReader(main_high_ram, nOffs);
 }
 
-void HighSpeedRAMWriter(size_t nOffs, unsigned char nVal)
+void TVRAMWriter(size_t nOffs, unsigned char nVal)
 {
     ByteWriter(main_high_ram, nOffs, nVal);
 }
+#endif
 
-unsigned char MainVRAMReader(size_t nOffs)
+#if RA_ENABLE_GVRAM
+unsigned char GVRAMReader(size_t nOffs)
 {
     return ByteReader(main_vram[nOffs >> 14], nOffs % 0x4000);
 }
 
-void MainVRAMWriter(size_t nOffs, unsigned char nVal)
+void GVRAMWriter(size_t nOffs, unsigned char nVal)
 {
-    ByteWriter(main_vram[nOffs >> 14], nOffs % 0x4000 , nVal);
+    ByteWriter(main_vram[nOffs >> 14], nOffs % 0x4000, nVal);
+}
+#endif
+
+#if RA_ENABLE_EXTRAM
+unsigned char ExtRAMReader(size_t nOffs)
+{
+    return ByteReader((byte *)ext_ram, nOffs);
+}
+
+void ExtRAMWriter(size_t nOffs, unsigned char nVal)
+{
+    ByteWriter((byte *)ext_ram, nOffs, nVal);
 }
 #endif
 
@@ -81,10 +139,9 @@ int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
     return -1;
 }
 
-static char loaded_title[_MAX_FNAME] = { NULL };
 bool GameIsActive()
 {
-    return quasi88_is_exec();
+    return loaded_title != NULL;
 }
 
 void CauseUnpause()
@@ -120,17 +177,24 @@ void RebuildMenu()
 
 void GetEstimatedGameTitle(char* sNameOut)
 {
-    const int BUF_SIZE = 64;
+    const int ra_buffer_size = 64;
 
-    if (loaded_title[0] != NULL)
+    if (loading_file.data_len > 0)
     {
-        memcpy(sNameOut, loaded_title, BUF_SIZE);
-        sNameOut[BUF_SIZE - 1] = '\0';
+        // ロード中のファイル名を返す
+        memcpy(sNameOut, loading_file.name, ra_buffer_size);
+    }
+    else if (loaded_title != NULL && loaded_title->name[0] != NULL)
+    {
+        memcpy(sNameOut, loaded_title->name, ra_buffer_size);
     }
     else
     {
-        memset(sNameOut, 0, BUF_SIZE);
+        memset(sNameOut, 0, ra_buffer_size);
     }
+
+    // 文字列を必ず NULL で終わらせる
+    sNameOut[ra_buffer_size - 1] = '\0';
 }
 
 void ResetEmulation()
@@ -158,6 +222,7 @@ void RA_InitUI()
     RebuildMenu();
     RA_AttemptLogin(true);
     RebuildMenu();
+    RA_InitMemory();
 
     if (main_hdc)
     {
@@ -169,27 +234,143 @@ void RA_InitUI()
 
 void RA_InitMemory()
 {
-    RA_ClearMemoryBanks();
-    RA_InstallMemoryBank(0, MainRAMReader, MainRAMWriter, 0x10000);
+    int bank_id = 0;
 
-#if RA_ENABLE_VRAM
-    RA_InstallMemoryBank(1, HighSpeedRAMReader, HighSpeedRAMWriter, 0x1000);
-    RA_InstallMemoryBank(2, MainVRAMReader, MainVRAMWriter, 0x4000 * 4);
+    RA_ClearMemoryBanks();
+    RA_InstallMemoryBank(bank_id++, MainRAMReader, MainRAMWriter, 0x10000);
+
+#if RA_ENABLE_TVRAM
+    RA_InstallMemoryBank(bank_id++, TVRAMReader, TVRAMWriter, 0x1000);
+#elif RA_ENABLE_GVRAM || RA_ENABLE_EXTRAM
+    RA_InstallMemoryBank(bank_id++, DummyReader, DummyWriter, 0x1000);
+#endif
+
+#if RA_ENABLE_GVRAM
+    RA_InstallMemoryBank(bank_id++, GVRAMReader, GVRAMWriter, 0x4000 * 4);
+#elif RA_ENABLE_EXTRAM
+    RA_InstallMemoryBank(bank_id++, DummyReader, DummyWriter, 0x4000 * 4);
+#endif
+
+    /* 注意：RA_ENABLE_EXTRAM をセットする場合は、
+    use_extram がいつでも変わることができるため、再初期化の管理が必要 */
+#if RA_ENABLE_EXTRAM
+    RA_InstallMemoryBank(bank_id++, ExtRAMReader, ExtRAMWriter, 0x8000 * 4 * use_extram);
 #endif
 }
 
-void RA_OnGameClose()
+#define RA_RELOAD_MULTI_DISK FALSE /* ディスクを切り替えるときは同じタイトルが検出されても、
+                                     実績システムを再初期化する */
+int RA_PrepareLoadNewRom(const char *file_name, int file_type)
 {
-    RA_ClearMemoryBanks();
-    RA_SetGameTitle("");
-    loaded_title[0] = '\0';
-    RA_OnLoadNewRom(NULL, 0);
+    FILE *f = fopen(file_name, "rb");
+
+    char basename[_MAX_FNAME];
+    _splitpath(file_name, NULL, NULL, basename, NULL);
+    strcpy(loading_file.name, basename);
+
+    fseek(f, 0, SEEK_END);
+    const unsigned long file_size = (unsigned long)ftell(f);
+    loading_file.data_len = file_size;
+
+    BYTE * const file_data = (BYTE *)malloc(file_size * sizeof(BYTE));
+    loading_file.data = file_data;
+    fseek(f, 0, SEEK_SET);
+    fread(file_data, sizeof(BYTE), file_size, f);
+
+    fflush(f);
+    fclose(f);
+
+    loading_file.title_id = RA_IdentifyRom(file_data, file_size);
+    loading_file.file_type = file_type;
+
+    if (loaded_title != NULL && loaded_title->data_len > 0)
+    {
+        if (loaded_title->title_id != loading_file.title_id || loaded_title->file_type != loading_file.file_type)
+        {
+            if (!RA_WarnDisableHardcore("load a new title without ejecting all images and resetting the emulator"))
+            {
+                free_file_info(&loading_file);
+                return FALSE; /* 読み込みを中止する */
+            }
+        }
+    }
+
+#if !RA_RELOAD_MULTI_DISK
+    should_activate = loaded_title != NULL &&
+        loaded_title->title_id > 0 &&
+        loaded_title->title_id == loading_file.title_id ?
+        false :
+        true;
+#endif
+
+    return TRUE;
 }
 
-void RA_SetGameTitle(char *title)
+void RA_CommitLoadNewRom()
 {
-    strcpy(loaded_title, title);
-    RA_UpdateAppTitle(title);
+    switch (loading_file.file_type)
+    {
+    case FTYPE_DISK:
+        free_file_info(&loaded_disk);
+        loaded_disk = loading_file;
+        loaded_title = &loaded_disk;
+        break;
+    case FTYPE_TAPE_LOAD:
+        free_file_info(&loaded_tape);
+        loaded_tape = loading_file;
+        loaded_title = &loaded_tape;
+        break;
+    default:
+        break;
+    }
+
+    RA_UpdateAppTitle(loading_file.name);
+
+    if (should_activate)
+    {
+        /* 実績システムのイメージデータを初期化する */
+        RA_ActivateGame(loading_file.title_id);
+        should_activate = true;
+    }
+
+    /* ロード中のデータをクリアする */
+    reset_file_info(&loading_file);
+}
+
+void RA_OnGameClose(int file_type)
+{
+    if (loaded_title != NULL && loaded_title->file_type == file_type)
+        loaded_title = NULL;
+
+    switch (file_type)
+    {
+    case FTYPE_DISK:
+        free_file_info(&loaded_disk);
+        if (loaded_tape.data_len > 0 && !RA_HardcoreModeIsActive())
+        {
+            loaded_title = &loaded_tape;
+            RA_UpdateAppTitle(loaded_title->name);
+            RA_ActivateGame(loaded_title->title_id);
+        }
+        break;
+    case FTYPE_TAPE_LOAD:
+        free_file_info(&loaded_tape);
+        if (loaded_disk.data_len > 0 && !RA_HardcoreModeIsActive())
+        {
+            loaded_title = &loaded_disk;
+            RA_UpdateAppTitle(loaded_title->name);
+            RA_ActivateGame(loaded_title->title_id);
+        }
+        break;
+    default:
+        break;
+    }
+
+    if (loaded_title == NULL && loading_file.data_len == 0)
+    {
+        RA_UpdateAppTitle("");
+        RA_OnLoadNewRom(NULL, 0);
+    }
 }
 
 int RA_HandleMenuEvent(int id)
@@ -220,7 +401,7 @@ void RA_RenderOverlayFrame(HDC hdc)
         width >>= 1;
         height >>= 1;
         break;
-#ifdef	SUPPORT_DOUBLE
+#ifdef  SUPPORT_DOUBLE
     case SCREEN_SIZE_DOUBLE:
         /* どうやらWIDTH×HEIGHTのままでいい */
         break;

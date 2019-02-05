@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef	USE_SOUND
+#ifdef  USE_SOUND
 
 #include "mame-quasi88.h"
 
@@ -18,8 +18,8 @@
 
 
 /*---------------------------------------------------------------*/
-static int use_audiodevice = 1;		/* use audio-devide for audio output */
-/* static int attenuation = 0;		 * ボリューム -32〜0 [db] 現在未サポート */
+static int use_audiodevice = 1;     /* use audio-devide for audio output */
+/* static int attenuation = 0;       * ボリューム -32〜0 [db] 現在未サポート */
 
 static struct sysdep_dsp_struct *sysdep_sound_dsp = NULL;
 
@@ -39,11 +39,11 @@ static struct sysdep_dsp_struct *sysdep_sound_dsp = NULL;
  *      xmame_config_init() の処理の後片付けが必要なら、ここで行う。
  *
  *****************************************************************************/
-int		xmame_config_init(void)
+int     xmame_config_init(void)
 {
-	return 0;		/*OSD_OK;*/
+    return 0;       /*OSD_OK;*/
 }
-void	xmame_config_exit(void)
+void    xmame_config_exit(void)
 {
 }
 
@@ -59,8 +59,8 @@ void	xmame_config_exit(void)
  *      独自方式で解析する場合は、 NULL を返す。
  *****************************************************************************/
 
-static	int	invalid_arg;			/* 無効なオプション用のダミー変数 */
-static	const	T_CONFIG_TABLE xmame_options[] =
+static  int invalid_arg;            /* 無効なオプション用のダミー変数 */
+static  const   T_CONFIG_TABLE xmame_options[] =
 {
   /* 350〜399: サウンド依存オプション */
 
@@ -114,7 +114,7 @@ static	const	T_CONFIG_TABLE xmame_options[] =
 
 const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
 {
-	return xmame_options;
+    return xmame_options;
 }
 
 
@@ -125,7 +125,7 @@ const T_CONFIG_TABLE *xmame_config_get_opt_tbl(void)
  *      config_init() より、オプション -help の処理の際に呼び出される。
  *      標準出力にヘルプメッセージを表示する。
  *****************************************************************************/
-void	xmame_config_show_option(void)
+void    xmame_config_show_option(void)
 {
   fprintf(stdout,
   "\n"
@@ -175,9 +175,9 @@ void	xmame_config_show_option(void)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int		xmame_config_check_option(char *opt1, char *opt2, int priority)
+int     xmame_config_check_option(char *opt1, char *opt2, int priority)
 {
-	return 0;
+    return 0;
 }
 
 
@@ -202,10 +202,10 @@ int		xmame_config_check_option(char *opt1, char *opt2, int priority)
  *      ※ この関数は、独自方式でオプションを解析するための関数なので、
  *         オプションテーブル T_CONFIG_TABLE を使用する場合は、ダミーでよい。
  *****************************************************************************/
-int		xmame_config_save_option(void (*real_write)
-								   (const char *opt_name, const char *opt_arg))
+int     xmame_config_save_option(void (*real_write)
+                                   (const char *opt_name, const char *opt_arg))
 {
-	return 0;
+    return 0;
 }
 
 
@@ -223,23 +223,23 @@ int		xmame_config_save_option(void (*real_write)
  *****************************************************************************/
 T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
 {
-	static T_SNDDRV_CONFIG config[] =
-	{
-		{
-			SNDDRV_INT,
-			" Buffer size of sound (512 - 16384, power of 2) ",
-			&sdl_buffersize,  32, 65536,
-		},
-		{
-			SNDDRV_NULL, 0, 0, 0, 0,
-		},
-	};
+    static T_SNDDRV_CONFIG config[] =
+    {
+        {
+            SNDDRV_INT,
+            " Buffer size of sound (512 - 16384, power of 2) ",
+            &sdl_buffersize,  32, 65536,
+        },
+        {
+            SNDDRV_NULL, 0, 0, 0, 0,
+        },
+    };
 
-	if (use_audiodevice) {
-		return config;
-	} else {
-		return NULL;
-	}
+    if (use_audiodevice) {
+        return config;
+    } else {
+        return NULL;
+    }
 }
 
 
@@ -255,17 +255,17 @@ T_SNDDRV_CONFIG *xmame_config_get_sndopt_tbl(void)
  *      真なら変更可能。偽なら不可。
  *
  *****************************************************************************/
-int		xmame_has_audiodevice(void)
+int     xmame_has_audiodevice(void)
 {
-	if (use_sound) {
-		if (sysdep_sound_dsp) return TRUE;
-	}
-	return FALSE;
+    if (use_sound) {
+        if (sysdep_sound_dsp) return TRUE;
+    }
+    return FALSE;
 }
 
-int		xmame_has_mastervolume(void)
+int     xmame_has_mastervolume(void)
 {
-	return FALSE;
+    return FALSE;
 }
 
 
@@ -336,40 +336,40 @@ static int type = -1;
  * xmame-0.106/src/unix/sysdep/sysdep_dsp.c 
  */
 static struct sysdep_dsp_struct *sysdep_dsp_create(
-		int		*samplerate, 	/* sample_rate (==44100) */
-		int		*type,	 		/* */
-		float	bufsize)		/* 3.0 / 55.4 */
+        int     *samplerate,    /* sample_rate (==44100) */
+        int     *type,          /* */
+        float   bufsize)        /* 3.0 / 55.4 */
 {
-	struct sysdep_dsp_struct *dsp = NULL;
-	struct sysdep_dsp_create_params params;
+    struct sysdep_dsp_struct *dsp = NULL;
+    struct sysdep_dsp_create_params params;
 
-	/* fill the params struct */
-	params.bufsize = bufsize;
-	params.device = "SDL";
-	params.samplerate = *samplerate;
-	params.type = *type;
-	params.flags = 0;	/* SYSDEP_DSP_EMULATE_TYPE | SYSDEP_DSP_O_NONBLOCK */
+    /* fill the params struct */
+    params.bufsize = bufsize;
+    params.device = "SDL";
+    params.samplerate = *samplerate;
+    params.type = *type;
+    params.flags = 0;   /* SYSDEP_DSP_EMULATE_TYPE | SYSDEP_DSP_O_NONBLOCK */
 
-	/* create the instance */
-	if (!(dsp = sdl_dsp_create(&params)))
-	{
-		return NULL;
-	}
+    /* create the instance */
+    if (!(dsp = sdl_dsp_create(&params)))
+    {
+        return NULL;
+    }
 
-	/* calculate buf_size if not done by the plugin */
-	if(!dsp->hw_info.bufsize)
-		dsp->hw_info.bufsize = (int)(bufsize * dsp->hw_info.samplerate);
+    /* calculate buf_size if not done by the plugin */
+    if(!dsp->hw_info.bufsize)
+        dsp->hw_info.bufsize = (int)(bufsize * dsp->hw_info.samplerate);
 
-	return dsp;
+    return dsp;
 }
 /*
  * xmame-0.106/src/unix/sysdep/sysdep_dsp.c 
  */
 static void sysdep_dsp_destroy(struct sysdep_dsp_struct *dsp)
 {
-	if(dsp->convert_buf)
-		free(dsp->convert_buf);
-	dsp->destroy(dsp);
+    if(dsp->convert_buf)
+        free(dsp->convert_buf);
+    dsp->destroy(dsp);
 }
 
 
@@ -378,80 +378,80 @@ static void sysdep_dsp_destroy(struct sysdep_dsp_struct *dsp)
  */
 int osd_start_audio_stream(int stereo)
 {
-	type = SYSDEP_DSP_16BIT | (stereo? SYSDEP_DSP_STEREO:SYSDEP_DSP_MONO);
+    type = SYSDEP_DSP_16BIT | (stereo? SYSDEP_DSP_STEREO:SYSDEP_DSP_MONO);
 
-	sysdep_sound_dsp    = NULL;
+    sysdep_sound_dsp    = NULL;
 
-	osd_sound_enable(1);
-	
-	return sound_samples_per_frame;
+    osd_sound_enable(1);
+    
+    return sound_samples_per_frame;
 }
 /*
  * xmame-0.106/src/unix/sound.c
  */
 int osd_update_audio_stream(INT16 *buffer)
 {
-	if (sysdep_sound_dsp)
-		sysdep_sound_dsp->write(sysdep_sound_dsp, (unsigned char *)buffer,
-				sound_samples_per_frame);
+    if (sysdep_sound_dsp)
+        sysdep_sound_dsp->write(sysdep_sound_dsp, (unsigned char *)buffer,
+                sound_samples_per_frame);
 
-	return sound_samples_per_frame;
+    return sound_samples_per_frame;
 }
 /*
  * xmame-0.106/src/unix/sound.c
  */
 void osd_stop_audio_stream(void)
 {
-	osd_sound_enable(0);
+    osd_sound_enable(0);
 }
 /*
  * xmame-0.106/src/unix/sound.c
  */
 void osd_sound_enable(int enable_it)
 {
-	if (use_audiodevice == 0) {
-		sysdep_sound_dsp = NULL;
-		sound_samples_per_frame = (int) (Machine->sample_rate / Machine->refresh_rate);
-		return;
-	}
+    if (use_audiodevice == 0) {
+        sysdep_sound_dsp = NULL;
+        sound_samples_per_frame = (int) (Machine->sample_rate / Machine->refresh_rate);
+        return;
+    }
 
-	if (enable_it)
-	{
-		/* in case we get called twice with enable_it true
-		   OR we get called when osd_start_audio stream
-		   has never been called */
-		if (sysdep_sound_dsp || (type==-1))
-			return;
-		
-		if(!(sysdep_sound_dsp = sysdep_dsp_create(
-						&(Machine->sample_rate),
-						&type,
-						sound_bufsize * (1 / Machine->refresh_rate))))
-		{
-			/* デバイスが開けなくても、気にせず続行 */
-		}
+    if (enable_it)
+    {
+        /* in case we get called twice with enable_it true
+           OR we get called when osd_start_audio stream
+           has never been called */
+        if (sysdep_sound_dsp || (type==-1))
+            return;
+        
+        if(!(sysdep_sound_dsp = sysdep_dsp_create(
+                        &(Machine->sample_rate),
+                        &type,
+                        sound_bufsize * (1 / Machine->refresh_rate))))
+        {
+            /* デバイスが開けなくても、気にせず続行 */
+        }
 
-		/* calculate samples_per_frame */
-		sound_samples_per_frame = (int) (Machine->sample_rate / Machine->refresh_rate);
+        /* calculate samples_per_frame */
+        sound_samples_per_frame = (int) (Machine->sample_rate / Machine->refresh_rate);
 
-	}
-	else
-	{
-		if (sysdep_sound_dsp)
-		{
-			sysdep_dsp_destroy(sysdep_sound_dsp);
-			sysdep_sound_dsp = NULL;
-		}
-	}
+    }
+    else
+    {
+        if (sysdep_sound_dsp)
+        {
+            sysdep_dsp_destroy(sysdep_sound_dsp);
+            sysdep_sound_dsp = NULL;
+        }
+    }
 }
 
 
 /*
  * xmame-0.106/src/unix/video.c
  */
-void	osd_update_video_and_audio(void)
+void    osd_update_video_and_audio(void)
 {
-	/* nothing */
+    /* nothing */
 }
 
 
@@ -473,7 +473,7 @@ void osd_set_mastervolume(int attenuation)
 
 int osd_get_mastervolume(void)
 {
-	return VOL_MIN;
+    return VOL_MIN;
 }
 
-#endif	/* USE_SOUND */
+#endif  /* USE_SOUND */

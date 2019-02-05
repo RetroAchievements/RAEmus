@@ -6,8 +6,8 @@
 #define SNDDRV_SDL_H_INCLUDED
 
 
-#undef	EXTERN
-#ifdef	SNDDRV_WORK_DEFINE
+#undef  EXTERN
+#ifdef  SNDDRV_WORK_DEFINE
 #define EXTERN
 #else
 #define EXTERN extern
@@ -70,10 +70,10 @@ struct sysdep_dsp_create_params {
 
 extern void *sdl_dsp_create(const void *flags);
 
-extern	int	sdl_buffersize;	/* audio buffer size (512..8192, power of 2) */
+extern  int sdl_buffersize; /* audio buffer size (512..8192, power of 2) */
 
 
 
 
 
-#endif		/* SNDDRV_SDL_H_INCLUDED */
+#endif      /* SNDDRV_SDL_H_INCLUDED */

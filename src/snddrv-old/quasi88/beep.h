@@ -5,11 +5,11 @@
 
 struct BEEP88interface
 {
-	int num;
-	int baseclock;
-	int mixing_level[MAX_BEEP88];
-	int (*port40read[MAX_BEEP88])(void);
-	void (*port40write[MAX_BEEP88])(int data);
+    int num;
+    int baseclock;
+    int mixing_level[MAX_BEEP88];
+    int (*port40read[MAX_BEEP88])(void);
+    void (*port40write[MAX_BEEP88])(int data);
 };
 
 

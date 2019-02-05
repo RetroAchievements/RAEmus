@@ -1,13 +1,13 @@
 /************************************************************************/
-/*									*/
-/* ヘルプメッセージ (OS依存)						*/
-/*	Q_TITLE, Q_VERSION は コンパイル時に(Makefileで)定義		*/
-/*	それ以外のマクロは、全て initval.h に				*/
-/*									*/
-/*		getconf.c ファイル内から、include されている。		*/
+/*                                  */
+/* ヘルプメッセージ (OS依存)                      */
+/*  Q_TITLE, Q_VERSION は コンパイル時に(Makefileで)定義     */
+/*  それ以外のマクロは、全て initval.h に              */
+/*                                  */
+/*      getconf.c ファイル内から、include されている。        */
 /************************************************************************/
 
-static	void	help_msg_common(void)
+static  void    help_msg_common(void)
 {
   fprintf
   (
@@ -55,7 +55,7 @@ static	void	help_msg_common(void)
    "  ** GRAPHIC **\n"
    "    -frameskip <period>     Period of frame skip [%d]\n"
    "    -autoskip/-noautoskip   Use/Not use auto frame skip [-autoskip]\n"
-#ifdef	SUPPORT_DOUBLE
+#ifdef  SUPPORT_DOUBLE
    "    -full/-half/-double     Screen size is full, half, or double [-full]\n"
 #else
    "    -full/-half             Screen size is full or half [-full]\n"
@@ -128,7 +128,7 @@ static	void	help_msg_common(void)
    "    -playback <filename>    Play back all key inputs from the file <filename>\n"
    "    -timestop               Freeze real-time-clock\n"
    "    -vsync <hz>             Set VSYNC frequency [55.4]\n"
-#ifdef	USE_MONITOR
+#ifdef  USE_MONITOR
    "    -debug                  enable to go to monitor mode\n"
    "    -monitor                start in monitor mode\n"
    "    -fdcdebug               print FDC status\n"
@@ -183,7 +183,7 @@ static	void	help_msg_common(void)
 }
 
 
-static	void	help_msg_config( void )
+static  void    help_msg_config( void )
 {
   fprintf
   (
@@ -221,7 +221,7 @@ static	void	help_msg_config( void )
    "                        ... %d images\n"
    ,
 
-#if	defined( QUASI88_FUNIX )
+#if defined( QUASI88_FUNIX )
    "${HOME}/.quasi88/",
    "${HOME}/.quasi88/rc/",
    "${HOME}/.quasi88/",
@@ -232,7 +232,7 @@ static	void	help_msg_config( void )
    (strlen(TAPE_DIR)==0)? "current directory" : TAPE_DIR,
    "current directory",
    "${HOME}/.quasi88/state/",
-#elif	defined( QUASI88_FWIN )
+#elif   defined( QUASI88_FWIN )
    "${QUASI88_HOME}\\",
    "${QUASI88_INI_DIR}\\",
    "${QUASI88_HOME}\\",
@@ -243,7 +243,7 @@ static	void	help_msg_config( void )
    "TAPE",
    "SNAP",
    "STATE",
-#elif	defined( QUASI88_FMAC )
+#elif   defined( QUASI88_FMAC )
    ":",
    ":",
    ":",

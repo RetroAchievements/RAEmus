@@ -13,7 +13,7 @@
 
 fmgen008 のライセンスについては、このディレクトリにある
 
-	readme.txt
+    readme.txt
 
 を参照してください。
 
@@ -24,26 +24,26 @@ fmgen008 のライセンスについては、このディレクトリにある
 -------------------------------------------------------------------------------
 fmgen008 を組み込むにあたり、以下のファイルに変更を加えました。
 
-全てのファイル		文字コード/改行コードの変更
+全てのファイル       文字コード/改行コードの変更
 
-diag.h			-
-file.cpp		未使用につき、削除
-file.h			未使用につき、削除
-fmgen.cpp		最新版に置き換え
-fmgen.h			出力を16bitに変更 (FM_SAMPLETYPE)
-fmgeninl.h		最新版に置き換え
-fmtimer.cpp		-
-fmtimer.h		-
-headers.h		Windows依存部を修正
-misc.h			-
-opm.cpp			未使用につき、削除
-opm.h			未使用につき、削除
-opna.cpp		Windows依存部を修正
-opna.h			-
-psg.cpp			-
-psg.h			出力を16bitに変更 (PSG_SAMPLETYPE)
-readme.txt		-
-types.h			QUASI88用に修正
+diag.h          -
+file.cpp        未使用につき、削除
+file.h          未使用につき、削除
+fmgen.cpp       最新版に置き換え
+fmgen.h         出力を16bitに変更 (FM_SAMPLETYPE)
+fmgeninl.h      最新版に置き換え
+fmtimer.cpp     -
+fmtimer.h       -
+headers.h       Windows依存部を修正
+misc.h          -
+opm.cpp         未使用につき、削除
+opm.h           未使用につき、削除
+opna.cpp        Windows依存部を修正
+opna.h          -
+psg.cpp         -
+psg.h           出力を16bitに変更 (PSG_SAMPLETYPE)
+readme.txt      -
+types.h         QUASI88用に修正
 
 -------------------------------------------------------------------------------
 QUASI88 は、 MAME のサウンドエンジンを介して、 fmgen を使用しています。

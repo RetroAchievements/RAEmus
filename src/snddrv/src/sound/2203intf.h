@@ -5,11 +5,11 @@
 
 struct YM2203interface
 {
-	read8_handler portAread;
-	read8_handler portBread;
-	write8_handler portAwrite;
-	write8_handler portBwrite;
-	void (*handler)(int irq);
+    read8_handler portAread;
+    read8_handler portBread;
+    write8_handler portAwrite;
+    write8_handler portBwrite;
+    void (*handler)(int irq);
 };
 
 
@@ -40,15 +40,15 @@ WRITE8_HANDLER( YM2203_write_port_4_w );
 WRITE8_HANDLER( YM2203_word_0_w );
 WRITE8_HANDLER( YM2203_word_1_w );
 
-#if 1		/* QUASI88 */
-extern int	YM2203_timer_over_0(int c);
-extern int	YM2203_timer_over_1(int c);
+#if 1       /* QUASI88 */
+extern int  YM2203_timer_over_0(int c);
+extern int  YM2203_timer_over_1(int c);
 
 extern void YM2203_set_volume_0(float volume);
 extern void YM2203_set_volume_1(float volume);
 
 extern void YM2203_AY8910_set_volume_0(float volume);
 extern void YM2203_AY8910_set_volume_1(float volume);
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */
 
 #endif

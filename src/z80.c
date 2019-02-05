@@ -1,80 +1,80 @@
 /*****************************************************************************/
-/* Z80エミュレータ							     */
-/*									     */
+/* Z80エミュレータ                                 */
+/*                                       */
 /*****************************************************************************/
 
 /******************************************************************************
  *
  *    ○参考にしたもの
- *	  fMSX のソース				http://www.komkon.org/fms/
- *	  MAME のソース				http://www.mame.net/
- *	  Z80 CPU User Manual			http://www.zilog.com/
- *	  The Undocumented Z80 Documented	http://www.msxnet.org/tech/
+ *    fMSX のソース             http://www.komkon.org/fms/
+ *    MAME のソース             http://www.mame.net/
+ *    Z80 CPU User Manual           http://www.zilog.com/
+ *    The Undocumented Z80 Documented   http://www.msxnet.org/tech/
  *
  *    ○処理の流れ
  *
- *	  total_state = 0;	この関数を終えるまでに処理したステート数累計
- *	  z80_state_goal = 実行する総ステート数。0で無限
- *				(初期値は引数で与えられるが、この変数は
- *				 グローバル変数なので、外部から値の変更が可能)
- *	  for(;;){	-----------------------------------------------------
- *	    z80_state_intchk = 以下のループにて処理するステート数
- *				(次回割込発生までのステート数 z80->icount か、
- *				 z80_state_goal による残りステート数)
+ *    total_state = 0;  この関数を終えるまでに処理したステート数累計
+ *    z80_state_goal = 実行する総ステート数。0で無限
+ *              (初期値は引数で与えられるが、この変数は
+ *               グローバル変数なので、外部から値の変更が可能)
+ *    for(;;){  -----------------------------------------------------
+ *      z80_state_intchk = 以下のループにて処理するステート数
+ *              (次回割込発生までのステート数 z80->icount か、
+ *               z80_state_goal による残りステート数)
  *
- *	    do{			- - - - - - - - - - - - - - - - - - - - - - -
+ *      do{         - - - - - - - - - - - - - - - - - - - - - - -
  *
- *	      z80->state0 += 命令毎のステート数;
- *	      命令処理();	状況により、ループを抜ける
- *				    [z80_state_intchk = 0 で、ループを抜ける]
- *				    ・割り込み条件が変更された時
- *				    ・EI や不当な命令 (FD/DDが続く場合)   (※1)
- *				    ・PIOアクセスにより、CPUを切り替える時(※2)
- *				    ・メニューモードなどに遷移した時      (※2)
- *				※1 の場合、ループを抜けた直後は割り込みを無視
- *				    [z80->skip_intr_chk = TRUE をセット]
- *				※2 の場合は、この関数からも抜ける。
- *				    [z80_state_goal = 1 で、関数を抜ける]
+ *        z80->state0 += 命令毎のステート数;
+ *        命令処理();   状況により、ループを抜ける
+ *                  [z80_state_intchk = 0 で、ループを抜ける]
+ *                  ・割り込み条件が変更された時
+ *                  ・EI や不当な命令 (FD/DDが続く場合)   (※1)
+ *                  ・PIOアクセスにより、CPUを切り替える時(※2)
+ *                  ・メニューモードなどに遷移した時      (※2)
+ *              ※1 の場合、ループを抜けた直後は割り込みを無視
+ *                  [z80->skip_intr_chk = TRUE をセット]
+ *              ※2 の場合は、この関数からも抜ける。
+ *                  [z80_state_goal = 1 で、関数を抜ける]
  *
- *	    } while( z80->state0 < z80_state_intchk ) - - - - - - - - - - - -
+ *      } while( z80->state0 < z80_state_intchk ) - - - - - - - - - - - -
  *
- *	    (z80->intr_update)(); 割り込み発生の判定
- *				  (この関数の前回呼出〜今回呼出までの間に処理
- *				   したステート数は z80->state0 となる。)
- *				  割込発生時 z80->INT_active = TRUE をセット。
- *				  次回割込発生までのステート数 (z80->icount)
- *				  も合わせて更新しておく。
- *				  メニューモードなどの遷移で、この関数から
- *				  抜ける場合は、 z80_state_goal = 1 をセット。
+ *      (z80->intr_update)(); 割り込み発生の判定
+ *                (この関数の前回呼出〜今回呼出までの間に処理
+ *                 したステート数は z80->state0 となる。)
+ *                割込発生時 z80->INT_active = TRUE をセット。
+ *                次回割込発生までのステート数 (z80->icount)
+ *                も合わせて更新しておく。
+ *                メニューモードなどの遷移で、この関数から
+ *                抜ける場合は、 z80_state_goal = 1 をセット。
  *
- *	    total_state += z80->state0;		実行したステート数の累計更新
- *	    z80->state0  = 0;			実行したステート数クリア
+ *      total_state += z80->state0;     実行したステート数の累計更新
+ *      z80->state0  = 0;           実行したステート数クリア
  *
- *	    if( z80->skip_intr_chk ){		EI命令の直後などは、
- *	      z80->skip_intr_chk = 0;		次回は処理ループを1回で抜けて
- *	      z80->icount = 0;			割り込み発生の判定に進む。
- *	    }else{
- *	      if( z80->IFF==INT_ENABLE &&	割り込みチェックを行う
- *		  z80->INT_active ){
- *	        level = (z80->intr_ack)();	この関数で割込レベルを取得
- *	        if( level >= 0 ){
- *	          割込分岐処理();
- *	          z80->state0 += 割込のステート数;
- *	        }
- *	      }
- *	    }
+ *      if( z80->skip_intr_chk ){       EI命令の直後などは、
+ *        z80->skip_intr_chk = 0;       次回は処理ループを1回で抜けて
+ *        z80->icount = 0;          割り込み発生の判定に進む。
+ *      }else{
+ *        if( z80->IFF==INT_ENABLE &&   割り込みチェックを行う
+ *        z80->INT_active ){
+ *          level = (z80->intr_ack)();  この関数で割込レベルを取得
+ *          if( level >= 0 ){
+ *            割込分岐処理();
+ *            z80->state0 += 割込のステート数;
+ *          }
+ *        }
+ *      }
  *
- *	    if( z80_state_goal ){	指定したステート数実行したら終わり
- *	      if( z80_state_goal <= total_state ) break;
- *	         外部で z80_state_goal = 1 をセットしたら、必ず終わることになる
- *	    }
- *	  }		------------------------------------------------------
+ *      if( z80_state_goal ){   指定したステート数実行したら終わり
+ *        if( z80_state_goal <= total_state ) break;
+ *           外部で z80_state_goal = 1 をセットしたら、必ず終わることになる
+ *      }
+ *    }     ------------------------------------------------------
  *
  *    ○制限
- *	・割り込み応答は、PC-8801 に特化
- *	・モード0割り込みのコード処理は決めうち
- *	・ノンマスカブル割り込みは未サポート
- *	・IN / OUT 命令は、256個分のポートのみサポート
+ *  ・割り込み応答は、PC-8801 に特化
+ *  ・モード0割り込みのコード処理は決めうち
+ *  ・ノンマスカブル割り込みは未サポート
+ *  ・IN / OUT 命令は、256個分のポートのみサポート
  *
  *****************************************************************************/
 
@@ -92,8 +92,8 @@
 #define N_FLAG      (0x02)
 #define C_FLAG      (0x01)
 
-#define ACC		AF.B.h
-#define	FLAG		AF.B.l
+#define ACC     AF.B.h
+#define FLAG        AF.B.l
 
 #define M_C()     (z80->FLAG & C_FLAG)
 #define M_NC()    (!M_C())
@@ -105,38 +105,38 @@
 #define M_PO()    (!M_PE())
 
 
-#define M_FETCH(addr)		(z80->fetch)(addr)
-#define M_RDMEM(addr)		(z80->mem_read)(addr)
-#define M_WRMEM(addr,data)	(z80->mem_write)(addr,data)
-#define M_RDIO(addr)		(z80->io_read)(addr)
-#define M_WRIO(addr,data)	(z80->io_write)(addr,data)
+#define M_FETCH(addr)       (z80->fetch)(addr)
+#define M_RDMEM(addr)       (z80->mem_read)(addr)
+#define M_WRMEM(addr,data)  (z80->mem_write)(addr,data)
+#define M_RDIO(addr)        (z80->io_read)(addr)
+#define M_WRIO(addr,data)   (z80->io_write)(addr,data)
 
 
 
 
 
 /****************************************************************************
- * void	z80_reset( z80arch *z80 )
+ * void z80_reset( z80arch *z80 )
  *
- *	Z80 エミュレータの 構造体(z80arch)を初期化(リセット)する。
- *		PC、I、R レジスタは 0
- *		その他は全て 0xffff
- *		割込禁止、割込モード 0
+ *  Z80 エミュレータの 構造体(z80arch)を初期化(リセット)する。
+ *      PC、I、R レジスタは 0
+ *      その他は全て 0xffff
+ *      割込禁止、割込モード 0
  *
- *	以下の構造体メンバは、呼出側にて初期化
- *		z80->log
- *		z80->break_if_halt
- *		各種関数ポインタ
+ *  以下の構造体メンバは、呼出側にて初期化
+ *      z80->log
+ *      z80->break_if_halt
+ *      各種関数ポインタ
  *****************************************************************************/
-void	z80_reset( z80arch *z80 )
+void    z80_reset( z80arch *z80 )
 {
   z80->AF.W  = z80->BC.W  = z80->DE.W  = z80->HL.W  =0xffff;
   z80->AF1.W = z80->BC1.W = z80->DE1.W = z80->HL1.W =0xffff;
   z80->IX.W  = z80->IY.W  = 0xffff;
 
-  z80->PC.W = 0x0000;	    z80->SP.W = 0xffff;
+  z80->PC.W = 0x0000;       z80->SP.W = 0xffff;
   z80->I    = 0x00;
-  z80->R    = 0x00;	    z80->R_saved = z80->R;
+  z80->R    = 0x00;     z80->R_saved = z80->R;
 
   z80->IFF  = INT_DISABLE;  z80->IFF2 = INT_DISABLE;
   z80->IM   = 0;
@@ -157,271 +157,271 @@ void	z80_reset( z80arch *z80 )
 
 
 /*------------------------------------------------------*/
-/* ローテート／シフト命令のマクロ 			*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*		     ⇔ ⇔ 0  Ｐ 0  ⇔			*/
-/*	            (↑ ↑    ↑        テーブル参照)	*/
+/* ローテート／シフト命令のマクロ            */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*           ⇔ ⇔ 0  Ｐ 0  ⇔          */
+/*              (↑ ↑    ↑        テーブル参照)  */
 /*------------------------------------------------------*/
-#define M_RLC(reg)	do{					\
-			  z80->FLAG = reg>>7;			\
-			  reg = (reg<<1)|z80->FLAG;		\
-			  z80->FLAG |= SZP_table[reg];		\
-			}while(0)
-#define M_RL(reg)       do{					\
-			  if( reg&0x80 ){          		\
-			    reg = (reg<<1)|(z80->FLAG&C_FLAG); 	\
-			    z80->FLAG = SZP_table[reg]|C_FLAG;	\
-			  }else{				\
-			    reg = (reg<<1)|(z80->FLAG&C_FLAG);  \
-			    z80->FLAG = SZP_table[reg];        	\
-			  }					\
-			}while(0)
-#define M_RRC(reg)	do{					\
-			  z80->FLAG = reg&0x01;			\
-			  reg = (reg>>1)|(z80->FLAG<<7);	\
-			  z80->FLAG |= SZP_table[reg];		\
-			}while(0)
-#define M_RR(reg)       do{					\
-			  if( reg&0x01 ){          		\
-			    reg = (reg>>1)|(z80->FLAG<<7);     	\
-			    z80->FLAG = SZP_table[reg]|C_FLAG;	\
-			  }else{				\
-			    reg = (reg>>1)|(z80->FLAG<<7);     	\
-			    z80->FLAG = SZP_table[reg];        	\
-			  }					\
-			}while(0)
-#define M_SLA(reg)	do{					\
-			  z80->FLAG = reg>>7;			\
-			  reg <<= 1;				\
-			  z80->FLAG |= SZP_table[reg];		\
-			}while(0)
-#define M_SRA(reg)	do{					\
-			  z80->FLAG = reg&C_FLAG;		\
-			  reg = (reg>>1)|(reg&0x80);		\
-			  z80->FLAG |= SZP_table[reg];		\
-			}while(0)
-#define M_SLL(reg)	do{					\
-			  z80->FLAG = reg>>7;			\
-			  reg = (reg<<1)|0x01;			\
-			  z80->FLAG |= SZP_table[reg];		\
-			}while(0)
-#define M_SRL(reg)	do{					\
-			  z80->FLAG = reg&0x01;			\
-			  reg >>= 1;				\
-			  z80->FLAG |= SZP_table[reg];		\
-			}while(0)
+#define M_RLC(reg)  do{                 \
+              z80->FLAG = reg>>7;           \
+              reg = (reg<<1)|z80->FLAG;     \
+              z80->FLAG |= SZP_table[reg];      \
+            }while(0)
+#define M_RL(reg)       do{                 \
+              if( reg&0x80 ){               \
+                reg = (reg<<1)|(z80->FLAG&C_FLAG);  \
+                z80->FLAG = SZP_table[reg]|C_FLAG;  \
+              }else{                \
+                reg = (reg<<1)|(z80->FLAG&C_FLAG);  \
+                z80->FLAG = SZP_table[reg];         \
+              }                 \
+            }while(0)
+#define M_RRC(reg)  do{                 \
+              z80->FLAG = reg&0x01;         \
+              reg = (reg>>1)|(z80->FLAG<<7);    \
+              z80->FLAG |= SZP_table[reg];      \
+            }while(0)
+#define M_RR(reg)       do{                 \
+              if( reg&0x01 ){               \
+                reg = (reg>>1)|(z80->FLAG<<7);      \
+                z80->FLAG = SZP_table[reg]|C_FLAG;  \
+              }else{                \
+                reg = (reg>>1)|(z80->FLAG<<7);      \
+                z80->FLAG = SZP_table[reg];         \
+              }                 \
+            }while(0)
+#define M_SLA(reg)  do{                 \
+              z80->FLAG = reg>>7;           \
+              reg <<= 1;                \
+              z80->FLAG |= SZP_table[reg];      \
+            }while(0)
+#define M_SRA(reg)  do{                 \
+              z80->FLAG = reg&C_FLAG;       \
+              reg = (reg>>1)|(reg&0x80);        \
+              z80->FLAG |= SZP_table[reg];      \
+            }while(0)
+#define M_SLL(reg)  do{                 \
+              z80->FLAG = reg>>7;           \
+              reg = (reg<<1)|0x01;          \
+              z80->FLAG |= SZP_table[reg];      \
+            }while(0)
+#define M_SRL(reg)  do{                 \
+              z80->FLAG = reg&0x01;         \
+              reg >>= 1;                \
+              z80->FLAG |= SZP_table[reg];      \
+            }while(0)
 
 /*------------------------------------------------------*/
-/* ビット演算のマクロ					*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(BIT)	     × ⇔ 1  × 0  ・			*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(SET/RES)    ・ ・ ・ ・ ・ ・			*/
-/*							*/
-/*	BIT 7,reg では、サインフラグが変化する。	*/
+/* ビット演算のマクロ                  */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (BIT)        × ⇔ 1  × 0  ・            */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (SET/RES)    ・ ・ ・ ・ ・ ・            */
+/*                          */
+/*  BIT 7,reg では、サインフラグが変化する。 */
 /*------------------------------------------------------*/
-#define M_BIT(bit,reg)	do{						    \
-			  z80->FLAG = (z80->FLAG&~(Z_FLAG|N_FLAG|S_FLAG)) | \
-			              H_FLAG |                              \
-				      ((reg&(1<<bit))?((bit==7)?S_FLAG:0)   \
-				                     :Z_FLAG);              \
-			}while(0)
+#define M_BIT(bit,reg)  do{                         \
+              z80->FLAG = (z80->FLAG&~(Z_FLAG|N_FLAG|S_FLAG)) | \
+                          H_FLAG |                              \
+                      ((reg&(1<<bit))?((bit==7)?S_FLAG:0)   \
+                                     :Z_FLAG);              \
+            }while(0)
 
-#define M_SET(bit,reg)	do{  reg |=   1<<bit;   }while(0)
-#define M_RES(bit,reg)	do{  reg &= ~(1<<bit);  }while(0)
+#define M_SET(bit,reg)  do{  reg |=   1<<bit;   }while(0)
+#define M_RES(bit,reg)  do{  reg &= ~(1<<bit);  }while(0)
 
 /*------------------------------------------------------*/
-/* PUSH/POP/分岐命令のマクロ				*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*		     ・ ・ ・ ・ ・ ・			*/
+/* PUSH/POP/分岐命令のマクロ                */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*           ・ ・ ・ ・ ・ ・            */
 /*------------------------------------------------------*/
-#define M_POP(reg)	do{						\
-			  z80->reg.B.l = M_RDMEM( z80->SP.W++ );	\
-			  z80->reg.B.h = M_RDMEM( z80->SP.W++ );	\
-			}while(0)
-#define M_PUSH(reg)	do{						\
-			  M_WRMEM( --z80->SP.W, z80->reg.B.h );		\
-			  M_WRMEM( --z80->SP.W, z80->reg.B.l );		\
-			}while(0)
-#define M_CALL()	do{						\
-			  J.B.l = M_RDMEM( z80->PC.W++ );		\
-			  J.B.h = M_RDMEM( z80->PC.W++ );		\
-			  M_WRMEM( --z80->SP.W, z80->PC.B.h );		\
-			  M_WRMEM( --z80->SP.W, z80->PC.B.l );		\
-			  z80->PC.W = J.W;				\
-			  z80->state0 += 7;				\
-			}while(0)
-#define M_JP()		do{						\
-			  J.B.l = M_RDMEM( z80->PC.W++ );		\
-			  J.B.h = M_RDMEM( z80->PC.W );			\
-			  z80->PC.W = J.W;				\
-			}while(0)
-#define M_JR()		do{						\
-			  z80->PC.W += (offset)M_RDMEM(z80->PC.W)+1;	\
-			  z80->state0 += 5;				\
-			}while(0)
-#define M_RET()		do{						\
-			  z80->PC.B.l = M_RDMEM( z80->SP.W++ );		\
-			  z80->PC.B.h = M_RDMEM( z80->SP.W++ );		\
-			  z80->state0 += 6;				\
-			}while(0)
-#define M_RST(addr)	do{						\
-			  M_WRMEM( --z80->SP.W, z80->PC.B.h );		\
-			  M_WRMEM( --z80->SP.W, z80->PC.B.l );		\
-			  z80->PC.W = addr;				\
-			}while(0)
+#define M_POP(reg)  do{                     \
+              z80->reg.B.l = M_RDMEM( z80->SP.W++ );    \
+              z80->reg.B.h = M_RDMEM( z80->SP.W++ );    \
+            }while(0)
+#define M_PUSH(reg) do{                     \
+              M_WRMEM( --z80->SP.W, z80->reg.B.h );     \
+              M_WRMEM( --z80->SP.W, z80->reg.B.l );     \
+            }while(0)
+#define M_CALL()    do{                     \
+              J.B.l = M_RDMEM( z80->PC.W++ );       \
+              J.B.h = M_RDMEM( z80->PC.W++ );       \
+              M_WRMEM( --z80->SP.W, z80->PC.B.h );      \
+              M_WRMEM( --z80->SP.W, z80->PC.B.l );      \
+              z80->PC.W = J.W;              \
+              z80->state0 += 7;             \
+            }while(0)
+#define M_JP()      do{                     \
+              J.B.l = M_RDMEM( z80->PC.W++ );       \
+              J.B.h = M_RDMEM( z80->PC.W );         \
+              z80->PC.W = J.W;              \
+            }while(0)
+#define M_JR()      do{                     \
+              z80->PC.W += (offset)M_RDMEM(z80->PC.W)+1;    \
+              z80->state0 += 5;             \
+            }while(0)
+#define M_RET()     do{                     \
+              z80->PC.B.l = M_RDMEM( z80->SP.W++ );     \
+              z80->PC.B.h = M_RDMEM( z80->SP.W++ );     \
+              z80->state0 += 6;             \
+            }while(0)
+#define M_RST(addr) do{                     \
+              M_WRMEM( --z80->SP.W, z80->PC.B.h );      \
+              M_WRMEM( --z80->SP.W, z80->PC.B.l );      \
+              z80->PC.W = addr;             \
+            }while(0)
 
 
-#define M_CALL_SKIP()	do{ z80->PC.W += 2; }while(0)
+#define M_CALL_SKIP()   do{ z80->PC.W += 2; }while(0)
 #define M_JP_SKIP()     do{ z80->PC.W += 2; }while(0)
 #define M_JR_SKIP()     do{ z80->PC.W ++;   }while(0)
 #define M_RET_SKIP()    do{                 }while(0)
 
 /*------------------------------------------------------*/
-/* 16ビットロード命令のマクロ				*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*		     ・ ・ ・ ・ ・ ・			*/
+/* 16ビットロード命令のマクロ               */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*           ・ ・ ・ ・ ・ ・            */
 /*------------------------------------------------------*/
-#define M_LDWORD(reg)	do{						\
-			  z80->reg.B.l = M_RDMEM( z80->PC.W++ );	\
-			  z80->reg.B.h = M_RDMEM( z80->PC.W++ );	\
-			}while(0)
+#define M_LDWORD(reg)   do{                     \
+              z80->reg.B.l = M_RDMEM( z80->PC.W++ );    \
+              z80->reg.B.h = M_RDMEM( z80->PC.W++ );    \
+            }while(0)
 
 /*------------------------------------------------------*/
-/* 8ビット算術演算命令のマクロ				*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*		     ⇔ ⇔ ⇔ Ｖ ⇔ ⇔			*/
-/*	            (↑ ↑              テーブル参照)	*/
+/* 8ビット算術演算命令のマクロ             */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*           ⇔ ⇔ ⇔ Ｖ ⇔ ⇔            */
+/*              (↑ ↑              テーブル参照)   */
 /*------------------------------------------------------*/
-#define M_ADD_A(reg)	do{						     \
-			  J.W = z80->ACC+reg;				     \
-			  z80->FLAG =					     \
-			   SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
-			   (~(z80->ACC^reg)&(reg^J.B.l)&0x80? V_FLAG:0) |    \
-			   J.B.h;					     \
-			  z80->ACC = J.B.l;				     \
-			}while(0)
-#define M_ADC_A(reg)	do{						     \
-			  J.W = z80->ACC +reg +(z80->FLAG&C_FLAG);	     \
-			  z80->FLAG =					     \
-			   SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
-			   (~(z80->ACC^reg)&(reg^J.B.l)&0x80? V_FLAG:0) |    \
-			   J.B.h;					     \
-			  z80->ACC = J.B.l;				     \
-			}while(0)
-#define M_SUB(reg)	do{						     \
-			  J.W = z80->ACC-reg;				     \
-			  z80->FLAG =					     \
-			   SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
-			   ((z80->ACC^reg)&(z80->ACC^J.B.l)&0x80? V_FLAG:0)| \
-			   N_FLAG | -J.B.h;				     \
-			  z80->ACC = J.B.l;				     \
-			}while(0)
-#define M_SBC_A(reg)	do{						     \
-			  J.W = z80->ACC-reg-(z80->FLAG&C_FLAG);	     \
-			  z80->FLAG =					     \
-			   SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
-			   ((z80->ACC^reg)&(z80->ACC^J.B.l)&0x80? V_FLAG:0)| \
-			   N_FLAG | -J.B.h;				     \
-			  z80->ACC = J.B.l;				     \
-			}while(0)
-#define M_CP(reg)	do{						     \
-			  J.W = z80->ACC-reg;				     \
-			  z80->FLAG =					     \
-			   SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
-			   ((z80->ACC^reg)&(z80->ACC^J.B.l)&0x80? V_FLAG:0)| \
-			   N_FLAG | -J.B.h;				     \
-			}while(0)
-#define M_INC(reg)	do{						     \
-			  reg++;					     \
-			  z80->FLAG =					     \
-			   SZ_table[reg] | (reg&0x0f? 0:H_FLAG) |	     \
-			   (reg==0x80? V_FLAG:0) | (z80->FLAG&C_FLAG);	     \
-			}while(0)
-#define M_DEC(reg)	do{						     \
-			  reg--;					     \
-			  z80->FLAG =					     \
-			   SZ_table[reg] | ((reg&0x0f)==0x0f? H_FLAG:0) |    \
-			   (reg==0x7f? V_FLAG:0)| N_FLAG |(z80->FLAG&C_FLAG);\
-			}while(0)
+#define M_ADD_A(reg)    do{                          \
+              J.W = z80->ACC+reg;                    \
+              z80->FLAG =                        \
+               SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
+               (~(z80->ACC^reg)&(reg^J.B.l)&0x80? V_FLAG:0) |    \
+               J.B.h;                        \
+              z80->ACC = J.B.l;                  \
+            }while(0)
+#define M_ADC_A(reg)    do{                          \
+              J.W = z80->ACC +reg +(z80->FLAG&C_FLAG);       \
+              z80->FLAG =                        \
+               SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
+               (~(z80->ACC^reg)&(reg^J.B.l)&0x80? V_FLAG:0) |    \
+               J.B.h;                        \
+              z80->ACC = J.B.l;                  \
+            }while(0)
+#define M_SUB(reg)  do{                          \
+              J.W = z80->ACC-reg;                    \
+              z80->FLAG =                        \
+               SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
+               ((z80->ACC^reg)&(z80->ACC^J.B.l)&0x80? V_FLAG:0)| \
+               N_FLAG | -J.B.h;                  \
+              z80->ACC = J.B.l;                  \
+            }while(0)
+#define M_SBC_A(reg)    do{                          \
+              J.W = z80->ACC-reg-(z80->FLAG&C_FLAG);         \
+              z80->FLAG =                        \
+               SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
+               ((z80->ACC^reg)&(z80->ACC^J.B.l)&0x80? V_FLAG:0)| \
+               N_FLAG | -J.B.h;                  \
+              z80->ACC = J.B.l;                  \
+            }while(0)
+#define M_CP(reg)   do{                          \
+              J.W = z80->ACC-reg;                    \
+              z80->FLAG =                        \
+               SZ_table[J.B.l] | ((z80->ACC^reg^J.B.l)&H_FLAG) | \
+               ((z80->ACC^reg)&(z80->ACC^J.B.l)&0x80? V_FLAG:0)| \
+               N_FLAG | -J.B.h;                  \
+            }while(0)
+#define M_INC(reg)  do{                          \
+              reg++;                         \
+              z80->FLAG =                        \
+               SZ_table[reg] | (reg&0x0f? 0:H_FLAG) |        \
+               (reg==0x80? V_FLAG:0) | (z80->FLAG&C_FLAG);       \
+            }while(0)
+#define M_DEC(reg)  do{                          \
+              reg--;                         \
+              z80->FLAG =                        \
+               SZ_table[reg] | ((reg&0x0f)==0x0f? H_FLAG:0) |    \
+               (reg==0x7f? V_FLAG:0)| N_FLAG |(z80->FLAG&C_FLAG);\
+            }while(0)
 
 /*------------------------------------------------------*/
-/* 8ビット論理命令のマクロ				*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(AND)	     ⇔ ⇔ 1  Ｐ 0  0			*/
-/*	            (↑ ↑    ↑        テーブル参照)	*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(OR/XOR)     ⇔ ⇔ 0  Ｐ 0  0			*/
-/*	            (↑ ↑    ↑        テーブル参照)	*/
+/* 8ビット論理命令のマクロ               */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (AND)        ⇔ ⇔ 1  Ｐ 0  0            */
+/*              (↑ ↑    ↑        テーブル参照)  */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (OR/XOR)     ⇔ ⇔ 0  Ｐ 0  0            */
+/*              (↑ ↑    ↑        テーブル参照)  */
 /*------------------------------------------------------*/
-#define M_AND(reg)	do{						\
-			  z80->ACC &= reg;				\
-			  z80->FLAG = SZP_table[z80->ACC]|H_FLAG;	\
-			}while(0)
-#define M_OR(reg)	do{						\
-			  z80->ACC |= reg;				\
-			  z80->FLAG = SZP_table[z80->ACC];		\
-			}while(0)
-#define M_XOR(reg)	do{						\
-			  z80->ACC ^= reg;				\
-			  z80->FLAG = SZP_table[z80->ACC];		\
-			}while(0)
+#define M_AND(reg)  do{                     \
+              z80->ACC &= reg;              \
+              z80->FLAG = SZP_table[z80->ACC]|H_FLAG;   \
+            }while(0)
+#define M_OR(reg)   do{                     \
+              z80->ACC |= reg;              \
+              z80->FLAG = SZP_table[z80->ACC];      \
+            }while(0)
+#define M_XOR(reg)  do{                     \
+              z80->ACC ^= reg;              \
+              z80->FLAG = SZP_table[z80->ACC];      \
+            }while(0)
 
 /*------------------------------------------------------*/
-/* 入出力命令のマクロ					*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(IN)	     ⇔ ⇔ 0  Ｐ 0  ・			*/
-/*	            (↑ ↑    ↑        テーブル参照)	*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(OUT)	     ・ ・ ・ ・ ・ ・			*/
+/* 入出力命令のマクロ                  */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (IN)         ⇔ ⇔ 0  Ｐ 0  ・          */
+/*              (↑ ↑    ↑        テーブル参照)  */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (OUT)        ・ ・ ・ ・ ・ ・            */
 /*------------------------------------------------------*/
-#define M_IN_C(reg)	do{						\
-			  I = M_RDIO( z80->BC.B.l );			\
-			  reg = I;					\
-			  z80->FLAG = SZP_table[reg]|(z80->FLAG&C_FLAG);\
-			}while(0)
+#define M_IN_C(reg) do{                     \
+              I = M_RDIO( z80->BC.B.l );            \
+              reg = I;                  \
+              z80->FLAG = SZP_table[reg]|(z80->FLAG&C_FLAG);\
+            }while(0)
 
-#define M_OUT_C(reg)	do{						\
-			  M_WRIO( z80->BC.B.l, reg );			\
-			}while(0)
+#define M_OUT_C(reg)    do{                     \
+              M_WRIO( z80->BC.B.l, reg );           \
+            }while(0)
 
 
 /*------------------------------------------------------*/
-/* 16ビット算術演算命令のマクロ				*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(ADD)	     ・ ・ × ・ 0  ⇔			*/
-/*	フラグ変化 : S  Z  H  PV N  C			*/
-/*	(ADC/SBC)    ⇔ ⇔ × Ｖ ⇔ ⇔			*/
+/* 16ビット算術演算命令のマクロ                */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (ADD)        ・ ・ × ・ 0  ⇔          */
+/*  フラグ変化 : S  Z  H  PV N  C          */
+/*  (ADC/SBC)    ⇔ ⇔ × Ｖ ⇔ ⇔         */
 /*------------------------------------------------------*/
-#define M_ADDW(reg1,reg2)	do{					      \
-				  J.W = (reg1+reg2)&0xffff;		      \
-				  z80->FLAG =				      \
-				   (z80->FLAG&~(H_FLAG|N_FLAG|C_FLAG))|	      \
-				   ((reg1^reg2^J.W)&0x1000? H_FLAG:0) |       \
-				   (((long)reg1+(long)reg2)&0x10000?C_FLAG:0);\
-				  reg1 = J.W;				      \
-				}while(0)
-#define M_ADCW(reg)  do{						      \
-		       I = z80->FLAG&C_FLAG;				      \
-		       J.W = (z80->HL.W+reg+I)&0xffff;			      \
-		       z80->FLAG = 					      \
-		       (J.B.h&S_FLAG) | (J.W? 0:Z_FLAG) |		      \
-		       ((z80->HL.W^reg^J.W)&0x1000? H_FLAG:0)        |        \
-		       (~(z80->HL.W^reg)&(reg^J.W)&0x8000? V_FLAG:0) |        \
-		       (((long)z80->HL.W+(long)reg+(long)I)&0x10000?C_FLAG:0);\
-		       z80->HL.W = J.W;					      \
-		     }while(0)
-#define M_SBCW(reg)  do{						      \
-		       I = z80->FLAG&C_FLAG;				      \
-		       J.W = (z80->HL.W-reg-I)&0xffff;			      \
-		       z80->FLAG =					      \
-		       (J.B.h&S_FLAG) | (J.W? 0:Z_FLAG) |		      \
-		       ((z80->HL.W^reg^J.W)&0x1000? H_FLAG:0)            |\
-		       ((z80->HL.W^reg)&(z80->HL.W^J.W)&0x8000? V_FLAG:0)|\
-		       N_FLAG |					\
-		       (((long)z80->HL.W-(long)reg-(long)I)&0x10000?C_FLAG:0);\
-		       z80->HL.W = J.W;				      \
-		     }while(0)
+#define M_ADDW(reg1,reg2)   do{                       \
+                  J.W = (reg1+reg2)&0xffff;           \
+                  z80->FLAG =                     \
+                   (z80->FLAG&~(H_FLAG|N_FLAG|C_FLAG))|       \
+                   ((reg1^reg2^J.W)&0x1000? H_FLAG:0) |       \
+                   (((long)reg1+(long)reg2)&0x10000?C_FLAG:0);\
+                  reg1 = J.W;                     \
+                }while(0)
+#define M_ADCW(reg)  do{                              \
+               I = z80->FLAG&C_FLAG;                      \
+               J.W = (z80->HL.W+reg+I)&0xffff;                \
+               z80->FLAG =                        \
+               (J.B.h&S_FLAG) | (J.W? 0:Z_FLAG) |             \
+               ((z80->HL.W^reg^J.W)&0x1000? H_FLAG:0)        |        \
+               (~(z80->HL.W^reg)&(reg^J.W)&0x8000? V_FLAG:0) |        \
+               (((long)z80->HL.W+(long)reg+(long)I)&0x10000?C_FLAG:0);\
+               z80->HL.W = J.W;                       \
+             }while(0)
+#define M_SBCW(reg)  do{                              \
+               I = z80->FLAG&C_FLAG;                      \
+               J.W = (z80->HL.W-reg-I)&0xffff;                \
+               z80->FLAG =                        \
+               (J.B.h&S_FLAG) | (J.W? 0:Z_FLAG) |             \
+               ((z80->HL.W^reg^J.W)&0x1000? H_FLAG:0)            |\
+               ((z80->HL.W^reg)&(z80->HL.W^J.W)&0x8000? V_FLAG:0)|\
+               N_FLAG |                 \
+               (((long)z80->HL.W-(long)reg-(long)I)&0x10000?C_FLAG:0);\
+               z80->HL.W = J.W;                   \
+             }while(0)
 
 
 
@@ -547,50 +547,50 @@ enum CodesED
 
 /*---------------------------------------------------------------------------*/
 
-INLINE	void	z80_code_CB( z80arch *z80 )
+INLINE  void    z80_code_CB( z80arch *z80 )
 {
-  int	opcode;
-  byte	I;
+  int   opcode;
+  byte  I;
 
   opcode = M_FETCH( z80->PC.W++ );
   z80->R ++;
   z80->state0 += state_CB_table[ opcode ];
 
   switch( opcode ){
-#include "z80-codeCB.h"				/* CB XX */
-  default:					/* CB ?? */
+#include "z80-codeCB.h"             /* CB XX */
+  default:                  /* CB ?? */
     printf("!! Internal Error in Z80-Emulator !!\n");
     printf("  PC = %04X : code = CB %02X\n", z80->PC.W-2, opcode );
   }
 }
 
 
-INLINE	void	z80_code_ED( z80arch *z80 )
+INLINE  void    z80_code_ED( z80arch *z80 )
 {
-  int	opcode;
-  byte	I;
-  pair	J;
+  int   opcode;
+  byte  I;
+  pair  J;
 
   opcode = M_FETCH( z80->PC.W++ );
   z80->R ++;
   z80->state0 += state_ED_table[ opcode ];
 
   switch( opcode ){
-#include "z80-codeED.h"				/* ED XX */
-  default:					/* ED ?? */
+#include "z80-codeED.h"             /* ED XX */
+  default:                  /* ED ?? */
     if( verbose_z80 )
       printf( "Unrecognized instruction: ED %02X at PC=%04X\n",
-	      M_RDMEM(z80->PC.W-1), z80->PC.W-2 );
-    z80->state0 += 8;	/* ED ?? == NOP NOP */
+          M_RDMEM(z80->PC.W-1), z80->PC.W-2 );
+    z80->state0 += 8;   /* ED ?? == NOP NOP */
   }
 }
 
 
-INLINE	void	z80_code_DD( z80arch *z80 )
+INLINE  void    z80_code_DD( z80arch *z80 )
 {
-  int	opcode;
-  byte	I;
-  pair	J;
+  int   opcode;
+  byte  I;
+  pair  J;
 
   opcode = M_FETCH( z80->PC.W++ );
   z80->R ++;
@@ -599,27 +599,27 @@ INLINE	void	z80_code_DD( z80arch *z80 )
 #define XX IX
 
   switch( opcode ){
-#include "z80-codeXX.h"				/* DD XX */
-  case PFX_CB:					/* DD CB の場合 */
+#include "z80-codeXX.h"             /* DD XX */
+  case PFX_CB:                  /* DD CB の場合 */
     J.W = z80->XX.W +(offset)M_RDMEM( z80->PC.W++ );
     opcode = M_FETCH( z80->PC.W++ );
     z80->state0 += state_XXCB_table[ opcode ];
     switch( opcode ){
-#include "z80-codeXXCB.h"			/* DD CB XX XX */
-    default:					/* DD CB ?? ?? */
+#include "z80-codeXXCB.h"           /* DD CB XX XX */
+    default:                    /* DD CB ?? ?? */
       printf("!! Internal Error in Z80-Emulator !!\n");
       printf("  PC = %04x : code = DD CB %02X %02X\n", z80->PC.W-4,
-	     M_RDMEM(z80->PC.W-2), M_RDMEM(z80->PC.W-1) );
+         M_RDMEM(z80->PC.W-2), M_RDMEM(z80->PC.W-1) );
     }
     break;
-  default:					/* DD ?? */
+  default:                  /* DD ?? */
     if( verbose_z80 )
       printf( "Unrecognized instruction: DD %02X at PC=%04X\n",
-	      M_RDMEM(z80->PC.W-1), z80->PC.W-2 );
+          M_RDMEM(z80->PC.W-1), z80->PC.W-2 );
     z80->PC.W --;
-    z80->R --;					/* ?? の位置にPCを戻す */
-    z80->state0 += 4;				/* DD == NOP */
-    z80->skip_intr_chk = TRUE;			/* 割り込み判定なし    */
+    z80->R --;                  /* ?? の位置にPCを戻す */
+    z80->state0 += 4;               /* DD == NOP */
+    z80->skip_intr_chk = TRUE;          /* 割り込み判定なし    */
     z80_state_intchk = 0;
     break;
   }
@@ -627,11 +627,11 @@ INLINE	void	z80_code_DD( z80arch *z80 )
 }
 
 
-INLINE	void	z80_code_FD( z80arch *z80 )
+INLINE  void    z80_code_FD( z80arch *z80 )
 {
-  int	opcode;
-  byte	I;
-  pair	J;
+  int   opcode;
+  byte  I;
+  pair  J;
 
   opcode = M_FETCH( z80->PC.W++ );
   z80->R ++;
@@ -640,27 +640,27 @@ INLINE	void	z80_code_FD( z80arch *z80 )
 #define XX IY
 
   switch( opcode ){
-#include "z80-codeXX.h"				/* FD XX */
-  case PFX_CB:					/* FD CB の場合 */
+#include "z80-codeXX.h"             /* FD XX */
+  case PFX_CB:                  /* FD CB の場合 */
     J.W = z80->XX.W +(offset)M_RDMEM( z80->PC.W++ );
     opcode = M_FETCH( z80->PC.W++ );
     z80->state0 += state_XXCB_table[ opcode ];
     switch( opcode ){
-#include "z80-codeXXCB.h"			/* FD CB XX XX */
-    default:					/* FD CB ?? ?? */
+#include "z80-codeXXCB.h"           /* FD CB XX XX */
+    default:                    /* FD CB ?? ?? */
       printf("!! Internal Error in Z80-Emulator !!\n");
       printf("  PC = %04x : code = FD CB %02X %02X\n", z80->PC.W-4,
-	     M_RDMEM(z80->PC.W-2), M_RDMEM(z80->PC.W-1) );
+         M_RDMEM(z80->PC.W-2), M_RDMEM(z80->PC.W-1) );
     }
     break;
-  default:					/* FD ?? */
+  default:                  /* FD ?? */
     if( verbose_z80 )
       printf( "Unrecognized instruction: FD %02X at PC=%04X\n",
-	      M_RDMEM(z80->PC.W-1), z80->PC.W-2 );
+          M_RDMEM(z80->PC.W-1), z80->PC.W-2 );
     z80->PC.W --;
-    z80->R --;					/* ?? の位置にPCを戻す */
-    z80->state0 += 4;				/* FD == NOP */
-    z80->skip_intr_chk = TRUE;			/* 割り込み判定なし    */
+    z80->R --;                  /* ?? の位置にPCを戻す */
+    z80->state0 += 4;               /* FD == NOP */
+    z80->skip_intr_chk = TRUE;          /* 割り込み判定なし    */
     z80_state_intchk = 0;
     break;
   }
@@ -670,35 +670,35 @@ INLINE	void	z80_code_FD( z80arch *z80 )
 
 
 
-static	int	z80_im0_interrupt( z80arch *z80, int level )
+static  int z80_im0_interrupt( z80arch *z80, int level )
 {
-  int	state;
-  pair	J;
+  int   state;
+  pair  J;
 
   state = state_table[ level ];
 
   switch( level ){
-  case 0:						/* NOP       */
+  case 0:                       /* NOP       */
     break;
-  case 1:						/* LD (BC),A */
+  case 1:                       /* LD (BC),A */
     M_WRMEM(z80->BC.W,z80->ACC);
     break;
-  case 2:						/* INC B     */
+  case 2:                       /* INC B     */
     M_INC(z80->BC.B.h);
     break;
-  case 3:						/* LD B,n    */
+  case 3:                       /* LD B,n    */
     z80->BC.B.h=M_RDMEM(z80->PC.W++);
     break;
-  case 4:						/* EX AF,AF' */
+  case 4:                       /* EX AF,AF' */
     J.W=z80->AF.W; z80->AF.W=z80->AF1.W; z80->AF1.W=J.W;
     break;
-  case 5:						/* LD A,(BC) */
+  case 5:                       /* LD A,(BC) */
     z80->ACC=M_RDMEM(z80->BC.W);
     break;
-  case 6:						/* INC C     */
+  case 6:                       /* INC C     */
     M_INC(z80->BC.B.l);
     break;
-  case 7:						/* LD C,n    */
+  case 7:                       /* LD C,n    */
     z80->BC.B.l=M_RDMEM(z80->PC.W++); 
     break;
   default:
@@ -711,30 +711,30 @@ static	int	z80_im0_interrupt( z80arch *z80, int level )
 }
 
 
-INLINE	void	z80_interrupt( z80arch *z80 )
+INLINE  void    z80_interrupt( z80arch *z80 )
 {
   int level;
 
   level = (z80->intr_ack)();
   if( level >= 0 ){
-    z80->IFF = INT_DISABLE;			/* 割り込み禁止 */
-    z80->R ++;					/* 割り込み応答サイクル */
+    z80->IFF = INT_DISABLE;         /* 割り込み禁止 */
+    z80->R ++;                  /* 割り込み応答サイクル */
     z80->state0 += 2;
 
-    if( z80->HALT ){				/* HALT 状態解除 */
+    if( z80->HALT ){                /* HALT 状態解除 */
       z80->HALT = FALSE;
       z80->PC.W ++;
     }
 
-    switch( z80->IM ){				/* 割り込み分岐処理 */
-    case 0:					/*		IM 0 の時 */
+    switch( z80->IM ){              /* 割り込み分岐処理 */
+    case 0:                 /*      IM 0 の時 */
       z80->state0 += z80_im0_interrupt( z80, level );
       break;
-    case 1:					/*		IM 1 の時 */
+    case 1:                 /*      IM 1 の時 */
       z80->state0 += state_table[ RST38 ];
       M_RST(0x0038);
       break;
-    case 2:					/*		IM 2 の時 */
+    case 2:                 /*      IM 2 の時 */
       M_PUSH(PC);
       level = ((word)z80->I << 8) | (level << 1);
       z80->PC.B.l = M_RDMEM( level++ );
@@ -750,132 +750,132 @@ INLINE	void	z80_interrupt( z80arch *z80 )
 /****************************************************************************
  * int z80_emu( z80arch *z80, int state_of_exec )
  *
- *	引数 *z80          … z80arch ワークのポインタ
- *	     state_of_exec … 処理すべきステート数
- *			      ==0 の時は、無限に処理を行なう。
- *			      > 0 の時は、そのステート数分処理を行なう。
- *		state_of_exec==0 の場合でも、CPU_BREAKOFF() が呼び出されたら
- *		その時点で処理を終了する。
+ *  引数 *z80          … z80arch ワークのポインタ
+ *       state_of_exec … 処理すべきステート数
+ *                ==0 の時は、無限に処理を行なう。
+ *                > 0 の時は、そのステート数分処理を行なう。
+ *      state_of_exec==0 の場合でも、CPU_BREAKOFF() が呼び出されたら
+ *      その時点で処理を終了する。
  *
- *	戻値	… 実際に処理した総ステート数
+ *  戻値  … 実際に処理した総ステート数
  *
  *****************************************************************************/
 
-/* 以下のワークは、外部から変更されるのでグローバル変数としている。	*/
-/* 外部からの変更は、(多分) 現在処理中の CPUに対してのみなされるハズ	*/
-/* なので、z80arch 構造体には含めないことにする。			*/
+/* 以下のワークは、外部から変更されるのでグローバル変数としている。 */
+/* 外部からの変更は、(多分) 現在処理中の CPUに対してのみなされるハズ   */
+/* なので、z80arch 構造体には含めないことにする。            */
 
-int	z80_state_goal;		/* このstate数分、処理を繰り返す(0で無限) */
-int	z80_state_intchk;	/* このstate数実行後、割込判定する	  */
+int z80_state_goal;     /* このstate数分、処理を繰り返す(0で無限) */
+int z80_state_intchk;   /* このstate数実行後、割込判定する   */
 
 
-int	z80_emu( z80arch *z80, int state_of_exec )
+int z80_emu( z80arch *z80, int state_of_exec )
 {
-  int	opcode, istate = 0;
-  byte	I;
-  pair	J;
-  int	total_state    = 0;	/* 関数終了時までに、処理したステート数	     */
+  int   opcode, istate = 0;
+  byte  I;
+  pair  J;
+  int   total_state    = 0; /* 関数終了時までに、処理したステート数        */
 
 
   z80_state_goal = state_of_exec;
 
   for( ;; ){
 
-	/* ==== CPU実行state数を決める (通常は次割込発生タイミング) ==== */
+    /* ==== CPU実行state数を決める (通常は次割込発生タイミング) ==== */
 
-    if( z80_state_goal ){				/* state数指定時 */
+    if( z80_state_goal ){               /* state数指定時 */
       z80_state_intchk = MIN( z80->icount, z80_state_goal - total_state );
     }
-    else{						/* 無限指定時    */
+    else{                       /* 無限指定時    */
       z80_state_intchk = z80->icount;
     }
 
 
-	/* ============ 先ほど決めた state数分、実行する ============ */
+    /* ============ 先ほど決めた state数分、実行する ============ */
 
     do{
 
-#ifdef	DEBUGLOG
-      if( z80->log ) z80_logging( z80 );	/* ログを記録 */
+#ifdef  DEBUGLOG
+      if( z80->log ) z80_logging( z80 );    /* ログを記録 */
 #endif
 
-#ifdef	USE_MONITOR
-      z80->PC_prev = z80->PC;			/* 直前のものを記憶 */
+#ifdef  USE_MONITOR
+      z80->PC_prev = z80->PC;           /* 直前のものを記憶 */
 #endif
 
-      opcode = M_FETCH(z80->PC.W++);		/* 命令フェッチ */
+      opcode = M_FETCH(z80->PC.W++);        /* 命令フェッチ */
       z80->R ++;
       z80->state0 += state_table[ opcode ];
 
-      switch( opcode ){				/* 命令デコード */
+      switch( opcode ){             /* 命令デコード */
 
-      #include "z80-code.h"			    /* 通常命令の場合 */
+      #include "z80-code.h"             /* 通常命令の場合 */
 
-      case PFX_CB:  z80_code_CB( z80 );  break;	    /* CB 命令の場合 */
+      case PFX_CB:  z80_code_CB( z80 );  break;     /* CB 命令の場合 */
 
-      case PFX_ED:  z80_code_ED( z80 );  break;	    /* ED 命令の場合 */
+      case PFX_ED:  z80_code_ED( z80 );  break;     /* ED 命令の場合 */
 
-      case PFX_DD:  z80_code_DD( z80 );  break;	    /* DD 命令の場合 */
+      case PFX_DD:  z80_code_DD( z80 );  break;     /* DD 命令の場合 */
 
-      case PFX_FD:  z80_code_FD( z80 );  break;	    /* FD 命令の場合 */
+      case PFX_FD:  z80_code_FD( z80 );  break;     /* FD 命令の場合 */
 
-      default:					    /* あり得ないハズ */
-	printf("!! Internal Error in Z80-Emulator !!\n");
-	printf("  PC = %04X : code = %02X\n", z80->PC.W-1, opcode );
+      default:                      /* あり得ないハズ */
+    printf("!! Internal Error in Z80-Emulator !!\n");
+    printf("  PC = %04X : code = %02X\n", z80->PC.W-1, opcode );
       }
 
     } while( z80->state0 < z80_state_intchk );
 
-	/* ===================== 割込を更新する ====================== */
+    /* ===================== 割込を更新する ====================== */
 
-    /* 割り込み発生を判定する関数を呼び出す。				*/
-    /*									*/
-    /*  呼び出される関数側の注意点：					*/
-    /*	    z80->state0 が CPUが処理した時間なのでこれを元に判定する。	*/
-    /*      (z80->icountは壊されているかもしれないので、あてにしない)	*/
-    /*      割込発生時は、 z80->INT_active = TRUE をセットする。	*/
-    /*      z80->icount の更新もこの関数にて行う。			*/
-    /*      メニュー等への遷移時は、 CPU_BREAKOFF() で処理を終える。	*/
+    /* 割り込み発生を判定する関数を呼び出す。                */
+    /*                                  */
+    /*  呼び出される関数側の注意点：                  */
+    /*      z80->state0 が CPUが処理した時間なのでこれを元に判定する。 */
+    /*      (z80->icountは壊されているかもしれないので、あてにしない) */
+    /*      割込発生時は、 z80->INT_active = TRUE をセットする。  */
+    /*      z80->icount の更新もこの関数にて行う。         */
+    /*      メニュー等への遷移時は、 CPU_BREAKOFF() で処理を終える。    */
 
     (z80->intr_update)();
 
-    total_state += z80->state0;		/* 処理した state 数の累計 */
+    total_state += z80->state0;     /* 処理した state 数の累計 */
     z80->state0  = 0;
 
-	/* ======== 割込発生チェックし、発生していたら応答する ======== */
+    /* ======== 割込発生チェックし、発生していたら応答する ======== */
 
-    if( z80->skip_intr_chk ){	/* 割込応答しない場合 (EI,DD/FD不当命令直後)*/
+    if( z80->skip_intr_chk ){   /* 割込応答しない場合 (EI,DD/FD不当命令直後)*/
       z80->skip_intr_chk = FALSE;
 
-      if( z80->IFF==INT_ENABLE &&	    /* 割込をとりこぼしてたら  */
-	  z80->INT_active ){		    /* 直後に割込応答するため、*/
-	z80->icount = 0;		    /* 次回は 1stepだけ実行    */
+      if( z80->IFF==INT_ENABLE &&       /* 割込をとりこぼしてたら  */
+      z80->INT_active ){            /* 直後に割込応答するため、*/
+    z80->icount = 0;            /* 次回は 1stepだけ実行    */
       }
     }
-    else{			/* 通常は、割込応答するので、こっち */
+    else{           /* 通常は、割込応答するので、こっち */
 
-      if( z80->IFF==INT_ENABLE &&	    /* 割込許可かつ割込発生あり */
-	  z80->INT_active ){
+      if( z80->IFF==INT_ENABLE &&       /* 割込許可かつ割込発生あり */
+      z80->INT_active ){
 
-	z80_interrupt( z80 );
+    z80_interrupt( z80 );
 
-	/* 割り込みを受け付けると、その処理分 z80->state0 が増加するが、
-	   これはまだ total_state には反映されていないので、注意！  */
+    /* 割り込みを受け付けると、その処理分 z80->state0 が増加するが、
+       これはまだ total_state には反映されていないので、注意！  */
       }
     }
 
-	/* ========================== 終了判定 ======================= */
+    /* ========================== 終了判定 ======================= */
 
-    if( z80_state_goal ){	/* 実行state数指定時は、ここで終了判定 */
+    if( z80_state_goal ){   /* 実行state数指定時は、ここで終了判定 */
       if( (unsigned int)z80_state_goal <= (unsigned int)total_state ) break;
 
-      /* 注意：	指定state数実行した直後に割り込み応答した場合、この応答
-		に要した state 数は z80->state0 には反映されているが、
-		total_state には反映されていない。よって、ここでの戻り値は
-		z80->state0 だけ少ない値になる。この値は、次回 z80_emu を
-		呼び出された時に加算されているので、まあよしとしよう。*/
+      /* 注意：  指定state数実行した直後に割り込み応答した場合、この応答
+        に要した state 数は z80->state0 には反映されているが、
+        total_state には反映されていない。よって、ここでの戻り値は
+        z80->state0 だけ少ない値になる。この値は、次回 z80_emu を
+        呼び出された時に加算されているので、まあよしとしよう。*/
     }
   }
 
-  return	total_state;
+  return    total_state;
 }

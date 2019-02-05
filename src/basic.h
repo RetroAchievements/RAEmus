@@ -8,4 +8,4 @@ int basic_load_intermediate_code(FILE *fp);
 int basic_decode_list(FILE *fp);
 int basic_save_intermediate_code(FILE *fp);
 
-#endif	/* BASIC_H_INCLUDED */
+#endif  /* BASIC_H_INCLUDED */

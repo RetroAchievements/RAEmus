@@ -20,15 +20,15 @@
 typedef struct _callback_item callback_item;
 struct _callback_item
 {
-	callback_item *	next;
-	void			(*free_resources)(void);
+    callback_item * next;
+    void            (*free_resources)(void);
 };
 
 typedef struct _malloc_entry malloc_entry;
 struct _malloc_entry
 {
-	void *memory;
-	size_t size;
+    void *memory;
+    size_t size;
 };
 
 
@@ -61,30 +61,30 @@ static callback_item *free_resources_callback_list;
 
 void *_malloc_or_die(size_t size, const char *file, int line)
 {
-	void *result;
+    void *result;
 
-	/* fail on attempted allocations of 0 */
-	if (size == 0)
-		fatalerror("Attempted to malloc zero bytes (%s:%d)", file, line);
+    /* fail on attempted allocations of 0 */
+    if (size == 0)
+        fatalerror("Attempted to malloc zero bytes (%s:%d)", file, line);
 
-	/* allocate and return if we succeeded */
+    /* allocate and return if we succeeded */
 #ifdef MALLOC_DEBUG
-	result = malloc_file_line(size, file, line);
+    result = malloc_file_line(size, file, line);
 #else
-	result = malloc(size);
+    result = malloc(size);
 #endif
-	if (result != NULL)
-	{
+    if (result != NULL)
+    {
 #ifdef MAME_DEBUG
-		int i;
-		for (i = 0; i < size; i++)
-			((UINT8 *)result)[i] = rand();
+        int i;
+        for (i = 0; i < size; i++)
+            ((UINT8 *)result)[i] = rand();
 #endif
-		return result;
-	}
+        return result;
+    }
 
-	/* otherwise, die horribly */
-	fatalerror("Failed to allocate %d bytes (%s:%d)", (int)size, file, line);
+    /* otherwise, die horribly */
+    fatalerror("Failed to allocate %d bytes (%s:%d)", (int)size, file, line);
 }
 
 
@@ -95,14 +95,14 @@ void *_malloc_or_die(size_t size, const char *file, int line)
 
 void add_free_resources_callback(void (*callback)(void))
 {
-	callback_item *cb, **cur;
+    callback_item *cb, **cur;
 
-	cb = malloc_or_die(sizeof(*cb));
-	cb->free_resources = callback;
-	cb->next = NULL;
+    cb = malloc_or_die(sizeof(*cb));
+    cb->free_resources = callback;
+    cb->next = NULL;
 
-	for (cur = &free_resources_callback_list; *cur != NULL; cur = &(*cur)->next) ;
-	*cur = cb;
+    for (cur = &free_resources_callback_list; *cur != NULL; cur = &(*cur)->next) ;
+    *cur = cb;
 }
 
 
@@ -112,12 +112,12 @@ void add_free_resources_callback(void (*callback)(void))
 
 static void free_callback_list(callback_item **cb)
 {
-	while (*cb != NULL)
-	{
-		callback_item *temp = *cb;
-		*cb = (*cb)->next;
-		free(temp);
-	}
+    while (*cb != NULL)
+    {
+        callback_item *temp = *cb;
+        *cb = (*cb)->next;
+        free(temp);
+    }
 }
 
 
@@ -127,26 +127,26 @@ static void free_callback_list(callback_item **cb)
 
 INLINE void auto_malloc_add(void *result, size_t size)
 {
-	/* make sure we have tracking space */
-	if (malloc_list_index == malloc_list_size)
-	{
-		malloc_entry *list;
+    /* make sure we have tracking space */
+    if (malloc_list_index == malloc_list_size)
+    {
+        malloc_entry *list;
 
-		/* if this is the first time, allocate 256 entries, otherwise double the slots */
-		if (malloc_list_size == 0)
-			malloc_list_size = 256;
-		else
-			malloc_list_size *= 2;
+        /* if this is the first time, allocate 256 entries, otherwise double the slots */
+        if (malloc_list_size == 0)
+            malloc_list_size = 256;
+        else
+            malloc_list_size *= 2;
 
-		/* realloc the list */
-		list = realloc(malloc_list, malloc_list_size * sizeof(list[0]));
-		if (list == NULL)
-			fatalerror("Unable to extend malloc tracking array to %d slots", malloc_list_size);
-		malloc_list = list;
-	}
-	malloc_list[malloc_list_index].memory = result;
-	malloc_list[malloc_list_index].size = size;
-	malloc_list_index++;
+        /* realloc the list */
+        list = realloc(malloc_list, malloc_list_size * sizeof(list[0]));
+        if (list == NULL)
+            fatalerror("Unable to extend malloc tracking array to %d slots", malloc_list_size);
+        malloc_list = list;
+    }
+    malloc_list[malloc_list_index].memory = result;
+    malloc_list[malloc_list_index].size = size;
+    malloc_list_index++;
 }
 
 
@@ -156,17 +156,17 @@ INLINE void auto_malloc_add(void *result, size_t size)
 
 static void auto_malloc_free(void)
 {
-	/* start at the end and free everything till you reach the sentinel */
-	while (malloc_list_index > 0 && malloc_list[--malloc_list_index].memory != NULL)
-		free(malloc_list[malloc_list_index].memory);
+    /* start at the end and free everything till you reach the sentinel */
+    while (malloc_list_index > 0 && malloc_list[--malloc_list_index].memory != NULL)
+        free(malloc_list[malloc_list_index].memory);
 
-	/* if we free everything, free the list */
-	if (malloc_list_index == 0)
-	{
-		free(malloc_list);
-		malloc_list = NULL;
-		malloc_list_size = 0;
-	}
+    /* if we free everything, free the list */
+    if (malloc_list_index == 0)
+    {
+        free(malloc_list);
+        malloc_list = NULL;
+        malloc_list_size = 0;
+    }
 }
 
 
@@ -177,8 +177,8 @@ static void auto_malloc_free(void)
 
 void init_resource_tracking(void)
 {
-	resource_tracking_tag = 0;
-	add_free_resources_callback(auto_malloc_free);
+    resource_tracking_tag = 0;
+    add_free_resources_callback(auto_malloc_free);
 }
 
 
@@ -190,9 +190,9 @@ void init_resource_tracking(void)
 
 void exit_resource_tracking(void)
 {
-	while (resource_tracking_tag != 0)
-		end_resource_tracking();
-	free_callback_list(&free_resources_callback_list);
+    while (resource_tracking_tag != 0)
+        end_resource_tracking();
+    free_callback_list(&free_resources_callback_list);
 }
 
 
@@ -204,11 +204,11 @@ void exit_resource_tracking(void)
 
 void begin_resource_tracking(void)
 {
-	/* add a NULL as a sentinel */
-	auto_malloc_add(NULL, 0);
+    /* add a NULL as a sentinel */
+    auto_malloc_add(NULL, 0);
 
-	/* increment the tag counter */
-	resource_tracking_tag++;
+    /* increment the tag counter */
+    resource_tracking_tag++;
 }
 
 
@@ -219,14 +219,14 @@ void begin_resource_tracking(void)
 
 void end_resource_tracking(void)
 {
-	callback_item *cb;
+    callback_item *cb;
 
-	/* call everyone who tracks resources to let them know */
-	for (cb = free_resources_callback_list; cb; cb = cb->next)
-		(*cb->free_resources)();
+    /* call everyone who tracks resources to let them know */
+    for (cb = free_resources_callback_list; cb; cb = cb->next)
+        (*cb->free_resources)();
 
-	/* decrement the tag counter */
-	resource_tracking_tag--;
+    /* decrement the tag counter */
+    resource_tracking_tag--;
 }
 
 
@@ -236,14 +236,14 @@ void end_resource_tracking(void)
 
 void *_auto_malloc(size_t size, const char *file, int line)
 {
-	void *result;
+    void *result;
 
-	/* fail horribly if it doesn't work */
-	result = _malloc_or_die(size, file, line);
+    /* fail horribly if it doesn't work */
+    result = _malloc_or_die(size, file, line);
 
-	/* track this item in our list */
-	auto_malloc_add(result, size);
-	return result;
+    /* track this item in our list */
+    auto_malloc_add(result, size);
+    return result;
 }
 
 
@@ -253,12 +253,12 @@ void *_auto_malloc(size_t size, const char *file, int line)
 
 char *_auto_strdup(const char *str, const char *file, int line)
 {
-	assert_always(str != NULL, "auto_strdup() requires non-NULL str");
-	return strcpy(_auto_malloc(strlen(str) + 1, file, line), str);
+    assert_always(str != NULL, "auto_strdup() requires non-NULL str");
+    return strcpy(_auto_malloc(strlen(str) + 1, file, line), str);
 }
 
 
-#if 0		/* QUASI88 */
+#if 0       /* QUASI88 */
 /*-------------------------------------------------
     auto_strdup_allow_null - allocate auto-freeing
     string if str is null
@@ -266,7 +266,7 @@ char *_auto_strdup(const char *str, const char *file, int line)
 
 char *_auto_strdup_allow_null(const char *str, const char *file, int line)
 {
-	return (str != NULL) ? _auto_strdup(str, file, line) : NULL;
+    return (str != NULL) ? _auto_strdup(str, file, line) : NULL;
 }
 
 
@@ -278,7 +278,7 @@ char *_auto_strdup_allow_null(const char *str, const char *file, int line)
 
 static int pointer_in_block(const UINT8 *ptr, const UINT8 *block, size_t block_size)
 {
-	return (ptr >= block) && (ptr < (block + block_size));
+    return (ptr >= block) && (ptr < (block + block_size));
 }
 
 
@@ -290,39 +290,39 @@ static int pointer_in_block(const UINT8 *ptr, const UINT8 *block, size_t block_s
 
 void validate_auto_malloc_memory(void *memory, size_t memory_size)
 {
-	int i;
-	int tag = 0;
-	const UINT8 *this_memory = (const UINT8 *) memory;
-	size_t this_memory_size = memory_size;
+    int i;
+    int tag = 0;
+    const UINT8 *this_memory = (const UINT8 *) memory;
+    size_t this_memory_size = memory_size;
 
-	assert(memory_size > 0);
+    assert(memory_size > 0);
 
-	for (i = 0; i < malloc_list_size; i++)
-	{
-		if (malloc_list[i].memory != NULL)
-		{
-			const UINT8 *that_memory = (const UINT8 *) malloc_list[i].memory;
-			size_t that_memory_size = malloc_list[i].size;
+    for (i = 0; i < malloc_list_size; i++)
+    {
+        if (malloc_list[i].memory != NULL)
+        {
+            const UINT8 *that_memory = (const UINT8 *) malloc_list[i].memory;
+            size_t that_memory_size = malloc_list[i].size;
 
-			if (pointer_in_block(this_memory, that_memory, that_memory_size))
-			{
-				if (!pointer_in_block(this_memory + this_memory_size - 1, that_memory, that_memory_size))
-					fatalerror("Memory block [0x%p-0x%p] partially overlaps with allocated block [0x%p-0x%p]", this_memory, this_memory + this_memory_size - 1, that_memory, that_memory + that_memory_size - 1);
-				return;
-			}
-			else if (pointer_in_block(that_memory, this_memory, this_memory_size))
-			{
-				if (!pointer_in_block(that_memory + that_memory_size - 1, this_memory, this_memory_size))
-					fatalerror("Memory block [0x%p-0x%p] partially overlaps with allocated block [0x%p-0x%p]", this_memory, this_memory + this_memory_size - 1, that_memory, that_memory + that_memory_size - 1);
-				return;
-			}
-		}
-		else
-		{
-			tag++;
-		}
-	}
-	fatalerror("Memory block [0x%p-0x%p] not found", this_memory, this_memory + this_memory_size - 1);
+            if (pointer_in_block(this_memory, that_memory, that_memory_size))
+            {
+                if (!pointer_in_block(this_memory + this_memory_size - 1, that_memory, that_memory_size))
+                    fatalerror("Memory block [0x%p-0x%p] partially overlaps with allocated block [0x%p-0x%p]", this_memory, this_memory + this_memory_size - 1, that_memory, that_memory + that_memory_size - 1);
+                return;
+            }
+            else if (pointer_in_block(that_memory, this_memory, this_memory_size))
+            {
+                if (!pointer_in_block(that_memory + that_memory_size - 1, this_memory, this_memory_size))
+                    fatalerror("Memory block [0x%p-0x%p] partially overlaps with allocated block [0x%p-0x%p]", this_memory, this_memory + this_memory_size - 1, that_memory, that_memory + that_memory_size - 1);
+                return;
+            }
+        }
+        else
+        {
+            tag++;
+        }
+    }
+    fatalerror("Memory block [0x%p-0x%p] not found", this_memory, this_memory + this_memory_size - 1);
 }
 
-#endif		/* QUASI88 */
+#endif      /* QUASI88 */

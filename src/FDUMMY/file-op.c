@@ -1,8 +1,8 @@
 /*****************************************************************************/
-/* ファイル操作に関する処理						     */
-/*									     */
-/*	仕様の詳細は、ヘッダファイル file-op.h 参照			     */
-/*									     */
+/* ファイル操作に関する処理                          */
+/*                                       */
+/*  仕様の詳細は、ヘッダファイル file-op.h 参照              */
+/*                                       */
 /*****************************************************************************/
 
 #include <stdio.h>
@@ -16,14 +16,14 @@
 
 /*****************************************************************************/
 
-static char *dir_cwd;	/* デフォルトのディレクトリ (カレント)		*/
-static char *dir_rom;	/* ROMイメージファイルの検索ディレクトリ	*/
-static char *dir_disk;	/* DISKイメージファイルの検索ディレクトリ	*/
-static char *dir_tape;	/* TAPEイメージファイルの基準ディレクトリ	*/
-static char *dir_snap;	/* 画面スナップショットファイルの保存先		*/
-static char *dir_state;	/* サスペンドファイルの保存先			*/
-static char *dir_g_cfg;	/* 共通設定ファイルのディレクトリ		*/
-static char *dir_l_cfg;	/* 個別設定ファイルのディレクトリ		*/
+static char *dir_cwd;   /* デフォルトのディレクトリ (カレント)      */
+static char *dir_rom;   /* ROMイメージファイルの検索ディレクトリ   */
+static char *dir_disk;  /* DISKイメージファイルの検索ディレクトリ  */
+static char *dir_tape;  /* TAPEイメージファイルの基準ディレクトリ  */
+static char *dir_snap;  /* 画面スナップショットファイルの保存先       */
+static char *dir_state; /* サスペンドファイルの保存先          */
+static char *dir_g_cfg; /* 共通設定ファイルのディレクトリ        */
+static char *dir_l_cfg; /* 個別設定ファイルのディレクトリ        */
 
 
 
@@ -43,10 +43,10 @@ static int set_new_dir(const char *newdir, char **dir)
 {
     char *p = malloc(strlen(newdir) + 1);
     if (p) {
-	strcpy(p, newdir);
-	free(*dir);
-	*dir = p;
-	return TRUE;
+    strcpy(p, newdir);
+    free(*dir);
+    *dir = p;
+    return TRUE;
     }
     return FALSE;
 }
@@ -68,13 +68,13 @@ int osd_set_dir_lcfg (const char *d) { return set_new_dir(d, &dir_l_cfg); }
 
 /****************************************************************************
  * ファイル名に使用されている漢字コードを取得
- *		0 … ASCII のみ
- *		1 … 日本語EUC
- *		2 … シフトJIS
+ *      0 … ASCII のみ
+ *      1 … 日本語EUC
+ *      2 … シフトJIS
  *****************************************************************************/
-int	osd_kanji_code(void)
+int osd_kanji_code(void)
 {
-    return 0;	/* ASCIIのみ */
+    return 0;   /* ASCIIのみ */
 }
 
 
@@ -83,17 +83,17 @@ int	osd_kanji_code(void)
  * ファイル操作
  *
  * OSD_FILE *osd_fopen(int type, const char *path, const char *mode)
- * int	osd_fclose(OSD_FILE *stream)
- * int	osd_fflush(OSD_FILE *stream)
- * int	osd_fseek(OSD_FILE *stream, long offset, int whence)
- * long	osd_ftell(OSD_FILE *stream)
- * void	osd_rewind(OSD_FILE *stream)
+ * int  osd_fclose(OSD_FILE *stream)
+ * int  osd_fflush(OSD_FILE *stream)
+ * int  osd_fseek(OSD_FILE *stream, long offset, int whence)
+ * long osd_ftell(OSD_FILE *stream)
+ * void osd_rewind(OSD_FILE *stream)
  * size_t osd_fread(void *ptr, size_t size, size_t nobj, OSD_FILE *stream)
  * size_t osd_fwrite(const void *ptr,size_t size,size_t nobj,OSD_FILE *stream)
- * int	osd_fputc(int c, OSD_FILE *stream)
- * int	osd_fgetc(OSD_FILE *stream)
- * char	*osd_fgets(char *str, int size, OSD_FILE *stream)
- * int	osd_fputs(const char *str, OSD_FILE *stream)
+ * int  osd_fputc(int c, OSD_FILE *stream)
+ * int  osd_fgetc(OSD_FILE *stream)
+ * char *osd_fgets(char *str, int size, OSD_FILE *stream)
+ * int  osd_fputs(const char *str, OSD_FILE *stream)
  *****************************************************************************/
 
 
@@ -110,109 +110,109 @@ int	osd_kanji_code(void)
 
 struct OSD_FILE_STRUCT {
 
-    FILE	*fp;			/* !=NULL なら使用中	*/
-    int		type;			/* ファイル種別		*/
-    char	*path;			/* ファイル名		*/
-    char	mode[4];		/* 開いた際の、モード	*/
+    FILE    *fp;            /* !=NULL なら使用中   */
+    int     type;           /* ファイル種別       */
+    char    *path;          /* ファイル名      */
+    char    mode[4];        /* 開いた際の、モード  */
 
 };
 
-#define	MAX_STREAM	8
-static	OSD_FILE	osd_stream[ MAX_STREAM ];
+#define MAX_STREAM  8
+static  OSD_FILE    osd_stream[ MAX_STREAM ];
 
 
 
 OSD_FILE *osd_fopen(int type, const char *path, const char *mode)
 {
     int i;
-    OSD_FILE	*st;
+    OSD_FILE    *st;
 
     st = NULL;
-    for (i=0; i<MAX_STREAM; i++) {	/* 空きバッファを探す */
-	if (osd_stream[i].fp == NULL) {		/* fp が NULL なら空き */
-	    st = &osd_stream[i];
-	    break;
-	}
+    for (i=0; i<MAX_STREAM; i++) {  /* 空きバッファを探す */
+    if (osd_stream[i].fp == NULL) {     /* fp が NULL なら空き */
+        st = &osd_stream[i];
+        break;
     }
-    if (st == NULL) return NULL;		/* 空きがなければ NG */
+    }
+    if (st == NULL) return NULL;        /* 空きがなければ NG */
     st->path = NULL;
 
 
 
     switch (type) {
 
-    case FTYPE_DISK:		/* "r+b" , "rb"	*/
-    case FTYPE_TAPE_LOAD:	/* "rb" 	*/
-    case FTYPE_TAPE_SAVE:	/* "ab"		*/
-    case FTYPE_PRN:		/* "ab"		*/
-    case FTYPE_COM_LOAD:	/* "rb"		*/
-    case FTYPE_COM_SAVE:	/* "ab"		*/
+    case FTYPE_DISK:        /* "r+b" , "rb" */
+    case FTYPE_TAPE_LOAD:   /* "rb"     */
+    case FTYPE_TAPE_SAVE:   /* "ab"     */
+    case FTYPE_PRN:     /* "ab"     */
+    case FTYPE_COM_LOAD:    /* "rb"     */
+    case FTYPE_COM_SAVE:    /* "ab"     */
 
-	/* すでに開いているファイルかどうかをチェックする */
-	for (i=0; i<MAX_STREAM; i++) {
-	    if (osd_stream[i].fp) {
-		if (osd_stream[i].path   &&
-		    strcmp(osd_stream[i].path, path) == 0) {
+    /* すでに開いているファイルかどうかをチェックする */
+    for (i=0; i<MAX_STREAM; i++) {
+        if (osd_stream[i].fp) {
+        if (osd_stream[i].path   &&
+            strcmp(osd_stream[i].path, path) == 0) {
 
-		    /* DISKの場合かつ同じモードならばそれを返す */
-		    if (type == FTYPE_DISK                   &&
-			osd_stream[i].type == type           &&
-			strcmp(osd_stream[i].mode, mode) == 0) {
+            /* DISKの場合かつ同じモードならばそれを返す */
+            if (type == FTYPE_DISK                   &&
+            osd_stream[i].type == type           &&
+            strcmp(osd_stream[i].mode, mode) == 0) {
 
-			return &osd_stream[i];
+            return &osd_stream[i];
 
-		    } else {
-			/* DISK以外、ないしモードが違うならばNG */
-			return NULL;
-		    }
-		}
-	    }
-	}
-					/* ファイル名保持用のバッファを確保 */
-	st->path = malloc(strlen(path) + 1);
-	if (st->path == NULL) {
-	    return NULL;
-	}
-	/* FALLTHROUGH */
+            } else {
+            /* DISK以外、ないしモードが違うならばNG */
+            return NULL;
+            }
+        }
+        }
+    }
+                    /* ファイル名保持用のバッファを確保 */
+    st->path = malloc(strlen(path) + 1);
+    if (st->path == NULL) {
+        return NULL;
+    }
+    /* FALLTHROUGH */
 
 
     default:
-	st->fp = fopen(path, mode);	/* ファイルを開く */
+    st->fp = fopen(path, mode); /* ファイルを開く */
 
-	if (st->fp) {
+    if (st->fp) {
 
-	    st->type = type;
-	    if (st->path)
-		strcpy(st->path, path);
-	    strncpy(st->mode, mode, sizeof(st->mode));
-	    return st;
+        st->type = type;
+        if (st->path)
+        strcpy(st->path, path);
+        strncpy(st->mode, mode, sizeof(st->mode));
+        return st;
 
-	} else {
+    } else {
 
-	    if (st->path) {
-		free(st->path);
-		st->path = NULL;
-	    }
-	    return NULL;
-	}
+        if (st->path) {
+        free(st->path);
+        st->path = NULL;
+        }
+        return NULL;
+    }
     }
 }
 
 
 
-int	osd_fclose(OSD_FILE *stream)
+int osd_fclose(OSD_FILE *stream)
 {
     if (stream->fp) {
 
-	FILE *fp = stream->fp;
+    FILE *fp = stream->fp;
 
-	stream->fp = NULL;
-	if (stream->path) {
-	    free(stream->path);
-	    stream->path = NULL;
-	}
+    stream->fp = NULL;
+    if (stream->path) {
+        free(stream->path);
+        stream->path = NULL;
+    }
 
-	return fclose(fp);
+    return fclose(fp);
 
     }
     return EOF;
@@ -220,39 +220,39 @@ int	osd_fclose(OSD_FILE *stream)
 
 
 
-int	osd_fflush(OSD_FILE *stream)
+int osd_fflush(OSD_FILE *stream)
 {
     if (stream == NULL) return fflush(NULL);
 
     if (stream->fp) {
-	return fflush(stream->fp);
+    return fflush(stream->fp);
     }
     return EOF;
 }
 
 
 
-int	osd_fseek(OSD_FILE *stream, long offset, int whence)
+int osd_fseek(OSD_FILE *stream, long offset, int whence)
 {
     if (stream->fp) {
-	return fseek(stream->fp, offset, whence);
+    return fseek(stream->fp, offset, whence);
     }
     return -1;
 }
 
 
 
-long	osd_ftell(OSD_FILE *stream)
+long    osd_ftell(OSD_FILE *stream)
 {
     if (stream->fp) {
-	return ftell(stream->fp);
+    return ftell(stream->fp);
     }
     return -1;
 }
 
 
 
-void	osd_rewind(OSD_FILE *stream)
+void    osd_rewind(OSD_FILE *stream)
 {
     (void)osd_fseek(stream, 0L, SEEK_SET);
     osd_fflush(stream);
@@ -260,57 +260,57 @@ void	osd_rewind(OSD_FILE *stream)
 
 
 
-size_t	osd_fread(void *ptr, size_t size, size_t nobj, OSD_FILE *stream)
+size_t  osd_fread(void *ptr, size_t size, size_t nobj, OSD_FILE *stream)
 {
     if (stream->fp) {
-	return fread(ptr, size, nobj, stream->fp);
+    return fread(ptr, size, nobj, stream->fp);
     }
     return 0;
 }
 
 
 
-size_t	osd_fwrite(const void *ptr, size_t size, size_t nobj, OSD_FILE *stream)
+size_t  osd_fwrite(const void *ptr, size_t size, size_t nobj, OSD_FILE *stream)
 {
     if (stream->fp) {
-	return fwrite(ptr, size, nobj, stream->fp);
+    return fwrite(ptr, size, nobj, stream->fp);
     }
     return 0;
 }
 
 
 
-int	osd_fputc(int c, OSD_FILE *stream)
+int osd_fputc(int c, OSD_FILE *stream)
 {
     if (stream->fp) {
-	return fputc(c, stream->fp);
+    return fputc(c, stream->fp);
     }
     return EOF;
 }
 
 
-int	osd_fgetc(OSD_FILE *stream)
+int osd_fgetc(OSD_FILE *stream)
 {
     if (stream->fp) {
-	return fgetc(stream->fp);
+    return fgetc(stream->fp);
     }
     return EOF;
 }
 
 
-char	*osd_fgets(char *str, int size, OSD_FILE *stream)
+char    *osd_fgets(char *str, int size, OSD_FILE *stream)
 {
     if (stream->fp) {
-	return fgets(str, size, stream->fp);
+    return fgets(str, size, stream->fp);
     }
     return NULL;
 }
 
 
-int	osd_fputs(const char *str, OSD_FILE *stream)
+int osd_fputs(const char *str, OSD_FILE *stream)
 {
     if (stream->fp) {
-	return fputs(str, stream->fp);
+    return fputs(str, stream->fp);
     }
     return EOF;
 }
@@ -323,9 +323,9 @@ int	osd_fputs(const char *str, OSD_FILE *stream)
 
 /*---------------------------------------------------------------------------
  * T_DIR_INFO *osd_opendir(const char *filename)
- *	ディレクトリ処理は機種依存なので、ここでは NULL (エラー) を返す。
+ *  ディレクトリ処理は機種依存なので、ここでは NULL (エラー) を返す。
  *---------------------------------------------------------------------------*/
-T_DIR_INFO	*osd_opendir(const char *filename)
+T_DIR_INFO  *osd_opendir(const char *filename)
 {
     return NULL;
 }
@@ -334,9 +334,9 @@ T_DIR_INFO	*osd_opendir(const char *filename)
 
 /*---------------------------------------------------------------------------
  * T_DIR_ENTRY *osd_readdir(T_DIR_INFO *dirp)
- *	ディレクトリ処理は機種依存なので、ここでは NULL (エラー) を返す。
+ *  ディレクトリ処理は機種依存なので、ここでは NULL (エラー) を返す。
  *---------------------------------------------------------------------------*/
-T_DIR_ENTRY	*osd_readdir(T_DIR_INFO *dirp)
+T_DIR_ENTRY *osd_readdir(T_DIR_INFO *dirp)
 {
     return NULL;
 }
@@ -344,9 +344,9 @@ T_DIR_ENTRY	*osd_readdir(T_DIR_INFO *dirp)
 
 /*---------------------------------------------------------------------------
  * void osd_closedir(T_DIR_INFO *dirp)
- *	ディレクトリ処理は機種依存なので、この関数はダミー
+ *  ディレクトリ処理は機種依存なので、この関数はダミー
  *---------------------------------------------------------------------------*/
-void		osd_closedir(T_DIR_INFO *dirp)
+void        osd_closedir(T_DIR_INFO *dirp)
 {
 }
 
@@ -357,15 +357,15 @@ void		osd_closedir(T_DIR_INFO *dirp)
  *****************************************************************************/
 
 /*---------------------------------------------------------------------------
- * int	osd_path_normalize(const char *path, char resolved_path[], int size)
- *	ファイル名やパスについての処理は機種依存なので、
- *	path をそのまま resolved_path にセットして返す
+ * int  osd_path_normalize(const char *path, char resolved_path[], int size)
+ *  ファイル名やパスについての処理は機種依存なので、
+ *  path をそのまま resolved_path にセットして返す
  *---------------------------------------------------------------------------*/
-int	osd_path_normalize(const char *path, char resolved_path[], int size)
+int osd_path_normalize(const char *path, char resolved_path[], int size)
 {
     if (strlen(path) < size) {
-	strcpy(resolved_path, path);
-	return TRUE;
+    strcpy(resolved_path, path);
+    return TRUE;
     }
 
     return FALSE;
@@ -374,16 +374,16 @@ int	osd_path_normalize(const char *path, char resolved_path[], int size)
 
 
 /*---------------------------------------------------------------------------
- * int	osd_path_split(const char *path, char dir[], char file[], int size)
- *	ファイル名やパスについての処理は機種依存なので、
- *	path をそのまま file にセットして返す
+ * int  osd_path_split(const char *path, char dir[], char file[], int size)
+ *  ファイル名やパスについての処理は機種依存なので、
+ *  path をそのまま file にセットして返す
  *---------------------------------------------------------------------------*/
-int	osd_path_split(const char *path, char dir[], char file[], int size)
+int osd_path_split(const char *path, char dir[], char file[], int size)
 {
     if (strlen(path) < size) {
-	dir[0] = '\0';
-	strcpy(file, path);
-	return TRUE;
+    dir[0] = '\0';
+    strcpy(file, path);
+    return TRUE;
     }
 
     return FALSE;
@@ -392,15 +392,15 @@ int	osd_path_split(const char *path, char dir[], char file[], int size)
 
 
 /*---------------------------------------------------------------------------
- * int	osd_path_join(const char *dir, const char *file, char path[], int size)
- *	ファイル名やパスについての処理は機種依存なので、
- *	file をそのまま path にセットして返す
+ * int  osd_path_join(const char *dir, const char *file, char path[], int size)
+ *  ファイル名やパスについての処理は機種依存なので、
+ *  file をそのまま path にセットして返す
  *---------------------------------------------------------------------------*/
-int	osd_path_join(const char *dir, const char *file, char path[], int size)
+int osd_path_join(const char *dir, const char *file, char path[], int size)
 {
     if (strlen(file) < size) {
-	strcpy(path, file);
-	return TRUE;
+    strcpy(path, file);
+    return TRUE;
     }
 
     return FALSE;
@@ -412,26 +412,26 @@ int	osd_path_join(const char *dir, const char *file, char path[], int size)
  * ファイル属性の取得
  ****************************************************************************/
 
-int	osd_file_stat(const char *pathname)
+int osd_file_stat(const char *pathname)
 {
     FILE *fp;
 
-    if ((fp = fopen(pathname, "r"))) {	/* ファイルとして開く	*/
+    if ((fp = fopen(pathname, "r"))) {  /* ファイルとして開く  */
 
-	fclose(fp);				/* 成功したらファイル	*/
-	return FILE_STAT_FILE;
+    fclose(fp);             /* 成功したらファイル  */
+    return FILE_STAT_FILE;
 
-    } else {				/* 失敗したら存在しない	*/
+    } else {                /* 失敗したら存在しない   */
 
-	return FILE_STAT_NOEXIST;
+    return FILE_STAT_NOEXIST;
 
-	/* ディレクトリかもしれないし、アクセス許可が無いのかも知れない */
-	/* でも、これらは機種依存なのでとりあえず '存在しない' を返す。	*/
+    /* ディレクトリかもしれないし、アクセス許可が無いのかも知れない */
+    /* でも、これらは機種依存なのでとりあえず '存在しない' を返す。 */
 
-	/* なお、'存在しない' を返すと、この後にファイルを新規に作成	*/
-	/* しようとするかもしれない。(fopen(pathname, "w") などで)	*/
-	/* でも、ディレクトリが存在したり、アクセス許可の無いファイルが	*/
-	/* 存在する場合は、新規作成に失敗するので大丈夫、だよね？	*/
+    /* なお、'存在しない' を返すと、この後にファイルを新規に作成 */
+    /* しようとするかもしれない。(fopen(pathname, "w") などで)  */
+    /* でも、ディレクトリが存在したり、アクセス許可の無いファイルが   */
+    /* 存在する場合は、新規作成に失敗するので大丈夫、だよね？    */
     }
 }
 
@@ -441,16 +441,16 @@ int	osd_file_stat(const char *pathname)
 
 
 /****************************************************************************
- * int	osd_environment(void)
+ * int  osd_environment(void)
  *
- *	この関数は、起動後に1度だけ呼び出される。
- *	正常終了時は真を、 malloc に失敗したなど異常終了時は偽を返す。
+ *  この関数は、起動後に1度だけ呼び出される。
+ *  正常終了時は真を、 malloc に失敗したなど異常終了時は偽を返す。
  *
  ****************************************************************************/
 
-int	osd_file_config_init(void)
+int osd_file_config_init(void)
 {
-	/* ワークを確保*/
+    /* ワークを確保*/
 
     dir_cwd   = (char *)malloc(1);
     dir_rom   = (char *)malloc(1);
@@ -463,38 +463,38 @@ int	osd_file_config_init(void)
 
 
     if (! dir_cwd  || ! dir_rom   || ! dir_disk  || ! dir_tape ||
-	! dir_snap || ! dir_state || ! dir_g_cfg || ! dir_l_cfg)  return FALSE;
+    ! dir_snap || ! dir_state || ! dir_g_cfg || ! dir_l_cfg)  return FALSE;
 
 
-	/* カレントワーキングディレクトリ名 (CWD) を設定する */
+    /* カレントワーキングディレクトリ名 (CWD) を設定する */
 
     dir_cwd[0] = '\0';
 
-	/* ROMディレクトリを設定する */
+    /* ROMディレクトリを設定する */
 
     dir_rom[0] = '\0';
 
-	/* DISKディレクトリを設定する */
+    /* DISKディレクトリを設定する */
 
     dir_disk[0] = '\0';
 
-	/* TAPEディレクトリを設定する */
+    /* TAPEディレクトリを設定する */
 
     dir_tape[0] = '\0';
 
-	/* SNAPディレクトリを設定する */
+    /* SNAPディレクトリを設定する */
 
     dir_snap[0] = '\0';
 
-	/* STATEディレクトリを設定する */
+    /* STATEディレクトリを設定する */
 
     dir_state[0] = '\0';
 
-	/* 全体設定ディレクトリを設定する */
+    /* 全体設定ディレクトリを設定する */
 
     dir_g_cfg[0] = '\0';
 
-	/* 個別設定ディレクトリを設定する */
+    /* 個別設定ディレクトリを設定する */
 
     dir_l_cfg[0] = '\0';
 
@@ -505,12 +505,12 @@ int	osd_file_config_init(void)
 
 
 /****************************************************************************
- * int	osd_file_config_exit(void)
+ * int  osd_file_config_exit(void)
  *
- *	この関数は、終了後に1度だけ呼び出される。
+ *  この関数は、終了後に1度だけ呼び出される。
  *
  ****************************************************************************/
-void	osd_file_config_exit(void)
+void    osd_file_config_exit(void)
 {
     if (dir_cwd)   free(dir_cwd);
     if (dir_rom)   free(dir_rom);
