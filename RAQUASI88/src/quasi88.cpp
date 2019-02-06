@@ -172,7 +172,7 @@ void    quasi88_main(void)
 #if USE_RETROACHIEVEMENTS
         RA_HandleHTTPResults();
 
-        if (RA_GameIsActive())
+        if (quasi88_is_exec())
             RA_DoAchievementsFrame();
 #endif
     }
@@ -1115,7 +1115,8 @@ int quasi88_disk_insert(int drv, const char *filename, int image, int ro)
         }
 
 #if USE_RETROACHIEVEMENTS
-        RA_CommitLoadNewRom();
+        if (drv == DRIVE_1)
+            RA_CommitLoadNewRom();
 #endif
     }
     }
