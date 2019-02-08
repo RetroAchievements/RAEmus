@@ -35,5 +35,5 @@ del ..\src\WIN32\BuildVer.h
 move BuildVer2.h ..\src\WIN32\BuildVer.h > nul
 :done
 
-rem === Clean up after ourself ===
+rem === Clean up after ourselves ===
 del Temp.txt
