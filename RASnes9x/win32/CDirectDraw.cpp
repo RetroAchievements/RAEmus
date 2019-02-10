@@ -815,7 +815,7 @@ void CDirectDraw::Render(SSurface Src)
 	//	Copy to the achievement layer, then copy THAT to the main surface
 	if( lpDDS_Achievement != NULL )
 	{
-		lpDDS_Achievement->Blt( NULL, lpDDSOffScreen2, &srcRect, DDBLT_WAIT | DDBLT_ASYNC, NULL );
+		lpDDS_Achievement->Blt( NULL, lpDDSOffScreen2, &srcRect, DDBLT_WAIT, NULL );
 		RenderAchievementOverlays( dstRect );
 	}
 
