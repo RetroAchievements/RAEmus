@@ -74,6 +74,7 @@ RetroAchievements Emulator Requirements:
     [ ] Add the emulator's console ID as a "valid" console, so new achievements can be promoted to the Core set (RAWeb:lib/database/game.php>isValidConsoleId).
     [ ] Add the emulator's enum (get the number from RAInterface.h and add it in RAWeb:src/Emulators.php)
     [ ] dorequest.php>latestclient needs to map to LatestXXXVersion.html file when it receives either emulator ID or console ID.
+    [ ] Add link to the new system game list in RAWeb:lib/dynrenderer.php>RenderToolbar.
     [ ] Add an entry for the emulator in RAWeb:public/reportissue.php, so people can choose it when opening tickets.
     [ ] Zip file needs to be uploaded to server
     [ ] Create the LatestXXXVersion.html page.
