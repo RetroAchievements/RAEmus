@@ -19,6 +19,7 @@ FileInfo loaded_tape = FINFO_DEFAULT;
 FileInfo loading_file = FINFO_DEFAULT;
 FileInfo *loaded_title = 0;
 bool should_activate = true;
+static bool enable_loading = true;
 
 void reset_file_info(FileInfo *file)
 {
@@ -283,20 +284,21 @@ int RA_PrepareLoadNewRom(const char *file_name, int file_type)
     loading_file.title_id = RA_IdentifyRom(file_data, file_size);
     loading_file.file_type = file_type;
 
-    if (loaded_title != NULL && loaded_title->data_len > 0)
+    if (enable_loading && loaded_title != NULL && loaded_title->data_len > 0)
     {
         if (loaded_title->title_id != loading_file.title_id || loaded_title->file_type != loading_file.file_type)
         {
             if (!RA_WarnDisableHardcore("load a new title without ejecting all images and resetting the emulator"))
             {
-                free_file_info(&loading_file);
+                RA_AbortLoadNewRom();
                 return FALSE; /* 読み込みを中止する */
             }
         }
     }
 
 #if !RA_RELOAD_MULTI_DISK
-    should_activate = loaded_title != NULL &&
+    should_activate = should_activate ? true :
+        loaded_title != NULL &&
         loaded_title->title_id > 0 &&
         loaded_title->title_id == loading_file.title_id ?
         false :
@@ -326,15 +328,20 @@ void RA_CommitLoadNewRom()
 
     RA_UpdateAppTitle(loading_file.name);
 
-    if (should_activate)
+    if (enable_loading && should_activate)
     {
         /* 実績システムのイメージデータを初期化する */
         RA_ActivateGame(loading_file.title_id);
-        should_activate = true;
+        should_activate = false;
     }
 
     /* ロード中のデータをクリアする */
     reset_file_info(&loading_file);
+}
+
+void RA_AbortLoadNewRom()
+{
+    free_file_info(&loading_file);
 }
 
 void RA_OnGameClose(int file_type)
@@ -368,9 +375,20 @@ void RA_OnGameClose(int file_type)
 
     if (loaded_title == NULL && loading_file.data_len == 0)
     {
-        RA_UpdateAppTitle("");
-        RA_OnLoadNewRom(NULL, 0);
+        RA_ClearTitle();
     }
+}
+
+void RA_ClearTitle()
+{
+    RA_UpdateAppTitle("");
+    RA_OnLoadNewRom(NULL, 0);
+    should_activate = true;
+}
+
+void RA_ToggleLoad(int enabled)
+{
+    enable_loading = enabled;
 }
 
 int RA_HandleMenuEvent(int id)
@@ -421,7 +439,7 @@ void RA_RenderOverlayFrame(HDC hdc)
     input.m_bUpPressed = IS_KEY88_PRESS(KEY88_UP);
     input.m_bDownPressed = IS_KEY88_PRESS(KEY88_DOWN);
 
-    RA_UpdateRenderOverlay(hdc, &input, delta_time, &window_size, use_fullscreen, (bool)quasi88_is_pause());
+    RA_UpdateRenderOverlay(hdc, &input, delta_time, &window_size, (bool)quasi88_cfg_now_fullscreen(), (bool)quasi88_is_pause());
 
     last_tick = timeGetTime();
 }

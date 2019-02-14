@@ -12,6 +12,7 @@
 
 #include "quasi88.h"
 #include "memory.h"     /* has_kanji_rom    */
+#include "screen.h"     /* screen_scale_* */
 
 #include "q8tk.h"
 #include "q8tk-glib.h"
@@ -172,6 +173,13 @@ void    q8gr_set_focus_screen(int x, int y, int sx, int sy, void *p)
 }
 void    *q8gr_get_focus_screen(int x, int y)
 {
+    int off_x = (screen_scale_dx + SCREEN_DX) * Q8GR_SCREEN_X / SCREEN_W;
+    int off_y = (screen_scale_dy + SCREEN_DY) * Q8GR_SCREEN_Y / SCREEN_H;
+    x -= off_x;
+    y -= off_y;
+    if (screen_scale_x) { x /= screen_scale_x; }
+    if (screen_scale_y) { y /= screen_scale_y; }
+
     if (0 <= x && x < Q8GR_SCREEN_X &&
     0 <= y && y < Q8GR_SCREEN_Y) {
     return focus_screen[y][x];

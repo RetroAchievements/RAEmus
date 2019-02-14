@@ -6,7 +6,7 @@
 #endif
 
 #ifndef BASE_VERSION
-#define BASE_VERSION    "0.6.6"
+#define BASE_VERSION    "0.6.8"
 #endif
 
 #ifndef BASE_COMMENT
@@ -20,7 +20,7 @@
 #endif
 
 #ifndef RAQ_VERSION
-#define RAQ_VERSION     "1.0.0"
+#define RAQ_VERSION     "1.1.3"
 #endif
 
 #ifndef Q_TITLE
