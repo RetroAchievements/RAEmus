@@ -461,6 +461,11 @@ static void menubar_item_setup(void)
     CheckMenuRadioItem(g_hMenu, M_SET_SIZ_FULL, M_SET_SIZ_DOUBLE, uItem,
                MF_BYCOMMAND);
 
+    i = quasi88_cfg_now_fullscreen();   /* ＊＊＊＊ */
+    uItem = M_SET_FULLSCREEN;
+    CheckMenuItem(g_hMenu, uItem,
+        MF_BYCOMMAND | (i ? MFS_CHECKED : MFS_UNCHECKED));
+
     i = use_pcg;                        /* ＊＊＊＊ */
     uItem = M_SET_PCG;
     CheckMenuItem(g_hMenu, uItem,
@@ -648,6 +653,7 @@ static  void    f_set_fdcwait   (UINT uItem);
 static  void    f_set_refresh   (UINT uItem, int data);
 static  void    f_set_interlace (UINT uItem, int data);
 static  void    f_set_size  (UINT uItem, int data);
+static  void    f_set_fullscreen   (UINT uItem);
 static  void    f_set_pcg   (UINT uItem);
 static  void    f_set_mouse (UINT uItem, int data);
 static  void    f_set_cursor    (UINT uItem, int data);
@@ -730,7 +736,9 @@ int menubar_event(int id)
     case M_SET_SIZ_DOUBLE:  f_set_size(id, SCREEN_SIZE_DOUBLE); break;
 #endif
 
-    case M_SET_PCG:     f_set_pcg(id);          break;
+    case M_SET_FULLSCREEN:  f_set_fullscreen(id);   break;
+
+    case M_SET_PCG:         f_set_pcg(id);          break;
 
     case M_SET_MO_NO:       f_set_mouse(id, MOUSE_NONE);        break;
     case M_SET_MO_MOUSE:    f_set_mouse(id, MOUSE_MOUSE);       break;
@@ -1002,6 +1010,29 @@ static  void    f_set_size(UINT uItem, int data)
     {
     quasi88_cfg_set_size((int)data);
     }
+
+    /*if (data > SCREEN_SIZE_FULL && quasi88_cfg_now_fullscreen()) {
+        f_set_fullscreen(M_SET_FULLSCREEN);
+    }*/
+}
+
+static  void    f_set_fullscreen(UINT uItem)
+{
+    int active;
+    UINT res;
+
+    if (menubar_active == FALSE) { return; }
+
+    res = GetMenuState(g_hMenu, uItem, MF_BYCOMMAND);
+    active = (res & MFS_CHECKED) ? FALSE : TRUE;    /* 逆にする */
+    CheckMenuItem(g_hMenu, uItem,
+        MF_BYCOMMAND | (active ? MFS_CHECKED : MFS_UNCHECKED));
+
+    quasi88_cfg_set_fullscreen(active);
+
+    /*if (active && quasi88_cfg_now_size() > SCREEN_SIZE_FULL) {
+        f_set_size(M_SET_SIZ_FULL, SCREEN_SIZE_FULL);
+    }*/
 }
 
 static  void    f_set_pcg(UINT uItem)

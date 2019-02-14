@@ -70,8 +70,12 @@ int WINAPI WinMain(HINSTANCE hInst,
     /* 一部の初期値を改変 (いいやり方はないかな…) */
     romaji_type = 1;            /* ローマ字変換の規則を MS-IME風に */
 
+#ifndef __argc
+#define __argc 0
+#define __argv NULL
+#endif
 
-    if (config_init(0, NULL,        /* 環境初期化 & 引数処理 */
+    if (config_init(__argc, __argv,        /* 環境初期化 & 引数処理 */
             NULL,
             NULL)) {
 

@@ -1553,6 +1553,10 @@ static  void    cb_graph_resize(UNUSED_WIDGET, void *p)
     int new_size = (int)p;
 
     quasi88_cfg_set_size(new_size);
+
+    /*if (new_size > SCREEN_SIZE_FULL && quasi88_cfg_now_fullscreen()) {
+        quasi88_cfg_set_fullscreen(FALSE);
+    }*/
 }
 static  int get_graph_fullscreen(void)
 {
@@ -1564,6 +1568,10 @@ static  void    cb_graph_fullscreen(Q8tkWidget *widget, UNUSED_PARM)
 
     if (quasi88_cfg_can_fullscreen()) {
     quasi88_cfg_set_fullscreen(on);
+
+    /*if (on && quasi88_cfg_now_size() > SCREEN_SIZE_FULL) {
+        quasi88_cfg_set_size(SCREEN_SIZE_FULL);
+    }*/
     
     /* Q8TK カーソル有無設定 (全画面切替時に呼ぶ必要あり) */
     q8tk_set_cursor(now_swcursor);
