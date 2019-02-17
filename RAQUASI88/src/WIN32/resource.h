@@ -60,6 +60,8 @@
 #define M_SET_SIZ_HALF      20602
 #define M_SET_SIZ_DOUBLE    20603
 
+#define M_SET_FULLSCREEN    20650
+
 #define M_SET_PCG       20700
 
 #define M_SET_MO        20800

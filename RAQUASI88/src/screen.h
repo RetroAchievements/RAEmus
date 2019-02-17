@@ -145,6 +145,11 @@ extern  int SCREEN_DY;      /* 画面エリア左上とのオフセット   */
 extern  char    *screen_buf;        /* 描画バッファ先頭     */
 extern  char    *screen_start;      /* 画面先頭         */
 
+extern  double  screen_scale_x;     /* 画面のスケール因子 */
+extern  double  screen_scale_y;
+extern  int     screen_scale_dx;    /* 画面のスケール後のオフセット */
+extern  int     screen_scale_dy;
+
 extern  char    *status_buf;        /* ステータス全域 先頭     */
 extern  char    *status_start[3];   /* ステータス描画 先頭     */
 extern  int status_sx[3];       /* ステータス描画サイズ       */

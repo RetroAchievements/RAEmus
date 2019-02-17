@@ -1,12 +1,30 @@
 
 
-            QUASI88改の履歴
+            QUASI88kai Changelog / QUASI88改の履歴
+
+
+2019/02/14 ver 0.6.8
+    New (新機能):
+        Support launch options in the Win32 version (Win32版に起動オプションを有効にする)
+    Other changes (他更新内容):
+        Clear key press state when losing focus (フォーカスが外される時はキーの押下状態を解除)
+        Various fixes to RAQUASI88 and the Win32 full screen mode (RAQUASI88、Win32版のフルスクリーンモードを色々修正)
+
+
+2019/02/10 ver 0.6.7
+    New (新機能):
+        Improve memory wait emulation and fix BEEP audio output with -v1s -mem_wait (メモリウェイトを改良し、 -v1s -mem_wait でのBEEP音出力を修正)
+        Implement integer scale -fullscreen on Win32 (Win32版に -fullscreen を実装)
+
+    Other changes (他更新内容):
+        Move the disk save folder to SAVE (ディスクセーブのフォルダを SAVE へ移動)
 
 
 2019/01/07 ver 0.6.6
     New (新機能):
         Tape image drag-and-drop support on Win32 (Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実装)
         Add a RetroAchievements-compatible version "RAQUASI88" ver 1.0.0 (RetroAchievements対応版「RAQUASI88」 ver 1.0.0 を追加)
+        Implement disk save: loaded disks are copied into the DISK folder, and files with names corresponding to loaded images are read and written from there in order to preserve the originals (ディスクセーブを実装 → DISK フォルダにディスクイメージをコピーし、そのフォルダから挿入されるイメージと同じファイル名のコピーを読み書きすることで元ファイルを上書きせずに保持る)
     Other changes (他更新内容):
         Rename the project to QUASI88改 (名称を「QUASI88改」へ変更)
         Translate some documents into English (幾つかの文書の英語訳を追加)
@@ -14,7 +32,7 @@
 
 2018/12/24 ver 0.6.5
     New (新機能):
-        Double window size support in win32 (win32版に倍のウィンドウサイズをサポート)
+        Double window size support in Win32 (Win32版に倍のウィンドウサイズをサポート)
         UTF-8 support on Windows (Windows版にUTF-8をサポート)
     Other changes (他更新内容):
         All files converted to UTF-8 (全ファイルをUTF-8に変換)

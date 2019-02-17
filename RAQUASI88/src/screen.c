@@ -128,6 +128,11 @@ char    *screen_start;          /* 画面先頭         */
 static  int screen_bx;      /* ボーダー(枠)の幅 x (ドット)    */
 static  int screen_by;      /*     〃      y (ドット)   */
 
+double screen_scale_x = 0.0;  /* 画面のスケール因子 */
+double screen_scale_y = 0.0;
+int screen_scale_dx = 0; /* 画面のスケール後のオフセット */
+int screen_scale_dy = 0;
+
 
 
 /*CFG*/ int status_fg = 0x000000;   /* ステータス前景色     */
@@ -383,7 +388,7 @@ static  int open_window(void)
             break;
         }
 
-        if (w <= spec->window_max_width &&
+        if (w * (mon_aspect ? mon_aspect : 1) <= spec->window_max_width &&
             h <= spec->window_max_height) {
             found = TRUE;
             break;
@@ -411,10 +416,14 @@ static  int open_window(void)
     status_displayable = FALSE;
     }
     now_screen_size = size;
-
     info = graph_setup(w, h, use_fullscreen, (float)mon_aspect);
 
     if (info) {
+
+    screen_scale_x = info->scaled_width / info->width;
+    screen_scale_y = info->scaled_height / info->height;
+    screen_scale_dx = info->scaled_offx;
+    screen_scale_dy = info->scaled_offy + (info->fullscreen && status_displayable ? STATUS_HEIGHT : 0);
 
     /* フルスクリーンで、ステータス表示が可能なサイズが確保できたか確認 */
     if ((info->fullscreen) &&
@@ -942,22 +951,7 @@ void    quasi88_cfg_set_showstatus(int show)
     if (now_status != show) {       /* ステータス表示有無が変わった */
     show_status = show;
 
-    if (now_fullscreen == FALSE) {  /* ウインドウの場合・・・ */
-
-        open_window_or_exit();      /* 画面サイズ切替     */
-
-    } else {            /* 全画面の場合・・・ */
-
-        now_status = show_status;
-
-        if (now_status) {
-        screen_set_dirty_status_show(); /* ステータス領域 初期化 */
-        screen_set_dirty_status();  /* ステータス領域 更新 */
-        } else {
-        screen_set_dirty_status_hide(); /* ステータス領域 消去 */
-        }
-
-    }
+    open_window_or_exit();          /* 画面サイズ切替     */
 
     status_setup(now_status);       /* ステータス変数等初期化 */
     }
@@ -1766,6 +1760,17 @@ void    quasi88_focus_in(void)
 
 void    quasi88_focus_out(void)
 {
+    int kana_on, caps_on;
+
+    kana_on = IS_KEY88_PRESS(KEY88_KANA);
+    caps_on = IS_KEY88_PRESS(KEY88_CAPS);
+
+    softkey_release_all(); /* キーの押下解除 */
+
+    /* カナ、CAPSの状態を戻す */
+    if (kana_on) KEY88_PRESS(KEY88_KANA);
+    if (caps_on) KEY88_PRESS(KEY88_CAPS);
+
     if (quasi88_is_exec()) {
 
     pause_event_focus_out_when_exec();
