@@ -520,10 +520,22 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
     case ID_DEBUGGER_GENERATELOG:
         g_Settings->SaveBool(Logging_GenerateLog, !g_Settings->LoadBool(Logging_GenerateLog));
         break;
-    case ID_DEBUGGER_DUMPMEMORY: m_Gui->Debug_ShowMemoryDump(); break;
-    case ID_DEBUGGER_SEARCHMEMORY: m_Gui->Debug_ShowMemorySearch(); break;
-    case ID_DEBUGGER_MEMORY: m_Gui->Debug_ShowMemoryWindow(); break;
-    case ID_DEBUGGER_TLBENTRIES: m_Gui->Debug_ShowTLBWindow(); break;
+    case ID_DEBUGGER_DUMPMEMORY:
+        if (RA_WarnDisableHardcore("dump memory"))
+            m_Gui->Debug_ShowMemoryDump();
+        break;
+    case ID_DEBUGGER_SEARCHMEMORY:
+        if (RA_WarnDisableHardcore("search memory"))
+            m_Gui->Debug_ShowMemorySearch();
+        break;
+    case ID_DEBUGGER_MEMORY:
+        if (RA_WarnDisableHardcore("view memory"))
+            m_Gui->Debug_ShowMemoryWindow();
+        break;
+    case ID_DEBUGGER_TLBENTRIES:
+        if (RA_WarnDisableHardcore("view TLB entries"))
+            m_Gui->Debug_ShowTLBWindow();
+        break;
     case ID_DEBUGGER_INTERRUPT_SP: g_BaseSystem->ExternalEvent(SysEvent_Interrupt_SP); break;
     case ID_DEBUGGER_INTERRUPT_SI: g_BaseSystem->ExternalEvent(SysEvent_Interrupt_SI); break;
     case ID_DEBUGGER_INTERRUPT_AI: g_BaseSystem->ExternalEvent(SysEvent_Interrupt_AI); break;
@@ -913,9 +925,9 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
     }
     SystemMenu.push_back(MENU_ITEM(SPLITER));
     SystemMenu.push_back(MENU_ITEM(SUB_MENU, MENU_CURRENT_SAVE, EMPTY_STDSTR, &CurrentSaveMenu));
-    SystemMenu.push_back(MENU_ITEM(SPLITER));
-    SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_CHEAT, MENU_CHEAT, m_ShortCuts.ShortCutString(ID_SYSTEM_CHEAT, AccessLevel)));
-    SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_GSBUTTON, MENU_GS_BUTTON, m_ShortCuts.ShortCutString(ID_SYSTEM_GSBUTTON, AccessLevel)));
+    //SystemMenu.push_back(MENU_ITEM(SPLITER));
+    //SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_CHEAT, MENU_CHEAT, m_ShortCuts.ShortCutString(ID_SYSTEM_CHEAT, AccessLevel)));
+    //SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_GSBUTTON, MENU_GS_BUTTON, m_ShortCuts.ShortCutString(ID_SYSTEM_GSBUTTON, AccessLevel)));
 
     /* Option Menu
     ****************/
