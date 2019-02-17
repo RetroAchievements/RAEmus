@@ -1167,6 +1167,11 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
             }
         }
         break;
+    case WM_CLOSE:
+        if (!RA_ConfirmLoadNewRom(true))
+            return 0;
+        DestroyWindow(hWnd);
+        break;
     case WM_DESTROY:
         WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - start");
         {

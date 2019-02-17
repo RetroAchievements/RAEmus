@@ -156,6 +156,9 @@ void CMainMenu::OnRomInfo(HWND hWnd)
 
 void CMainMenu::OnEndEmulation(void)
 {
+    if (!RA_ConfirmLoadNewRom(false))
+        return;
+
     CGuard Guard(m_CS);
     WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ENDEMULATION");
     if (g_BaseSystem)
@@ -277,7 +280,10 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ROMDIRECTORY 3");
         break;
     case ID_FILE_REFRESHROMLIST: m_Gui->RefreshRomList(); break;
-    case ID_FILE_EXIT:           DestroyWindow((HWND)hWnd); break;
+    case ID_FILE_EXIT:
+        if (RA_ConfirmLoadNewRom(true))
+            DestroyWindow((HWND)hWnd);
+        break;
     case ID_SYSTEM_RESET_SOFT:
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESET_SOFT");
         g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Soft);
