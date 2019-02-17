@@ -76,6 +76,10 @@ void ResetEmulation()
 {
 	if (g_Settings->LoadBool(GameRunning_CPU_Running) || g_Settings->LoadBool(GameRunning_CPU_Paused))
 		g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Hard);
+
+    // ensure speed is not lower than default
+    if (RA_HardcoreModeIsActive())
+        g_BaseSystem->SetSpeed(g_BaseSystem->GetSpeed());
 }
 
 void LoadROM( const char* sFullPath )

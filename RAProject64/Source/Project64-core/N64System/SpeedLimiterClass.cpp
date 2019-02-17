@@ -14,6 +14,8 @@
 
 #include <Common/Util.h>
 
+#include "../../RA_Integration/src/RA_Interface.h"
+
 // ---------------------------------------------------
 
 const uint32_t CSpeedLimiter::m_DefaultSpeed = 60;
@@ -99,6 +101,9 @@ void CSpeedLimiter::AlterSpeed( const ESpeedChange SpeedChange )
 		m_Speed += 1 * SpeedFactor;
 	}
 
+    if (m_Speed < m_DefaultSpeed && RA_HardcoreModeIsActive())
+        m_Speed = m_DefaultSpeed;
+
 	SpeedChanged(m_Speed);
 	FixSpeedRatio();
 }
@@ -109,7 +114,12 @@ void CSpeedLimiter::SetSpeed(int Speed)
     {
         Speed = 1;
     }
-    m_Speed = Speed;
+
+    if (Speed < m_DefaultSpeed && RA_HardcoreModeIsActive())
+        m_Speed = m_DefaultSpeed;
+    else
+        m_Speed = Speed;
+
     SpeedChanged(m_Speed);
     FixSpeedRatio();
 }
