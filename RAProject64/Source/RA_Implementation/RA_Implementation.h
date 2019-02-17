@@ -34,3 +34,4 @@ extern HWND hMainWindow;
 extern HWND hMainWindowStatusBar;
 extern unsigned int g_RAGameId;
 extern bool doRAThread;
+extern char g_RAGameFileName[64];

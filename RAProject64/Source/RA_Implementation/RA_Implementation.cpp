@@ -6,6 +6,8 @@
 
 //#include "Project64\UserInterface\Settings\SettingsPage.h"
 
+char g_RAGameFileName[64] = "";
+
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
 {
@@ -67,8 +69,7 @@ void RebuildMenu()
 //	 for the ROM, if one can be inferred from the ROM.
 void GetEstimatedGameTitle( char* sNameOut )
 {
-	//if( emu && emu->get_NES_ROM() )
-	//	strcpy_s( sNameOut, 49, emu->get_NES_ROM()->GetRomName() );
+    strcpy(sNameOut, g_RAGameFileName);
 }
 
 void ResetEmulation()
