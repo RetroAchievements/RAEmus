@@ -18,6 +18,7 @@ extern void ConsolePrintf(const char *format, ...);	//message.c
 #include "app_memview.h"
 #include "app_cheatfinder.h"
 #include "debugger.h"
+#include "coleco.h"
 
 
 //Required for new RA Memory Bank interface
@@ -29,7 +30,9 @@ void RAMeka_RAMByteWriteFn(unsigned int Offset, unsigned int nVal) {
 	//why is nVal an int and not a char?
 	RAM[Offset] = static_cast<unsigned char>(nVal);
 }
-
+void RAMeka_RAMByteWriteFnColeco(unsigned int Offset, unsigned int nVal) {
+    Write_Mapper_Coleco(0x6000 + Offset, nVal);  // special case for ColecoVision crazy mirroring
+}
 
 
 //Needed as RA and Meka both use GetCurrentDirectory and SetCurrentDirectory seperately
@@ -276,7 +279,7 @@ void RAMeka_RA_MountROM( ConsoleID consoleID ) {
             RA_InstallMemoryBank( 0, RAMeka_RAMByteReadFn, RAMeka_RAMByteWriteFn, 0x2000 ); //8KB
             break;
         case Colecovision:
-            RA_InstallMemoryBank( 0, RAMeka_RAMByteReadFn, RAMeka_RAMByteWriteFn, 0x400 ); //1KB
+            RA_InstallMemoryBank( 0, RAMeka_RAMByteReadFn, RAMeka_RAMByteWriteFnColeco, 0x400 ); //1KB
             break;
         case SG1000:
             RA_InstallMemoryBank( 0, RAMeka_RAMByteReadFn, RAMeka_RAMByteWriteFn, 0x400 ); //1KB
