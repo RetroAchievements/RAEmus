@@ -361,7 +361,7 @@ void CN64System::RunLoadedImage(void)
 	// #RA
 	RA_ClearMemoryBanks();
 	RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, g_MMU->RdramSize() );
-	RA_OnLoadNewRom( RomImage, FileSize );
+    RA_ActivateGame( g_RAGameId );
     WriteTrace(TraceN64System, TraceDebug, "Done");
 }
 
