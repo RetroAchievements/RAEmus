@@ -13,6 +13,10 @@
 #include "inputs_t.h"
 #include "vlfn.h"
 
+//#RA
+#include "RA_Interface.h"
+#include "RA_Implementation.h"
+
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -902,7 +906,8 @@ void	FB_OpenSelectedEntry()
         }
     case FB_ENTRY_TYPE_FILE:
         {
-			FB_OpenFile(entry->file_name);
+            if (RA_ConfirmLoadNewRom(false))
+    			FB_OpenFile(entry->file_name);
             break;
         }
     default:

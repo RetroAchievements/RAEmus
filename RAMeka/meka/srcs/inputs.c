@@ -26,6 +26,10 @@
 #include "video.h"
 #include "sound/sound_logging.h"
 
+//##RA
+#include "RA_Interface.h"
+#include "RA_Implementation.h"
+
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -136,8 +140,13 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                 Action_Switch_Layer_Sprites();
 
             // Hard Pause
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
+            if (Inputs_KeyPressed(ALLEGRO_KEY_F12, FALSE))
+            {
                 g_machine_pause_requests = 1;
+
+                //RA
+                RAMeka_RA_SetPaused((g_machine_flags & MACHINE_PAUSED) == 0);
+            }
         }
         break;
     case ALLEGRO_KEYMOD_CTRL:
@@ -152,7 +161,10 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
 			// Next frame (pause hack)
 			if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-				g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
+            {
+                if (!RA_HardcoreModeIsActive())
+    				g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
+            }
 
 			// Load State & Continue
 			if (Inputs_KeyPressed(ALLEGRO_KEY_F7, FALSE))

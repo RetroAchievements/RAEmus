@@ -129,8 +129,9 @@ void RebuildMenu()
 //	 for the ROM, if one can be inferred from the ROM.
 void GetEstimatedGameTitle(char* sNameOut)
 {
-	//if( emu && emu->get_NES_ROM() )
-	//	strcpy_s( sNameOut, 49, emu->get_NES_ROM()->GetRomName() );
+    strncpy(sNameOut, g_env.Paths.MediaImageFile, 64);
+    sNameOut[63] = '\0';
+    StrPath_RemoveExtension(sNameOut);
 }
 
 

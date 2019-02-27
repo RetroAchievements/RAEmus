@@ -52,9 +52,6 @@ void    Machine_Pause()
     if (g_machine_pause_requests > 0)
         g_machine_pause_requests--;
 
-	//RA
-	RAMeka_RA_SetPaused((g_machine_flags & MACHINE_PAUSED) != 0);
-
     // Verbose
     if (g_machine_flags & MACHINE_PAUSED)
     {
