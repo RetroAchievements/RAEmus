@@ -76,6 +76,6 @@ RetroAchievements Emulator Requirements:
     [ ] dorequest.php>latestclient needs to map to LatestXXXVersion.html file when it receives either emulator ID or console ID.
     [ ] Add link to the new system game list in RAWeb:lib/dynrenderer.php>RenderToolbar.
     [ ] Add an entry for the emulator in RAWeb:public/reportissue.php, so people can choose it when opening tickets.
-    [ ] Zip file needs to be uploaded to server
+    [ ] Upload zip file to the server
     [ ] Create the LatestXXXVersion.html page.
-    [ ] Add a link to the zip file and show the latest emulator's version in download.php 
+    [ ] Add a link to the zip file and show the latest emulator's version in RAWeb:public/download.php 
