@@ -156,6 +156,9 @@ void CMainMenu::OnRomInfo(HWND hWnd)
 
 void CMainMenu::OnEndEmulation(void)
 {
+    if (!RA_ConfirmLoadNewRom(false))
+        return;
+
     CGuard Guard(m_CS);
     WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ENDEMULATION");
     if (g_BaseSystem)
@@ -277,7 +280,10 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ROMDIRECTORY 3");
         break;
     case ID_FILE_REFRESHROMLIST: m_Gui->RefreshRomList(); break;
-    case ID_FILE_EXIT:           DestroyWindow((HWND)hWnd); break;
+    case ID_FILE_EXIT:
+        if (RA_ConfirmLoadNewRom(true))
+            DestroyWindow((HWND)hWnd);
+        break;
     case ID_SYSTEM_RESET_SOFT:
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESET_SOFT");
         g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Soft);
@@ -358,15 +364,9 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         }
         break;
     case ID_OPTIONS_INCREASE_SPEED:
-        if (RA_HardcoreModeIsActive())
-            break;
-
         g_BaseSystem->AlterSpeed(CSpeedLimiter::INCREASE_SPEED);
         break;
     case ID_OPTIONS_DECREASE_SPEED:
-        if (RA_HardcoreModeIsActive())
-            break;
-
         g_BaseSystem->AlterSpeed(CSpeedLimiter::DECREASE_SPEED);
         break;
     case ID_OPTIONS_FULLSCREEN:
@@ -520,10 +520,22 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
     case ID_DEBUGGER_GENERATELOG:
         g_Settings->SaveBool(Logging_GenerateLog, !g_Settings->LoadBool(Logging_GenerateLog));
         break;
-    case ID_DEBUGGER_DUMPMEMORY: m_Gui->Debug_ShowMemoryDump(); break;
-    case ID_DEBUGGER_SEARCHMEMORY: m_Gui->Debug_ShowMemorySearch(); break;
-    case ID_DEBUGGER_MEMORY: m_Gui->Debug_ShowMemoryWindow(); break;
-    case ID_DEBUGGER_TLBENTRIES: m_Gui->Debug_ShowTLBWindow(); break;
+    case ID_DEBUGGER_DUMPMEMORY:
+        if (RA_WarnDisableHardcore("dump memory"))
+            m_Gui->Debug_ShowMemoryDump();
+        break;
+    case ID_DEBUGGER_SEARCHMEMORY:
+        if (RA_WarnDisableHardcore("search memory"))
+            m_Gui->Debug_ShowMemorySearch();
+        break;
+    case ID_DEBUGGER_MEMORY:
+        if (RA_WarnDisableHardcore("view memory"))
+            m_Gui->Debug_ShowMemoryWindow();
+        break;
+    case ID_DEBUGGER_TLBENTRIES:
+        if (RA_WarnDisableHardcore("view TLB entries"))
+            m_Gui->Debug_ShowTLBWindow();
+        break;
     case ID_DEBUGGER_INTERRUPT_SP: g_BaseSystem->ExternalEvent(SysEvent_Interrupt_SP); break;
     case ID_DEBUGGER_INTERRUPT_SI: g_BaseSystem->ExternalEvent(SysEvent_Interrupt_SI); break;
     case ID_DEBUGGER_INTERRUPT_AI: g_BaseSystem->ExternalEvent(SysEvent_Interrupt_AI); break;
@@ -913,9 +925,9 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
     }
     SystemMenu.push_back(MENU_ITEM(SPLITER));
     SystemMenu.push_back(MENU_ITEM(SUB_MENU, MENU_CURRENT_SAVE, EMPTY_STDSTR, &CurrentSaveMenu));
-    SystemMenu.push_back(MENU_ITEM(SPLITER));
-    SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_CHEAT, MENU_CHEAT, m_ShortCuts.ShortCutString(ID_SYSTEM_CHEAT, AccessLevel)));
-    SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_GSBUTTON, MENU_GS_BUTTON, m_ShortCuts.ShortCutString(ID_SYSTEM_GSBUTTON, AccessLevel)));
+    //SystemMenu.push_back(MENU_ITEM(SPLITER));
+    //SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_CHEAT, MENU_CHEAT, m_ShortCuts.ShortCutString(ID_SYSTEM_CHEAT, AccessLevel)));
+    //SystemMenu.push_back(MENU_ITEM(ID_SYSTEM_GSBUTTON, MENU_GS_BUTTON, m_ShortCuts.ShortCutString(ID_SYSTEM_GSBUTTON, AccessLevel)));
 
     /* Option Menu
     ****************/

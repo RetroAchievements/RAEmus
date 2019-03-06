@@ -133,6 +133,14 @@ bool CN64Rom::AllocateAndLoadN64Image(const char * FileLoc, bool LoadBootCodeOnl
         return false;
     }
 
+    const char* ptr = strrchr(FileLoc, '\\');
+    if (ptr == NULL)
+        ptr = FileLoc;
+    else
+        ++ptr;
+    strncpy(g_RAGameFileName, ptr, sizeof(g_RAGameFileName));
+    g_RAGameFileName[sizeof(g_RAGameFileName) - 1] = '\0';
+
     // calculate the hash before byteswapping the ROM.
     g_RAGameId = RA_IdentifyRom(m_ROMImage, m_RomFileSize);
 
@@ -224,6 +232,8 @@ bool CN64Rom::AllocateAndLoadZipImage(const char * FileLoc, bool LoadBootCodeOnl
             }
             FoundRom = true;
 
+            strncpy(g_RAGameFileName, zname, sizeof(g_RAGameFileName));
+            g_RAGameFileName[sizeof(g_RAGameFileName) - 1] = '\0';
             g_RAGameId = RA_IdentifyRom(m_ROMImage, m_RomFileSize);
 
             g_Notify->DisplayMessage(5, MSG_BYTESWAP);
