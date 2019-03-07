@@ -1,0 +1,32 @@
+How to update the webpage
+=========================
+
+1) Save a local copy of this page: http://applewin.berlios.de/ as index.php
+
+2) Edit index.php using Nvu, Frontpage, etc
+
+3) Launch PSFTP (part of PuTTY)
+
+open shell.berlios.de
+
+cd /home/groups/applewin/htdocs
+lcd <folder on PC>
+put index.php
+put AppleWin.chm
+put History.txt
+
+*** NB. Files on BerliOS server are case-sensitive
+*** Bear this in mind when ref'ing files from the web-page.
+
+
+4) AppleWinX.Y.Z.zip gets uploaded to berliOS's applewin 'Files' page:
+. Project Admin -> Edit/Release Files
+. Quick-release a file
+. Package ID: AppleWin
+. Release Name: (eg) 1.13.2
+. Status: Active
+. Upload a new file...
+
+Alternatively:
+
+Login to ftp.berlios.de as 'anonymous' and upload the zip to the 'incoming' folder.

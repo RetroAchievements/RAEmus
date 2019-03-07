@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>Configuration Settings</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	</head>
+	<body style="FONT-FAMILY: verdana; BACKGROUND-COLOR: rgb(255,255,255)" alink="#008000"
+		link="#008000" vlink="#008000">
+		<h2 style="COLOR: rgb(0,128,0)">Configuration Settings</h2>
+		<hr size="4">
+		<img style="FLOAT: right; WIDTH: 344px; HEIGHT: 460px" src="img/config.png" alt="Configuration settings"
+			hspace="5" vspace="5">
+	
+		<strong>Model:</strong><br>
+		This describes the mode of emulation. &nbsp;You have the option of emulating 
+		the predecessors of the Apple //e: the Apple ][ and Apple ][+. Besides running 
+		with a different Apple system ROM, some differences are discussed below.<br>
+		<ul>
+			<li>Apple ][ : 48K non-autostarting, Integer BASIC, no lower-case, no 80-column, 6502 CPU
+			<li>Apple ][+ : 64K autostarting, Applesoft BASIC version of the Apple ][
+			<li>Apple //e : 128K machine, lower-case, 80-column, 6502 CPU</li>
+			<li>Enhanced Apple //e : 128K machine, lower-case, 80-column, 65C02 CPU</li>
+			<li>Clone (specific model selectable from Advanced page)</li>
+		</ul>
+
+		<strong>Confirm reboot:</strong><br>
+		Show "Confirm reboot" message box when F2 is pressed.<br>
+		<br>
+
+		<strong>Video:</strong><br>
+		AppleWin can display Apple video in a variety of modes. The display can also be 
+		run in a standard window or full-screen. This option describes the type of 
+		video emulation to be used for the emulator. The differences are 
+		discussed below.<br>
+		<ul>
+			<li><strong>Monochrome (custom) :</strong>&nbsp;This mode emulates a monochrome monitor.<br>
+			You can choose your monochrome color from the <em>Monochrome Color</em>	button described below.
+			<li><strong>Color (RGB Monitor) :</strong>&nbsp;This mode emulates a standard RBG color monitor.
+			<br>Text is sharp like a white monochrome monitor. Color graphics has only 16 colors (with no blurring or ringing).
+			<li><strong>Color (NTSC Monitor) :</strong>&nbsp;This mode emulates a standard NTSC color monitor.
+			<br>Text is sharp, but contains color artifacts. Color graphics has visible alternating color and black pixels.
+			<li><strong>Color TV :</strong>&nbsp;This mode emulates an NTSC color TV.
+			<br>All text and color graphics modes are blurry and have visible ringing.
+			<li><strong>B&W TV :</strong>&nbsp;This mode emulates an NTSC black and white TV.
+			<li><strong>Monochrome (Amber/Green/White) :</strong>&nbsp;Monochrome with specified color.
+		</ul>
+
+		<strong>Monochrome Color:</strong><br>
+		This is the color to use when you choose a monochrome video mode.<br>
+		<br>
+
+		<strong>50% Scan lines:</strong><br>
+		Only draw alternate scanline (for better monitor authenticity).<br>
+		<br>
+
+		<strong>Vertical blend:</strong><br>
+		When video mode is 'Color (RGB Monitor)' then vertically blend the hires screen.<br>
+		<br>
+
+		<strong>Full-Screen: Show drive/keyboard status:</strong><br>
+		When in full-screen mode, show floppy (activity and track) and harddisk status (activity); keyboard caps-lock status and if emulation is paused.<br>
+		<br>
+
+		<strong>Serial Port:</strong><br>
+		This option will remap the emulated Apple's serial port to your PC's serial port (or TCP port 1977).<br>
+		See <a href="card-ssc.html">Super Serial Card</a> for more details.<br>
+		<br>
+
+		<strong>Ethernet Settings...:</strong><br>
+		This allows to choose which network interface card (NIC) you want to 
+		use with the Uthernet card.<br>
+		<br>
+
+		<strong>Emulation Speed Control:</strong><br>
+		This option let's you control the processor speed of the emulated system. You 
+		may choose to use an authentic speed (matching the speed of the original 
+		processor from the system) or you can underclock or overclock the emulated 
+		processor speed from half-speed to as fast as your PC can emulate.<br>
+		<br>
+
+		<strong>Benchmark Emulator:</strong><br>
+		This will run a benchmark test that will show how fast your PC can emulate an 
+		Apple //e system with this emulator. In order to run the benchmark, the 
+		emulated machine must be reset and you will lose any unsaved work. You will be 
+		prompted before you continue this action. The results given are:<br>
+		<ul>
+			<li> Pure Video FPS
+			<li> Pure CPU MHz (video update)
+			<li> Pure CPU MHz (full-speed)
+			<li> Expected average video game performance (in FPS)
+		</ul>
+	</li>
+	</body>
+</html>

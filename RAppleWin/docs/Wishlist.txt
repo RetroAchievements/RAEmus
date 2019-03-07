@@ -1,0 +1,87 @@
+Requests (Wishlist):
+====================
+
+. DONE
+  Hard Disk light/indicator
+  Right now the  "- Caps" in the bottom right wastes too much space.
+  It should be replace with [A] and [a]
+  This would free up room to add a hard drive light indicator to the right.
+ https://groups.google.com/d/msg/comp.emulators.apple2/grpSWHii8Ak/IorwTvbLxtgJ
+
+. Video: Full Screen Debugger Colors
+  Amber, F7, F7 - wrong palette?
+
+. Video: Proper mixed-mode displays
+. Periphals: Ability to swap ROM cards
+
+- Disk map!!!
+ http://www.lazilong.com/apple_II/adfs/screenshots/beagle_block.html
+
+Priority:
+. Shift keys map to button#2
+. DONE: Right-click on drive icon to eject disk
+   Shift-Right-Click to turn Write Protection ON
+   Ctrl-Right-Click to turn Write Protection OFF
+. DONE? (use '\') SCR shows what the Apple monitor should look like at the current point
+. DONE: Use MT# MA# to dump memory as text.
+. DONE: Ramworks support (see AppleWin 2.0 project src)
+. DONE: Shift+Ins to paste from clipboard
+. DONE: Cmd-line switches for: d1, d2, full-screen
+
+
+Post 1.12.9.1:
+- [ Feature Request #2054 ] More accurate save state
+
+Post 1.12.8.0:
+- I have multiple controllers and was wondering if a future version of the emulator
+  could support selecting the joystick you want to use in the emulator.
+
+Post 1.12.7.0:
+- Light-gun support (if pixel under mouse is set, then set $C061.b7 (Richard Jackson))
+
+Post 1.12.6.0:
+- Map keys to PC gamepad buttons, eg. I,J,K,M -> Up,Left,Right,Down
+- Echo II support
+. DONE: v16.0.0.0: VIDEO: Monitor /// output (with a gap between each scanline)
+
+Post 1.12.5.0:
+- Option to associate (or not) file types with AW.
+- Option for the emulator to not lock the disks while they are in the (virtual) drives.
+
+- Default monochrome mode to green
+- Associate .aws with AppleWin.
+
+- DONE: v16.0.0.0: UI: Screen snapshot
+- Arrow-key joystick emu: can't go diagonally
+- Map right-ctrl to button-0
+
+Post 1.12.4.2:
+- Ability to capture Apple A/V to an AVI file.
+- Paddle emulation: 1 analogue input for PDL0, another (independent one) for PDL1.
+
+Post 1.12.4.1:
+- Option to make any pc joystick button working as the 'Turbo' (i.e. Scroll Lock).
+- FastMath card support.
+- Ability to view page1/2 & switch mode (Text/GR/HGR/DHGR)
+- Add an 80 X 80 or 40X40 text mode
+- Send data back and forth between emu apple 2 and VisualBasic
+- Resizeable , scalable window
+- Make a documented interface so others can program Apple II peripheral card Emu plugins.
+- Emulate a video capture card: get an image from a webcam, de-rez it to HGR, and display it on the HGR screen.
+- AppleCrate emulation between several open AppleWin emulators.
+- Access PC files from PRODOS or DOS instead of DSK images? : Not doing (user CiderPress instead)
+
+Post 1.12.4.0:
+- Ability to send files to the PC from a disk image in AppleWin : Not doing (user CiderPress instead)
+- Ability to load files from the PC to a disk image in AppleWin : Not doing (user CiderPress instead)
+- When you are using the mouse as a cursor / joystick, as well as the markers on the screen border, enable the user to also add a dot (or cross hair) to the screen wherever the mouse pointer is.
+- Ability to send Apple's stdout to clipboard or file (and vice versa).
+
+Initial:
+- Cassette-in
+- Merged source base w/ PocketPC port (e.g. http://www.geocities.com/bonelyfish/applece.html)
+- Cut'n'paste support
+- Option to switch joystick buttons. (Lolo S: 01/06/04)
+- Option to trim joystick axes. Drift problem with "Rescue Raiders". (Lolo S: 01/06/04)
+- Backspace (Apple's DELETE key) shouldn't back to left-arrow. Make this configurable. (TheRink: 06/06/04)
+
