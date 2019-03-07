@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+		
+		<title>Using the Keyboard</title><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head>
+<body style="font-family: verdana; background-color: rgb(255, 255, 255);" alink="#008000" link="#008000" vlink="#008000">
+		<h2 style="color: rgb(0, 128, 0);">Using the Keyboard</h2>
+		<hr size="4">
+		<p>The Apple //e keyboard was very similar to the PC keyboard, and most keys 
+			correspond directly between the two keyboards. However, there were a few keys 
+			on the Apple //e that are not on the PC; these are described below:</p>
+		<p><span style="font-weight: bold;">Reset</span>:<br>
+			On the Apple //e, you could usually press Control+Reset to interrupt a running 
+			program. With the Apple //e Emulator, you may emulate this key sequence with
+			<span style="font-style: italic;">Ctrl+F2</span> or
+			<span style="font-style: italic;">Ctrl+Break</span>.
+		</p>
+		<p><span style="font-weight: bold;">Open Apple:</span><br>
+			The Open Apple key was first introduced in the Apple //e, and was later renamed 
+			to the Apple key. It was similar to
+			<span style="font-style: italic;">Ctrl</span>
+			and
+			<span style="font-style: italic;">Alt</span>
+			on a PC, in that it was used in conjunction with other keys. This key is 
+			emulated with the PC's
+			<span style="font-style: italic;">Left Alt</span>
+			key, which is in the same position as the Open Apple key on the original //e.
+		</p>
+		<p><span style="font-weight: bold;">Solid Apple:</span><br>
+			The Solid Apple key was introduced on the Apple //e and later renamed to the 
+			Option key. This key is emulated with the PC's
+			<span style="font-style: italic;">Right Alt</span>
+			key (or <span style="font-style: italic;">Alt Gr</span> key), which is in the same position as the Solid Apple key on the original //e.
+		</p>
+		<p><span style="font-weight: bold;">Numeric Keypad:</span><br>
+			The numeric keypad, introduced on the Extended Keyboard //e, is emulated 
+			through the PC's numeric keypad. To enable this feature, turn on
+			<span style="font-style: italic;">Num Lock </span>and make sure the joystick 
+			emulation is configured to use something other than the keyboard.
+		</p>
+		<p><span style="font-weight: bold;">Pause:</span><br>
+			Pressing the PC's
+			<span style="font-style: italic;">Pause</span>
+			key will pause emulation. Press
+			<span style="font-style: italic;">Pause</span>
+			again to resume emulation.</p>
+		<p><span style="font-weight: bold;">Caps Lock:</span><br>
+			On start-up, AppleWin always begins with the Apple II's Caps Lock enabled, regardless of the current state of the PC's Caps Lock key.
+			<ul>
+			<li>Assuming Caps Lock is off, when you press the PC's Caps Lock key the first time, this will enable the PC's Caps Lock. AppleWin will see this but remain in the Caps Lock enabled state.
+			<li>Now pressing the PC's Caps Lock key a second time, AppleWin will disable Caps Lock and allow lower-case to be used.
+			<li>Subsequent toggling of the PC's Caps Lock key will continue to be tracked and replicated by AppleWin.
+			</ul>
+			Of course, for lower-case you must be emulating a //e, Enhanced //e or cloned //e (so not a II or II+).<br><br>
+			Also in AppleWin's UI, there is a little icon in the bottom right of the window which shows either 'A' or 'a' to reflect the current state of the emulated Apple II's Caps Lock.
+			</p>
+		<p><span style="font-weight: bold;">Scroll Lock:</span><br>
+			<span style="font-style: italic;">Scroll Lock</span>
+			key can be configured to toggle normal/full-speed mode, or only enable full-speed when pressed. See <a href="cfg-input.html">Input</a> for configuring how <span style="font-style: italic;">Scroll Lock</span> behaves.
+			NOTE:&nbsp; The status of the PC's
+			<span style="font-style: italic;">Scroll Lock</span>
+			LED is meaningless.</p>
+		<p><span style="font-weight: bold;">Shift+Insert:</span><br>
+			Paste text from Windows' clipboard. Text gets fed a character at a time to the 
+			Apple's keyboard hardware. The 'CR+LF' combination gets converted to CR.</p>
+		<p><span style="font-weight: bold;">PrintScrn:</span><br>
+			Save Apple screen to bitmap. The file is saved to the last directory you opened a disk image from. The default resolution is 560x384. Use 
+			<span style="font-style: italic;">Shift+PrintScrn</span> 
+			to save a 280x192 bitmap. The filename
+			generated depends if you have a floppy inserted in drive-1 or not. If you do then
+			files are named "{DiskFilename}_#.bmp" otherwise they are named "AppleWin_ScreenShot_#.bmp".</p>
+		<p><span style="font-weight: bold;">Shift+PrintScrn:</span><br>
+		    See above.</p>
+		<p><span style="font-weight: bold;">Ctrl+PrintScrn:</span><br>
+		    Copy the text screen (auto detect 40/80 columns) to the clipboard.</p>
+		<p><span style="font-weight: bold;">Alt+Enter:</span><br>
+		    Default: Toggle between windowed and full screen video modes. (NB. Will conflict with emulation and prevent Open Apple + Enter from being readable. Use the <a href="CommandLine.html">Command Line</a> switch to allow Open Apple + Enter to be readable.)</p>
+		<p><span style="font-weight: bold;">Ctrl+Left Mouse Button:</span><br>
+			This will show the Windows mouse cursor when emulating an Apple joystick with the PC's mouse or using a Mouse card.<br>
+		<p><span style="font-weight: bold;">Function Keys F1-F8:</span><br>
+			These PC function keys correspond to buttons on the <a href="toolbar.html">toolbar</a>.</p>
+		<p><span style="font-weight: bold;">Function Key F2 + Ctrl:</span><br>
+		    This PC function key combo acts like Ctrl+Reset (instead of power-cycle).</p>
+		<p><span style="font-weight: bold;">Function Key F6 + Ctrl:</span><br>
+		    This PC function key combo toggles between 1x and 2x window sizes.</p>
+		<p><span style="font-weight: bold;">Function Key F9:</span><br>
+			This PC function key will cycle through AppleWin's display modes:
+			monochrome (custom), Color Monitor, B&W TV, Color TV, etc. This shortcut allows you to switch display modes without going 
+			through the configuration dialog. <br>NB. Use Shift+F9 to reverse-cycle the display modes.</p>
+		<p><span style="font-weight: bold;">Function Key F9 + Ctrl + Shift:</span><br>
+		    This PC function key combo will toggle 50% scanline mode</p>
+		<p><span style="font-weight: bold;">Function Key F10:</span><br>
+			In //e or Enhanced //e emulation mode it will emulate the rocker switch for European video ROM selection. Use the <a href="CommandLine.html">Command Line</a> switch to use an alternate European video ROM file.<br>
+            In Pravets 8A emulation mode it servers as Caps Lock.</p>
+		<p><span style="font-weight: bold;">Function Keys F11-F12:</span><br>
+			These PC function keys correspond to saving/loading a <a href="savestate.html">save-state</a> file.</p>
+	</body></html>

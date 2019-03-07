@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>Command line</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	</head>
+	<body style="FONT-FAMILY: verdana; BACKGROUND-COLOR: rgb(255,255,255)" alink="#008000"
+		link="#008000" vlink="#008000">
+		<h2 style="COLOR: rgb(0,128,0)">Command line</h2>
+		<hr size="4">
+		<p style="FONT-WEIGHT: bold">AppleWin can be driven from the command line as 
+			follows:
+		</p>
+		-d1 &lt;pathname&gt;<br>
+		Start with a floppy disk in drive-1 (and auto power-on the Apple II)<br><br>
+		-d2 &lt;pathname&gt;<br>
+		Start with a floppy disk in drive-2<br><br>
+		-h1 &lt;pathname&gt;<br>
+		Start with hard disk 1 plugged-in (and auto power-on the Apple II). NB. Hard disk controller card gets enabled.<br><br>
+		-h2 &lt;pathname&gt;<br>
+		Start with hard disk 2 plugged-in. NB. Hard disk controller card gets enabled.<br><br>
+		-s0 &lt;saturn|saturn64|saturn128&gt;<br>
+		Insert a Saturn 64K or Saturn 128K card into slot 0 in the Apple II or II+ machines (or similar clone).<br>
+		Where -s0 saturn is an alias for -s0 saturn128.<br><br>
+		-s0 &lt;languagecard|lc&gt;<br>
+		Insert an Apple 16K Language Card into slot 0 in the original Apple II and use the F8 auto-start ROM.<br>
+		NB. The Apple II+ already defaults to having a Language Card, so this switch is not required.<br><br>
+		-s7 empty<br>
+		Remove the hard disk controller card from slot 7.<br>
+		Useful to allow a floppy disk to boot from slot 6, drive 1. Use in combination with -d1.<br><br>
+		-r &lt;number of pages&gt;<br>
+		Emulate a RamWorks III card with 1 to 127 pages (each page is 64K, giving a max of 8MB) in the auxiliary slot in an Apple //e machine.<br><br>
+		-load-state &lt;savestate&gt;<br>
+		Load a save-state file<br>
+		NB. This takes precedent over the -d1,d2,h1,h2,s0,s7 and -r switches.<br><br>
+		-f<br>
+		Start in full-screen mode<br><br>
+		-fs-height=&lt;best|nnnn&gt;<br>
+		Use to select a better resolution for full-screen mode.<br>
+		<ul>
+			<li>best: picks the highest resolution where the height is an integer multiple of (192*2)</li>
+			<li>nnnn: select a specific resolution with height=nnnn pixels</li>
+		</ul>
+		NB. This changes the display resolution (and restores on exit).<br><br>
+		-f8rom &lt;file&gt;<br>
+		Use custom 2K ROM for any Apple II machine at [$F800..$FFFF]. &lt;file&gt; must be 2048 bytes long<br><br>
+		-videorom &lt;file&gt;<br>
+		Use an alternate custom 2K video ROM for Apple II or II+ machines (but not clones).<br>
+		Use an alternate European or custom 4K, 8K or 16K (top 8K only) video ROM for the original or Enhanced //e (but not clones).<br><br>
+		-printscreen<br>
+		Enable the dialog box to display the last file saved to<br><br>
+		-no-printscreen-key<br>
+		Prevent the PrintScreen key from being registered<br><br>
+		-no-hook-system-key<br>
+		Prevent certain system key combinations from being hooked (to prevent the emulator from trapping ALT+ESC, ALT+SPACE, ALT+TAB and CTRL+ESC). This means that the equivalent Open Apple+&lt;key&gt; combinations won't work within the emulator.<br>
+		NB. This switch takes precedence over -hook-alt-tab and -hook-altgr-control.<br><br>
+		-no-hook-alt<br>
+		Prevent the left and right ALT keys from being hooked (eg. to prevent emulation of Open/Solid Apple keys via the ALT keys).<br><br>
+		-hook-alt-tab<br>
+		By default the emulator doesn't hook ALT+TAB. Use this to allow Open Apple+TAB to be readable by the emulated machine.<br><br>
+		-hook-altgr-control<br>
+		By default the emulator doesn't suppress AltGr's (Right Alt's) fake LEFT CONTROL. Use this to suppress this fake LEFT CONTROL to allow Solid Apple+CTRL+&lt;key&gt; to be readable by the emulated machine.<br>
+		NB. Suppressing this fake LEFT CONTROL seems to prevent international keyboards from being able to type certain keys.<br><br>
+		-altgr-sends-wmchar<br>
+		Use this switch to allow Solid Apple (AltGr) to be used in combination with regular keys.<br>
+		When AltGr is pressed, Windows only sends a WM_CHAR message for (eg) international key codes; and so by default the emulator doesn't explicitly send a WM_CHAR message for regular keys when AltGr is being pressed.<br>
+		NB. Using this switch may prevent international keyboards from being able to type certain keys.<br><br>
+		-use-real-printer<br>
+		Enables Advanced configuration control to allow dumping to a real printer<br><br>
+		-noreg<br>
+		Disable registration of file extensions (.do/.dsk/.nib/.po)<br><br>
+		-memclear &lt;n&gt;<br>
+		Where n is [0..7]:
+		<ul>
+			<li>0 Initialize memory to zero</li>
+			<li>1 Initialize memory to random values</li>
+			<li>2 Initialize memory to 4 byte pattern: FF FF 00 00</li>
+			<li>3 Initialize memory to even pages FF, odd pages 00</li>
+			<li>4 Initialize memory to first half page 00, last half page FF</li>
+			<li>5 Initialize memory to first half page FF, last half page 00</li>
+			<li>6 Initialize memory to byte offset of that page
+						(current memory address low byte)
+						i.e. 00:00 01 02 03 ... for page $20</li>
+			<li>7 Initialize memory to page address
+						(current memory address high byte)
+						i.e. 00:20 20 20 20 ... for page $20</li>
+		</ul>
+		-modem<br>
+		Shorthand for passing -dcd<br>
+		Use with GBBS Pro (or any other BBS package). See the <a href="http://www.callapple.org/documentation/books/gbbs-pro-2-2/">GBBS Pro 2.2</a> book from Call-A.P.P.L.E.
+		<br><br>
+		-dcd<br>
+		For the SSC's 6551's Status register's DCD bit, use this switch to force AppleWin to use the state of the MS_RLSD_ON bit from GetCommModemStatus().<br><br>
+		-alt-enter=&lt;toggle-full-screen|open-apple-enter&gt;<br>
+		Define the behavior of Alt+Enter:
+		<ul>
+			<li>Either: Toggle between windowed and full screen video modes (default).
+			<li>Or: Allow the emulated Apple II to read the Enter key state when Alt (Open Apple key) is pressed.
+		</ul>
+
+		<br>
+		<P style="FONT-WEIGHT: bold">Debug arguments:
+		</P>
+		-l or -log<br>
+		Enable logging. Creates an AppleWin.log file<br><br>
+		-m<br>
+		Disable DirectSound support<br><br>
+		-no-printscreen-dlg<br>
+		Suppress the warning message-box if AppleWin fails to capture the PrintScreen key<br><br>
+	</body>
+</html>

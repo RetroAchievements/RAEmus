@@ -1,0 +1,469 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+#include "version.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+FULLSCR_BUTTON          BITMAP                  "FULLSCR.BMP"
+RUN_BUTTON              BITMAP                  "RUN.BMP"
+RUNP_BUTTON             BITMAP                  "RUNP.BMP"
+RUN3000E_BUTTON         BITMAP                  "RUN3000E.BMP"
+DEBUG_BUTTON            BITMAP                  "DEBUG.BMP"
+DRIVE1_BUTTON           BITMAP                  "DRIVE1.BMP"
+DRIVE2_BUTTON           BITMAP                  "DRIVE2.BMP"
+SETUP_BUTTON            BITMAP                  "SETUP.BMP"
+CHARSET40               BITMAP                  "CHARSET4.BMP"
+DISKOFF_BITMAP          BITMAP                  "DISKOFF.BMP"
+DISKREAD_BITMAP         BITMAP                  "DISKREAD.BMP"
+DISKWRITE_BITMAP        BITMAP                  "DISKWRIT.BMP"
+DISKPROT_BITMAP         BITMAP                  "DISKPROT.BMP"
+LED_CAPSOFF_BITMAP      BITMAP                  "LED_CAPS_OFF.BMP"
+LED_CAPSON_BITMAP       BITMAP                  "LED_CAPS_ON.BMP"
+LED_CAPSOFF_P8_BITMAP   BITMAP                  "LED_CAPS_OFF_P8.BMP"
+LED_CAPSON_P8_BITMAP    BITMAP                  "LED_CAPS_ON_P8.BMP"
+LED_LATOFF_BITMAP       BITMAP                  "LED_CAPS_OFF_LAT.BMP"
+LED_LATON_BITMAP        BITMAP                  "LED_CAPS_ON_LAT.BMP"
+CHARSET82               BITMAP                  "CHARSET82.BMP"
+CHARSET8M               BITMAP                  "CHARSET8M.BMP"
+CHARSET8C               BITMAP                  "CHARSET8C.BMP"
+HELP_BUTTON             BITMAP                  "HELP.BMP"
+DRIVESWAP_BUTTON        BITMAP                  "DRIVESWAP.BMP"
+IDB_APPLEWIN            BITMAP                  "ApplewinLogo.bmp"
+IDB_DEBUG_FONT_7X8      BITMAP                  "Debug_Font.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROPPAGE_CONFIG DIALOGEX 0, 0, 210, 209
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION | WS_SYSMENU
+CAPTION "Configuration"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "&Model:",IDC_STATIC,5,7,40,8
+    COMBOBOX        IDC_COMPUTER,45,5,90,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Confirm reboot",IDC_CHECK_CONFIRM_REBOOT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,8,62,10
+    GROUPBOX        "Video",IDC_STATIC,5,22,200,56
+    LTEXT           "Mo&de:",IDC_STATIC,12,33,33,8
+    COMBOBOX        IDC_VIDEOTYPE,45,30,90,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Monochrome &Color...",IDC_MONOCOLOR,12,46,80,14
+    CONTROL         "50% Scan lines",IDC_CHECK_HALF_SCAN_LINES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,33,62,10
+    CONTROL         "Vertical blend",IDC_CHECK_VERTICAL_BLEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,48,62,10
+    CONTROL         "Full-Screen: Show drive/keyboard status",IDC_CHECK_FS_SHOW_SUBUNIT_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,64,140,10
+    LTEXT           "&Serial Port:",IDC_STATIC,5,89,40,8
+    COMBOBOX        IDC_SERIALPORT,45,87,90,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Ethernet Settings...",IDC_ETHERNET,4,105,80,14
+    GROUPBOX        "Emulation Speed Control",IDC_STATIC,5,130,200,85
+    CONTROL         "Use &Authentic Machine Speed",IDC_AUTHENTIC_SPEED,
+                    "Button",BS_AUTORADIOBUTTON,15,141,115,10
+    CONTROL         "Select C&ustom Speed (in MHz)",IDC_CUSTOM_SPEED,"Button",BS_AUTORADIOBUTTON,15,153,115,10
+    CONTROL         "Generic2",IDC_SLIDER_CPU_SPEED,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,25,164,160,15
+    CTEXT           "0.5",IDC_0_5_MHz,23,180,20,10
+    CTEXT           "1.0",IDC_1_0_MHz,59,180,20,10
+    CTEXT           "2.0",IDC_2_0_MHz,96,180,20,10
+    RTEXT           "Fastest",IDC_MAX_MHz,150,180,29,10
+    PUSHBUTTON      "&Benchmark Emulator",IDC_BENCHMARK,15,194,85,15
+END
+
+IDD_PROPPAGE_INPUT DIALOGEX 0, 0, 210, 215
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION | WS_SYSMENU
+CAPTION "Input"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Joystick Control",IDC_STATIC,5,7,200,101
+    LTEXT           "Joystick &1:",IDC_STATIC,12,20,40,8
+    COMBOBOX        IDC_JOYSTICK0,52,18,110,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Joystick &2:",IDC_STATIC,12,35,40,8
+    COMBOBOX        IDC_JOYSTICK1,52,33,110,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&X-trim:",IDC_STATIC,13,56,28,8
+    CTEXT           "0",IDC_STATIC,36,50,24,20,SS_CENTERIMAGE
+    CONTROL         "Spin1",IDC_SPIN_XTRIM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY,59,53,10,14
+    LTEXT           "&Y-trim:",IDC_STATIC,115,56,28,8
+    CTEXT           "0",IDC_STATIC,137,49,24,20,SS_CENTERIMAGE
+    CONTROL         "Spin1",IDC_SPIN_YTRIM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY,161,53,10,14
+    CONTROL         "Allow cursor keys to be read from keyboard ",IDC_CURSORCONTROL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,75,155,10
+    CONTROL         "Auto-fire (all 3 buttons)",IDC_AUTOFIRE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,90,89,10
+    CONTROL         "Keyboard auto-centering",IDC_CENTERINGCONTROL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,102,90,96,10
+    CONTROL         "&Scroll Lock acts as toggle for full-speed CPU",IDC_SCROLLLOCK_TOGGLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,113,166,10
+    CONTROL         "&Mouse interface in slot 4",IDC_MOUSE_IN_SLOT4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,127,106,10
+    CONTROL         "Show &crosshairs in window's frame",IDC_MOUSE_CROSSHAIR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,141,159,10
+    CONTROL         "&Restrict mouse to Apple window",IDC_MOUSE_RESTRICT_TO_WINDOW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,155,121,10
+    LTEXT           "Microsoft CP/M SoftCard:",IDC_STATIC,8,170,122,10
+    COMBOBOX        IDC_CPM_CONFIG,93,168,55,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Paste &From Clipboard",IDC_PASTE_FROM_CLIPBOARD,8,192,81,14
+    LTEXT           "(Shift+Insert during emulation)",IDC_STATIC,93,195,111,8
+END
+
+IDD_PROPPAGE_SOUND DIALOGEX 0, 0, 210, 191
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION | WS_SYSMENU
+CAPTION "Sound"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "&Device:",IDC_STATIC,5,7,40,8
+    COMBOBOX        IDC_SOUNDTYPE,45,5,100,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Volume Control",IDC_STATIC,5,24,100,89
+    LTEXT           "&Speaker:",IDC_STATIC,11,39,31,8
+    CONTROL         "Slider1",IDC_SPKR_VOLUME,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,13,47,28,60
+    LTEXT           "&Mockingboard:",IDC_STATIC,49,39,51,8
+    CONTROL         "Slider1",IDC_MB_VOLUME,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,59,47,25,60
+    GROUPBOX        "Sound Cards",IDC_STATIC,6,122,197,64
+    CONTROL         "Mockingboards (in slots 4 && 5)",IDC_MB_ENABLE,"Button",BS_AUTORADIOBUTTON,10,136,142,8
+    CONTROL         "Phasor (in slot 4)",IDC_PHASOR_ENABLE,"Button",BS_AUTORADIOBUTTON,10,149,92,10
+    CONTROL         "SAM/DAC (in slot 5)",IDC_SAM_ENABLE,"Button",BS_AUTORADIOBUTTON,10,162,95,10
+    CONTROL         "No sound cards",IDC_SOUNDCARD_DISABLE,"Button",BS_AUTORADIOBUTTON,10,175,78,10
+END
+
+IDD_PROPPAGE_DISK DIALOGEX 0, 0, 211, 188
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION | WS_SYSMENU
+CAPTION "Disk"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Floppy Disk Drives",IDC_STATIC,5,7,200,72
+    LTEXT           "&Disk access speed:",IDC_STATIC,12,21,64,8
+    COMBOBOX        IDC_DISKTYPE,80,18,100,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Hard Disk Drives",IDC_STATIC,5,83,200,64
+    CONTROL         "&Enable hard disk controller in slot 7",IDC_HDD_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,96,122,10
+    PUSHBUTTON      "Swap",IDC_HDD_SWAP,156,92,40,14
+    LTEXT           "&Path to CiderPress:",IDC_STATIC,7,155,74,8
+    EDITTEXT        IDC_CIDERPRESS_FILENAME,7,165,143,12,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "&Browse...",IDC_CIDERPRESS_BROWSE,156,164,50,14
+    LTEXT           "HDD 1:",IDC_STATIC,11,113,23,8
+    LTEXT           "HDD 2:",IDC_STATIC,11,130,23,8
+    COMBOBOX        IDC_COMBO_HDD1,46,112,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_HDD2,46,128,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Disk 1:",IDC_STATIC,10,41,23,8
+    LTEXT           "Disk 2:",IDC_STATIC,10,58,23,8
+    COMBOBOX        IDC_COMBO_DISK1,40,40,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_DISK2,40,57,150,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_TFE_SETTINGS_DIALOG DIALOGEX 0, 0, 270, 100
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ethernet Settings"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Ethernet",IDC_TFE_SETTINGS_ENABLE_T,9,7,30,8
+    COMBOBOX        IDC_TFE_SETTINGS_ENABLE,45,5,50,80,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Interface",IDC_TFE_SETTINGS_INTERFACE_T,9,24,30,8
+    COMBOBOX        IDC_TFE_SETTINGS_INTERFACE,45,22,200,80,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_TFE_SETTINGS_INTERFACE_NAME,9,44,250,8
+    LTEXT           "",IDC_TFE_SETTINGS_INTERFACE_DESC,9,60,250,8
+    DEFPUSHBUTTON   "Ok",IDOK,20,75,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,80,75,50,14
+END
+
+IDD_PROPPAGE_ADVANCED DIALOGEX 0, 0, 210, 217
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_CAPTION | WS_SYSMENU
+CAPTION "Advanced"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Save State",IDC_STATIC,5,7,200,86
+    LTEXT           "&Filename:",IDC_STATIC,12,19,74,8
+    EDITTEXT        IDC_SAVESTATE_FILENAME,12,30,133,12,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "&Browse...",IDC_SAVESTATE_BROWSE,149,28,50,14
+    CONTROL         "Save state on e&xit",IDC_SAVESTATE_ON_EXIT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,47,74,10
+    PUSHBUTTON      "Sa&ve State",IDC_SAVESTATE,13,59,85,15
+    LTEXT           "(F11 during emulation)",IDC_STATIC,107,62,90,8
+    PUSHBUTTON      "&Load State",IDC_LOADSTATE,13,76,85,15
+    LTEXT           "(F12 during emulation)",IDC_STATIC,107,79,90,8
+    LTEXT           "&Printer dump filename:",IDC_STATIC,5,97,74,8
+    EDITTEXT        IDC_PRINTER_DUMP_FILENAME,5,107,143,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "B&rowse...",IDC_PRINTER_DUMP_FILENAME_BROWSE,154,106,50,14
+    CONTROL         "&Dump to printer (use with caution)",IDC_DUMPTOPRINTER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,124,180,10
+    CONTROL         "&Encoding conversion for clones",IDC_PRINTER_CONVERT_ENCODING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,135,180,10
+    CONTROL         "Filter &unprintable characters",IDC_PRINTER_FILTER_UNPRINTABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,146,180,10
+    CONTROL         "&Append to print file",IDC_PRINTER_APPEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,157,120,10
+    LTEXT           "&Teminate printing after idle (in seconds):",IDC_STATIC,5,171,133,8
+    CTEXT           "10",IDC_STATIC,140,165,24,20,SS_CENTERIMAGE
+    CONTROL         "Spin1",IDC_SPIN_PRINTER_IDLE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY,172,169,11,14
+    LTEXT           "&Clone:",IDC_STATIC,5,187,40,8
+    COMBOBOX        IDC_CLONETYPE,35,185,100,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "The Free&ze's non-autostart F8 rom (Apple ][ or ][+ only)",IDC_THE_FREEZES_F8_ROM_FW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,201,194,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+APPLEWIN_ICON           ICON                    "APPLEWIN.ICO"
+DISK_ICON               ICON                    "DISK.ICO"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION APPLEWIN_VERSION
+ PRODUCTVERSION APPLEWIN_VERSION
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "04090000"
+        BEGIN
+            VALUE "Comments", "https://github.com/AppleWin"
+            VALUE "CompanyName", "AppleWin"
+            VALUE "FileDescription", "Apple //e Emulator for Windows"
+            VALUE "FileVersion", APPLEWIN_VERSION_STR
+            VALUE "InternalName", "APPLEWIN"
+            VALUE "LegalCopyright", " 1994-2019 Michael O'Brien, Oliver Schmidt, Tom Charlesworth, Michael Pohoreski, Nick Westgate, Linards Ticmanis"
+            VALUE "OriginalFilename", "APPLEWIN.EXE"
+            VALUE "ProductName", "Apple //e Emulator"
+            VALUE "ProductVersion", APPLEWIN_VERSION_STR
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 0
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR1 ACCELERATORS
+BEGIN
+    "/",            IDM_ABOUT,              ASCII,  ALT, NOINVERT
+    "?",            IDM_ABOUT,              ASCII,  ALT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// FIRMWARE
+//
+
+IDR_DISK2_FW            FIRMWARE                "Disk2.rom"
+IDR_SSC_FW              FIRMWARE                "SSC.rom"
+IDR_HDDRVR_FW           FIRMWARE                "Hddrvr.bin"
+IDR_PRINTDRVR_FW        FIRMWARE                "Parallel.rom"
+IDR_MOCKINGBOARD_D_FW   FIRMWARE                "Mockingboard-D.rom"
+IDR_MOUSEINTERFACE_FW   FIRMWARE                "MouseInterface.rom"
+IDR_THUNDERCLOCKPLUS_FW FIRMWARE                "ThunderClockPlus.rom"
+IDR_TKCLOCK_FW          FIRMWARE                "TKClock.rom"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ROM
+//
+
+IDR_APPLE2_ROM          ROM                     "Apple2.rom"
+IDR_APPLE2_PLUS_ROM     ROM                     "Apple2_Plus.rom"
+IDR_APPLE2E_ROM         ROM                     "Apple2e.rom"
+IDR_APPLE2E_ENHANCED_ROM ROM                     "Apple2e_Enhanced.rom"
+IDR_PRAVETS_82_ROM      ROM                     "Pravets82.rom"
+IDR_PRAVETS_8M_ROM      ROM                     "Pravets8M.rom"
+IDR_PRAVETS_8C_ROM      ROM                     "Pravets8C.rom"
+IDR_TK3000_2E_ROM       ROM                     "TK3000e.rom"
+IDR_FREEZES_F8_ROM      ROM                     "FREEZES_NON-AUTOSTART_F8_ROM.rom"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit",                       IDM_EXIT
+    END
+    POPUP "Help"
+    BEGIN
+        MENUITEM "&Help",                       IDM_HELP
+        MENUITEM "&About",                      IDM_ABOUT
+    END
+END
+
+IDR_MENU_DISK_POPUP MENU
+BEGIN
+    POPUP "Disk Menu"
+    BEGIN
+        MENUITEM "&Eject",                      ID_DISKMENU_EJECT
+        MENUITEM "Read / &Write",               ID_DISKMENU_WRITEPROTECTION_OFF
+        MENUITEM "&Read only",                  ID_DISKMENU_WRITEPROTECTION_ON
+        MENUITEM "Send to &CiderPress",         ID_DISKMENU_SENDTO_CIDERPRESS
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_PROPPAGE_INPUT, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 182
+    END
+
+    IDD_PROPPAGE_DISK, DIALOG
+    BEGIN
+        RIGHTMARGIN, 210
+        BOTTOMMARGIN, 185
+    END
+
+    IDD_TFE_SETTINGS_DIALOG, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_TFE_CAPTION         "Ethernet Settings"
+    IDS_TFE_ETHERNET        "Ethernet"
+    IDS_TFE_INTERFACE       "Interface"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OK                  "OK"
+    IDS_CANCEL              "Cancel"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United Kingdom) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUT DIALOGEX 0, 0, 240, 183
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+CAPTION "About AppleWin"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    ICON            "",IDC_APPLEWIN_ICON,15,10,21,20
+    LTEXT           "Static",IDC_APPLEWIN_VERSION,46,17,81,8
+    GROUPBOX        "GNU General Public License",IDC_GPL_BORDER,7,37,226,111,BS_CENTER | WS_TABSTOP
+    EDITTEXT        IDC_GPL_TEXT,11,57,213,88,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
+    DEFPUSHBUTTON   "I accept",IDOK,63,159,48,14
+    PUSHBUTTON      "I decline",IDCANCEL,123,159,67,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 233
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 176
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United Kingdom) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
