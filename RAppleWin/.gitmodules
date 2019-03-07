@@ -1,4 +1,0 @@
-[submodule "RAIntegration"]
-	path = RAIntegration
-	url = https://github.com/RetroAchievements/RAIntegration.git
-    tag = RAIntegration.0.75.2
