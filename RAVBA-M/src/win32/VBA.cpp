@@ -1090,6 +1090,8 @@ void systemFrame()
 #ifdef LOG_PERFORMANCE
 	systemSpeedTable[systemSpeedCounter++ % PERFORMANCE_INTERVAL] = systemSpeed;
 #endif
+
+    RA_DoAchievementsFrame();
 }
 
 
@@ -1315,7 +1317,6 @@ BOOL VBA::OnIdle(LONG lCount)
 			SetCursor(NULL);
 		  }
 		}
-		RA_DoAchievementsFrame();
 	  }
 	  else if( active && paused )
 	  {
