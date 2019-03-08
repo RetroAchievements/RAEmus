@@ -54,6 +54,12 @@ void ResetEmulation()
 {
 	if( theApp.emulator.emuReset != NULL )
 		theApp.emulator.emuReset();
+
+    theApp.updateThrottle(0);
+    theApp.autoFrameSkip = true;
+    theApp.throttle = false;
+    frameSkip = 0;
+    systemFrameSkip = 0;
 }
 
 void LoadROM( const char* sFullPath )
