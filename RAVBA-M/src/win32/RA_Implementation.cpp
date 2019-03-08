@@ -6,6 +6,12 @@
 #include "../gb/gbGlobals.h"
 #include "../gba/Globals.h"
 
+#include "../win32/Disassemble.h"
+#include "../win32/GBDisassemble.h"
+#include "../win32/MemoryViewerDlg.h"
+#include "../win32/GBMemoryViewerDlg.h"
+#include "../win32/MapView.h"
+#include "../win32/GBMapView.h"
 
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.
@@ -50,6 +56,25 @@ void GetEstimatedGameTitle( char* sNameOut )
 	}
 }
 
+static BOOL CALLBACK CloseDebugWindows(HWND hWnd, LPARAM lParam)
+{
+    CWnd *pWnd = CWnd::FromHandle(hWnd);
+    if (dynamic_cast<Disassemble*>(pWnd) != NULL)
+        reinterpret_cast<CDialog*>(pWnd)->EndDialog(IDCANCEL);
+    else if (dynamic_cast<GBDisassemble*>(pWnd) != NULL)
+        reinterpret_cast<CDialog*>(pWnd)->EndDialog(IDCANCEL);
+    else if (dynamic_cast<MemoryViewerDlg*>(pWnd) != NULL)
+        reinterpret_cast<CDialog*>(pWnd)->EndDialog(IDCANCEL);
+    else if (dynamic_cast<GBMemoryViewerDlg*>(pWnd) != NULL)
+        reinterpret_cast<CDialog*>(pWnd)->EndDialog(IDCANCEL);
+    else if (dynamic_cast<MapView*>(pWnd) != NULL)
+        reinterpret_cast<CDialog*>(pWnd)->EndDialog(IDCANCEL);
+    else if (dynamic_cast<GBMapView*>(pWnd) != NULL)
+        reinterpret_cast<CDialog*>(pWnd)->EndDialog(IDCANCEL);
+
+    return TRUE;
+}
+
 void ResetEmulation()
 {
 	if( theApp.emulator.emuReset != NULL )
@@ -60,6 +85,10 @@ void ResetEmulation()
     theApp.throttle = false;
     frameSkip = 0;
     systemFrameSkip = 0;
+
+    DWORD processid;
+    DWORD threadid = GetWindowThreadProcessId(theApp.m_pMainWnd->m_hWnd, &processid);
+    EnumThreadWindows(threadid, &CloseDebugWindows, 0);
 }
 
 void LoadROM( const char* sFullPath )
