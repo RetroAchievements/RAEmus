@@ -145,6 +145,9 @@ void MainWnd::OnFileExit()
 
 void MainWnd::OnFileClose()
 {
+  if (!RA_ConfirmLoadNewRom(false))
+    return;
+
   // save battery file before we change the filename...
   if(rom != NULL || gbRom != NULL) {
     if(theApp.autoSaveLoadCheatList)
