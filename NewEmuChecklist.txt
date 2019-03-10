@@ -47,8 +47,8 @@ RetroAchievements Emulator Requirements:
   [ ] Fast-forward is allowed
   [ ] Rewind is allowed
   [ ] Frame advance is allowed
+    [ ] Overlay should not be displayed when using frame advance (don't call RA_SetPaused)
   [ ] Recording playback is allowed
-  [ ] Overlay should not be displayed when using frame advance (don't call RA_SetPaused)
   [ ] Switching to Hardcore resets the emulator (RA_InstallSharedFunctions>RA_ResetEmulation)
   [ ] Switching to Hardcore resets the emulator speed to 100%
   [ ] Switching to Hardcore closes any emulator specific tools for viewing/modifying memory

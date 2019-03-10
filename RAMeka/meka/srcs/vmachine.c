@@ -116,6 +116,9 @@ void    Machine_Remove_Cartridge (void)
 
 void    Free_ROM (void)
 {
+    if (!RA_ConfirmLoadNewRom(false))
+        return;
+
     // Call BMemory_Save() only if Machine_Off() won't call it
     // FIXME: this is some crap hack, the whole machine thing need to be rewritten
     if (!(g_machine_flags & MACHINE_POWER_ON))

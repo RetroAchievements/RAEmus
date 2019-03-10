@@ -386,6 +386,8 @@ void	Video_UpdateEvents()
 		switch (key_event.type)
 		{
 		case ALLEGRO_EVENT_DISPLAY_CLOSE:
+            if (!RA_ConfirmLoadNewRom(true))
+                break;
 			if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
 				break;
 			opt.Force_Quit = TRUE;
