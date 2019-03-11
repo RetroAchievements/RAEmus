@@ -338,6 +338,8 @@ static void Init_GUI(void)
 {
     ConsolePrintf ("%s\n", Msg_Get(MSG_Init_GUI));
     GUI_Init();
+
+    RAMeka_RA_Setup(); //Attach RA Menu to Console and Initialise RA System
 }
 
 // MAIN FUNCTION --------------------------------------------------------------
@@ -355,7 +357,6 @@ int main(int argc, char **argv)
 
     ConsoleInit(); // First thing to do
     #ifdef ARCH_WIN32
-		RAMeka_RA_Setup(); //Attach RA Menu to Console and Initialise RA System
 		ConsolePrintf("%s (built %s %s)\n(c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_BUILD_DATE, MEKA_BUILD_TIME, MEKA_DATE, MEKA_AUTHORS);
 	#else
         ConsolePrintf ("\n%s (c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_DATE, MEKA_AUTHORS);
