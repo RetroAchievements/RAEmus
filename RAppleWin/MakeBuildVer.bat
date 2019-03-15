@@ -21,7 +21,6 @@ if %DIFF_FILE_SIZE% GTR 0 (
 rem === Generate a new version file ===
 @echo Tag: %ACTIVE_TAG% (%VERSION_TAG%)
 @echo #define RAPPLEWIN_VERSION "%VERSION_NUM%.%VERSION_REVISION%" > BuildVer2.h
-@echo #define RAPPLEWIN_VERSION_SHORT "%VERSION_TAG%" >> BuildVer2.h
 
 rem === Update the existing file only if the new file differs ===
 if not exist source\BuildVer.h goto nonexistant
