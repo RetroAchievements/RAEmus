@@ -1,0 +1,5448 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=windows-1252">
+  <title>AppleWin Debugger Tutorial</title>
+
+
+</head>
+
+
+<body style="direction: ltr;" lang="en-US">
+
+<h1>AppleWin Debugger Tutorial</h1>
+
+<p><font size="4"><i>By Michael Pohoreski.</i></font></p>
+<p><font size="3">Revision 6.&nbsp; August 30, 2008 (Debugger version 2.6.0.6).</font></p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+
+  <li><a href="#Introduction">Introduction</a></li>
+
+  <li><a href="#Debugger">Entering the Debugger</a></li>
+
+  <li><a href="#Scrolling">Scrolling</a></li>
+
+  <ul>
+
+    <li><a href="#Scrolling_General">General</a> </li>
+
+ <li><a href="#Scrolling_Bookmarks">Bookmarks</a> </li>
+
+  </ul>
+
+  <li><a href="#Registers">Registers</a> </li>
+
+  <li><a href="#Flags">Flags</a> </li>
+
+  <li><a href="#Execution">Execution</a> </li>
+
+  <li><a href="#Memory">Memory</a>
+    <ul>
+
+      <li><a href="#Memory_View">Viewing Memory</a></li>
+
+      <li><a href="#Memory_Search">Searching Memory</a></li>
+
+      <li><a href="#Memory_Change">Changing Memory</a></li>
+
+    </ul>
+
+  </li>
+
+  <li><a href="#Symbols">Symbols</a> </li>
+
+  <li><a href="#Breakpoints">Breakpoints</a> </li>
+
+  <li><a href="#Profiling">Profiling</a> </li>
+
+  <li><a href="#Calculator">Output and Calculations</a> </li>
+
+  <li><a href="#Config">Configuration</a>
+    <ul>
+
+      <li><a href="#Colors">Colors</a> </li>
+
+      <li><a href="#Fonts">Fonts</a> </li>
+
+      <li><a href="#Scripts">Scripts</a> </li>
+
+      <li><a href="#Settings">Settings</a> </li>
+
+    </ul>
+
+  </li>
+
+</ul>
+
+<h2><a name="Introduction"></a>Introduction</h2>
+
+<p>If you're new to the debugger,
+this tutorial will
+gently get you up to speed in becoming familiar with it.</p>
+
+<p>If you're already familiar with
+the AppleWin
+Debugger, you'll be aware that it was probably lacking in features
+and ease of use.&nbsp; The new debugger has been given an over-haul
+for the new millennium with respect to aesthetics and
+functionality.&nbsp;
+As such, you'll probably want to read this tutorial to learn about
+the new features that will not only help you in debugging, but also
+save you time.</p>
+
+<p>Let's get started on the tour!</p>
+
+<h2><a name="Debugger"></a>Entering the
+Debugger</h2>
+
+<p>Start AppleWin, and press <b><font face="Courier, monospace">F7</font></b>
+to enter the debugger.</p>
+
+<p>The first thing you'll probably
+notice is the new
+syntax coloring in the disassembly view, and info panel.&nbsp; All
+the colors can be customized to your liking.&nbsp; See the <a href="#Colors">Colors</a>
+section for details.</p>
+
+<p>On the left is the disassembly view. &nbsp;On the right is
+the info panael, which shows registers, stack, zero-page pointers,
+breakpoints, watches, and 2 mini-memory views.</p>
+
+<p>Since the mini-console isn't the
+full width of the
+screen, you can toggle between the full-screen console with the tilde
+'~' key. This style of table will be used to designate which keys the
+debugger will recognize.</p>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="10%">
+      <p><font color="#ffffff"><b>Key</b></font></p>
+
+      </td>
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Name</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p><b>~</b><br>
+
+      <font face="Wingdings">&ntilde;</font>`</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Tilde<br>
+
+Shift-Accent</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Toggle full screen console (US keyboards)</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p><font face="Wingdings">&ntilde;</font>/<br>
+
+      <font face="Wingdings">&ntilde;</font>@</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Shift Forward Slash<br>
+
+Shift At</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Toggle full screen console (European keyboards)</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<p>The debugger will print out a mini
+message at the
+bottom of the console when it is first started.&nbsp; Help is
+built-in for some of the commands (with more coming every
+release.)&nbsp;
+Most commands will display a help usage, if you simply type the
+command and press Enter. </p>
+
+<p>This typeface, and color will be
+used to designate
+commands you can type into the debugger. </p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#30c0ff"><font face="Courier"><b>HELP</b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Display Help
+for specific command.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#30c0ff"><font face="Courier"><b>HELP *</b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Display Help
+for all commands.</i></font></p>
+
+      </td>
+
+    </tr>
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#30c0ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">?</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Display Help
+Summary.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#30c0ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">VERSION</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Display both
+the AppleWin and Debugger Version.</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<p><b>Note</b>: <i>Please
+include both the AppleWin and
+Debugger version when reporting bugs about the Debugger.&nbsp;
+Sometimes a preview (Beta) version of the debugger is available
+before the next official AppleWin version is available.&nbsp; Older
+bugs (may already) be fixed in the new version.&nbsp; The version
+number will help both you and the developers to detect if
+you&rsquo;re
+documenting a new bug, submitting an already existing bug, or
+re-submitting a bug that has already been fixed. </i>
+</p>
+
+<p></p>
+
+<h2><a name="Scrolling"></a>Scrolling</h2>
+
+<p>In the disassembly view, the
+following keys &amp;
+commands can be used:<br>
+
+(The classic Apple "monitor "
+disassemble command is also suported.)
+</p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>U ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Start disassembly from Value or Address</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>####L</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>List (unassemble) from specified address.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="10%">
+      <p><font color="#ffffff"><b>Key</b></font></p>
+
+      </td>
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Name</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&aacute;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Up Arrow</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Scroll up one mnemonic line.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&acirc;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Down Arrow</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Scroll down one mnemonic line.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&ntilde;&aacute;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Shift Up Arrow</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Scroll up 1 byte.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&ntilde;&acirc;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Shift-Down Arrow</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Scroll down 1 byte.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">PgUp </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Page Up </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Scroll up one screen.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">PgDn </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Page Down </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Scroll down one screen.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&ntilde;</font>PgUp
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Shift-Page Up </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Jump to prev. page boundary (256 byte).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&ntilde;</font>PgDn
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p><a name="Registers"></a>Shift-Page
+Down </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Jump to next page boundary (256 byte).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">^PgUp </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Control-Page Up </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Jump to prev. 4K boundary (4096 bytes).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">^PgDn </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Control-Page Down</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Jump to next 4K boundary (4096 bytes).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">Home </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Home</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Jump to start of memory ($0000).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">End </p>
+
+      </td>
+
+      <td width="25%">
+      <p>End</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Jump to middle of memory ($8000).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&agrave;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Right Arrow </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Follow target of current 6502 instruction.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&agrave;</font><font size="4">|</font></p>
+
+      </td>
+
+      <td width="25%">
+      <p>Tab </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Locate current 6502 instruction.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<h2><a name="Scrolling"></a>Bookmarks</h2>
+
+<p>You can set "bookmarks" in the&nbsp;disassembly view, to
+quickly jump back to a favorite location. &nbsp;There are 10
+available, ranging from 0 to 9.<br>
+
+</p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><span style="font-family: Courier;"><span style="font-weight: bold;">HELP BOOKMARKS</span></span></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>List all commands in the bookmark category.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>BML</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>List all bookmarks</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>BMA</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Add address to first available bookmark slot,
+or update existing bookmark.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>BMC</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Clear (remove) bookmark</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>BMG</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Goto specific bookmark location.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="10%">
+      <p><font color="#ffffff"><b>Key</b></font></p>
+
+      </td>
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Name</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">Ctrl-Shift-# </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Ctrl Shift Number</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Assign current cursor location to specified
+bookmark (0 throug 9)</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">Ctrl-# </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Down Arrow</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Move the cursor to the bookmark (if it exists.)</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><font size="4"><b>Examples</b>:</font>
+</p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>BMA RESET </b></font></font>
+      </p>
+
+      </td>
+
+      <td width="75%">
+      <p><font color="#ffffff"><i>Add bookmark
+Address $<b><font color="#ffff00">FA62</font></b>
+(RESET) </i></font> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BMA
+0 HOME RESET MON</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Update
+bookmark 0 to Address $<b><font color="#ffff00">FC58</font></b>
+(HOME),<br>
+
+add/set bookmark 1 to address </i></font><font color="#ffffff"><i>$<b><font color="#ffff00">FA62</font></b>
+(RESET), and<br>
+
+add/set&nbsp;</i></font><font color="#ffffff"><i>
+bookmark 2 to address </i></font><font color="#ffffff"><i>$<b><font color="#ffff00">FF65</font></b>
+(RESET)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BMG
+1 </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Move
+disassembly cursor to&nbsp;</i></font><font color="#ffffff"><i>$<b><font color="#ffff00">FA62</font></b>
+(RESET)</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<h2><a name="Registers1"></a>Registers</h2>
+
+<p>The command line now recognizes
+6502 Registers.&nbsp;
+Namely, </p>
+
+<ul>
+
+  <li>
+    <p><b>A</b>,
+the Accumulator,</p>
+
+  </li>
+
+  <li>
+    <p style="margin-bottom: 0in;"><b>X</b>,
+the 1<sup>st</sup> Index Register,</p>
+
+  </li>
+
+  <li>
+    <p style="margin-bottom: 0in;"><b>Y</b>,
+the 2<sup>nd</sup> Index Register,</p>
+
+  </li>
+
+  <li>
+    <p style="margin-bottom: 0in;"><b>PC</b>,
+the Program Counter, </p>
+
+  </li>
+
+  <li>
+    <p style="margin-bottom: 0in;"><b>S</b>,
+the Stack Pointer, and </p>
+
+  </li>
+
+  <li>
+    <p><b>P</b>, the
+Processor Status Register (Flags).</p>
+
+  </li>
+
+</ul>
+
+<p>You can set a Register to a hex
+Value, Symbol, or
+Expression.&nbsp; (See the section <a href="#Calculator">Calculator</a>
+for more examples of using
+expressions.)&nbsp; The
+syntax is:</p>
+
+<br>
+
+<table bgcolor="#e6e6e6" border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+r [=] ####</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Register to (a byte) Value, Symbol, or Address, or Expression.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+A ##</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Accumulator to (a byte) Value</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+X ##</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Register X to (a byte) Value</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+Y ##</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Register Y to (a byte) Value</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+PC ####</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+PC to (a full 16-bit) Address (Value)</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+S ##</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Stack Register to (an 8-Bit) Offset</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+P ##</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Processor Status Register (flags) to (a byte) Value</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<p><b>Notes</b>:</p>
+
+<ul>
+
+  <li>
+    <p style="margin-bottom: 0in;"><i>Since <b>A</b>
+refers to the Accumulator, you need to prefix
+the hex number <b>A</b> with either:<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;i) a zero '<b>0</b>',
+or<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;ii) the hash '<b>#</b>'
+symbol (same as 6502 immediate symbol.)</i></p>
+
+  </li>
+
+</ul>
+
+<ul>
+
+  <li>
+    <p><i>You can prefix a
+symbol with the dollar sign '<b>$</b>' to tell the parser
+it is a symbol Address instead of a Value.</i></p>
+
+  </li>
+
+  <li>
+    <p><i>If a symbol is not
+defined, the expression will be the corresponding hex Value, if
+possible.</i></p>
+
+  </li>
+
+  <li>
+    <p><i>Hex Values may be
+ambiguous, if their corresponding symbol is defined.&nbsp; To avoid
+confusion, don&rsquo;t define symbols such as the popular $DEAD,
+$BEEF, $C0DE, $CAFE, etc.&nbsp; An example is given with <b>A1</b> in the following example.</i></p>
+
+  </li>
+
+</ul>
+
+<br>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>R PC FA62 </b></font></font>
+      </p>
+
+      </td>
+
+      <td width="75%">
+      <p><font color="#ffffff"><i>Set Program
+Counter to Value $<b><font color="#ffff00">FA62</font></b>
+(RESET) </i></font> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+PC RESET + 1</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set Program
+Counter to Address $<b><font color="#ffff00">FA63</font></b>
+(RESET+1)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+X 2 </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set Register
+to Value <font style="font-weight: bold;" color="#ffff00">2</font></i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+Y 3 </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set Register
+to Value <font style="font-weight: bold;" color="#ffff00">3</font></i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+S 1FE </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set Stack
+Pointer to depth of one (Stack grows down from $01FF)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+S FF </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set Stack
+Pointer to top of stack (Empty)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+A 0A </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set
+Accumulator to hex Value <font style="font-weight: bold;" color="#ffff00">0A</font></i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+A #A </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set
+Accumulator to hex Value <font style="font-weight: bold;" color="#ffff00">0A</font></i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+X A </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set Register
+X to Accumulator&rsquo;s Value</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+A A1 </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>If the
+symbol A1 exists, sets Accumulator to the <b>Address</b>
+of the symbol <b>A1</b><br>
+
+If the symbol A1 <b>doesn't</b> exist, sets Accumulator to
+the hex <b>Value</b> <font style="font-weight: bold;" color="#ffff00">A1</font></i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+A $A1 </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>If the
+symbol A1 exists, sets the Accumulator to the <b>Address</b>
+of symbol <b>A1<br>
+
+      </b>If the symbol A1 <b>doesn't</b> exist,
+sets Accumulator to the hex Value <font style="font-weight: bold;" color="#ffff00">A1</font></i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+A #A1 </span></b></font></font> </p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Sets
+Accumulator to the hex value <b><font color="#ffff00">A1</font></b></i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<h2><a name="Flags"></a>Flags</h2>
+
+<p>Each flag can individually be set
+or cleared on the
+Processor Status Register ('<b>P</b>').&nbsp; Cleared
+flags will show
+up with a normal background.&nbsp; Set flags will show with an
+inverse background. </p>
+
+<br>
+
+<p><font size="4"><b>Notes</b>:</font></p>
+
+<ul>
+
+  <li>
+    <p style="margin-bottom: 0in;"><i>The
+legacy commands <b>R</b>? and <b>S</b>?,
+where? is a flag name (C,Z,I,D,B,R,V,N) has been left in.</i></p>
+
+  </li>
+
+</ul>
+
+<p><br>
+
+</p>
+
+<p><font size="4">Commands to set a flag:</font></p>
+
+<table bgcolor="#cccccc" border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td>
+      <p style="font-style: normal;"><font color="#ffffff"><b>Description</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SEC
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Carry </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SEZ
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Zero </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SEI
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Interrupts Disabled </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SED
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Decimal (BCD) mode </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SEB
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Break </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SER
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Reserved (not used on 6502)</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SEV
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Overflow </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SEN
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Set
+Negative </span></i> </p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<p><font size="4">Commands to clear a flag:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td>
+      <p style="font-style: normal;"><font color="#ffffff"><b>Description</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLC
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Carry </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLZ
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Zero </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLI
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Interrupts Disabled </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLD
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Decimal (BCD) mode </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLB
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Break </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLR
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Reserved (not used on 6502)</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLV
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Overflow </span></i> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td>
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CLN
+      </span></b></font></font> </p>
+
+      </td>
+
+      <td>
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+Negative </span></i> </p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<h2>Execution</h2>
+
+<p>As you scroll around, you will
+notice the cursor and
+other lines change colors.&nbsp; Normally the cursor line is shown
+with an inverse bar, that is with a white background. Other colors
+have these meanings: </p>
+
+<table border="1" bordercolor="#000000" cellpadding="2" cellspacing="0" width="666">
+
+  <col width="161"> <col width="494"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="161">
+      <p><font color="#ffffff"><b>Cursor
+Background</b></font></p>
+
+      </td>
+
+      <td width="494">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="161">
+      <p>White </p>
+
+      </td>
+
+      <td width="494">
+      <p><i>Address of cursor.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td bgcolor="#ffff00" width="161">
+      <p>Yellow (Bright)</p>
+
+      </td>
+
+      <td width="494">
+      <p><i>Cursor is on next 6502 instruction (At 6502 PC).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td bgcolor="#cccc00" width="161">
+      <p>Yellow (Dim)</p>
+
+      </td>
+
+      <td width="494">
+      <p><i>Line is next 6502 instruction (At 6502 PC).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td bgcolor="#ff0000" width="161">
+      <p>Red (Bright)</p>
+
+      </td>
+
+      <td width="494">
+      <p><i>Cursor is on active Breakpoint.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<p>Press Right Arrow to locate the
+current 6502
+instruction.&nbsp; If you Page Down, you can see that Branch
+Indicators are displayed on the right side of the disassembly window,
+designated by &lsquo;<font face="Webdings, serif">5</font>&rsquo;
+or
+&lsquo;<font face="Webdings, serif">6</font>&rsquo;.&nbsp;</p>
+
+<p>Press Right Arrow to again locate
+the current
+instruction.&nbsp; You will also notice immediate instructions have
+a
+character single quoted, after them, such as &lsquo;<font face="Courier, monospace">I&rsquo;</font>
+at $<b>FA75</b>.</p>
+
+<p>Pressing Space, will Trace (into)
+an instruction. &nbsp;
+Sometimes you trace into a JSR (subroutine), and wish you
+hadn't.&nbsp;
+Pressing Shift-Space will "<i>Step Out</i>" - that is, run
+until the Program Counter (PC) is equal to the return address on the
+stack.&nbsp; Pressing Left Arrow will jump the cursor to the next
+instruction after the original call.&nbsp; </p>
+
+<p><font size="4"><b>Notes</b>:</font></p>
+
+<ul>
+
+  <li>
+    <p><i>Some
+code will place the arguments to the subroutine after the JSR
+instruction.&nbsp; The debugger is not able to detect this and "<b>Step
+Out</b>" correctly, so use caution, if the sub-routine plays with
+the stack.</i></p>
+
+  </li>
+
+  <li>
+    <p> <i>The
+debugger is not able to detect if the top 2 bytes on the stack is a
+valid return address, so pay careful attention if the stack is modified!</i></p>
+
+  </li>
+
+</ul>
+
+<br>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="10%">
+      <p><font color="#ffffff"><b>Key</b></font></p>
+
+      </td>
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Name</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p><font face="Wingdings">&sect;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Space </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Trace into instruction.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&ntilde;&sect;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Shift-Space </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Step out of subroutine.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">^<font face="Wingdings">&sect;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Ctrl-Space </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Trace over instruction.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">^<font face="Wingdings">&acirc;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Ctrl-Down Arrow </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Run until cursor.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">^<font face="Wingdings">&agrave;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Ctrl-Right Arrow</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Set PC to cursor.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style=""><font face="Wingdings">&szlig;</font>
+      </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Left Arrow </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Jump cursor to return address on stack.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="90*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="35%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Description</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p>G&nbsp;[StopAddress] </p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Resume execution until PC = StopAddress.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p>G&nbsp;[StopAddress]&nbsp;[SkipAddress,Length]</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Resume execution until PC = StopAddress.<br>
+
+Additionally, if the PC exits the range [SkipAddress,Length],<br>
+
+execution will be halted.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p>####G</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Alias for: R PC [=] address.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="90*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="35%">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="65%">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="35%">
+      <p><font color="#00b8ff"><font face="Courier"><b>R PC FA62 </b></font></font>
+      </p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><i>Set Program
+Counter to Value $<b><font color="#ffff00">FA62</font></b>
+(RESET) </i></font> </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="35%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">G&nbsp;C600&nbsp;D000,3000</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="65%">
+      <p><font color="#ffffff"><i>Single-step
+until either PC = $C600, or PC &lt;= $D000</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<h2><a name="Memory">Memory</a></h2>
+
+<h3><a name="Memory_View">Viewing Memory</a></h3>
+
+<p>There are two mini-memory areas on
+the info panel.&nbsp;
+You can view memory in Hex, (normal 7-Bit) ASCII, or Apple (8-Bit)
+TEXT format.</p>
+
+<p>Control characters are shown in
+yellow.&nbsp; The
+Apple uses something called 8-Bit (High-Bit) ASCII, in which the
+first 128 characters (normal ASCII) are also mapped onto the last 128
+characters, but with a different background.&nbsp; (Technically,
+the
+first 64 characters are drawn inverse, the next 64 characters
+flashing, and the last 128 normally.)&nbsp; Some programs will
+store
+text in this extended Apple format, where a High-Bit character can be
+used as a flag to represent an end of word.</p>
+
+<p>Here is a summary:</p>
+
+<ul>
+
+  <li>
+    <p style="margin-bottom: 0in;"><i>Normal
+ASCII (non-control characters) will show up in cyan; High-Bit text in
+white.</i></p>
+
+  </li>
+
+  <li>
+    <p style="margin-bottom: 0in;"><i>Apple
+TEXT (normal ASCII) will also display with an inverse background;
+High-Bit with a normal background.</i></p>
+
+  </li>
+
+</ul>
+
+<br>
+
+<table border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>M1 ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>View mini-memory 1 in Hex at the Address</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>M2 ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>View mini-memory 2 in Hex at the Address</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>MA1 ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>View mini-memory 1 in ASCII at the Address</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>MA2 ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>View mini-memory 2 in ASCII at the Address</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>MT1 ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>View mini-memory 1 in &ldquo;Apple
+Text&rdquo; at the Address</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>MT2 ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>View mini-memory 1 in &ldquo;Apple
+Text&rdquo; at the Address</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>D ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias for M1</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input </b></font>
+      </p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect </b></font>
+      </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>MA1 D0D0</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><font color="#ffffff"><i>View
+Applesoft Tokens (Low ASCII cyan, High ASCII white)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">MT2
+FF0A</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>View Apple
+message displayed when booted, showing Apple Model.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">DATA</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Switch to
+the Data Window to view memory. (<b>Note: Not implimented yet!</b>)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CODE</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Switch to
+the Code Window to view the disassembler.</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<h3><a name="Memory_Search">Searching Memory</a></h3>
+
+<p>You can search memory for specific text, hex, or even wildcard values,
+ using the '<b>S</b>' command.
+ 
+<p>To search for ASCII text, use double-quotes;
+ for Apple text (the high-bit set), use single-quotes;
+ and to search for wildcard bytes and nibbles, use the '<b>?</b>' wildcard
+ operator.&nbsp; A single '<b>?</b>' by itself, means match an byte of any
+ value.&nbsp; A hex value with the high nibble or low nibble with a '<b>?</b>' will match any nibble.
+</p>
+
+<p>Since there may be a few results returned, the at (<b>@</b>) has been over-loaded
+ to function both as a <b>command</b> and as an <b>operator</b>.  You can use the '<b>@</b>' command
+ by itself with no arguments to list the matches found.  The '<b>@</b>' operator can be
+ used with other commands to reference the <i>n<sup>th</sup></i> search result's addresses.
+</p>
+
+<br>
+
+<table border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+      <td width="25%">
+      <p><font color="#000000" face="Courier"><b>S
+#,len &hellip;</b></font></p>
+      </td>
+      <td width="75%">
+      <p><i>Search memory for&nbsp;8-bit hex value(s).</i></p>
+      </td>
+    </tr>
+
+    <tr bgcolor="#999999">
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>@</b></font></font></p>
+      </td>
+      <td width="75%">
+      <p><i>Display list of address found that match the search arguments.</i></p>
+      </td>
+    </tr>
+
+    <tr bgcolor="#cccccc">
+      <td width="25%">
+      <p><font color="#000000" face="Courier"><b>SH
+#,len byte1 &hellip;</b></font></p>
+      </td>
+      <td width="75%">
+      <p><i>Search memory for&nbsp;8-bit hex value(s).</i></p>
+      </td>
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>SH #,len word1 &hellip;</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Search memory for&nbsp;16-bit value(s).</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input </b></font>
+      </p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect </b></font>
+      </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+      <td width="25%">
+      <p><b><font color="#00b8ff" face="Courier">S
+F000,1000 'Apple'</font></b></p>
+      </td>
+      <td width="75%">
+      <p><i><font color="#ffffff">Search
+memory for Apple High Bit text</font></i></p>
+      </td>
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><b><font color="#00b8ff" face="Courier">S
+F000,1000 C030</font></b></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><font color="#ffffff">Search
+memory for speaker access.</font></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><b><font color="#00b8ff" face="Courier">SH
+F000:FFFF AD ? C0</font></b></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><i><font color="#ffffff">Search
+memory for &ldquo; <b>LDA $<font color="#ffff00">C0xx</font></b>&rdquo;.</font></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><b><font color="#00b8ff" face="Courier">SH
+F000,800 3? C0</font></b></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><i><font color="#ffffff">Search
+memory for speaker access <b>$<font color="#ffff00">C03x</font></b>.</font></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><b><font color="#00b8ff" face="Courier">SH
+F000,FFF ?1 C0</font></b></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><i><font color="#ffffff">Search
+memory for soft-switch $<b><font color="#ffff00">C0x1</font></b>.</font></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><b><font color="#00b8ff" face="Courier">
+	  S F000:FFFF C050
+	  <br>U
+@3-1</font></b></p>
+
+      </td>
+      <td bgcolor="#000000" width="75%">
+      <p><i><font color="#ffffff">Search for TXTCLR, and disassemble
+from&nbsp;search result #<b><font color="#ffff00">3</font></b>
+address minus 1 byte.</font></i></p>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<h3><a name="Memory_Change">Changing Memory</a></h3>
+
+<p>To change the Apple's memory, the classic "Apple Monitor"
+command to enter memory is recognized,
+as well as the "normal" debugger comamnd.<br>
+
+</p>
+
+<br>
+
+<table border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>####:byte1 &hellip;</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Classic "Apple Monitor" command to enter
+byte(s).&nbsp; Alias for E.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000" face="Courier"><b>E
+addr byte1 &hellip;</b></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Set memory to the 8-Bit (byte) value(s)</i><i>.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000" face="Courier"><b>EB
+symbol ####</b></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias
+for E.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>E8
+symbol ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias
+for E.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>EW
+symbol ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Set
+memory (at the symbol Address) to the 16-Bit (word) Value(s).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>E16
+symbol ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias
+for EW.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>NOP</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Writes an &ldquo;NOP&rdquo; opcode (EA)
+at the current Program Counter (PC)</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>ZAP</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias for NOP.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input </b></font>
+      </p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect </b></font>
+      </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>300:60</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="color: white;">Same
+as Applesoft Poke 768,96</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p></p>
+
+<h2><a name="Calculator"></a>Output /
+Calculator</h2>
+
+<p>There is a basic mini hex
+calculator built in.&nbsp;
+It can do Addition, Subtraction, Division, Modulus, bit-wise And,
+bit-wise Or, bit-wise Exclusive Or, and bit-wise Negation, with
+Values, Register and Symbols.&nbsp; It will display results in Hex,
+Binary, Decimal, and as a Character (single quoted.)</p>
+
+<p>The<br>
+
+</p>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="10%">
+      <p><font color="#ffffff"><b>Op</b></font></p>
+
+      </td>
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Name</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">+</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Plus</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Addition.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">-</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Minus</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Subtraction.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td>*</td>
+
+      <td>Asterick / Star</td>
+
+      <td><span style="font-style: italic;">Multiply</span></td>
+
+    </tr>
+
+    <tr>
+
+      <td>/</td>
+
+      <td>Forward Slash</td>
+
+      <td><i>Calculate quotient.</i></td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">%</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Percent</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Calculate remainder (modulus).</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">&amp; </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Ampersand</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Bit-wise AND.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">| </p>
+
+      </td>
+
+      <td width="25%">
+      <p>Pipe</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Bit-Wise (inclusive) OR.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">^</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Caret</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Bit-Wise (exclusive) OR, also called XOR.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">!</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Exclamation</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Bit-Wise NOT.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+</p>
+
+<h2><font size="4">Notes:</font></h2>
+
+<ul>
+
+  <li>
+    <p style="margin-bottom: 0in;"><i>The
+unary bit-wise Negation operator, &lsquo;!&rsquo; only effects
+the next immediate expression.</i></p>
+
+  </li>
+
+  <li>
+    <p style="margin-bottom: 0in;"><i>The&nbsp;asterisk
+&lsquo;*&rsquo; is also&nbsp;used for the wild card
+operator.</i></p>
+
+  </li>
+
+</ul>
+
+<p><br>
+
+</p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input </b></font>
+      </p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect </b></font>
+      </p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>CALC 9+1</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><font color="#ffffff"><i>Calculate
+9+1, in hex.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+A 1</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set
+Accumulator to 1.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+X 2</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set X to 2.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">R
+Y 3</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Set Y to 3.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+A+X+Y</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+sum of registers.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+1FF-S</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+Stack Depth.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+BRKV+1</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+address of Break Vector + 1<br>
+
+(First byte is a jump instruction.)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+A+#A</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+Accumulator plus (decimal) 10.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+A+0A</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+Accumulator plus (decimal) 10.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+A+$0A</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+Accumulator plus (decimal) 10.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+0A+0A</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate 10
++ 10, in hex.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+$RESET+1</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+Address of Reset + 1 (First opcode is one byte, CLD).</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+!HOME</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+bit-wise NOT.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+X &amp; Y</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+bit-wise AND of Register X , Register Y.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+X | Y</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+bit-wise OR of Register X , Register Y.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+X ^ Y</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+bit-wise XOR of Register X , Register Y.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+X / Y</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+division of Register X , Register Y.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CALC
+X % Y</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Calculate
+remainder of Register X , Register Y.</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<h2><a name="Windows"></a>Windows</h2>
+
+<p>Due to the amount of information available, the debugger now
+features "windows."&nbsp; You can switch to th full screen
+console to read the help, or to the data window to view memory.</p>
+
+<p><br>
+
+<br>
+
+</p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">WIN
+CONSOLE</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Switch to the full screen console. Scrolling
+keys work.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CONSOLE</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Alias</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">WIN
+CODE</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Switch to the disassembly window.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CODE</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Alias</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">WIN
+DATA</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Switch
+to the Data window to view memory.&nbsp; (<b>Note: Not implimented yet!</b>)</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">DATA</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Alias</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p>You can cycle between windows,
+using these keys:</p>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="10%">
+      <p><font color="#ffffff"><b>Key</b></font></p>
+
+      </td>
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Name</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p><b>^<font face="Wingdings">&agrave;</font></b></p>
+
+      </td>
+
+      <td width="25%">
+      <p>Ctrl-Tab</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Cycle to next Window.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p>^<font face="Wingdings">&ntilde;&agrave;</font></p>
+
+      </td>
+
+      <td width="25%">
+      <p>Ctrl-Shift-Tab</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Cycle to prev. Window</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p style="margin-bottom: 0in;"><br>
+
+</p>
+
+<h2><a name="Symbols"></a>Symbols</h2>
+
+<p>AppleWin supports loading of ACME,
+and Merlin Symbol
+Tables. The default filename read into the Main Symbol Table is
+&ldquo;APPLE2E.SYM&rdquo;.</p>
+
+<p>Looking up symbols is now
+easier.&nbsp; Can't
+remember an address of a symbol, or can't remember the symbol for an
+address?&nbsp; The new symbol commands makes it easy:</p>
+
+<p><br>
+
+<br>
+
+</p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="80%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYM</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Display
+the number of symbols in the Main, User, and Source symbol tables.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYM
+####</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Look-up
+the Symbol or Address, and display which Symbol Table it is in.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYMUSER
+LOAD</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Loads
+the User Symbol Table.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYMUSER
+CLEAR</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clears
+the User Symbol Table!</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYMMAIN
+####</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Look-up
+only in the Main symbol table.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYMUSER
+####</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Look-up
+only in the User symbol table.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYMSRC
+####</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Look-up
+only in the Source symbol table.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYM
+name = ####</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Add
+(or update) a symbol in the User table with the new Address.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYM
+! name</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Remove
+a symbol from the User table.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">E
+symbol ##</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Set
+memory (at the symbol Address) to the 8-Bit (byte) Value.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000" face="Courier"><b>EB
+symbol ####</b></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias
+for E.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>E8
+symbol ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias
+for E.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>EW
+symbol ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Set
+memory (at the symbol Address) to the 16-Bit (word) Value.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>E16
+symbol ####</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Alias
+for EW.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="799">
+
+  <col width="276"> <col width="515"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="276">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="515">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b>SYM</b></font></font></p>
+
+      </td>
+
+      <td width="515">
+      <p><font color="#ffffff"><i>Displays
+number of symbols in the Main, User, and Source tables.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b>SYMMAIN CLEAR</b></font></font></p>
+
+      </td>
+
+      <td width="515">
+      <p><font color="#ffffff"><i>Clears the
+main symbol table!!</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b>SYMMAIN LOAD APPLE2E.SYM</b></font></font></p>
+
+      </td>
+
+      <td width="515">
+      <p><font color="#ffffff"><i>Reloads the
+main symbol table.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b>SYM FA62</b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff"><i>Look up the
+Address $<b><font color="#ffff00">FA62</font></b>
+(RESET).</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYM
+HOME</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff"><i>Look up the
+Address $<b><font color="#ffff00">FC58</font></b>
+(HOME).</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SYM
+LIFE = 300</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff"><i>Define a new
+user symbol, called &ldquo;Life&rdquo; at Address $0300.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">E
+LIFE 64</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff"><i>Set 8-Bit
+variable (@ $<b><font color="#ffff00">0300</font></b>)&ldquo;Life&rdquo;
+to 100 (decimal).</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">EW
+LIFE 3E8</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff"><i>Set 16-Bit
+variable (@ $<b><font color="#ffff00">0300</font></b>)&ldquo;Life&rdquo;
+to 1000 (decimal).</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<h2><a name="Source"></a>Source</h2>
+
+<p>Another new feature is source
+level debugging.&nbsp;
+Parsing assembly source has the option of:</p>
+
+<ul>
+
+  <li>
+    <p><i>Reading
+in your define symbols into the Source Symbol Table.</i></p>
+
+  </li>
+
+  <li>
+    <p><i>Reading
+in your binary program into Apple Memory.</i></p>
+
+  </li>
+
+</ul>
+
+<p>Supported assembler source formats
+include: <b>Merlin</b>.</p>
+
+<p><br>
+
+<br>
+
+</p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="80%">
+
+  <col width="90*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="35%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="65%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SOURCE
+filename</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Read
+in the assembler source.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SOURCE
+SYM filename</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Read
+in the assembler source, adding symbols.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SOURCE
+MEM filename</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Read
+in the assembler source, storing bytes into memory.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SOURCE
+SYM MEM filename</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Add
+both symbols, and store bytes into memory.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SOURCE</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Turn
+off source level debugging.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">SOURCE2</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Split
+the dissembler view, with source in bottom half.</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p style="margin-bottom: 0in;"><br>
+
+</p>
+
+<p>Assuming you have a file called &ldquo;test.s&rdquo;
+in the same
+directory as the AppleWin executable:</p>
+
+<p><br>
+
+<br>
+
+</p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="799">
+
+  <col width="276"> <col width="515"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="276">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="515">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="276">
+      <p><font color="#00b8ff"><font face="Courier"><b>SOURCE SYM MEM test.s</b></font></font></p>
+
+      </td>
+
+      <td width="515">
+      <p><font color="#ffffff"><i>Read in
+assembler source &ldquo;Test.s&rdquo;, with symbols added to
+the Source Symbol Table, and source bytes into memory. SYMSRC reports
+how many symbols are in the Source Symbol Table.</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p style="margin-bottom: 0in;"><br>
+
+</p>
+
+<h2><a name="Breakpoints"></a>Breakpoints</h2>
+
+<p>You now have a variety of options
+when specifying a
+breakpoint.&nbsp; Breakpoints can also be disabled, and later
+re-enabled. &nbsp; This lets ones set a bunch of breakpoints, and
+quickly re-activate them without having to re-enter the breakpoint
+logic.</p>
+
+<p><br>
+
+<br>
+
+</p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPA
+r [op] value</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Adds
+(conditional) Breakpoint.<br>
+
+Default operator is equal &lsquo;=&rsquo;<br>
+
+(In a future version, will dispatch to BPX, BPR, BPP, or BPIO.)</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPX<br>
+
+BPX expression<br>
+
+BPX address[,len]<br>
+
+BPX [op] symbol</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Add
+Breakpoint trigger to stop executing when the PC is within the range of
+the Address, Symbol, or Expression. i.e. Range is: [addr,addr+len)<br>
+
+Default length is 1.<br>
+
+Default comparision operator is equal &lsquo;=&rsquo;</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BP</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Currently
+an Alias for BPX.<br>
+
+(In a future version, will also support Loading and Saving of
+breakpoints.)</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPM
+address[,len]</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Add
+Breakpoint trigger when memory is accessed by 6502.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPR
+reg [op] value</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Add
+Breakpoint trigger when Register&rsquo;s &lsquo;reg&rsquo;
+value is compared to the Value.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BD</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Disable
+Breakpoint (grayed out).</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BE</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Enable
+Breakpoint (colored red).</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BC
+#</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Clear
+specified Breakpoint.<br>
+
+Note: The asterisk &lsquo;*&rsquo; may be used o clear all
+breakpoints.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BL</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">List
+Breakpoints.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPIO</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">(In
+a future version, will add Breakpoint trigger on memory read or write.)</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPP</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">(In
+a future version, will add Breakpoint trigger on specific flag cleared
+or set.)</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<p>The general format for the
+conditional breakpoint is:</p>
+
+<ul>
+
+  <li>
+    <p style="margin-bottom: 0in;"><i>BPA
+register [operator] value.</i></p>
+
+  </li>
+
+</ul>
+
+<p>You can use the following
+comparison operators:</p>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td width="10%">
+      <p><font color="#ffffff"><b>Op</b></font></p>
+
+      </td>
+
+      <td width="25%">
+      <p><font color="#ffffff"><b>Name</b></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">=</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Equal</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when register is equal to value.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">!</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Not Equal</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when register is not equal to value.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">&lt;</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Less Than</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when register is less than value.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">&gt;</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Greater Than</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when register is greater than value.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<p>Breaking on any of the 6502
+registers is fully
+supported:</p>
+
+<table border="1" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="26*"> <col width="64*"> <col width="166*"> <thead> <tr bgcolor="#000000">
+
+    <td width="10%">
+    <p><font color="#ffffff"><b>Reg</b></font></p>
+
+    </td>
+
+    <td width="25%">
+    <p><font color="#ffffff"><b>Name</b></font></p>
+
+    </td>
+
+    <td width="65%">
+    <p><font color="#ffffff"><b>Effect</b></font></p>
+
+    </td>
+
+  </tr>
+
+  </thead> <tbody>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">A</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Accumulator</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when Accumulator is triggered.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p style="">X</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Register X</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when Index X is triggered.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p>Y</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Register Y</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when Index Y is triggered.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p>PC</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Program Counter</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when PC is triggered.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p>S</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Stack Pointer</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when Stack Pointer is triggered.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td width="10%">
+      <p>P</p>
+
+      </td>
+
+      <td width="25%">
+      <p>Processor Status (flags)</p>
+
+      </td>
+
+      <td width="65%">
+      <p><i>Break when flags are triggered.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<h2><font size="4">Notes:</font></h2>
+
+<ul>
+
+  <li>
+    <p><i>BPP,
+Breaking on a specific flag (either set, or cleared) is forth-coming in
+a future version.</i></p>
+
+  </li>
+
+</ul>
+
+<br>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>BPX &lt; F000</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><font color="#ffffff"><i>Add
+Breakpoint when PC &lt; $<b><font color="#ffff00">FA62</font></b>.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>BPX PC &lt; D000</b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Add
+Breakpoint when PC &lt; $ <b><font color="#ffff00">D000</font>.</b></i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPR
+A 0</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Adds
+Breakpoint when Accumulator is zero.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPR
+A ! 0</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Adds
+Breakpoint when Accumulator is <b>not</b> zero.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BPR
+S &lt; 1FF</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Adds
+Breakpoint when Stack has had something pushed onto it.</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<h2><a name="Configuration"></a>Configuration</h2>
+
+<p><br>
+
+<br>
+
+</p>
+
+<h3><a name="Colors"></a>Colors</h3>
+
+<p>The commands to change color schemes, and colors are:</p>
+
+<p><br>
+
+<br>
+
+</p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="80%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">COLOR</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Switch
+to color scheme.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">MONO</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Switch
+to monochrome scheme.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">COLOR
+#</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Displays
+the Red, Green, and Blue values for the specified color.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">COLOR
+# # # #<br>
+
+COLOR # R G B</span></b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Sets
+the colors to the new Red, Green, and Blue values.<br>
+
+First # is the color.</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<p><br>
+
+<br>
+
+</p>
+
+<p>Some people prefer monochrome (easier on the eyes, in full
+screen), so you may want to use that setting:</p>
+
+<br>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table bgcolor="#000000" border="0" cellpadding="2" cellspacing="0" width="75%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="25%">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="75%">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>MONO</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><font color="#ffffff"><i>Switch to
+the monochrome scheme.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b>COLOR</b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Switch to
+the color scheme.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#00b8ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">COLOR
+0 10 20 40</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p><font color="#ffffff"><i>Sets the
+console background color to slate gray: RGB 10,20,40</i></font></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<h3><a name="Fonts"></a>Fonts</h3>
+
+<p>The font Type, and Spacing can be
+configured, to show
+more or less lines in the disassembly window.</p>
+
+<br>
+
+<table border="0" cellpadding="2" cellspacing="0" width="80%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>FONT
+MODE #</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Set
+disassembler line spacing for the current font.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>FONT
+&ldquo;name&rdquo;</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Switch
+disassembler to new font.</i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>FONT
+&ldquo;name&rdquo; #</b></font></font></p>
+
+      </td>
+
+      <td width="75%">
+      <p><i>Switch
+disassembler to new font with specified height (in pixels)</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="799">
+
+  <col width="276"> <col width="515"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="276">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="515">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#30c0ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">FONT
+MODE 0</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff">&ldquo;<i>Classic&rdquo;
+Line Spacing.&nbsp; Shows the fewest amount of lines.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#30c0ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">FONT
+MODE 1</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff">&ldquo;<i>Improved&rdquo;
+Line Spacing.&nbsp; (Default)</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#30c0ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">FONT
+MODE 2</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff">&ldquo;<i>Minimal&rdquo;
+Line Spacing.&nbsp; Shows the most amount of lines.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#30c0ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">FONT
+&ldquo;Arial&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><font color="#ffffff"><i>Switch
+disassembler font to Arial.</i></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><font color="#30c0ff"><font face="Courier"><b><span style="background: rgb(0, 0, 0) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">FONT
+&ldquo;Courier New&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="515">
+      <p><i>Switch disassembler font to Courier New.</i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<h3><a name="Scripts"></a>Scripts</h3>
+
+<p>
+You can run custom batch or script files that contain debugger
+commands.&nbsp; Scripts files do not echo their input; to print a
+string to the output console window, use the <b>ECHO</b>
+command.
+</p>
+
+<br>
+
+<table border="0" cellpadding="2" cellspacing="0" width="80%">
+
+  <col width="64*"> <col width="192*"> <tbody>
+
+  <tr bgcolor="#000000">
+      <td bgcolor="#000000" width="25%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+      </td>
+      <td bgcolor="#000000" width="75%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+      </td>
+    </tr>
+
+    <tr bgcolor="#cccccc">
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>RUN&nbsp;</b></font></font><b><span style="font-family: Courier; color: black;">filename</span></b></p>
+      </td>
+      <td width="75%">
+      <p><i>Runs the specified script filename; the
+filename&nbsp;may be quoted</i><i>.</i></p>
+      </td>
+    </tr>
+
+    <tr bgcolor="#999999">
+      <td width="25%">
+      <p><b><span style="font-family: Courier; color: black;">ECHO string</span></b></p>
+      </td>
+      <td width="75%">
+      <p><i>Echo the text to the debugger console. The
+string may optionally be quoted.</i></p>
+      </td>
+    </tr>
+
+    <tr bgcolor="#cccccc">
+      <td width="25%">
+      <p><font color="#000000"><font face="Courier"><b>//&nbsp; comment</b></font></font></p>
+      </td>
+      <td width="75%">
+      <p><i>A C++ style comment.&nbsp; Ignores the rest of the command line.</i><i>.</i></p>
+      </td>
+    </tr>
+	
+  </tbody>
+</table>
+
+<br>
+
+<p><font size="4"><b>Examples</b>:</font></p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="799">
+
+  <col width="276"> <col width="515"> <tbody>
+
+    <tr bgcolor="#00b8ff">
+
+      <td bgcolor="#30c0ff" width="276">
+      <p><font color="#000000"><b>Input</b></font></p>
+
+      </td>
+
+      <td bgcolor="#30c0ff" width="515">
+      <p><font color="#000000"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><b><span style="background: black none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; font-family: Courier; color: rgb(48, 192, 255);">RUN
+&ldquo;Test.txt&rdquo;</span></b></p>
+
+      </td>
+
+      <td style="font-style: italic;" bgcolor="#000000" width="515"><span style="color: white;">Runs
+the script file called: &ldquo;Test.txt&rdquo;</span></td>
+
+    </tr>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="276">
+      <p><b><span style="background: black none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; font-family: Courier; color: rgb(48, 192, 255);">ECHO
+&ldquo;Hello World&rdquo;</span></b></p>
+
+      </td>
+
+      <td style="font-style: italic;" bgcolor="#000000" width="515"><span style="color: white;">Prints
+the classic &ldquo;Hello World&rdquo; to the output console.</span></td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<h3><a name="Settings"></a>Settings</h3>
+
+<p>Coming in a future revision, you can save or load your
+debugger
+settings, either piece wise, or as a whole. </p>
+
+<br>
+
+<table border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="90*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#000000">
+
+      <td bgcolor="#000000" width="35%">
+      <p><font color="#ffffff"><b>Command</b></font></p>
+
+      </td>
+
+      <td bgcolor="#000000" width="65%">
+      <p style="font-style: normal;"><font color="#ffffff"><b>Effect</b></font></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CONFIG
+LOAD</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Load
+(default) debugger configuration.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CONFIG
+LOAD &ldquo;filename&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Load
+(named) debugger configuration</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CONFIG
+SAVE</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Save
+(default) debugger configuration.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">CONFIG
+SAVE &ldquo;filename&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Save
+(named) debugger configuration</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<table border="0" cellpadding="2" cellspacing="0" width="90%">
+
+  <col width="90*"> <col width="166*"> <tbody>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">COLOR
+LOAD &ldquo;filename&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Load
+color configuration.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">COLOR
+SAVE &ldquo;filename&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Save
+color configuration</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#cccccc">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BP
+LOAD &ldquo;filename&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Load
+breakpoint configuration.</span></i></p>
+
+      </td>
+
+    </tr>
+
+    <tr bgcolor="#999999">
+
+      <td width="35%">
+      <p><font color="#000000"><font face="Courier"><b><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">BP
+SAVE &ldquo;filename&rdquo;</span></b></font></font></p>
+
+      </td>
+
+      <td width="65%">
+      <p><i><span style="background: transparent none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial;">Save
+breakpoint configuration</span></i></p>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<p>Hope you enjoyed the tour!</p>
+
+<br>
+
+</body>
+</html>
