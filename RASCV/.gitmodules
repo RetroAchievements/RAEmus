@@ -1,0 +1,4 @@
+[submodule "dependencies/RAIntegration"]
+	path = dependencies/RAIntegration
+	url = git@github.com:rzumer/RAIntegration.git
+	branch = scv
