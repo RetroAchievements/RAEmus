@@ -1,0 +1,6 @@
+# Build artifacts
+*.vcxproj.user
+.vs/
+[Dd]ebug/
+[Rr]elease/
+BuildVer.h
