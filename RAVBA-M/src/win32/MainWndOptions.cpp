@@ -36,6 +36,8 @@
 
 #include <tchar.h>
 
+//##RA
+#include "RA_Interface.h"
 
 void MainWnd::OnOptionsFrameskipThrottleNothrottle()
 {
@@ -51,6 +53,9 @@ void MainWnd::OnUpdateOptionsFrameskipThrottleNothrottle(CCmdUI* pCmdUI)
 
 void MainWnd::OnOptionsFrameskipThrottle25()
 {
+  if (RA_HardcoreModeIsActive())
+    return;
+
 	theApp.updateThrottle( 25 );
   theApp.autoFrameSkip = false;
 }
@@ -63,6 +68,9 @@ void MainWnd::OnUpdateOptionsFrameskipThrottle25(CCmdUI* pCmdUI)
 
 void MainWnd::OnOptionsFrameskipThrottle50()
 {
+  if (RA_HardcoreModeIsActive())
+    return;
+
 	theApp.updateThrottle( 50 );
   theApp.autoFrameSkip = false;
 }
@@ -75,6 +83,9 @@ void MainWnd::OnUpdateOptionsFrameskipThrottle50(CCmdUI* pCmdUI)
 
 void MainWnd::OnOptionsFrameskipThrottle100()
 {
+  if (RA_HardcoreModeIsActive())
+    return;
+
 	theApp.updateThrottle( 100 );
   theApp.autoFrameSkip = false;
 }
@@ -87,6 +98,9 @@ void MainWnd::OnUpdateOptionsFrameskipThrottle100(CCmdUI* pCmdUI)
 
 void MainWnd::OnOptionsFrameskipThrottle150()
 {
+  if (RA_HardcoreModeIsActive())
+    return;
+
 	theApp.updateThrottle( 150 );
 theApp.autoFrameSkip = false;
 }
@@ -99,6 +113,9 @@ void MainWnd::OnUpdateOptionsFrameskipThrottle150(CCmdUI* pCmdUI)
 
 void MainWnd::OnOptionsFrameskipThrottle200()
 {
+  if (RA_HardcoreModeIsActive())
+    return;
+
 	theApp.updateThrottle( 200 );
   theApp.autoFrameSkip = false;
 }
@@ -111,6 +128,9 @@ void MainWnd::OnUpdateOptionsFrameskipThrottle200(CCmdUI* pCmdUI)
 
 void MainWnd::OnOptionsFrameskipThrottleOther()
 {
+    if (RA_HardcoreModeIsActive())
+        return;
+
 	Throttle dlg;
 	unsigned short v = (unsigned short)dlg.DoModal();
 
@@ -152,6 +172,9 @@ void MainWnd::OnUpdateOptionsFrameskipAutomatic(CCmdUI* pCmdUI)
 
 BOOL MainWnd::OnOptionsFrameskip(UINT nID)
 {
+  if (RA_HardcoreModeIsActive())
+    return TRUE;
+
   switch(nID) {
   case ID_OPTIONS_VIDEO_FRAMESKIP_0:
   case ID_OPTIONS_VIDEO_FRAMESKIP_1:

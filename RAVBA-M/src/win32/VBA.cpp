@@ -529,8 +529,8 @@ BOOL VBA::InitInstance()
 
 	RA_Init( ( (MainWnd*)m_pMainWnd )->GetSafeHwnd(), RA_VisualboyAdvance, RAVBA_VERSION );
 	RA_InitShared();
-	RA_RebuildMenu();
-	RA_AttemptLogin( true );
+    theApp.updateMenuBar();
+    RA_AttemptLogin( true );
 
   return TRUE;
 }
@@ -859,9 +859,6 @@ void VBA::updateFilter()
 
 void VBA::updateThrottle( unsigned short throttle )
 {
-    if (RA_HardcoreModeIsActive())
-        return;
-
 	this->throttle = throttle;
 
 	if( throttle ) {
@@ -1090,6 +1087,8 @@ void systemFrame()
 #ifdef LOG_PERFORMANCE
 	systemSpeedTable[systemSpeedCounter++ % PERFORMANCE_INTERVAL] = systemSpeed;
 #endif
+
+    RA_DoAchievementsFrame();
 }
 
 
@@ -1315,7 +1314,6 @@ BOOL VBA::OnIdle(LONG lCount)
 			SetCursor(NULL);
 		  }
 		}
-		RA_DoAchievementsFrame();
 	  }
 	  else if( active && paused )
 	  {

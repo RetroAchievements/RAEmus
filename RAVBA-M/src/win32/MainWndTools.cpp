@@ -625,6 +625,9 @@ void MainWnd::OnUpdateToolsPlayStopmovieplaying(CCmdUI* pCmdUI)
 
 void MainWnd::OnToolsRewind()
 {
+  if (!RA_WarnDisableHardcore("rewind"))
+    return;
+
   if(emulating && theApp.emulator.emuReadMemState && theApp.rewindMemory && theApp.rewindCount) {
     theApp.rewindPos = --theApp.rewindPos & 7;
     theApp.emulator.emuReadMemState(&theApp.rewindMemory[REWIND_SIZE*theApp.rewindPos], REWIND_SIZE);

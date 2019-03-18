@@ -429,6 +429,9 @@ BOOL MainWnd::OnRAMenu(UINT nID)
 
 void MainWnd::OnClose()
 {
+  if (!RA_ConfirmLoadNewRom(true))
+    return;
+
   emulating = false;
   CWnd::OnClose();
 }
@@ -465,6 +468,9 @@ void GBAByteWriterWorkRAM( size_t nOffs, unsigned char nVal )
 
 bool MainWnd::FileRun()
 {
+  if (!RA_ConfirmLoadNewRom(false))
+    return true;
+
   // save battery file before we change the filename...
   if(rom != NULL || gbRom != NULL) {
     if(theApp.autoSaveLoadCheatList)
