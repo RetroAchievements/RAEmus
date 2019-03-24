@@ -41,8 +41,13 @@ void GetEstimatedGameTitle( char* sNameOut )
 		strcpy_s( sNameOut, 49, Game->Rom_Name_W );
 }
 
+extern int Set_Frame_Skip(HWND hWnd, int Num);
+
 void ResetEmulation()
 {
+    if (Frame_Skip > 0)
+        Set_Frame_Skip(HWnd, -1); // auto
+
 	if (Genesis_Started)
 	{
 		Reset_Genesis();

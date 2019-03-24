@@ -4,6 +4,9 @@
 #include "io.h"
 #include "G_main.h"
 
+// ##RA
+#include "RA_Interface.h"
+
 #define KEYDOWN(key) (Keys[key] & 0x80) 
 #define MAX_JOYS 8
 
@@ -406,6 +409,9 @@ int RewindRequested()
 {
 	if(Check_Key_Pressed(Keys_Def[0].Rewind) || Check_Key_Pressed(Keys_Def[1].Rewind))
 	{
+        if (RA_HardcoreModeIsActive())
+            return 0;
+
 		return 1;
 	}
 	else
