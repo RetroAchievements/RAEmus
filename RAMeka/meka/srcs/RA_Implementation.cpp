@@ -204,7 +204,9 @@ void RAMeka_MakePlaceholderRAMenu() {
 //Various calls to initialise RA, login, install menus, etc
 void RAMeka_InstallRA() {
 
-	RA_Init(ConsoleHWND(), RA_Meka, RAMEKA_VERSION);
+    HWND hWnd = al_get_win_window_handle(g_display);
+
+	RA_Init(hWnd, RA_Meka, RAMEKA_VERSION);
 
 	RA_InitShared();
 	RA_UpdateAppTitle("RAMEKA");
