@@ -403,7 +403,70 @@ void systemScreenCapture(int num)
 
 u32 systemGetClock()
 {
-    return wxGetApp().timer.Time();
+	return wxGetApp().timer.Time();
+}
+
+void systemCartridgeRumble(bool) {}
+
+static u8 sensorDarkness = 0xE8; // total darkness (including daylight on rainy days)
+
+u8 systemGetSensorDarkness()
+{
+	return sensorDarkness;
+}
+
+void systemUpdateSolarSensor()
+{
+	u8 sun = 0x0; //sun = 0xE8 - 0xE8 (case 0 and default)
+	int level = sunBars / 10;
+
+	switch (level)
+	{
+	case 1:
+		sun = 0xE8 - 0xE0;
+		break;
+
+	case 2:
+		sun = 0xE8 - 0xDA;
+		break;
+
+	case 3:
+		sun = 0xE8 - 0xD0;
+		break;
+
+	case 4:
+		sun = 0xE8 - 0xC8;
+		break;
+
+	case 5:
+		sun = 0xE8 - 0xC0;
+		break;
+
+	case 6:
+		sun = 0xE8 - 0xB0;
+		break;
+
+	case 7:
+		sun = 0xE8 - 0xA0;
+		break;
+
+	case 8:
+		sun = 0xE8 - 0x88;
+		break;
+
+	case 9:
+		sun = 0xE8 - 0x70;
+		break;
+
+	case 10:
+		sun = 0xE8 - 0x50;
+		break;
+
+	default:
+		break;
+	}
+
+	sensorDarkness = 0xE8 - sun;
 }
 
 void systemUpdateMotionSensor()
