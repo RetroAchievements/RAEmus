@@ -674,6 +674,8 @@ int Do_Genesis_Frame_No_VDP(void)
 
 	Patch_Codes();
 
+    RA_DoAchievementsFrame();
+
 	VRam_Flag = 1;
 
 	VDP_Status &= 0xFFF7;							// Clear V Blank
@@ -1179,6 +1181,8 @@ int Do_32X_Frame_No_VDP()
 
 	Patch_Codes();
 
+    RA_DoAchievementsFrame();
+
 	VRam_Flag = 1;
 
 	VDP_Status &= 0xFFF7;							// Clear V Blank
@@ -1445,6 +1449,8 @@ int Do_32X_Frame()
 	PWM_Clear_Timer();
 
 	Patch_Codes();
+
+    RA_DoAchievementsFrame();
 
 	VRam_Flag = 1;
 
