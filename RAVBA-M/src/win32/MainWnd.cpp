@@ -448,6 +448,15 @@ void ByteWriter( size_t nOffs, unsigned char nVal )
 	gbWriteMemory( nOffs, nVal );
 }
 
+unsigned char GBCBankedRAMReader( size_t nOffs )
+{
+	return gbWram[0x1000 + nOffs];
+}
+void GBCBankedRAMWriter( size_t nOffs, unsigned char nVal )
+{
+	gbWram[0x1000 + nOffs] = nVal;
+}
+
 unsigned char GBAByteReaderInternalRAM( size_t nOffs )
 {
 	return static_cast<unsigned char>( internalRAM[ nOffs ] );
@@ -579,6 +588,7 @@ bool MainWnd::FileRun()
 		RA_SetConsoleID( 6 );
 		RA_ClearMemoryBanks();
 		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x10000 );
+		RA_InstallMemoryBank( 1, GBCBankedRAMReader, GBCBankedRAMWriter, 0x7000 );
 		RA_OnLoadNewRom( gbRom, gbRomSize );
 	}
 
