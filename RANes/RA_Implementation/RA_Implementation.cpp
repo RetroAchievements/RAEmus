@@ -3,6 +3,7 @@
 
 //	Include any emulator-side headers, externs or functions here
 #include "../Common.h"
+#include "fceu.h"
 #include "movie.h"
 #include "cheat.h"
 
@@ -71,8 +72,9 @@ void RebuildMenu()
 //	 for the ROM, if one can be inferred from the ROM.
 void GetEstimatedGameTitle( char* sNameOut )
 {
-	//if( emu && emu->get_NES_ROM() )
-	//	strcpy_s( sNameOut, 49, emu->get_NES_ROM()->GetRomName() );
+    const char* ptr = GameInfo->filename;
+    if (ptr)
+        _splitpath_s(ptr, NULL, 0, NULL, 0, sNameOut, 64, NULL, 0);
 }
 
 void ResetEmulation()
