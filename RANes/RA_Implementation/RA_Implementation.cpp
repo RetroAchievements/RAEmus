@@ -7,6 +7,10 @@
 #include "movie.h"
 #include "cheat.h"
 
+#include "drivers/win/debugger.h"
+#include "drivers/win/memwatch.h"
+#include "drivers/win/ram_search.h"
+
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
 {
@@ -80,6 +84,10 @@ void GetEstimatedGameTitle( char* sNameOut )
 void ResetEmulation()
 {
 	FCEUI_StopMovie();
+    CloseMemoryWatch();
+    CloseRamWindows();
+    if (hDebug)
+        DebuggerExit();
 	FCEU_FlushGameCheats(0, 1);
 	FCEUD_ResetEmulationSpeed();
 	FCEUI_ResetNES();

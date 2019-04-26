@@ -2086,13 +2086,22 @@ LRESULT FAR PASCAL AppWndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			//Tools Menu---------------------------------------------------------------
 			case MENU_CHEATS:
-				ConfigCheats(hWnd);
+                if (!RA_WarnDisableHardcore("configure cheats"))
+                    break;
+
+                ConfigCheats(hWnd);
 				break;
 			case MENU_MEMORY_WATCH:
+                if (!RA_WarnDisableHardcore("watch memory"))
+                    break;
+
 				CreateMemWatch();
 				break;
 			
 			case ID_RAM_SEARCH:
+                if (!RA_WarnDisableHardcore("search RAM"))
+                    break;
+
 				if(!RamSearchHWnd)
 				{
 					OpenRamSearch();
@@ -2104,7 +2113,10 @@ LRESULT FAR PASCAL AppWndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				break;
 
 			case ID_RAM_WATCH:
-				if(!RamWatchHWnd)
+                if (!RA_WarnDisableHardcore("watch memory"))
+                    break;
+
+                if(!RamWatchHWnd)
 				{
 					OpenRamWatch();
 				}

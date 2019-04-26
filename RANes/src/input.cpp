@@ -983,6 +983,9 @@ static void LaunchTasEditor(void)
 static void LaunchMemoryWatch(void)
 {
 #ifdef WIN32
+    if (!RA_WarnDisableHardcore("watch memory"))
+        return;
+
 	CreateMemWatch();
 #endif
 }
@@ -990,7 +993,10 @@ static void LaunchMemoryWatch(void)
 static void LaunchDebugger(void)
 {
 #ifdef WIN32
-	DoDebug(0);
+    if (!RA_WarnDisableHardcore("debug"))
+        return;
+
+    DoDebug(0);
 #endif
 }
 
@@ -1032,6 +1038,9 @@ static void LaunchCodeDataLogger(void)
 static void LaunchCheats(void)
 {
 #ifdef WIN32
+    if (!RA_WarnDisableHardcore("configure cheats"))
+        return;
+
 	extern HWND pwindow;
 	ConfigCheats(pwindow);
 #endif
@@ -1040,7 +1049,10 @@ static void LaunchCheats(void)
 static void LaunchRamWatch(void)
 {
 #ifdef WIN32
-	extern void OpenRamWatch();	//adelikat: Blah blah hacky, I know
+    if (!RA_WarnDisableHardcore("watch memory"))
+        return;
+
+    extern void OpenRamWatch();	//adelikat: Blah blah hacky, I know
 	OpenRamWatch();
 #endif
 }
@@ -1048,7 +1060,10 @@ static void LaunchRamWatch(void)
 static void LaunchRamSearch(void)
 {
 #ifdef WIN32
-	extern void OpenRamSearch();
+    if (!RA_WarnDisableHardcore("search RAM"))
+        return;
+
+    extern void OpenRamSearch();
 	OpenRamSearch();
 #endif
 }

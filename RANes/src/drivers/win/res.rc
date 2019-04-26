@@ -170,7 +170,6 @@ BEGIN
         MENUITEM "RAM Search...",               ID_RAM_SEARCH
         MENUITEM "RAM Watch...",                ID_RAM_WATCH
         MENUITEM "&Memory Watch...",            MENU_MEMORY_WATCH
-        MENUITEM "&TAS Editor...",              MENU_TASEDITOR
         MENUITEM "Convert &FCM...",             MENU_CONVERT_MOVIE
         MENUITEM SEPARATOR
         POPUP "Autofire &Pattern"
