@@ -425,6 +425,9 @@ void DoFCEUExit()
 	if(exiting)    //Eh, oops.  I'll need to try to fix this later.
 		return;
 
+    if (!RA_ConfirmLoadNewRom(true))
+        return;
+
 	// If user was asked to save changes in TAS Editor and chose cancel, don't close FCEUX
 	extern bool exitTASEditor();
 	if (FCEUMOV_Mode(MOVIEMODE_TASEDITOR) && !exitTASEditor())
