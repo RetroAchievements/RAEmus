@@ -3485,6 +3485,8 @@ void CPULoop(int ticks)
 
     cpuTotalTicks += clockTicks;
 
+	if (rtcIsEnabled())
+		rtcUpdateTime(cpuTotalTicks);
 
     if(cpuTotalTicks >= cpuNextEvent) {
       int remainingTicks = cpuTotalTicks - cpuNextEvent;
