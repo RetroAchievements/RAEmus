@@ -448,6 +448,37 @@ void ByteWriter( size_t nOffs, unsigned char nVal )
 	gbWriteMemory( nOffs, nVal );
 }
 
+// Byte reader/writer offset by the size of the map until the end of the work RAM
+unsigned char PostRAMByteReader( size_t nOffs )
+{
+	return gbReadMemory( nOffs + 0xE000 );
+}
+
+void PostRAMByteWriter( size_t nOffs, unsigned char nVal )
+{
+	gbWriteMemory( nOffs + 0xE000, nVal );
+}
+
+// GBC RAM reader/writer targeting the first bank
+unsigned char GBCFirstRAMBankReader( size_t nOffs )
+{
+	return gbWram[0x1000 + nOffs];
+}
+void GBCFirstRAMBankWriter( size_t nOffs, unsigned char nVal )
+{
+	gbWram[0x1000 + nOffs] = nVal;
+}
+
+// GBC RAM reader/writer offset to the second bank
+unsigned char GBCBankedRAMReader( size_t nOffs )
+{
+	return gbWram[0x2000 + nOffs]; // Start on bank 2
+}
+void GBCBankedRAMWriter( size_t nOffs, unsigned char nVal )
+{
+	gbWram[0x2000 + nOffs] = nVal; // Start on bank 2
+}
+
 unsigned char GBAByteReaderInternalRAM( size_t nOffs )
 {
 	return static_cast<unsigned char>( internalRAM[ nOffs ] );
@@ -578,7 +609,10 @@ bool MainWnd::FileRun()
 		//	GBC
 		RA_SetConsoleID( 6 );
 		RA_ClearMemoryBanks();
-		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0x10000 );
+		RA_InstallMemoryBank( 0, ByteReader, ByteWriter, 0xD000 ); // Direct mapping until work RAM
+		RA_InstallMemoryBank( 1, GBCFirstRAMBankReader, GBCFirstRAMBankWriter, 0x1000 ); // First RAM bank
+		RA_InstallMemoryBank( 2, PostRAMByteReader, PostRAMByteWriter, 0x2000 ); // Direct mapping past work RAM
+		RA_InstallMemoryBank( 3, GBCBankedRAMReader, GBCBankedRAMWriter, 0x6000 ); // RAM banks 2-7
 		RA_OnLoadNewRom( gbRom, gbRomSize );
 	}
 
