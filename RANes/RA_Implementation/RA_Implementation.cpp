@@ -3,8 +3,13 @@
 
 //	Include any emulator-side headers, externs or functions here
 #include "../Common.h"
+#include "fceu.h"
 #include "movie.h"
 #include "cheat.h"
+
+#include "drivers/win/debugger.h"
+#include "drivers/win/memwatch.h"
+#include "drivers/win/ram_search.h"
 
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
@@ -71,13 +76,18 @@ void RebuildMenu()
 //	 for the ROM, if one can be inferred from the ROM.
 void GetEstimatedGameTitle( char* sNameOut )
 {
-	//if( emu && emu->get_NES_ROM() )
-	//	strcpy_s( sNameOut, 49, emu->get_NES_ROM()->GetRomName() );
+    const char* ptr = GameInfo->filename;
+    if (ptr)
+        _splitpath_s(ptr, NULL, 0, NULL, 0, sNameOut, 64, NULL, 0);
 }
 
 void ResetEmulation()
 {
 	FCEUI_StopMovie();
+    CloseMemoryWatch();
+    CloseRamWindows();
+    if (hDebug)
+        DebuggerExit();
 	FCEU_FlushGameCheats(0, 1);
 	FCEUD_ResetEmulationSpeed();
 	FCEUI_ResetNES();

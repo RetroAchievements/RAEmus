@@ -718,6 +718,9 @@ void AddRecentFile(const char *filename)
 
 void LoadRecentRom(int slot)
 {
+    if (!RA_ConfirmLoadNewRom(false))
+        return;
+
 	char*& fname = recent_files[slot];
 	if(fname)
 	{
@@ -1020,6 +1023,9 @@ void CloseGame()
 {
 	if (GameInfo)
 	{
+        if (!RA_ConfirmLoadNewRom(false))
+            return;
+
 		FCEUI_CloseGame();
 		KillMemView();
 		updateGameDependentMenus(GameInfo != 0);
@@ -1145,6 +1151,9 @@ bool ALoad(const char *nameo, char* innerFilename, bool silent)
 /// @param initialdir Directory that's pre-selected in the Open File dialog.
 void LoadNewGamey(HWND hParent, const char *initialdir)
 {
+    if (!RA_ConfirmLoadNewRom(false))
+        return;
+
 	const char filter[] = "All usable files (*.nes,*.nsf,*.fds,*.unf,*.zip,*.rar,*.7z,*.gz)\0*.nes;*.nsf;*.fds;*.unf;*.zip;*.rar;*.7z;*.gz\0All non-compressed usable files (*.nes,*.nsf,*.fds,*.unf)\0*.nes;*.nsf;*.fds;*.unf\0All Files (*.*)\0*.*\0\0";
 	char nameo[2048];
 
@@ -2077,13 +2086,22 @@ LRESULT FAR PASCAL AppWndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			//Tools Menu---------------------------------------------------------------
 			case MENU_CHEATS:
-				ConfigCheats(hWnd);
+                if (!RA_WarnDisableHardcore("configure cheats"))
+                    break;
+
+                ConfigCheats(hWnd);
 				break;
 			case MENU_MEMORY_WATCH:
+                if (!RA_WarnDisableHardcore("watch memory"))
+                    break;
+
 				CreateMemWatch();
 				break;
 			
 			case ID_RAM_SEARCH:
+                if (!RA_WarnDisableHardcore("search RAM"))
+                    break;
+
 				if(!RamSearchHWnd)
 				{
 					OpenRamSearch();
@@ -2095,7 +2113,10 @@ LRESULT FAR PASCAL AppWndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				break;
 
 			case ID_RAM_WATCH:
-				if(!RamWatchHWnd)
+                if (!RA_WarnDisableHardcore("watch memory"))
+                    break;
+
+                if(!RamWatchHWnd)
 				{
 					OpenRamWatch();
 				}

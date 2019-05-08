@@ -137,9 +137,6 @@ static void DecreaseEmulationSpeed(void)
 
 void FCEUD_SetEmulationSpeed(int cmd)
 {
-    if (RA_HardcoreModeIsActive())
-        return;
-
 	switch(cmd)
 	{
 	case EMUSPEED_SLOWEST:	fps_scale = fps_scale_unpaused = fps_scale_table[0];  break;
@@ -150,6 +147,9 @@ void FCEUD_SetEmulationSpeed(int cmd)
 	default:
 		return;
 	}
+
+    if (RA_HardcoreModeIsActive() && fps_scale < 256)
+        fps_scale = fps_scale_unpaused = 256;
 
 	RefreshThrottleFPS();
 	FCEU_DispMessage("Emulation speed %d%%", 0, (fps_scale_unpaused * 100) >> 8);
