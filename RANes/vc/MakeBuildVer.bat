@@ -2,9 +2,9 @@
 
 git describe --tags --match "RANes.*" > Temp.txt
 set /p ACTIVE_TAG=<Temp.txt
-set VERSION_NUM=%ACTIVE_TAG:~6,3%
-set VERSION_REVISION=%ACTIVE_TAG:~10,-9%
-if "%VERSION_REVISION%"=="" set VERSION_REVISION=0
+set VERSION_TAG=%ACTIVE_TAG:~6%
+for /f "tokens=1,2 delims=-" %%a in ("%VERSION_TAG%") do set VERSION_NUM=%%a&set VERSION_REVISION=%%b
+if "%VERSION_REVISION%" == "" set VERSION_REVISION=0
 
 setlocal
 git diff HEAD > Temp.txt
@@ -17,7 +17,7 @@ if %DIFF_FILE_SIZE% GTR 0 (
 )
 
 @echo Tag: %ACTIVE_TAG% (%VERSION_NUM%)
-@echo #define RANES_VERSION "0.%VERSION_NUM%.%VERSION_REVISION%.%VERSION_MODIFIED%" > BuildVer2.h
+@echo #define RANES_VERSION "%VERSION_NUM%.%VERSION_REVISION%.%VERSION_MODIFIED%" > BuildVer2.h
 
 if not exist ..\src\BuildVer.h goto nonexistant
 fc ..\src\BuildVer.h BuildVer2.h > nul
