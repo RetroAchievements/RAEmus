@@ -1766,9 +1766,11 @@ int APIENTRY WinMain(HINSTANCE passinstance, HINSTANCE, LPSTR lpCmdLine, int)
 			bSetFullScreen = g_bRestartFullScreen;
 			g_bRestartFullScreen = false;
 		}
-
 #if USE_RETROACHIEVEMENTS
-		RA_Shutdown();
+		else
+		{
+			RA_Shutdown();
+		}
 #endif
 
 		MB_Reset();
