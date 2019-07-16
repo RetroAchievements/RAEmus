@@ -172,7 +172,7 @@ static FULLSCREEN_SCALE_TYPE	g_win_fullscreen_scale = 1;
 static int						g_win_fullscreen_offsetx = 0;
 static int						g_win_fullscreen_offsety = 0;
 
-static bool g_bFrameActive = false;
+bool g_bFrameActive = false;
 
 // __ Prototypes __________________________________________________________________________________
 void DrawCrosshairs (int x, int y);

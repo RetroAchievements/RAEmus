@@ -1,5 +1,6 @@
 #if USE_RETROACHIEVEMENTS
 
+#include <assert.h>
 #include <windows.h>
 
 #include "RetroAchievements.h"
@@ -48,23 +49,27 @@ void free_file_info(FileInfo *file)
 
 unsigned char MainRAMReader(size_t nOffs)
 {
-    return *MemGetMainPtr(nOffs);
+    assert(nOffs <= 0xFFFF);
+    return *MemGetMainPtr((WORD)nOffs);
 }
 
 void MainRAMWriter(size_t nOffs, unsigned char nVal)
 {
-    *MemGetMainPtr(nOffs) = nVal;
+    assert(nOffs <= 0xFFFF);
+    *MemGetMainPtr((WORD)nOffs) = nVal;
 }
 
 #if RA_ENABLE_AUXRAM
 unsigned char AuxRAMReader(size_t nOffs)
 {
-    return *MemGetAuxPtr(nOffs);
+    assert(nOffs <= 0xFFFF);
+    return *MemGetAuxPtr((WORD)nOffs);
 }
 
 void AuxRAMWriter(size_t nOffs, unsigned char nVal)
 {
-    *MemGetAuxPtr(nOffs) = nVal;
+    assert(nOffs <= 0xFFFF);
+    *MemGetAuxPtr((WORD)nOffs) = nVal;
 }
 #endif
 
@@ -161,9 +166,17 @@ void RA_InitShared()
 
 void RA_InitSystem()
 {
-    RA_Init(g_hFrameWindow, RA_AppleWin, RAPPLEWIN_VERSION);
-    RA_InitShared();
-    RA_AttemptLogin(true);
+    if (is_initialized)
+    {
+        RA_UpdateHWnd(g_hFrameWindow);
+    }
+    else
+    {
+        RA_Init(g_hFrameWindow, RA_AppleWin, RAPPLEWIN_VERSION);
+        RA_InitShared();
+        RA_AttemptLogin(true);
+        is_initialized = true;
+    }
 
     confirmed_quitting = false;
 }
@@ -217,6 +230,9 @@ int RA_PrepareLoadNewRom(const char *file_name, FileType file_type)
     loading_file.data_len = file_size;
 
     BYTE * const file_data = (BYTE *)malloc(file_size * sizeof(BYTE));
+    if (!file_data)
+        return FALSE;
+
     loading_file.data = file_data;
     fseek(f, 0, SEEK_SET);
     fread(file_data, sizeof(BYTE), file_size, f);
@@ -392,14 +408,18 @@ void RA_RenderOverlayFrame(HDC hdc)
     int width = GetFrameBufferBorderlessWidth(), height = GetFrameBufferBorderlessHeight();
     RECT window_size = { 0, 0, width, height };
 
-    ControllerInput input;
-    input.m_bConfirmPressed = GetKeyState(VK_RETURN) & WM_KEYDOWN;
-    input.m_bCancelPressed = GetKeyState(VK_BACK) & WM_KEYDOWN;
-    input.m_bQuitPressed = GetKeyState(VK_ESCAPE) & WM_KEYDOWN;
-    input.m_bLeftPressed = GetKeyState(VK_LEFT) & WM_KEYDOWN;
-    input.m_bRightPressed = GetKeyState(VK_RIGHT) & WM_KEYDOWN;
-    input.m_bUpPressed = GetKeyState(VK_UP) & WM_KEYDOWN;
-    input.m_bDownPressed = GetKeyState(VK_DOWN) & WM_KEYDOWN;
+    ControllerInput input = {};
+
+    if (g_bFrameActive) // Do not process input while out of focus
+    {
+        input.m_bConfirmPressed = GetKeyState(VK_RETURN) & WM_KEYDOWN;
+        input.m_bCancelPressed = GetKeyState(VK_BACK) & WM_KEYDOWN;
+        input.m_bQuitPressed = GetKeyState(VK_ESCAPE) & WM_KEYDOWN;
+        input.m_bLeftPressed = GetKeyState(VK_LEFT) & WM_KEYDOWN;
+        input.m_bRightPressed = GetKeyState(VK_RIGHT) & WM_KEYDOWN;
+        input.m_bUpPressed = GetKeyState(VK_UP) & WM_KEYDOWN;
+        input.m_bDownPressed = GetKeyState(VK_DOWN) & WM_KEYDOWN;
+    }
 
     RA_UpdateRenderOverlay(hdc, &input, delta_time, &window_size, IsFullScreen(), g_nAppMode == MODE_PAUSED);
 
