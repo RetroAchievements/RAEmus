@@ -1,0 +1,786 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DX Debug|Win32">
+      <Configuration>DX Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Debug|ARM">
+      <Configuration>DX Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Debug|x64">
+      <Configuration>DX Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Release|Win32">
+      <Configuration>DX Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Release|ARM">
+      <Configuration>DX Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Release|x64">
+      <Configuration>DX Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8BC9CEB8-8B4A-11D0-8D12-00A0C91BC913}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">.\libs\arch\Win32DXDebug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">.\libs\arch\Win32DXDebug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">.\libs\arch\ARMDXDebug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">.\libs\arch\ARMDXDebug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">.\libs\arch\x64DXDebug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">.\libs\arch\x64DXDebug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">.\libs\arch\Win32DXRelease\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">.\libs\arch\Win32DXRelease\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">.\libs\arch\ARMDXRelease\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">.\libs\arch\ARMDXRelease\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">.\libs\arch\x64DXRelease\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">.\libs\arch\x64DXRelease\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\libs\arch\Win32Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\libs\arch\Win32Debug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">.\libs\arch\ARMDebug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">.\libs\arch\ARMDebug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\libs\arch\x64Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\libs\arch\x64Debug\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\libs\arch\Win32Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\libs\arch\Win32Release\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">.\libs\arch\ARMRelease\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">.\libs\arch\ARMRelease\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\libs\arch\x64Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\libs\arch\x64Release\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\Win32DXDebug\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\Win32DXDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\Win32DXDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\Win32DXDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\Win32DXDebug\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">
+    <Midl>
+      <TargetEnvironment>ARM</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\ARMDXDebug\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\ARMDXDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\ARMDXDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\ARMDXDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\ARMDXDebug\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\x64DXDebug\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\x64DXDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\x64DXDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\x64DXDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\x64DXDebug\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\Win32DXRelease\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\Win32DXRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\Win32DXRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\Win32DXRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\Win32DXRelease\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">
+    <Midl>
+      <TargetEnvironment>ARM</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\ARMDXRelease\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\ARMDXRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\ARMDXRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\ARMDXRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\ARMDXRelease\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\x64DXRelease\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\x64DXRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\x64DXRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\x64DXRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\x64DXRelease\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\Win32Debug\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\Win32Debug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\Win32Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\Win32Debug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\Win32Debug\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <Midl>
+      <TargetEnvironment>ARM</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\ARMDebug\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\ARMDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\ARMDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\ARMDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\ARMDebug\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\x64Debug\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\x64Debug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\x64Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\x64Debug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\x64Debug\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\Win32Release\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\Win32Release\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\Win32Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\Win32Release\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\Win32Release\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <Midl>
+      <TargetEnvironment>ARM</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\ARMRelease\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\ARMRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\ARMRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\ARMRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\ARMRelease\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\arch\win32\msvc\wpcap;..\..\..\c128;..\..\..\c64;..\..\..\c64\cart;..\..\..\c64dtv;..\..\..\cbm2;..\..\..\drive;..\..\..\imagecontents;..\..\..\joyport;..\..\..\lib\libffmpeg;..\..\..\lib\p64;..\..\..\monitor;..\..\..\pet;..\..\..\platform;..\..\..\plus4;..\..\..\raster;..\..\..\rs232drv;..\..\..\samplerdrv;..\..\..\sid;..\..\..\userport;..\..\..\vdrive;..\..\..\vic20;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\arch\x64Release\arch.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\arch\x64Release\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\arch\x64Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\arch\x64Release\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\libs\arch\x64Release\arch.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\RAIntegration\src\RA_Interface.cpp" />
+    <ClCompile Include="..\..\..\arch\win32\archdep.c" />
+    <ClCompile Include="..\..\..\arch\win32\blockdev.c" />
+    <ClCompile Include="..\..\..\arch\win32\c128ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\c64dtvui.c" />
+    <ClCompile Include="..\..\..\arch\win32\c64ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\cbm2ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\cbm5x0ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\console.c" />
+    <ClCompile Include="..\..\..\arch\win32\dinput_handle.c" />
+    <ClCompile Include="..\..\..\arch\win32\dirent.c" />
+    <ClCompile Include="..\..\..\arch\win32\dynlib.c" />
+    <ClCompile Include="..\..\..\arch\win32\fullscrn.c" />
+    <ClCompile Include="..\..\..\arch\win32\gifdrv.c" />
+    <ClCompile Include="..\..\..\arch\win32\intl.c" />
+    <ClCompile Include="..\..\..\arch\win32\joy.c" />
+    <ClCompile Include="..\..\..\arch\win32\kbd.c" />
+    <ClCompile Include="..\..\..\arch\win32\lightpendrv.c" />
+    <ClCompile Include="..\..\..\arch\win32\mousedrv.c" />
+    <ClCompile Include="..\..\..\arch\win32\petui.c" />
+    <ClCompile Include="..\..\..\arch\win32\plus4ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\rawnetarch.c" />
+    <ClCompile Include="..\..\..\arch\win32\rs232dev.c" />
+    <ClCompile Include="..\..\..\arch\win32\scpu64ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\signals.c" />
+    <ClCompile Include="..\..\..\arch\win32\statusbar.c" />
+    <ClCompile Include="..\..\..\arch\win32\ui-resources.c" />
+    <ClCompile Include="..\..\..\arch\win32\ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiacia.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiattach.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiautostart.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic128.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic128model.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic64burstmod.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic64cart.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic64dtv.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic64dtvmodel.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic64memoryhacks.c" />
+    <ClCompile Include="..\..\..\arch\win32\uic64model.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicart.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicbm2model.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicbm5x0model.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicbm2set.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicbm5x0set.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicia.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicmdline.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiconsole.c" />
+    <ClCompile Include="..\..\..\arch\win32\uicpclockf83.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidatasette.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidigimax.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidqbb.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidrivec128.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidrivec64.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidrivec64dtv.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidrivepetcbm2.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidriveplus4.c" />
+    <ClCompile Include="..\..\..\arch\win32\uidrivevic20.c" />
+    <ClCompile Include="..\..\..\arch\win32\uids12c887rtc.c" />
+    <ClCompile Include="..\..\..\arch\win32\uieasyflash.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiethernet.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiethernetcart.c" />
+    <ClCompile Include="..\..\..\arch\win32\uievent.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiexpert.c" />
+    <ClCompile Include="..\..\..\arch\win32\uifliplist.c" />
+    <ClCompile Include="..\..\..\arch\win32\uigeoram.c" />
+    <ClCompile Include="..\..\..\arch\win32\uigmod2.c" />
+    <ClCompile Include="..\..\..\arch\win32\uihelp.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiide64.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiiocollisions.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiisepic.c" />
+    <ClCompile Include="..\..\..\arch\win32\uijoyport.c" />
+    <ClCompile Include="..\..\..\arch\win32\uijoystick.c" />
+    <ClCompile Include="..\..\..\arch\win32\uikeyboard.c" />
+    <ClCompile Include="..\..\..\arch\win32\uikeymap.c" />
+    <ClCompile Include="..\..\..\arch\win32\uilib.c" />
+    <ClCompile Include="..\..\..\arch\win32\uimagicvoice.c" />
+    <ClCompile Include="..\..\..\arch\win32\uimediafile.c" />
+    <ClCompile Include="..\..\..\arch\win32\uimidi.c" />
+    <ClCompile Include="..\..\..\arch\win32\uimmc64.c" />
+    <ClCompile Include="..\..\..\arch\win32\uimmcreplay.c" />
+    <ClCompile Include="..\..\..\arch\win32\uimon.c" />
+    <ClCompile Include="..\..\..\arch\win32\uimouse.c" />
+    <ClCompile Include="..\..\..\arch\win32\uinetwork.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiperipheral.c" />
+    <ClCompile Include="..\..\..\arch\win32\uipetcolour.c" />
+    <ClCompile Include="..\..\..\arch\win32\uipetdww.c" />
+    <ClCompile Include="..\..\..\arch\win32\uipetmodel.c" />
+    <ClCompile Include="..\..\..\arch\win32\uipetreu.c" />
+    <ClCompile Include="..\..\..\arch\win32\uipetset.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiplus4cart.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiplus4mem.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiplus4memoryhacks.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiplus4model.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiquicksnapshot.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiram.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiramcart.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiretroreplay.c" />
+    <ClCompile Include="..\..\..\arch\win32\uireu.c" />
+    <ClCompile Include="..\..\..\arch\win32\uirom.c" />
+    <ClCompile Include="..\..\..\arch\win32\uirrnetmk3.c" />
+    <ClCompile Include="..\..\..\arch\win32\uirs232.c" />
+    <ClCompile Include="..\..\..\arch\win32\uirs232user.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisampler.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiscpu64.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiscpu64model.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisid.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisidcart.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisiddtv.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisnapshot.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisound.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisoundexpander.c" />
+    <ClCompile Include="..\..\..\arch\win32\uisoundsampler.c" />
+    <ClCompile Include="..\..\..\arch\win32\uispeed.c" />
+    <ClCompile Include="..\..\..\arch\win32\uitapelog.c" />
+    <ClCompile Include="..\..\..\arch\win32\uited.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiuserportrtc58321a.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiuserportrtcds1307.c" />
+    <ClCompile Include="..\..\..\arch\win32\uiv364speech.c" />
+    <ClCompile Include="..\..\..\arch\win32\uivic.c" />
+    <ClCompile Include="..\..\..\arch\win32\uivic20model.c" />
+    <ClCompile Include="..\..\..\arch\win32\uivicii.c" />
+    <ClCompile Include="..\..\..\arch\win32\uivicset.c" />
+    <ClCompile Include="..\..\..\arch\win32\uivideo.c" />
+    <ClCompile Include="..\..\..\arch\win32\vic20ui.c" />
+    <ClCompile Include="..\..\..\arch\win32\video-ddraw.c" />
+    <ClCompile Include="..\..\..\arch\win32\video-dx9.c" />
+    <ClCompile Include="..\..\..\arch\win32\video.c" />
+    <ClCompile Include="..\..\..\arch\win32\vsidui.c" />
+    <ClCompile Include="..\..\..\arch\win32\vsyncarch.c" />
+    <ClCompile Include="..\..\..\arch\win32\winmain.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\res.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">..\res.h;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating res.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\..\..\data\genwinres ..\res.h ..\menuid.h ..\stringid.h ..\res.txt ..\resdialogs.txt ..\resmenu.txt ..\resstrings.txt
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\res.txt;..\resdialogs.txt;..\resmenu.txt;..\resstrings.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\res.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="base.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc90f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="geninfocontrib.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc910}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="genmsvcver.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc954}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="gentranslate.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc911}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="genwinres.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc955}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\RAIntegration\src\RA_Interface.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

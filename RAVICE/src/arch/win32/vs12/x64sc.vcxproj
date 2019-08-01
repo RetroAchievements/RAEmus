@@ -1,0 +1,993 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DX Debug|Win32">
+      <Configuration>DX Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Debug|ARM">
+      <Configuration>DX Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Debug|x64">
+      <Configuration>DX Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Release|Win32">
+      <Configuration>DX Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Release|ARM">
+      <Configuration>DX Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DX Release|x64">
+      <Configuration>DX Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8BC9CEB8-8B4A-11D0-8D12-00A0C91BC907}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">.\libs\x64sc\Win32DXDebug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">.\libs\x64sc\ARMDXDebug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">.\libs\x64sc\x64DXDebug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">.\libs\x64sc\Win32DXRelease\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">.\libs\x64sc\ARMDXRelease\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">.\libs\x64sc\x64DXRelease\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\libs\x64sc\Win32Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">.\libs\x64sc\ARMDebug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\libs\x64sc\x64Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\libs\x64sc\Win32Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">.\libs\x64sc\ARMRelease\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\..\..\..\..\data\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\libs\x64sc\x64Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\Win32DXDebug\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\Win32DXDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\Win32DXDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\Win32DXDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>ARM</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\ARMDXDebug\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\ARMDXDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\ARMDXDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\ARMDXDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineARM</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\x64DXDebug\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\x64DXDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\x64DXDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\x64DXDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\Win32DXRelease\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\Win32DXRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\Win32DXRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\Win32DXRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>ARM</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\ARMDXRelease\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\ARMDXRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\ARMDXRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\ARMDXRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineARM</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\x64DXRelease\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\x64DXRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\x64DXRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\x64DXRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;dsound.lib;dxguid.lib;winmm.lib;version.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\Win32Debug\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\Win32Debug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\Win32Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\Win32Debug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>ARM</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\ARMDebug\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\ARMDebug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\ARMDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\ARMDebug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineARM</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\x64Debug\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\x64Debug\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\x64Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\x64Debug\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\Win32Release\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\Win32Release\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\Win32Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\Win32Release\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>ARM</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\ARMRelease\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\ARMRelease\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\ARMRelease\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\ARMRelease\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineARM</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\..\..\..\..\data\x64sc.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;..\..\..\drive;..\..\..\joyport;..\..\..\lib\p64;..\..\..\monitor;..\..\..\platform;..\..\..\rtc;..\..\..\vdrive;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\libs\x64sc\x64Release\x64sc.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\libs\x64sc\x64Release\</AssemblerListingLocation>
+      <ObjectFileName>.\libs\x64sc\x64Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\libs\x64sc\x64Release\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;IDE_COMPILE;DONT_USE_UNISTD_H;NODIRECTX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\msvc;..\;..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;version.lib;winmm.lib;wsock32.lib;shell32.lib;gdi32.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\..\..\..\..\data\x64sc.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ProgramDatabaseFile>.\..\..\..\..\data\x64sc.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\resc64.rc">
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">resc64cat.rc;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resc64memoryhacks.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resretroreplay.rc + ..\resrrnetmk3.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\ressoundexpander.rc + ..\reseasyflash.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\resds12c887rtc.rc + ..\resuserportrtc58321a.rc + ..\resuserportrtcds1307.rc + ..\resjoyport.rc + ..\ressampler.rc + ..\rescpclockf83.rc + ..\restapelog.rc + ..\resiocollisions.rc + ..\resgmod2.rc + ..\resethernet.rc + ..\resethernetcart.rc + ..\reskeymap.rc resc64cat.rc /b
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\debug.h;..\resc64.rc;..\res.rc;..\resacia.rc;..\rescia.rc;..\resdrivec64.rc;..\reside64.rc;..\resreu.rc;..\resgeoram.rc;..\resramcart.rc;..\resc64memoryhacks.rc;..\resmmc64.rc;..\resmmcreplay.rc;..\resretroreplay.rc;..\resrrnetmk3.rc;..\resrs232user.rc;..\ressid.rc;..\resvicii.rc;..\resdigimax.rc;..\resmouse.rc;..\resmidi.rc;..\resdqbb.rc;..\resisepic.rc;..\ressoundexpander.rc;..\reseasyflash.rc;..\resautostart.rc;..\resmagicvoice.rc;..\resexpert.rc;..\resds12c887rtc.rc;..\resuserportrtc58321a.rc;..\resuserportrtcds1307.rc;..\resjoyport.rc;..\ressampler.rc;..\rescpclockf83.rc;..\restapelog.rc;..\resiocollisions.rc;..\resgmod2.rc;..\resethernet.rc;..\resethernetcart.rc;..\reskeymap.rc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">resc64cat.rc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ResourceCompile Include="resc64cat.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="..\vice.manifest">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DX Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DX Debug|ARM'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DX Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DX Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DX Release|ARM'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DX Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="arch.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc913}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="base.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc90f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="c64cart.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc921}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="c64cartsystem.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc922}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="c64commoncart.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc923}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="c64exp.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc926}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="c64sc.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc927}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="core.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc92c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="diag.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc92e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="diskimage.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc914}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="drive.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc92f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="fileio.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc915}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="fsdevice.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc930}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="gfxoutputdrv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc931}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="hwsiddrv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc932}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="iec.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc933}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="iecbus.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc935}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="iecieee.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc936}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="ieee.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc937}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="imagecontents.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc916}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="joyport.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc938}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="mididrv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc939}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="monitor.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc93a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="p64.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc917}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="parallel.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc93b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="platform.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc918}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="printerdrv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc93f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="raster.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc940}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="resid.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc941}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="rs232drv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc943}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="rtc.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc920}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="samplerdrv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc944}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="serial.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc919}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="sid.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc946}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="socketdrv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc91a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="sounddrv.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc947}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="tape.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc91b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="tapeport.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc948}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="tcbm.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc949}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="userport.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc94a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="vdrive.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc91c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="viciisc.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc950}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="video.vcxproj">
+      <Project>{8bc9ceb8-8b4a-11d0-8d12-00a0c91bc952}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
