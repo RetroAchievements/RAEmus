@@ -560,7 +560,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\RAIntegration\src\RA_Interface.cpp" />
+    <ClCompile Include="..\..\..\..\..\RA_Integration\src\RA_Interface.cpp" />
     <ClCompile Include="..\..\..\c64\cart\c64cart.c" />
     <ClCompile Include="..\..\..\c64\cart\c64carthooks.c" />
     <ClCompile Include="..\..\..\c64\cart\c64cartmem.c" />

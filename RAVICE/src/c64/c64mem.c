@@ -65,7 +65,7 @@
 #include "vicii.h"
 
 
-#include "../../RA_Integration/src/RA_Interface.h"
+#include "../../../RA_Integration/src/RA_Interface.h"
 /* Machine class (moved from c64.c to distinguish between x64 and x64sc) */
 int machine_class = VICE_MACHINE_C64;
 
