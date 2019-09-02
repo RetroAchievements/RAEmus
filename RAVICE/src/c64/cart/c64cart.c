@@ -57,7 +57,7 @@
 #include "translate.h"
 #include "util.h"
 
-#include "../../../RAIntegration/src/RA_Interface.h"
+#include "../../../RA_Integration/src/RA_Interface.h"
 
 
 /* #define DEBUGCART */

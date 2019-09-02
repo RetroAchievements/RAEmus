@@ -62,7 +62,7 @@
 #include "winlong.h"
 #include "winmain.h"
 
-#include "../../RAIntegration/src/RA_Interface.h"
+#include "../../RA_Integration/src/RA_Interface.h"
 
 static int *autostart_result;
 static TCHAR *fontfile;

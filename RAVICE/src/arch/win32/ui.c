@@ -102,8 +102,8 @@
 #include "statusbar.h"
 #include "vsyncapi.h"
 
-#include "../../RAIntegration/src/RA_Interface.h"
-#include "../../RAIntegration/src/RA_Resource.h"
+#include "../../RA_Integration/src/RA_Interface.h"
+#include "../../RA_Integration/src/RA_Resource.h"
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 

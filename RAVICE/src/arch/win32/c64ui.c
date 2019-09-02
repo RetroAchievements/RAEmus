@@ -90,7 +90,7 @@
 #include "util.h"
 #include "videoarch.h"
 
-#include "../../RAIntegration/src/RA_Interface.h"
+#include "../../RA_Integration/src/RA_Interface.h"
 
 /* prototype */
 static void dynmenu_reset(HMENU menu);
