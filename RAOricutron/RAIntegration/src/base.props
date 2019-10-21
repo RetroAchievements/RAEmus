@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <RA_DIR>$(SolutionDir)</RA_DIR>
+    <RapidJSON_IncludeDir>$(RA_DIR)rapidjson\include\</RapidJSON_IncludeDir>
+    <rcheevos_IncludePath>$(RA_DIR)rcheevos\include\</rcheevos_IncludePath>
+    <RA_SourceDir>$(RA_DIR)src\</RA_SourceDir>
+    <GSL_IncludeDir>$(RA_DIR)GSL\include\</GSL_IncludeDir>
+    <Lua_Dir>$(RA_DIR)lua\</Lua_Dir>
+    <RA_IncludePath>$(RA_DIR);$(RA_SourceDir);$(RapidJSON_IncludeDir);$(rcheevos_IncludePath);$(Lua_Dir);$(GSL_IncludeDir)</RA_IncludePath>
+    <XPDeprecationWarning>false</XPDeprecationWarning>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(RA_IncludePath)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <PreprocessorDefinitions>_ARCH=$(PlatformArchitecture);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>
+         IF "$(LocalDebuggerWorkingDirectory)"=="" GOTO done
+         IF NOT EXIST $(LocalDebuggerWorkingDirectory) GOTO done
+         echo Copying $(Configuration) DLL to $(LocalDebuggerWorkingDirectory)
+         copy /y $(TargetPath) $(LocalDebuggerWorkingDirectory)\$(TargetFileName)
+         :done
+      </Command>
+    </PostBuildEvent>
+    <Link>
+      <ProgramDatabaseFile>$(LocalDebuggerWorkingDirectory)\$(TargetName).pdb</ProgramDatabaseFile>
+      <IgnoreSpecificDefaultLibraries>libc.lib, libcmt.lib, libcd.lib, libcmtd.lib, msvcrtd.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="RA_DIR">
+      <Value>$(RA_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="RapidJSON_IncludeDir">
+      <Value>$(RapidJSON_IncludeDir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="rcheevos_IncludePath">
+      <Value>$(rcheevos_IncludePath)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="RA_SourceDir">
+      <Value>$(RA_SourceDir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="GSL_IncludeDir">
+      <Value>$(GSL_IncludeDir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="Lua_Dir">
+      <Value>$(Lua_Dir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="RA_IncludePath">
+      <Value>$(RA_IncludePath)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="XPDeprecationWarning">
+      <Value>$(XPDeprecationWarning)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
