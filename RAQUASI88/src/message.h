@@ -2056,6 +2056,7 @@ static const t_keymap keymap_assign[] =
   { "- (=) ",    KEY88_MINUS        },
   { ". (>) ",    KEY88_PERIOD       },
   { "/ (?) ",    KEY88_SLASH        },
+  { "-     ",    KEY88_DASH         },
   { ": (*) ",    KEY88_COLON        },
   { "; (+) ",    KEY88_SEMICOLON    },
   { "@ (~) ",    KEY88_AT           },

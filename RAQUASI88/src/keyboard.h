@@ -173,10 +173,11 @@ enum {
 
   KEY88_INVALID     = 0,
 
-  /* 1〜31 は特殊機能制御用にリサーブしておく */
+  /* 1〜30 は特殊機能制御用にリサーブしておく */
 
   /* 文字キー用の定義 (ASCIIコードに合致) */
 
+  KEY88_DASH        = 31,
   KEY88_SPACE       = 32,
   KEY88_EXCLAM      = 33,
   KEY88_QUOTEDBL    = 34,
@@ -483,7 +484,7 @@ static const T_KEYPORT keyport[KEY88_EXT_END] =
 {
   { 0,0 },          /*    KEY88_INVALID     = 0,    */
 
-  { 0,0 },{ 0,0 },{ 0,0 },
+  { 0,0 },{ 0,0 },
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
@@ -492,6 +493,7 @@ static const T_KEYPORT keyport[KEY88_EXT_END] =
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
 
+  { Port7, Bit7 },      /*    KEY88_DASH    = 31,   */
   { Port9, Bit6 },      /*    KEY88_SPACE       = 32,   */
   { Port6, Bit1 },      /*    KEY88_EXCLAM      = 33,   */
   { Port6, Bit2 },      /*    KEY88_QUOTEDBL    = 34,   */

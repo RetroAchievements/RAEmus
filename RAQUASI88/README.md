@@ -13,16 +13,17 @@ The aim is to fix bugs and implement new features with minimal changes to the so
 * Win32版に起動オプションを有効にする / Support launch options in the Win32 version
 * Win32版にテープのイメージファイルのドラッグ・アンド・ドロップを実装 / Support drag-and-drop of tape image files in the Win32 version
 * フォーカスが外される時はキーの押下状態を解除 / Clear key press state when losing focus
-* 偽メモリウェイト使用時の音出力を修正 / Fix audio output when using memory wait
+* 偽メモリウェイト使用時の音出力を修正 / Improve audio output when using memory wait
+* 「－」（ダッシュ）キーを対応 / Support the "-" (dash) key
 * RetroAchievements対応版「RAQUASI88」を追加 / Add a RetroAchievements-compatible version "RAQUASI88"
 
 この先の予定についてはイッシューページの enhancement タグを参照してください。
 
 Please refer to issues with the "enhancement" tag for future plans.
 
-最新バージョンは、 0.6.8　(2019/02/14 リリース) です。
+最新バージョンは、 0.6.9　(2019/10/22 リリース) です。
 
-The latest version is 0.6.8 (released 2019/02/14).
+The latest version is 0.6.9 (released 2019/10/22).
 
 ---
 
