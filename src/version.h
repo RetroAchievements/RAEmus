@@ -6,7 +6,7 @@
 #endif
 
 #ifndef BASE_VERSION
-#define BASE_VERSION    "0.6.8"
+#define BASE_VERSION    "0.6.9"
 #endif
 
 #ifndef BASE_COMMENT
@@ -20,7 +20,7 @@
 #endif
 
 #ifndef RAQ_VERSION
-#define RAQ_VERSION     "1.1.3"
+#define RAQ_VERSION     "1.1.4"
 #endif
 
 #ifndef Q_TITLE
@@ -38,7 +38,7 @@
 #else
 
 #ifndef Q_TITLE
-#define Q_TITLE BASE_TITLE
+#define Q_TITLE BASE_TITLE "kai"
 #endif
 
 #ifndef Q_TITLE_KANJI

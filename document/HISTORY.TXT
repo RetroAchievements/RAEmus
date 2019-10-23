@@ -2,6 +2,12 @@
 
             QUASI88kai Changelog / QUASI88改の履歴
 
+2019/10/22 ver 0.6.9
+    New (新機能):
+        None (なし)
+    Other changes (他更新内容):
+        Support the "-" (dash) key (「－」（ダッシュ）キーを対応)
+
 
 2019/02/14 ver 0.6.8
     New (新機能):
@@ -15,7 +21,6 @@
     New (新機能):
         Improve memory wait emulation and fix BEEP audio output with -v1s -mem_wait (メモリウェイトを改良し、 -v1s -mem_wait でのBEEP音出力を修正)
         Implement integer scale -fullscreen on Win32 (Win32版に -fullscreen を実装)
-
     Other changes (他更新内容):
         Move the disk save folder to SAVE (ディスクセーブのフォルダを SAVE へ移動)
 

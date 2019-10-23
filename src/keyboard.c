@@ -1866,6 +1866,7 @@ int stateload_keyboard( void )
 static const T_SYMBOL_TABLE key88sym_list[] =
 {
     { "KEY88_INVALID"       ,   KEY88_INVALID       },
+    { "KEY88_DASH"      ,   KEY88_DASH              },
     { "KEY88_SPACE"         ,   KEY88_SPACE             },
     { "KEY88_EXCLAM"        ,   KEY88_EXCLAM            },
     { "KEY88_QUOTEDBL"      ,   KEY88_QUOTEDBL          },

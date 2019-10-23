@@ -328,11 +328,16 @@ void RA_CommitLoadNewRom()
 
     RA_UpdateAppTitle(loading_file.name);
 
-    if (enable_loading && should_activate)
+    if (enable_loading)
     {
-        /* 実績システムのイメージデータを初期化する */
-        RA_ActivateGame(loading_file.title_id);
-        should_activate = false;
+#if !RA_RELOAD_MULTI_DISK
+        if (should_activate)
+#endif
+        {
+            /* 実績システムのイメージデータを初期化する */
+            RA_ActivateGame(loading_file.title_id);
+            should_activate = false;
+        }
     }
 
     /* ロード中のデータをクリアする */
