@@ -71,7 +71,7 @@ RetroAchievements Emulator Requirements:
   [ ] Version generated from git tag
   [ ] Zip file needs to be built - should contain emulator, default Overlay directory, and any supplemental files needed by the emulator
   [ ] Release (to be done by the RAWeb team)
-    [ ] Upload zip file to the server (currently `public/bin/`)
+    [ ] Upload zip file to the server (currently 'public/bin/')
     [ ] Get the emulator's enum from RAInterface.h and add it to RAWeb:src/Emulators.php
     [ ] Add a release entry for the new emulator to lib/database/releases.php on the server (and optionally to RAWeb:lib/database/releases.dist.php) including path to the zip file, latest version and supported systems
     [ ] Add link to the new system's game list in RAWeb:lib/dynrenderer.php>RenderToolbar
