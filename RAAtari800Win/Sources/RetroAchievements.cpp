@@ -1,11 +1,11 @@
 
-
+#include "StdAfx.h"
 #include <assert.h>
 #include <windows.h>
 
 #if USE_RETROACHIEVEMENTS
 
-#include "StdAfx.h"
+
 #include "globals.h"
 #include "Atari800Win.h"
 #include "memory.h"
