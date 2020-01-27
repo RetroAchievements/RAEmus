@@ -6,13 +6,15 @@
 #if USE_RETROACHIEVEMENTS
 
 #include "StdAfx.h"
+#include "globals.h"
 #include "Atari800Win.h"
 #include "memory.h"
 #include "RetroAchievements.h"
 
+#endif
 
 bool should_activate = true;
-
+bool g_bFrameActive = false;
 bool confirmed_quitting = false;
 bool is_initialized = false;
 
@@ -43,13 +45,13 @@ void free_file_info(FileInfo *file)
 
 unsigned char MainRAMReader(size_t nOffs)
 {
-    assert(nOffs <= 0xFFFF);
+    
     return MEMORY_mem[(WORD)nOffs];
 }
 
 void MainRAMWriter(size_t nOffs, unsigned char nVal)
 {
-    assert(nOffs <= 0xFFFF);
+    
     MEMORY_mem[(WORD)nOffs] = nVal;
 }
 
@@ -153,7 +155,7 @@ void RA_InitSystem()
     }
     else
     {
-        RA_Init(g_hFrameWindow, RA_AppleWin, RAPPLEWIN_VERSION_SHORT);
+        RA_Init(hAppWnd, RA_Libretro, "0.10");
         RA_InitShared();
         RA_AttemptLogin(true);
         is_initialized = true;
@@ -351,8 +353,9 @@ static unsigned long last_tick = timeGetTime(); // Last call time of RA_RenderOv
 void RA_RenderOverlayFrame(HDC hdc)
 {
     float delta_time = (timeGetTime() - last_tick) / 1000.0f;
-    int width = GetFrameBufferBorderlessWidth(), height = GetFrameBufferBorderlessHeight();
+    int width = 640, height = 480;
     RECT window_size = { 0, 0, width, height };
+
 
     ControllerInput input = {};
 
@@ -367,7 +370,7 @@ void RA_RenderOverlayFrame(HDC hdc)
         input.m_bDownPressed = GetKeyState(VK_DOWN) & WM_KEYDOWN;
     }
 
-    RA_UpdateRenderOverlay(hdc, &input, delta_time, &window_size, IsFullScreen(), g_nAppMode == MODE_PAUSED);
+    RA_UpdateRenderOverlay(hdc, &input, delta_time, &window_size, false, g_ulAtariState == ATARI_PAUSED);
 
     last_tick = timeGetTime();
 }
@@ -380,4 +383,4 @@ int RA_ConfirmQuit()
     return confirmed_quitting;
 }
 
-#endif
+
