@@ -1,0 +1,102 @@
+:Base Atari800Win.hlp
+1 Using help=HID_USING_HELP
+1 Features
+2 Overview=HID_FEATURES
+2 Emulated machines=HID_EMULATED_MACHINES
+2 Disk drive emulation=HID_DRIVE_EMULATION
+2 Compatibility=HID_COMPATIBILITY
+2 Supported file formats
+3 Overview=HID_FILE_FORMATS
+3 Atari executable binary files (XEX, COM, EXE)=HID_FF_ATARI_EXECUTABLES
+3 Disk images (ATR, XFD, DCM, ATZ, XFZ, ATR.GZ, XFD.GZ)=HID_FF_DISK_IMAGES
+3 Cassette images (CAS)=HID_FF_CASSETTE_IMAGES
+3 Cartridge images (CAR, ROM, BIN)=HID_FF_CARTRIDGE_IMAGES
+3 State files (A8S)=HID_FF_STATE_FILES
+3 Keyboard templates (A8K)=HID_FF_KEYBOARD_TEMPLATES
+3 Trainer information files (A8T)=HID_FF_TRAINER_FILES
+3 Palette files (ACT)=HID_FF_PALETTE_FILES
+3 Screen snapshots (PCX)=HID_FF_SCREEN_SNAPSHOTS
+3 Video files (AVI)=HID_FF_VIDEO_FILES
+3 Sound files (WAV)=HID_FF_SOUND_FILES
+2 ROM patches
+3 Overview=HID_ROM_PATCHES
+3 SIO patch (fast disk/cassette access)=HID_RP_SIO_PATCH
+3 H: device handler (virtual hard disks)=HID_RP_H_DEVICE
+3 P: device handler (printer)=HID_RP_P_DEVICE
+3 R: device handler (TCP/IP)=HID_RP_R_DEVICE
+1 What's new
+2 In version 4.0=HID_WHATS_NEW_40
+2 In version 3.1=HID_WHATS_NEW_31
+2 In version 3.0=HID_WHATS_NEW_30
+2 In version 2.8=HID_WHATS_NEW_28
+2 In version 2.7b=HID_WHATS_NEW_27B
+2 In version 2.7=HID_WHATS_NEW_27
+2 In version 2.6c=HID_WHATS_NEW_26C
+2 In version 2.6b=HID_WHATS_NEW_26B
+2 In version 2.6=HID_WHATS_NEW_26
+2 In version 2.5e=HID_WHATS_NEW_25E
+2 In version 2.5d=HID_WHATS_NEW_25D
+2 Original Atari800Win history=HID_WHATS_NEW_ORG
+1 Setup
+2 Requirements=HID_SETUP_REQUIREMENTS
+2 Installation=HID_SETUP_INSTALLATION
+2 Installation problems=HID_SETUP_PROBLEMS
+2 Uninstallation=HID_SETUP_UNINSTALLATION
+1 Usage
+2 Main window=HID_MAIN_WINDOW
+2 State indicators=HID_STATE_INDICATORS
+2 Drag and Drop support=HID_DRAG_AND_DROP
+2 Keyboard
+3 Overview=HID_HELP_KEYBOARD_OVERVIEW
+3 Shortcuts=HID_HELP_KEYBOARD_SHORTCUTS
+3 Default layout=HID_HELP_KEYBOARD_LAYOUT
+2 Menus
+3 File
+4 Overview=HID_FILE_MENU
+3 Atari
+4 Overview=HID_ATARI_MENU
+4 Atari Settings dialog box=HIDD_SETTINGS
+4 Advanced Atari Settings dialog box=HIDD_SETTINGSADV
+4 Performance Options dialog box=HIDD_PERFORMANCE
+4 ROM Image Selections dialog box=HIDD_ROMIMAGES
+4 Drive Selections dialog box=HIDD_DRIVE
+4 New Disk Image dialog box=HIDD_NEWDISKIMAGE
+4 Cassette Control dialog box=HIDD_TAPE
+4 New Cassette Image dialog box=HIDD_NEWTAPEIMAGE
+4 Pick Virtual Hard Disk Directories dialog box=HIDD_HARDDISK
+3 Input
+4 Overview=HID_INPUT_MENU
+4 Joystick Options dialog box=HIDD_JOYSTICK
+4 Advanced Joystick Options dialog box=HIDD_JOYSTICKADV
+4 Configure Keyset dialog box=HIDD_KEYSET
+4 Mouse Options dialog box=HIDD_MOUSE
+4 Keyboard Options dialog box=HIDD_KEYBOARD
+4 Keyboard Template dialog box=HIDD_KEYTEMPLATE
+4 Network Game dialog box=HIDD_KAILLERA
+3 View
+4 Overview=HID_VIEW_MENU
+4 Graphics Options dialog box=HIDD_GRAPHICS
+4 Advanced Graphics Options dialog box=HIDD_GRAPHICSADV
+4 Palette Options dialog box=HIDD_PALETTE
+3 Sound
+4 Overview=HID_SOUND_MENU
+4 Sound Options dialog box=HIDD_SOUND
+3 Misc
+4 Overview=HID_MISC_MENU
+4 File Associations dialog box=HIDD_FILEASSOCIATIONS
+4 Cheat Options dialog box=HIDD_CHEAT
+3 Help
+4 Overview=HID_HELP_MENU
+4 Setup Wizard=HIDD_WIZARD
+1 FAQ and glossary
+2 Frequently asked questions=HID_FAQ
+2 The Atari program does not work...=HID_NOT_WORK
+2 How to improve performance=HID_IMPROVE_PERFORMANCE
+2 How to improve smoothness of animations=HID_IMPROVE_ANIMATIONS
+2 How to connect original Atari joystick=HID_ATARI_JOYSTICK
+2 How to use Kaillera=HID_HOWTO_KAILLERA
+2 Glossary=HID_GLOSSARY
+1 Copyright information
+2 GNU General Public License=HID_GNU_GENERAL_LICENSE
+2 Atari800 emulator credits=HID_ATARI800_CREDITS
+2 Atari800Win PLus credits=HID_PLUS_CREDITS

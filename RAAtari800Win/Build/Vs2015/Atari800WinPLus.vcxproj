@@ -1,0 +1,685 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{333D5F4E-A2E4-410F-A51B-79570A608A05}</ProjectGuid>
+    <RootNamespace>Atari800WinPLus</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\Res;..\..\Include;..\..\Atari800\src;C:\Program Files (x86)\Microsoft DirectX SDK (June 2007)\Include;C:\Program Files\Microsoft DirectX SDK (June 2007)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;__PLUS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>zlib_d.lib;libpng_d.lib;vfw32.lib;winmm.lib;ddraw.lib;dsound.lib;dinput.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <OutputFile>..\..\Distribution\Atari800Win.exe</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2007)\Lib\x86;C:\Program Files\Microsoft DirectX SDK (June 2007)\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>false</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\..\Res;..\..\Include;..\..\Atari800\src;C:\Program Files (x86)\Microsoft DirectX SDK (June 2007)\Include;C:\Program Files\Microsoft DirectX SDK (June 2007)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;__PLUS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>zlib.lib;libpng.lib;vfw32.lib;winmm.lib;ddraw.lib;dsound.lib;dinput.lib;dxguid.lib;Winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\Distribution\Atari800Win.exe</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2007)\Lib\x86;C:\Program Files\Microsoft DirectX SDK (June 2007)\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\RA_Integration\src\RA_Interface.cpp" />
+    <ClCompile Include="..\..\Atari800\src\afile.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\antic.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\atari.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\binload.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cartridge.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cassette.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours_external.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours_ntsc.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours_pal.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\compfile.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cpu.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cycle_map.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\devices.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\esc.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\gtia.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\input.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\log.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\memory.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\monitor.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\mzpokeysnd.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pbi.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pia.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pokey.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pokeysnd.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\remez.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\rtime.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\screen.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\sio.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\sndsave.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\statesav.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\util.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Atari800Win.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Atari800WinDoc.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Atari800WinView.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\CheatServer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\avisave.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\cfg.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\crc32.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\directdraw.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\display_win.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\globals.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq2x.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq3x.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq4x.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\input_win.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\kaillera.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\misc_win.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\rdevice.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\registry.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\sound_win.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\timing.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\xfd2atr.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Debug.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\FileService.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\AboutDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\BootTypeDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\CartridgeTypeDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\CheatDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\CommonDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\ConvertTypeDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\DlgBase.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\DriveDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\ErrorLogDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\FileAssociationsBase.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\FileAssociationsDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\FileSmallDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\GraphicsAdvDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\GraphicsDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\HarddiskDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\JoystickAdvDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\JoystickDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\KailleraDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\KeyboardDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\KeysetDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\KeysetGKDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\KeyTemplateDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\MouseDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\NewDiskImageDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\NewTapeImageDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\PaletteDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\PerformanceDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\RomImagesBase.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\RomImagesDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\SettingsAdvDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\SettingsDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\ShellPidl.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\ShellTree.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\SoundDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\StatusTray.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\TapeDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\WarningDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\WizardDlg.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\WizardStep1.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\WizardStep2.cpp" />
+    <ClCompile Include="..\..\Sources\GUI\WizardStep3.cpp" />
+    <ClCompile Include="..\..\Sources\Helpers.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\MainFrame.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\RA_Integration\src\RA_Interface.h" />
+    <ClInclude Include="..\..\Atari800\src\afile.h" />
+    <ClInclude Include="..\..\Atari800\src\akey.h" />
+    <ClInclude Include="..\..\Atari800\src\antic.h" />
+    <ClInclude Include="..\..\Atari800\src\atari.h" />
+    <ClInclude Include="..\..\Atari800\src\binload.h" />
+    <ClInclude Include="..\..\Atari800\src\cartridge.h" />
+    <ClInclude Include="..\..\Atari800\src\cassette.h" />
+    <ClInclude Include="..\..\Atari800\src\colours.h" />
+    <ClInclude Include="..\..\Atari800\src\colours_external.h" />
+    <ClInclude Include="..\..\Atari800\src\colours_ntsc.h" />
+    <ClInclude Include="..\..\Atari800\src\colours_pal.h" />
+    <ClInclude Include="..\..\Atari800\src\compfile.h" />
+    <ClInclude Include="..\..\Atari800\src\cpu.h" />
+    <ClInclude Include="..\..\Atari800\src\cycle_map.h" />
+    <ClInclude Include="..\..\Atari800\src\devices.h" />
+    <ClInclude Include="..\..\Atari800\src\emuos.h" />
+    <ClInclude Include="..\..\Atari800\src\esc.h" />
+    <ClInclude Include="..\..\Atari800\src\gtia.h" />
+    <ClInclude Include="..\..\Atari800\src\input.h" />
+    <ClInclude Include="..\..\Atari800\src\log.h" />
+    <ClInclude Include="..\..\Atari800\src\memory.h" />
+    <ClInclude Include="..\..\Atari800\src\monitor.h" />
+    <ClInclude Include="..\..\Atari800\src\mzpokeysnd.h" />
+    <ClInclude Include="..\..\Atari800\src\pbi.h" />
+    <ClInclude Include="..\..\Atari800\src\pia.h" />
+    <ClInclude Include="..\..\Atari800\src\platform.h" />
+    <ClInclude Include="..\..\Atari800\src\pokey.h" />
+    <ClInclude Include="..\..\Atari800\src\pokeysnd.h" />
+    <ClInclude Include="..\..\Atari800\src\remez.h" />
+    <ClInclude Include="..\..\Atari800\src\rtime.h" />
+    <ClInclude Include="..\..\Atari800\src\screen.h" />
+    <ClInclude Include="..\..\Atari800\src\sio.h" />
+    <ClInclude Include="..\..\Atari800\src\statesav.h" />
+    <ClInclude Include="..\..\Atari800\src\util.h" />
+    <ClInclude Include="..\..\Atari800\src\videomode.h" />
+    <ClInclude Include="..\..\Include\AboutDlg.h" />
+    <ClInclude Include="..\..\Include\atari800.h" />
+    <ClInclude Include="..\..\Include\Atari800Win.h" />
+    <ClInclude Include="..\..\Include\Atari800WinDoc.h" />
+    <ClInclude Include="..\..\Include\Atari800WinView.h" />
+    <ClInclude Include="..\..\Include\avisave.h" />
+    <ClInclude Include="..\..\Include\BootTypeDlg.h" />
+    <ClInclude Include="..\..\Include\CartridgeTypeDlg.h" />
+    <ClInclude Include="..\..\Include\cfg.h" />
+    <ClInclude Include="..\..\Include\CheatDlg.h" />
+    <ClInclude Include="..\..\Include\CheatServer.h" />
+    <ClInclude Include="..\..\Include\CommonDlg.h" />
+    <ClInclude Include="..\..\Include\config.h" />
+    <ClInclude Include="..\..\Include\ConvertTypeDlg.h" />
+    <ClInclude Include="..\..\Include\core.h" />
+    <ClInclude Include="..\..\Include\crc.h" />
+    <ClInclude Include="..\..\Include\Debug.h" />
+    <ClInclude Include="..\..\Include\directdraw.h" />
+    <ClInclude Include="..\..\Include\display_win.h" />
+    <ClInclude Include="..\..\Include\DlgBase.h" />
+    <ClInclude Include="..\..\Include\DriveDlg.h" />
+    <ClInclude Include="..\..\Include\ErrorLogDlg.h" />
+    <ClInclude Include="..\..\Include\FileAssociationsBase.h" />
+    <ClInclude Include="..\..\Include\FileAssociationsDlg.h" />
+    <ClInclude Include="..\..\Include\FileService.h" />
+    <ClInclude Include="..\..\Include\FileSmallDlg.h" />
+    <ClInclude Include="..\..\Include\globals.h" />
+    <ClInclude Include="..\..\Include\GraphicsAdvDlg.h" />
+    <ClInclude Include="..\..\Include\GraphicsDlg.h" />
+    <ClInclude Include="..\..\Include\HarddiskDlg.h" />
+    <ClInclude Include="..\..\Include\Helpers.h" />
+    <ClInclude Include="..\..\Include\hq.h" />
+    <ClInclude Include="..\..\Include\input_win.h" />
+    <ClInclude Include="..\..\Include\JoystickAdvDlg.h" />
+    <ClInclude Include="..\..\Include\JoystickDlg.h" />
+    <ClInclude Include="..\..\Include\kaillera.h" />
+    <ClInclude Include="..\..\Include\kailleraclient.h" />
+    <ClInclude Include="..\..\Include\KailleraDlg.h" />
+    <ClInclude Include="..\..\Include\KeyboardDlg.h" />
+    <ClInclude Include="..\..\Include\KeysetDlg.h" />
+    <ClInclude Include="..\..\Include\KeysetGKDlg.h" />
+    <ClInclude Include="..\..\Include\KeyTemplateDlg.h" />
+    <ClInclude Include="..\..\Include\macros.h" />
+    <ClInclude Include="..\..\Include\MainFrame.h" />
+    <ClInclude Include="..\..\Include\misc_win.h" />
+    <ClInclude Include="..\..\Include\MouseDlg.h" />
+    <ClInclude Include="..\..\Include\NewDiskImageDlg.h" />
+    <ClInclude Include="..\..\Include\NewTapeImageDlg.h" />
+    <ClInclude Include="..\..\Include\PaletteDlg.h" />
+    <ClInclude Include="..\..\Include\PerformanceDlg.h" />
+    <ClInclude Include="..\..\Include\png.h" />
+    <ClInclude Include="..\..\Include\pngconf.h" />
+    <ClInclude Include="..\..\Include\rdevice.h" />
+    <ClInclude Include="..\..\Include\registry.h" />
+    <ClInclude Include="..\..\Include\RomImagesBase.h" />
+    <ClInclude Include="..\..\Include\RomImagesDlg.h" />
+    <ClInclude Include="..\..\Include\SettingsAdvDlg.h" />
+    <ClInclude Include="..\..\Include\SettingsDlg.h" />
+    <ClInclude Include="..\..\Include\ShellPidl.h" />
+    <ClInclude Include="..\..\Include\ShellTree.h" />
+    <ClInclude Include="..\..\Include\SoundDlg.h" />
+    <ClInclude Include="..\..\Include\sound_win.h" />
+    <ClInclude Include="..\..\Include\StatusTray.h" />
+    <ClInclude Include="..\..\Include\StdAfx.h" />
+    <ClInclude Include="..\..\Include\TapeDlg.h" />
+    <ClInclude Include="..\..\Include\timing.h" />
+    <ClInclude Include="..\..\Include\UniStd.h" />
+    <ClInclude Include="..\..\Include\WarningDlg.h" />
+    <ClInclude Include="..\..\Include\WinConfig.h" />
+    <ClInclude Include="..\..\Include\WizardDlg.h" />
+    <ClInclude Include="..\..\Include\WizardStep1.h" />
+    <ClInclude Include="..\..\Include\WizardStep2.h" />
+    <ClInclude Include="..\..\Include\WizardStep3.h" />
+    <ClInclude Include="..\..\Include\xfd2atr.h" />
+    <ClInclude Include="..\..\Include\zconf.h" />
+    <ClInclude Include="..\..\Include\zlib.h" />
+    <ClInclude Include="..\..\Res\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Res\Atari800Win.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Res\Res\Atari800Win.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Res\Res\AtariFile01.ico" />
+    <Image Include="..\..\Res\Res\AtariFile02.ico" />
+    <Image Include="..\..\Res\Res\AtariFile03.ico" />
+    <Image Include="..\..\Res\Res\AtariFile04.ico" />
+    <Image Include="..\..\Res\Res\AtariFile05.ico" />
+    <Image Include="..\..\Res\Res\AtariFile06.ico" />
+    <Image Include="..\..\Res\Res\AtariFile07.ico" />
+    <Image Include="..\..\Res\Res\AtariXE.ico" />
+    <Image Include="..\..\Res\Res\AtariXL.ico" />
+    <Image Include="..\..\Res\Res\OverscanFull.ico" />
+    <Image Include="..\..\Res\Res\OverscanNo.ico" />
+    <Image Include="..\..\Res\Res\OverscanVert.ico" />
+    <Image Include="..\..\Res\Res\sb_amigamouse_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_amigamouse_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_autofire1_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_autofire2_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_autofire_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_camera_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_camera_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_disk_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_disk_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_joystick_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_joystick_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_kaillera1_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_kaillera2_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_kaillera3_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_kaillera4_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_kaillera_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_kaillera_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_koalapad.d.bmp" />
+    <Image Include="..\..\Res\Res\sb_koalapad_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_lightgun_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_lightgun_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_lightpen_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_lightpen_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_mono_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_mono_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_none_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_none_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_paddles_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_paddles_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_runfast_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_runfast_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_run_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_run_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_stereo_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_stereo_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_stmouse_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_stmouse_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_tape_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_tape_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_touchtablet_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_touchtablet_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_trakball_d.bmp" />
+    <Image Include="..\..\Res\Res\sb_trakball_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_tvntsc_e.bmp" />
+    <Image Include="..\..\Res\Res\sb_tvpal_e.bmp" />
+    <Image Include="..\..\Res\Res\Wizard.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

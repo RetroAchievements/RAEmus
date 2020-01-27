@@ -1,0 +1,57 @@
+; This file is maintained by HCW. Do not modify this file directly.
+
+[OPTIONS]
+COMPRESS=12 Hall Zeck
+ERRORLOG=Atari800Win.log
+LCID=0x409 0x0 0x0 ; Angielski (Stany Zjednoczone)
+REPORT=Yes
+CONTENTS=HID_CONTENTS
+TITLE=Atari800Win PLus Help
+COPYRIGHT=Atari800Win PLus Help © 2000-2003 by Piotr Fusik, Tomasz Szymankowski.
+BMROOT=.\Bmp
+BMROOT=..\Res
+ROOT=..
+ROOT=.
+HLP=Atari800Win.hlp
+
+[FILES]
+.\Rtf\Help.rtf
+
+[ALIAS]
+#include .\Atari800Win.ha
+
+[MAP]
+#include .\Atari800Win.hm
+HID_FILE_PRINT                          0x1E107
+HID_FILE_PRINT_DIRECT                   0x1E108
+HID_FILE_PRINT_PREVIEW                  0x1E109
+HID_FILE_PRINT_SETUP                    0x1E106
+HID_HELP_FINDER                         0x1E143
+HID_APP_ABOUT                           0x1E140
+HID_APP_EXIT                            0x1E141
+HID_VIEW_STATUS_BAR                     0x5E801
+HID_TITLE_BAR                           0x40002
+HID_MINIMIZE_BUTTON                     0x40008
+HID_MAXIMIZE_BUTTON                     0x40009
+HID_CLOSE_BUTTON                        0x40014
+HID_SC_SIZE                             0x1EF00
+HID_SC_MOVE                             0x1EF01
+HID_SC_MINIMIZE                         0x1EF02
+HID_SC_MAXIMIZE                         0x1EF03
+HID_SC_CLOSE                            0x1EF06
+HID_SC_RESTORE                          0x1EF12
+HID_POP_TITLE_BAR                       0xFFF01
+HID_POP_MINIMIZE_BUTTON                 0xFFF02
+HID_POP_MAXIMIZE_BUTTON                 0xFFF03
+HID_POP_CLOSE_BUTTON                    0xFFF04
+HID_POP_MENU_BAR                        0xFFF05
+HID_POP_DISK_LED                        0xFFF06
+HID_POP_STATUS_BAR                      0xFFF07
+HID_POP_SYSTEM_MENU                     0xFFF08
+
+
+[WINDOWS]
+main="",,27904,(r14876671),(r12632256),0
+
+[CONFIG]
+BrowseButtons()

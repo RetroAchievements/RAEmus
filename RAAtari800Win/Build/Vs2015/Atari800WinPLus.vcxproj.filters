@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Atari800">
+      <UniqueIdentifier>{d9ffb65c-926e-4086-9a5a-43d296bf29b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{6b821b34-993a-4f75-a454-da538dfef7fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{3dd640ba-4a40-4040-a1e5-9fb497f63625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Atari800">
+      <UniqueIdentifier>{1c2935bb-7e64-45d1-bd6f-1a91160c2c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{579f13c5-f135-4cf7-8367-82b0b2fbeddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{a70481a4-3c46-4556-b613-1c840163319e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Misc">
+      <UniqueIdentifier>{813244bc-9b82-4545-b76b-46770443a3fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Sources\Atari800Win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Atari800WinDoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Atari800WinView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\CheatServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\FileService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\MainFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\afile.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\antic.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\atari.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\binload.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cartridge.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cassette.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours_external.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours_ntsc.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\colours_pal.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\compfile.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cpu.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\cycle_map.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\devices.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\esc.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\gtia.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\input.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\log.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\memory.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\monitor.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\mzpokeysnd.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pbi.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pia.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pokey.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\pokeysnd.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\remez.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\rtime.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\screen.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\sio.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\sndsave.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\statesav.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Atari800\src\util.c">
+      <Filter>Source Files\Atari800</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\avisave.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\cfg.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\crc32.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\directdraw.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\display_win.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\globals.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq2x.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq3x.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\hq4x.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\input_win.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\kaillera.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\misc_win.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\rdevice.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\registry.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\sound_win.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\timing.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Core\xfd2atr.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\AboutDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\BootTypeDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\CartridgeTypeDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\CheatDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\CommonDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\ConvertTypeDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\DlgBase.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\DriveDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\ErrorLogDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\FileAssociationsBase.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\FileAssociationsDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\FileSmallDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\GraphicsAdvDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\GraphicsDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\HarddiskDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\JoystickAdvDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\JoystickDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\KailleraDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\KeyboardDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\KeysetDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\KeysetGKDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\KeyTemplateDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\MouseDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\NewDiskImageDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\NewTapeImageDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\PaletteDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\PerformanceDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\RomImagesBase.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\RomImagesDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\SettingsAdvDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\SettingsDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\ShellPidl.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\ShellTree.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\SoundDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\StatusTray.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\TapeDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\WarningDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\WizardDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\WizardStep1.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\WizardStep2.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\GUI\WizardStep3.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\RA_Integration\src\RA_Interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\Atari800Win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Atari800WinDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Atari800WinView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\CheatServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FileService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\MainFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\afile.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\akey.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\antic.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\atari.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\binload.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\cartridge.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\cassette.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\colours.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\colours_external.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\colours_ntsc.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\colours_pal.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\compfile.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\cpu.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\cycle_map.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\devices.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\emuos.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\esc.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\gtia.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\input.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\log.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\memory.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\monitor.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\mzpokeysnd.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\pbi.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\pia.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\platform.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\pokey.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\pokeysnd.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\remez.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\rtime.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\screen.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\sio.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\statesav.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\util.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Atari800\src\videomode.h">
+      <Filter>Header Files\Atari800</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\avisave.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\cfg.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\crc.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\directdraw.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\display_win.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\globals.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\hq.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\input_win.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\kaillera.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\misc_win.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\rdevice.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\registry.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\sound_win.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\timing.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\xfd2atr.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\AboutDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\BootTypeDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\CartridgeTypeDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\CheatDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\CommonDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ConvertTypeDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\DlgBase.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\DriveDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ErrorLogDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FileAssociationsBase.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FileAssociationsDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FileSmallDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\GraphicsAdvDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\GraphicsDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\HarddiskDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\JoystickAdvDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\JoystickDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\KailleraDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\KeyboardDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\KeysetDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\KeysetGKDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\KeyTemplateDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\MouseDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\NewDiskImageDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\NewTapeImageDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\PaletteDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\PerformanceDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RomImagesBase.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RomImagesDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\SettingsAdvDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\SettingsDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ShellPidl.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ShellTree.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\SoundDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\StatusTray.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\TapeDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\UniStd.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\WarningDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\WizardDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\WizardStep1.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\WizardStep2.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\WizardStep3.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\atari800.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\config.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\kailleraclient.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\macros.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\png.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\pngconf.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\WinConfig.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\zconf.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\zlib.h">
+      <Filter>Header Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Res\resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\RA_Integration\src\RA_Interface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Res\Atari800Win.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Res\Res\Atari800Win.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Res\Res\AtariFile01.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariFile02.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariFile03.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariFile04.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariFile05.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariFile06.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariFile07.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariXE.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\AtariXL.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\OverscanFull.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\OverscanNo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\OverscanVert.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_amigamouse_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_amigamouse_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_autofire1_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_autofire2_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_autofire_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_camera_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_camera_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_disk_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_disk_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_joystick_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_joystick_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_kaillera1_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_kaillera2_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_kaillera3_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_kaillera4_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_kaillera_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_kaillera_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_koalapad.d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_koalapad_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_lightgun_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_lightgun_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_lightpen_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_lightpen_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_mono_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_mono_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_none_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_none_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_paddles_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_paddles_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_run_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_run_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_runfast_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_runfast_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_stereo_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_stereo_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_stmouse_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_stmouse_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_tape_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_tape_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_touchtablet_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_touchtablet_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_trakball_d.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_trakball_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_tvntsc_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\sb_tvpal_e.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\Res\Res\Wizard.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
