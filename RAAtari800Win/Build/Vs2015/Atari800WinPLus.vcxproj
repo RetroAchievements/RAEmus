@@ -97,7 +97,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>..\..\Res;..\..\Include;..\..\Atari800\src;C:\Program Files (x86)\Microsoft DirectX SDK (June 2007)\Include;C:\Program Files\Microsoft DirectX SDK (June 2007)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;__PLUS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;USE_RETROACHIEVEMENTS;__PLUS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -106,6 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -493,6 +494,7 @@
     <ClCompile Include="..\..\Sources\MainFrame.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\Sources\RetroAchievements.cpp" />
     <ClCompile Include="..\..\Sources\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -589,6 +591,7 @@
     <ClInclude Include="..\..\Include\pngconf.h" />
     <ClInclude Include="..\..\Include\rdevice.h" />
     <ClInclude Include="..\..\Include\registry.h" />
+    <ClInclude Include="..\..\Include\RetroAchievements.h" />
     <ClInclude Include="..\..\Include\RomImagesBase.h" />
     <ClInclude Include="..\..\Include\RomImagesDlg.h" />
     <ClInclude Include="..\..\Include\SettingsAdvDlg.h" />

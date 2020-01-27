@@ -339,6 +339,9 @@
     <ClCompile Include="..\..\..\RA_Integration\src\RA_Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Sources\RetroAchievements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\Atari800Win.h">
@@ -679,6 +682,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\RA_Integration\src\RA_Interface.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\RetroAchievements.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

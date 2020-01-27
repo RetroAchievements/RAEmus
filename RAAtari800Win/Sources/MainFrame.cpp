@@ -40,13 +40,12 @@ File    : MainFrame.cpp
 #include "AboutDlg.h"
 #include "MainFrame.h"
 #include "cfg.h"
+#include "RetroAchievements.h"
 
 #ifdef WIN_NETWORK_GAMES
 #include "KailleraDlg.h"
 #endif
 
-#include "../../RA_Integration/src/RA_Interface.h"
-#include "../../RA_Integration/src/RA_Resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -6177,7 +6176,7 @@ OnExitMenuLoop(
 		else
 		{
 
-			RA_RebuildMenu();
+			RebuildMenu();
 			/* Some strange code here but there are serious problems with
 			   cleaning the menus e.g. after expanding them and clicking
 			   at the outer area */

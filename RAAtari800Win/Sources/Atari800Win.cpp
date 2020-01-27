@@ -13,7 +13,7 @@ File    : Atari800Win.cpp
 #include "Atari800WinView.h"
 #include "MainFrame.h"
 #include "Helpers.h"
-#include "../../RA_Integration/src/RA_Interface.h"
+#include "RetroAchievements.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -136,7 +136,7 @@ CAtari800WinApp::
 InitInstance()
 {
 	char szHomeDir[ MAX_PATH + 1 ];
-	HWND hAppWnd = NULL;
+	
 
 	g_hInstance = AfxGetInstanceHandle();
 
@@ -268,10 +268,8 @@ InitInstance()
 		}
 	}
 
-
-	RA_Init(hAppWnd, Lynx, "0.10");
-	RA_AttemptLogin(false);
-	RA_UpdateAppTitle("");
+	RA_InitSystem();
+	RA_InitShared();
 
 	g_InitDone = TRUE;
 	return TRUE;
@@ -305,7 +303,7 @@ ExitInstance()
 	if( _IsFlagSet( g_Misc.unSystemInfo, SYS_WIN_NT ) )
 		Input_InstallKeyboardHook( FALSE );
 
-	RA_Shutdown();
+	
 
 	return CWinApp::ExitInstance();
 
