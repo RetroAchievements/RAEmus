@@ -11,6 +11,7 @@
 
 
 #include "../../RA_Integration/src/RA_Interface.h"
+#include "../../RA_Integration/src/RA_Resource.h"
 
 typedef enum FileType
 {
