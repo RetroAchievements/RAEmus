@@ -66,6 +66,8 @@ int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
 bool GameIsActive()
 {
    
+	return is_initialized;
+
 }
 
 void CauseUnpause()

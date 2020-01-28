@@ -6176,7 +6176,7 @@ OnExitMenuLoop(
 		else
 		{
 
-			RebuildMenu();
+			RA_InitUI();
 			/* Some strange code here but there are serious problems with
 			   cleaning the menus e.g. after expanding them and clicking
 			   at the outer area */
