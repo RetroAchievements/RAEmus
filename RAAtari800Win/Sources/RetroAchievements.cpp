@@ -1,5 +1,6 @@
 
 #include "StdAfx.h"
+#include <stdio.h>
 #include <assert.h>
 #include <windows.h>
 
@@ -18,22 +19,7 @@ bool g_bFrameActive = false;
 bool confirmed_quitting = false;
 bool is_initialized = false;
 
-void reset_file_info(FileInfo *file)
-{
-    file->data = 0;
-    file->data_len = 0;
-    file->name[0] = 0;
-    file->title_id = 0;
-    file->file_type = FileType::FLOPPY_DISK;
-}
 
-void free_file_info(FileInfo *file)
-{
-    if (file->data)
-        free(file->data);
-
-    reset_file_info(file);
-}
 
 /*****************************************************************************
  * Memory readers/writers for achievement processing                         *
@@ -79,7 +65,7 @@ int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
 
 bool GameIsActive()
 {
-    return loaded_title != NULL;
+   
 }
 
 void CauseUnpause()
@@ -95,7 +81,7 @@ void CausePause()
 void RebuildMenu()
 {
     // get main menu handle
-    HMENU hMainMenu = GetMenu(hMainWnd);
+    HMENU hMainMenu = GetMenu(hRAMainWnd);
     if (!hMainMenu) return;
 
     // get file menu index
@@ -106,29 +92,12 @@ void RebuildMenu()
     // embed RA
     AppendMenu(hMainMenu, MF_POPUP | MF_STRING, (UINT_PTR)RA_CreatePopupMenu(), TEXT("&RetroAchievements"));
 
-    DrawMenuBar(hMainWnd);
+    DrawMenuBar(hRAMainWnd);
 }
 
 void GetEstimatedGameTitle(char* sNameOut)
 {
-    const int ra_buffer_size = 64;
-
-    if (loading_file.data_len > 0)
-    {
-        // Return the file name being loaded
-        memcpy(sNameOut, loading_file.name, ra_buffer_size);
-    }
-    else if (loaded_title != NULL && loaded_title->name[0] != NULL)
-    {
-        memcpy(sNameOut, loaded_title->name, ra_buffer_size);
-    }
-    else
-    {
-        memset(sNameOut, 0, ra_buffer_size);
-    }
-
-    // Always null-terminate strings
-    sNameOut[ra_buffer_size - 1] = '\0';
+    
 }
 
 void ResetEmulation()
@@ -150,15 +119,15 @@ void RA_InitShared()
 void RA_InitSystem(HWND hwnd)
 {
 
-	hMainWnd = GetLastActivePopup(hwnd);
+	hRAMainWnd = GetLastActivePopup(hwnd);
 
     if (is_initialized)
     {
-        RA_UpdateHWnd(hMainWnd);
+        RA_UpdateHWnd(hRAMainWnd);
     }
     else
     {
-        RA_Init(hMainWnd, RA_Libretro, "0.10");
+        RA_Init(hRAMainWnd, RA_Libretro, "0.10");
         RA_InitShared();
         RA_AttemptLogin(true);
         is_initialized = true;
@@ -205,112 +174,49 @@ int RA_PrepareLoadNewRom(const char *file_name, FileType file_type)
 
     char basename[_MAX_FNAME];
     _splitpath(file_name, NULL, NULL, basename, NULL);
-    strcpy(loading_file.name, basename);
+
 
     fseek(f, 0, SEEK_END);
     const unsigned long file_size = (unsigned long)ftell(f);
-    loading_file.data_len = file_size;
+
 
     BYTE * const file_data = (BYTE *)malloc(file_size * sizeof(BYTE));
     if (!file_data)
         return FALSE;
 
-    loading_file.data = file_data;
+  
     fseek(f, 0, SEEK_SET);
     fread(file_data, sizeof(BYTE), file_size, f);
 
     fflush(f);
     fclose(f);
 
-    loading_file.title_id = RA_IdentifyRom(file_data, file_size);
-    loading_file.file_type = file_type;
 
-    if (loaded_title != NULL && loaded_title->data_len > 0)
-    {
-        if (loaded_title->title_id != loading_file.title_id || loaded_title->file_type != loading_file.file_type)
-        {
-            if (!RA_WarnDisableHardcore("load a new title without ejecting all images and resetting the emulator"))
-            {
-                free_file_info(&loading_file);
-                return FALSE; // Interrupt loading
-            }
-        }
-    }
-
-    should_activate = should_activate ? true :
-        loaded_title != NULL &&
-        loaded_title->title_id > 0 &&
-        loaded_title->title_id == loading_file.title_id ?
-        false :
-        true;
 
     return TRUE;
 }
 
 void RA_CommitLoadNewRom()
 {
-    switch (loading_file.file_type)
-    {
-    case FileType::FLOPPY_DISK:
-        free_file_info(&loaded_floppy_disk);
-        loaded_floppy_disk = loading_file;
-        loaded_title = &loaded_floppy_disk;
-        break;
-    case FileType::HARD_DISK:
-        free_file_info(&loaded_hard_disk);
-        loaded_hard_disk = loading_file;
-        loaded_title = &loaded_hard_disk;
-        break;
-    default:
-        break;
-    }
+    
 
-    RA_UpdateAppTitle(loading_file.name);
+    RA_UpdateAppTitle("");
 
     if (should_activate)
     {
         // Initialize title data in the achievement system
-        RA_ActivateGame(loading_file.title_id);
+        RA_ActivateGame(0);
         should_activate = false;
     }
 
-    // Clear loading data
-    reset_file_info(&loading_file);
+
 }
 
 void RA_OnGameClose(int file_type)
 {
-    if (loaded_title != NULL && loaded_title->file_type == file_type)
-        loaded_title = NULL;
-
-    switch (file_type)
-    {
-    case FileType::FLOPPY_DISK:
-        free_file_info(&loaded_floppy_disk);
-        if (loaded_hard_disk.data_len > 0 && !RA_HardcoreModeIsActive())
-        {
-            loaded_title = &loaded_hard_disk;
-            RA_UpdateAppTitle(loaded_title->name);
-            RA_ActivateGame(loaded_title->title_id);
-        }
-        break;
-    case FileType::HARD_DISK:
-        free_file_info(&loaded_hard_disk);
-        if (loaded_floppy_disk.data_len > 0 && !RA_HardcoreModeIsActive())
-        {
-            loaded_title = &loaded_floppy_disk;
-            RA_UpdateAppTitle(loaded_title->name);
-            RA_ActivateGame(loaded_title->title_id);
-        }
-        break;
-    default:
-        break;
-    }
-
-    if (loaded_title == NULL && loading_file.data_len == 0)
-    {
-        RA_ClearTitle();
-    }
+  
+   RA_ClearTitle();
+    
 }
 
 void RA_ClearTitle()
@@ -323,19 +229,6 @@ void RA_ClearTitle()
 void RA_ProcessReset()
 {
 
-
-
-
-    if (loaded_floppy_disk.data_len > 0)
-        loaded_title = &loaded_floppy_disk;
-    else if (loaded_hard_disk.data_len > 0)
-        loaded_title = &loaded_hard_disk;
-
-    if (loaded_title != NULL)
-    {
-        RA_UpdateAppTitle(loaded_title->name);
-        RA_ActivateGame(loaded_title->title_id);
-    }
 
     RA_OnReset();
 }

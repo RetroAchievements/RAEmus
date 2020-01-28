@@ -19,29 +19,12 @@ typedef enum FileType
     HARD_DISK
 } FileType;
 
-typedef struct FileInfo
-{
-    BYTE *data;
-    unsigned long data_len;
-    char name[1024];
-    unsigned int title_id;
-    FileType file_type;
-} FileInfo;
 
-#define FINFO_DEFAULT FileInfo { 0, 0, { 0 }, 0, FileType::FLOPPY_DISK };
-
-// Save loaded media data
-extern FileInfo loaded_floppy_disk;
-extern FileInfo loaded_hard_disk;
-extern FileInfo loading_file;
-extern FileInfo *loaded_title;
-extern HWND hMainWnd = NULL;
+extern HWND hRAMainWnd = NULL;
 
 extern bool confirmed_quitting;
 extern bool is_initialized;
 
-void reset_file_info(FileInfo *file);
-void free_file_info(FileInfo *file);
 
 //  Return whether a game has been loaded. Should return FALSE if
 //   no ROM is loaded, or a ROM has been unloaded.
@@ -69,17 +52,17 @@ extern void LoadROM(char* sFullPath);
 //  Installs these shared functions into the DLL
 extern void RA_InitShared();
 
-void RA_InitSystem();
-void RA_InitUI();
-void RA_InitMemory();
-int RA_PrepareLoadNewRom(const char *file_name, FileType file_type);
-void RA_CommitLoadNewRom();
-void RA_OnGameClose(int file_type);
-void RA_ClearTitle();
-void RA_ProcessReset();
-int RA_HandleMenuEvent(int id);
-void RA_RenderOverlayFrame(HDC hdc);
-int RA_ConfirmQuit();
+extern void RA_InitSystem(HWND hwnd);
+extern void RA_InitUI();
+extern void RA_InitMemory();
+extern int RA_PrepareLoadNewRom(const char *file_name, FileType file_type);
+extern void RA_CommitLoadNewRom();
+extern void RA_OnGameClose(int file_type);
+extern void RA_ClearTitle();
+extern void RA_ProcessReset();
+extern int RA_HandleMenuEvent(int id);
+extern void RA_RenderOverlayFrame(HDC hdc);
+extern int RA_ConfirmQuit();
 
 #endif /* RETROACHIEVEMENTS_H */
 
