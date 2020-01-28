@@ -96,7 +96,7 @@ extern BOOL ThreadState;
 extern CMutex* Surface1Mutex;
 extern CMutex* Surface2Mutex;
 extern BOOL Surface1Done, Surface2Done;
-extern HWND hAppWnd = NULL;
+
 
 UINT Loop(LPVOID pParam);
 

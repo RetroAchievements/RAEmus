@@ -35,6 +35,7 @@ extern FileInfo loaded_floppy_disk;
 extern FileInfo loaded_hard_disk;
 extern FileInfo loading_file;
 extern FileInfo *loaded_title;
+extern HWND hAppWnd = NULL;
 
 extern bool confirmed_quitting;
 extern bool is_initialized;
