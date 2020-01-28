@@ -20,7 +20,7 @@ typedef enum FileType
 } FileType;
 
 
-extern HWND hRAMainWnd = NULL;
+
 
 extern bool confirmed_quitting;
 extern bool is_initialized;

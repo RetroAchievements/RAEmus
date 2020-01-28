@@ -18,7 +18,7 @@ bool should_activate = true;
 bool g_bFrameActive = false;
 bool confirmed_quitting = false;
 bool is_initialized = false;
-
+HWND hRAMainWnd = NULL;
 
 
 /*****************************************************************************
