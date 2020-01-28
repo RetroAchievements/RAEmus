@@ -136,7 +136,7 @@ CAtari800WinApp::
 InitInstance()
 {
 	char szHomeDir[ MAX_PATH + 1 ];
-	
+	HWND hAppWnd = NULL;
 
 	g_hInstance = AfxGetInstanceHandle();
 

@@ -95,7 +95,7 @@ void CausePause()
 void RebuildMenu()
 {
     // get main menu handle
-    HMENU hMainMenu = GetMenu(hAppWnd);
+    HMENU hMainMenu = GetMenu(hMainWnd);
     if (!hMainMenu) return;
 
     // get file menu index
@@ -106,7 +106,7 @@ void RebuildMenu()
     // embed RA
     AppendMenu(hMainMenu, MF_POPUP | MF_STRING, (UINT_PTR)RA_CreatePopupMenu(), TEXT("&RetroAchievements"));
 
-    DrawMenuBar(hAppWnd);
+    DrawMenuBar(hMainWnd);
 }
 
 void GetEstimatedGameTitle(char* sNameOut)
@@ -147,15 +147,18 @@ void RA_InitShared()
     RA_InstallSharedFunctions(&GameIsActive, &CauseUnpause, &CausePause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM);
 }
 
-void RA_InitSystem()
+void RA_InitSystem(HWND hwnd)
 {
+
+	hMainWnd = GetLastActivePopup(hwnd);
+
     if (is_initialized)
     {
-        RA_UpdateHWnd(hAppWnd);
+        RA_UpdateHWnd(hMainWnd);
     }
     else
     {
-        RA_Init(hAppWnd, RA_Libretro, "0.10");
+        RA_Init(hMainWnd, RA_Libretro, "0.10");
         RA_InitShared();
         RA_AttemptLogin(true);
         is_initialized = true;
