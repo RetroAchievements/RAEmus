@@ -268,7 +268,7 @@ InitInstance()
 		}
 	}
 
-	RA_InitSystem();
+	RA_InitSystem(hAppWnd);
 	RA_InitShared();
 
 	g_InitDone = TRUE;
